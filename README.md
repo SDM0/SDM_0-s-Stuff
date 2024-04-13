@@ -8,7 +8,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
 
 ## Installation
 - Requires [Steamodded](https://github.com/Steamopollys/Steamodded/) v0.9.8 (An installation guide is available there)
-- Download the .zip in "Releases"
+- Download `SDM_0.s.Stuff.zip` in "Releases"
 - Unzip it into `AppData\Roaming\Balatro\Mods` (Create the "Mods" folder if it doens't exist)
 - Enjoy!
 
