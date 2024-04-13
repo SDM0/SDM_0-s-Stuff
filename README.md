@@ -20,8 +20,8 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
 
   | Joker | Cost | Rarity | Effect | 
   | :---: | :---: | :---: | :---: |
-  | ![Trance The Devil](./assets/2x/j_sdm_trance_the_devil.png)<br><b>Trance The Devil</b> | 2 | Uncommon | X0.5 Mult per "Trance" or "The Devil" card used this run |
-  | ![Burger](./assets/2x/j_sdm_burger.png)<br><b>Burger</b> | 3 | Rare | +30 Chips, +10 Mult and x1.5 Mult for the next 4 rounds |
+  | ![Trance The Devil](./assets/2x/j_sdm_trance_the_devil.png)<br><b>Trance The Devil</b> | 7 | Uncommon | X0.5 Mult per "Trance" or "The Devil" card used this run |
+  | ![Burger](./assets/2x/j_sdm_burger.png)<br><b>Burger</b> | 8 | Rare | +30 Chips, +10 Mult and x1.5 Mult for the next 4 rounds |
   | ![Bounciest Ball](./assets/2x/j_sdm_bounciest_ball.png)<br><b>Bounciest Ball</b> | 5 | Common | Upgrade by +10 Chips for each Boss Blind defeated,<br> starts at +10 Chips |
   | ![Lucky Joker](./assets/2x/j_sdm_lucky_joker.png)<br><b>Lucky Joker</b> | 7 | Common | Each played 7 gives +7 Chips and +7 Mult when scored,<br>doubles it if Lucky card |
   | ![Iconic Icon](./assets/2x/j_sdm_iconic_icon.png)<br><b>Iconic Icon</b> | 7 | Uncommon | +4 Mult for each Aces in your full deck |
