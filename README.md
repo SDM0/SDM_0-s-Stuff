@@ -28,7 +28,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Mult'N'Chips](./assets/2x/j_sdm_mult_n_chips.png)<br><b>Mult'N'Chips</b> | 5 | Common | Scored Bonus cards gives +4 Mult,<br>scored Mult cards gives +30 Chips |
   | ![Moon Base](./assets/2x/j_sdm_moon_base.png)<br><b>Moon Base</b> | 8 | Rare | Space Jokers each give +50 Chips<br>(Supernova, Space Joker, Constellation, Rocket, Satellite, Wandering Star) |
   | ![Shareholder Joker](./assets/2x/j_sdm_shareholder_joker.png)<br><b>Shareholder Joker</b> | 5 | Common | Earn between -$5 and $10 at the end of round |
-  | ![Magic Hands](./assets/2x/j_sdm_magic_hands.png)<br><b>Magic Hands</b> | 6 | Uncommon | x3 Mult if the number of hands left + 1 is equal to<br>the amount of the most prevalent card<br>(ex: Four of a Kind on Hand 4, Full House on Hand 3) |
+  | ![Magic Hands](./assets/2x/j_sdm_magic_hands.png)<br><b>Magic Hands</b> | 6 | Uncommon | x2 Mult if the number of hands left + 1 is equal to<br>the amount of the most prevalent card<br>(ex: Four of a Kind on Hand 4, Full House on Hand 3) |
   | ![Tip Jar](./assets/2x/j_sdm_tip_jar.png)<br><b>Tip Jar</b> | 4 | Common | Earn your money's highest digit at the end of round |
   | ![Wandering Star](./assets/2x/j_sdm_wandering_star.png)<br><b>Wandering Star</b>| 6 | Common | +2 Mult per Planet card sold |
   | ![Ouija Board](./assets/2x/j_sdm_ouija_board.png)<br><b>Ouija Board</b> | 7 | Uncommon | 1 in 50 chance to create a "Soul" card,<br>otherwise 1 in 5 chance to create a "Judgement" card<br>(Must have room) |
