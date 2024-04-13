@@ -150,47 +150,6 @@ function SMODS.INIT.sdm_0s_stuff()
         })
     end
 
-    --- Gambling Addiction ---
-
-    if config.lucky_joker then
-
-        G.localization.misc.challenge_names["c_mod_sdm0_ga"] = "Gambling Addiction"
-        
-        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
-            name = "Gambling Addiction",
-            id = 'c_mod_sdm0_ga',
-            rules = {
-                custom = {
-                },
-                modifiers = {
-                    {id = 'discards', value = 4},
-                    {id = 'hands', value = 2},
-                }
-            },
-            jokers = {
-                {id = 'j_lucky_joker', eternal = true},
-                {id = 'j_lucky_cat', eternal = true}
-            },
-            consumeables = {},
-            vouchers = {
-                {id = 'v_magic_trick'},
-            },
-            deck = {
-                type = 'Challenge Deck',
-                cards = {{s='D',r='2',},{s='D',r='3',},{s='D',r='4',},{s='D',r='5',},{s='D',r='6',},{s='D',r='7',},{s='D',r='8',},{s='D',r='9',},{s='D',r='T',},{s='D',r='A',},{s='C',r='2',},{s='C',r='3',},{s='C',r='4',},{s='C',r='5',},{s='C',r='6',},{s='C',r='7',},{s='C',r='8',},{s='C',r='9',},{s='C',r='T',},{s='C',r='A',},{s='H',r='2',},{s='H',r='3',},{s='H',r='4',},{s='H',r='5',},{s='H',r='6',},{s='H',r='7',},{s='H',r='8',},{s='H',r='9',},{s='H',r='T',},{s='H',r='A',},{s='S',r='2',},{s='S',r='3',},{s='S',r='4',},{s='S',r='5',},{s='S',r='6',},{s='S',r='7',},{s='S',r='8',},{s='S',r='9',},{s='S',r='T',},{s='S',r='A',}}
-
-            },
-            restrictions = {
-                banned_cards = {
-                    {id = 'v_grabber'},
-                    {id = 'v_nacho_tong'},
-                },
-                banned_tags = {},
-                banned_other = {}
-            }
-        })
-    end
-
     --- Joker Abilities ---
 
     --- Trance The Devil ---
@@ -247,7 +206,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Burger",
                 text = {
                     "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult and {X:mult,C:white}X#1#{} Mult",
-                    "for the next {C:attention}#4#{} hands",
+                    "for the next {C:attention}#4#{} rounds",
                 }
             }, 3, 8, true, true, true, false
         )
@@ -313,7 +272,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Upgrade by {C:chips}+#2#{} Chips for each",
                     "{C:attention}Boss Blind{} defeated",
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
-            }}, 1, 6, true, true, true, true
+            }}, 1, 5, true, true, true, true
         )
 
         register_joker(bounciest_ball)
@@ -351,7 +310,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "and {C:mult}+#2#{} Mult when scored,",
                     "{C:attention}doubles{} it if {C:attention}Lucky{} card"
                 },
-            }, 1, 5, true, true, true, true
+            }, 1, 7, true, true, true, true
         )
 
         register_joker(lucky_joker)
@@ -581,7 +540,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Earn your money's {C:attention}highest digit",
                     "at the end of round",
                 }
-            }, 1, 3, true, true, true, true
+            }, 1, 4, true, true, true, true
         )
 
         register_joker(tip_jar)
@@ -624,7 +583,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "{C:planet}Planet{} card sold",
                     "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
                 }
-            }, 1, 5, true, true, true, true
+            }, 1, 6, true, true, true, true
         )
 
         register_joker(wandering_star)
