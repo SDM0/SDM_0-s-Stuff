@@ -11,22 +11,21 @@
 --- Config ---
 
 local config = {
-    trance_the_devil = true,
-    burger = true,
-    bounciest_ball = true,
-    jokerekoj = true,
-    lucky_joker = true,
-    iconic_icon = true,
-    mult_n_chips = true,
-    moon_base = true,
-    shareholder_joker = true,
-    magic_hands = true,
-    tip_jar = true,
-    wandering_star = true,
-    ouija_board = true,
-    la_revolution = true,
-    clown_bank = true,
-    archibald = true,
+    sdm_trance_the_devil = true,
+    sdm_burger = true,
+    sdm_bounciest_ball = true,
+    sdm_lucky_joker = true,
+    sdm_iconic_icon = true,
+    sdm_mult_n_chips = true,
+    sdm_moon_base = true,
+    sdm_shareholder_joker = true,
+    sdm_magic_hands = true,
+    sdm_tip_jar = true,
+    sdm_wandering_star = true,
+    sdm_ouija_board = true,
+    sdm_la_revolution = true,
+    sdm_clown_bank = true,
+    sdm_archibald = true,
 }
 
 local placeholder_art = false --- Set it to true if you want to play with placeholder art of this mod's jokers
@@ -37,8 +36,8 @@ local space_jokers = {
     ["Constellation"] = "j_constellation",
     ["Rocket"] = "j_rocket",
     ["Satellite"] = "j_satellite",
-    ["Moon Base"] = "j_moon_base",
-    ["Wandering Star"] = "j_wandering_star",
+    ["Moon Base"] = "j_sdm_moon_base",
+    ["Wandering Star"] = "j_sdm_wandering_star",
 }
 
 --- Functions ---
@@ -46,7 +45,7 @@ local space_jokers = {
 --- Registering modded Jokers ---
 function register_joker(id)
     new_id_slug = id.slug
-    if placeholder_art and id.slug ~= "j_archibald" then
+    if placeholder_art and id.slug ~= "j_sdm_archibald" then
         new_id_slug = new_id_slug .. "_ph"
     end
 
@@ -101,7 +100,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Devil's Deal ---
 
-    if config.trance_the_devil then
+    if config.sdm_trance_the_devil then
 
         G.localization.misc.challenge_names["c_mod_sdm0_dd"] = "Devil's Deal"
 
@@ -120,7 +119,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 }
             },
             jokers = {
-                {id = 'j_trance_the_devil', eternal = true},
+                {id = 'j_sdm_trance_the_devil', eternal = true},
             },
             consumeables = {
                 {id = 'c_trance'},
@@ -154,10 +153,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Trance The Devil ---
 
-    if config.trance_the_devil then
+    if config.sdm_trance_the_devil then
 
-        local trance_the_devil = SMODS.Joker:new(
-            'Trance The Devil', 'trance_the_devil',
+        local sdm_trance_the_devil = SMODS.Joker:new(
+            'Trance The Devil', 'sdm_trance_the_devil',
             {extra = 0.5}, {x=0, y=0}, 
             {
                 name = "Trance The Devil",
@@ -169,14 +168,14 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(trance_the_devil)
+        register_joker(sdm_trance_the_devil)
 
 
-        SMODS.Jokers.j_trance_the_devil.loc_def = function(card)
+        SMODS.Jokers.j_sdm_trance_the_devil.loc_def = function(card)
             return {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}
         end
 
-        SMODS.Jokers.j_trance_the_devil.calculate = function(self, context)
+        SMODS.Jokers.j_sdm_trance_the_devil.calculate = function(self, context)
             if context.using_consumeable and not context.blueprint then
                 if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
                     G.E_MANAGER:add_event(Event({func = function()
@@ -197,10 +196,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Burger ---
 
-    if config.burger then
+    if config.sdm_burger then
 
-        local burger = SMODS.Joker:new(
-            "Burger", "burger",
+        local sdm_burger = SMODS.Joker:new(
+            "Burger", "sdm_burger",
             {extra = {Xmult=1.25, mult=10, chips=30, remaining=4}}, {x=0, y=0},
             {
                 name = "Burger",
@@ -211,13 +210,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 8, true, true, true, false
         )
 
-        register_joker(burger)
+        register_joker(sdm_burger)
 
-        SMODS.Jokers.j_burger.loc_def = function(card)
+        SMODS.Jokers.j_sdm_burger.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}
         end
 
-        SMODS.Jokers.j_burger.calculate = function(self, context)
+        SMODS.Jokers.j_sdm_burger.calculate = function(self, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
                 if self.ability.extra.remaining - 1 <= 0 then 
                     G.E_MANAGER:add_event(Event({
@@ -261,10 +260,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Bounciest Ball ---
 
-    if config.bounciest_ball then
+    if config.sdm_bounciest_ball then
 
-        local bounciest_ball = SMODS.Joker:new(
-            "Bounciest Ball", "bounciest_ball",
+        local sdm_bounciest_ball = SMODS.Joker:new(
+            "Bounciest Ball", "sdm_bounciest_ball",
             {extra = {chips = 10, chip_mod = 10}}, {x=0, y=0},
             {
                 name = "Bounciest Ball",
@@ -275,13 +274,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }}, 1, 5, true, true, true, true
         )
 
-        register_joker(bounciest_ball)
+        register_joker(sdm_bounciest_ball)
 
-        SMODS.Jokers.j_bounciest_ball.loc_def = function(card)
+        SMODS.Jokers.j_sdm_bounciest_ball.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.chip_mod}
         end
 
-        SMODS.Jokers.j_bounciest_ball.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_bounciest_ball.calculate  = function(self, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) and G.GAME.blind.boss then
                 self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
                 return {
@@ -299,9 +298,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Lucky Joker ---
 
-    if config.lucky_joker then
-        local lucky_joker = SMODS.Joker:new(
-            "Lucky Joker", "lucky_joker",
+    if config.sdm_lucky_joker then
+        local sdm_lucky_joker = SMODS.Joker:new(
+            "Lucky Joker", "sdm_lucky_joker",
             {extra = {chips = 7, mult = 7}},  {x=0, y=0},
             {
                 name = "Lucky Joker",
@@ -313,13 +312,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 7, true, true, true, true
         )
 
-        register_joker(lucky_joker)
+        register_joker(sdm_lucky_joker)
 
-        SMODS.Jokers.j_lucky_joker.loc_def = function(card)
+        SMODS.Jokers.j_sdm_lucky_joker.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.mult}
         end
 
-        SMODS.Jokers.j_lucky_joker.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(self, context)
             if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
                 if context.other_card.ability.effect == "Lucky Card" then
                     return {
@@ -339,10 +338,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Iconic Icon ---
 
-    if config.iconic_icon then
+    if config.sdm_iconic_icon then
 
-        local iconic_icon = SMODS.Joker:new(
-            "Iconic Icon", "iconic_icon",
+        local sdm_iconic_icon = SMODS.Joker:new(
+            "Iconic Icon", "sdm_iconic_icon",
             {extra = {mult = 0, mult_mod = 4}},  {x=0, y=0},
             {
                 name = "Iconic Icon",
@@ -354,13 +353,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(iconic_icon)
+        register_joker(sdm_iconic_icon)
 
-        SMODS.Jokers.j_iconic_icon.loc_def = function(card)
+        SMODS.Jokers.j_sdm_iconic_icon.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end
 
-        SMODS.Jokers.j_iconic_icon.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_iconic_icon.calculate  = function(self, context)
             if SMODS.end_calculate_context(context) then
                 return {
                     message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
@@ -373,10 +372,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Mult N Chips Joker ---
 
-    if config.mult_n_chips then
+    if config.sdm_mult_n_chips then
 
-        local mult_n_chips = SMODS.Joker:new(
-            "Mult'N'Chips", "mult_n_chips",
+        local sdm_mult_n_chips = SMODS.Joker:new(
+            "Mult'N'Chips", "sdm_mult_n_chips",
             {extra = {mult = 4, chips = 30}},  {x=0, y=0},
             {
                 name = "Mult'N'Chips",
@@ -387,13 +386,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 5, true, true, true, true
         )
 
-        register_joker(mult_n_chips)
+        register_joker(sdm_mult_n_chips)
 
-        SMODS.Jokers.j_mult_n_chips.loc_def = function(card)
+        SMODS.Jokers.j_sdm_mult_n_chips.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.chips}
         end
 
-        SMODS.Jokers.j_mult_n_chips.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_mult_n_chips.calculate  = function(self, context)
             if context.individual and context.cardarea == G.play then
                 if context.other_card.ability.effect == "Bonus Card" then
                     return {
@@ -412,10 +411,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Moon Base ---
 
-    if config.moon_base then
+    if config.sdm_moon_base then
 
-        local moon_base = SMODS.Joker:new(
-            "Moon Base", "moon_base",
+        local sdm_moon_base = SMODS.Joker:new(
+            "Moon Base", "sdm_moon_base",
             {extra = 50},  {x=0, y=0},
             {
                 name = "Moon Base",
@@ -426,13 +425,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 8, true, true, true, true
         )
 
-        register_joker(moon_base)
+        register_joker(sdm_moon_base)
 
-        SMODS.Jokers.j_moon_base.loc_def = function(card)
+        SMODS.Jokers.j_sdm_moon_base.loc_def = function(card)
             return {card.ability.extra}
         end
 
-        SMODS.Jokers.j_moon_base.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_moon_base.calculate  = function(self, context)
             if context.other_joker then
                 if space_jokers[context.other_joker.ability.name] and context.other_joker.ability.name ~= "Moon Base" then
                     G.E_MANAGER:add_event(Event({
@@ -452,10 +451,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Shareholder Joker ---
 
-    if config.shareholder_joker then
+    if config.sdm_shareholder_joker then
 
-        local shareholder_joker = SMODS.Joker:new(
-            "Shareholder Joker", "shareholder_joker",
+        local sdm_shareholder_joker = SMODS.Joker:new(
+            "Shareholder Joker", "sdm_shareholder_joker",
             {extra = {max = 10, min = -5}},  {x=0, y=0},
             {
                 name = "Shareholder Joker",
@@ -466,15 +465,15 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 5, true, true, true, true
         )
 
-        register_joker(shareholder_joker)
+        register_joker(sdm_shareholder_joker)
 
-        SMODS.Jokers.j_shareholder_joker.loc_def = function(card)
+        SMODS.Jokers.j_sdm_shareholder_joker.loc_def = function(card)
             return {card.ability.extra.min, card.ability.extra.max}
         end
 
-        SMODS.Jokers.j_shareholder_joker.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_shareholder_joker.calculate  = function(self, context)
             if context.end_of_round and not (context.individual or context.repetition) then
-                local temp_Dollars = pseudorandom('shareholder_joker', self.ability.extra.min, self.ability.extra.max)
+                local temp_Dollars = pseudorandom('sdm_shareholder_joker', self.ability.extra.min, self.ability.extra.max)
                 ease_dollars(temp_Dollars)
                 G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + temp_Dollars
                 G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
@@ -489,10 +488,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Magic Hands ---
 
-    if config.magic_hands then
+    if config.sdm_magic_hands then
 
-        local magic_hands = SMODS.Joker:new(
-            "Magic Hands", "magic_hands",
+        local sdm_magic_hands = SMODS.Joker:new(
+            "Magic Hands", "sdm_magic_hands",
             {extra = 2},  {x=0, y=0},
             {
                 name = "Magic Hands",
@@ -504,13 +503,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 6, true, true, true, true
         )
 
-        register_joker(magic_hands)
+        register_joker(sdm_magic_hands)
 
-        SMODS.Jokers.j_magic_hands.loc_def = function(card)
+        SMODS.Jokers.j_sdm_magic_hands.loc_def = function(card)
             return {card.ability.extra}
         end
 
-        SMODS.Jokers.j_magic_hands.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_magic_hands.calculate  = function(self, context)
             if SMODS.end_calculate_context(context) then
                 cards_id = {}
                 for i = 1, #context.scoring_hand do
@@ -529,10 +528,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Tip Jar ---
 
-    if config.tip_jar then
+    if config.sdm_tip_jar then
 
-        local tip_jar = SMODS.Joker:new(
-            "Tip Jar", "tip_jar",
+        local sdm_tip_jar = SMODS.Joker:new(
+            "Tip Jar", "sdm_tip_jar",
             {},  {x=0, y=0},
             {
                 name = "Tip Jar",
@@ -543,13 +542,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 4, true, true, true, true
         )
 
-        register_joker(tip_jar)
+        register_joker(sdm_tip_jar)
 
-        SMODS.Jokers.j_tip_jar.loc_def = function(card)
+        SMODS.Jokers.j_sdm_tip_jar.loc_def = function(card)
             return {}
         end
 
-        SMODS.Jokers.j_tip_jar.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_tip_jar.calculate  = function(self, context)
             if context.end_of_round and not (context.individual or context.repetition) then
                 local highest = 0
                 for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
@@ -571,10 +570,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Wandering Star ---
 
-    if config.wandering_star then
+    if config.sdm_wandering_star then
 
-        local wandering_star = SMODS.Joker:new(
-            "Wandering Star", "wandering_star",
+        local sdm_wandering_star = SMODS.Joker:new(
+            "Wandering Star", "sdm_wandering_star",
             {extra = {mult = 0, mult_mod = 2}},  {x=0, y=0},
             {
                 name = "Wandering Star",
@@ -586,13 +585,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 6, true, true, true, true
         )
 
-        register_joker(wandering_star)
+        register_joker(sdm_wandering_star)
 
-        SMODS.Jokers.j_wandering_star.loc_def = function(card)
+        SMODS.Jokers.j_sdm_wandering_star.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end
 
-        SMODS.Jokers.j_wandering_star.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_wandering_star.calculate  = function(self, context)
             if context.selling_card then
                 if context.card.ability.set == 'Planet' and not context.blueprint then
                     self.ability.extra.mult = self.ability.extra.mult + self.ability.extra.mult_mod
@@ -611,10 +610,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Ouija Board ---
 
-    if config.ouija_board then
+    if config.sdm_ouija_board then
 
-        local ouija_board = SMODS.Joker:new(
-            "Ouija Board", "ouija_board",
+        local sdm_ouija_board = SMODS.Joker:new(
+            "Ouija Board", "sdm_ouija_board",
             {extra = 50},  {x=0, y=0},
             {
                 name = "Ouija Board",
@@ -627,13 +626,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(ouija_board)
+        register_joker(sdm_ouija_board)
 
-        SMODS.Jokers.j_ouija_board.loc_def = function(card)
+        SMODS.Jokers.j_sdm_ouija_board.loc_def = function(card)
             return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra, card.ability.extra / 10}
         end
 
-        SMODS.Jokers.j_ouija_board.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_ouija_board.calculate  = function(self, context)
             if context.setting_blind then
                 if pseudorandom(pseudoseed('ojb1')) < G.GAME.probabilities.normal/self.ability.extra then
                     if not (context.blueprint_card or self).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -676,10 +675,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- La Révolution ---
 
-    if config.la_revolution then
+    if config.sdm_la_revolution then
 
-        local la_revolution = SMODS.Joker:new(
-            "La Révolution", "la_revolution",
+        local sdm_la_revolution = SMODS.Joker:new(
+            "La Révolution", "sdm_la_revolution",
             {},  {x=0, y=0},
             {
                 name = "La Révolution",
@@ -691,13 +690,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 8, true, true, true, true
         )
 
-        register_joker(la_revolution)
+        register_joker(sdm_la_revolution)
 
-        SMODS.Jokers.j_la_revolution.loc_def = function(card)
+        SMODS.Jokers.j_sdm_la_revolution.loc_def = function(card)
             return {}
         end
 
-        SMODS.Jokers.j_la_revolution.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_la_revolution.calculate  = function(self, context)
             if context.pre_discard and not context.hook then
                 local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
                 if disp_text == "Royal Flush" then
@@ -720,10 +719,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Clown Bank ---
 
-    if config.clown_bank then
+    if config.sdm_clown_bank then
 
-        local clown_bank = SMODS.Joker:new(
-            "Clown Bank", "clown_bank",
+        local sdm_clown_bank = SMODS.Joker:new(
+            "Clown Bank", "sdm_clown_bank",
             {extra = {Xmult=1, Xmult_mod=0.25, dollars = 5, inflation = 5}},  {x=0, y=0},
             {
                 name = "Clown Bank",
@@ -737,13 +736,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 8, true, true, true, true
         )
 
-        register_joker(clown_bank)
+        register_joker(sdm_clown_bank)
 
-        SMODS.Jokers.j_clown_bank.loc_def = function(card)
+        SMODS.Jokers.j_sdm_clown_bank.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}
         end
 
-        SMODS.Jokers.j_clown_bank.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_clown_bank.calculate  = function(self, context)
             if context.setting_blind and not context.blueprint then
                 if G.jokers.cards[1] and G.jokers.cards[1].ability.name == "Clown Bank" then
                     if G.GAME.dollars - self.ability.extra.dollars >= G.GAME.bankrupt_at then
@@ -771,10 +770,10 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Archibald ---
 
-    if config.archibald then
+    if config.sdm_archibald then
 
-        local archibald = SMODS.Joker:new(
-            "Archibald", "archibald",
+        local sdm_archibald = SMODS.Joker:new(
+            "Archibald", "sdm_archibald",
             {extra = {remaining = 4}},  {x=0, y=0},
             {
                 name = "Archibald",
@@ -787,13 +786,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 4, 20, true, true, true, false, nil, nil, {x = 0, y = 1}
         )
 
-        register_joker(archibald)
+        register_joker(sdm_archibald)
 
-        SMODS.Jokers.j_archibald.loc_def = function(card)
+        SMODS.Jokers.j_sdm_archibald.loc_def = function(card)
             return {card.ability.extra.remaining}
         end
 
-        SMODS.Jokers.j_archibald.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_archibald.calculate  = function(self, context)
             if context.buying_card then
                 if context.card.ability.set == 'Joker' then
                     if not context.blueprint then
