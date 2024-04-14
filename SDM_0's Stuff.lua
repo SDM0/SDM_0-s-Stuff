@@ -187,7 +187,7 @@ function SMODS.INIT.sdm_0s_stuff()
             elseif SMODS.end_calculate_context(context) and
                 (1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra)) > 1) then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={(1 + (get_count('c_trance') or 1) / 4 + (get_count('c_devil') or 1) / (1 / self.ability.extra))}},
+                    message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}},
                     Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))
                 }
             end
