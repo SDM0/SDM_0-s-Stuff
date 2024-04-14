@@ -415,14 +415,14 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_moon_base = SMODS.Joker:new(
             "Moon Base", "sdm_moon_base",
-            {extra = 50},  {x=0, y=0},
+            {extra = 40},  {x=0, y=0},
             {
                 name = "Moon Base",
                 text = {
                     "{C:attention}Space{} Jokers each",
                     "give{C:chips} +#1# {}Chips",
                 }
-            }, 3, 8, true, true, true, true
+            }, 2, 7, true, true, true, true
         )
 
         register_joker(sdm_moon_base)
@@ -492,7 +492,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_magic_hands = SMODS.Joker:new(
             "Magic Hands", "sdm_magic_hands",
-            {extra = 2},  {x=0, y=0},
+            {extra = 3},  {x=0, y=0},
             {
                 name = "Magic Hands",
                 text = {
@@ -539,7 +539,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Earn your money's {C:attention}highest digit",
                     "at the end of round",
                 }
-            }, 1, 4, true, true, true, true
+            }, 2, 5, true, true, true, true
         )
 
         register_joker(sdm_tip_jar)
