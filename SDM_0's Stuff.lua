@@ -36,6 +36,7 @@ local space_jokers = {
     ["Constellation"] = "j_constellation",
     ["Rocket"] = "j_rocket",
     ["Satellite"] = "j_satellite",
+    ["Astronomer"] = "j_astronomer",
     ["Moon Base"] = "j_sdm_moon_base",
     ["Wandering Star"] = "j_sdm_wandering_star",
 }
@@ -91,6 +92,7 @@ end
 
 G.localization.misc.dictionary.k_all = "+/X All"
 G.localization.misc.dictionary.k_lucky = "Lucky"
+G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 
 function SMODS.INIT.sdm_0s_stuff() 
 
@@ -149,6 +151,64 @@ function SMODS.INIT.sdm_0s_stuff()
         })
     end
 
+    --- Scientific Downfall ---
+
+    if config.sdm_la_revolution then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_sd"] = "Scientific Downfall"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Scientific Downfall",
+            id = 'c_mod_sdm0_sd',
+            rules = {
+                custom = {
+                    {id = 'no_shop_planets'},
+                },
+                modifiers = {
+                    {id = 'discards', value = 4},
+                    {id = 'hands', value = 2},
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_la_revolution', eternal = true},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                    {id = 'c_high_priestess'},
+                    {id = 'c_black_hole'},
+                    {id = 'c_trance'},
+                    {id = 'p_celestial_normal_1', ids = {
+                        'p_celestial_normal_1','p_celestial_normal_2','p_celestial_normal_3','p_celestial_normal_4','p_celestial_jumbo_1','p_celestial_jumbo_2','p_celestial_mega_1','p_celestial_mega_2',
+                    }},
+                    {id = 'j_8_ball'},
+                    {id = 'j_space'},
+                    {id = 'j_constellation'},
+                    {id = 'j_certificate'},
+                    {id = 'j_satellite'},
+                    {id = 'j_astronomer'},
+                    {id = 'j_burnt'},
+                    {id = 'j_sdm_wandering_star'},
+                    {id = 'v_telescope'},
+                    {id = 'v_observatory'},
+                    {id = 'v_planet_merchant'},
+                    {id = 'v_planet_tycoon'},
+                },
+                banned_tags = {
+                    {id = 'tag_meteor'},
+                    {id = 'tag_orbital'},
+                },
+                banned_other = {}
+            }
+        })
+    end
+
     --- Joker Abilities ---
 
     --- Trance The Devil ---
@@ -180,7 +240,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
                     G.E_MANAGER:add_event(Event({func = function()
                         card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
-                        vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}}, colour = G.C.RED});
+                        vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}}});
                         return true end}))
                     return
                 end
@@ -455,7 +515,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_shareholder_joker = SMODS.Joker:new(
             "Shareholder Joker", "sdm_shareholder_joker",
-            {extra = {max = 10, min = -5}},  {x=0, y=0},
+            {extra = {min = 0, max = 8}},  {x=0, y=0},
             {
                 name = "Shareholder Joker",
                 text = {
@@ -474,14 +534,16 @@ function SMODS.INIT.sdm_0s_stuff()
         SMODS.Jokers.j_sdm_shareholder_joker.calculate  = function(self, context)
             if context.end_of_round and not (context.individual or context.repetition) then
                 local temp_Dollars = pseudorandom('sdm_shareholder_joker', self.ability.extra.min, self.ability.extra.max)
-                ease_dollars(temp_Dollars)
-                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + temp_Dollars
-                G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-                return {
-                    message = localize('$')..temp_Dollars,
-                    dollars = temp_Dollars,
-                    colour = G.C.MONEY,
-                }
+                if temp_Dollars > 0 then
+                    ease_dollars(temp_Dollars)
+                    G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + temp_Dollars
+                    G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+                    return {
+                        message = localize('$')..temp_Dollars,
+                        dollars = temp_Dollars,
+                        colour = G.C.MONEY,
+                    }
+                end
             end
         end
     end
@@ -539,7 +601,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Earn your money's {C:attention}highest digit",
                     "at the end of round",
                 }
-            }, 2, 5, true, true, true, true
+            }, 2, 6, true, true, true, true
         )
 
         register_joker(sdm_tip_jar)
@@ -679,15 +741,14 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_la_revolution = SMODS.Joker:new(
             "La Révolution", "sdm_la_revolution",
-            {},  {x=0, y=0},
+            {hand = "High Card"},  {x=0, y=0},
             {
                 name = "La Révolution",
                 text = {
-                    "Upgrade {C:attention}most played hand{} by 3",
-                    "if discarded poker hand",
-                    "is a {C:attention}Royal Flush"
+                    "Upgrade {C:attention}winning poker hand{} by 1",
+                    "if played hand contains no {C:attention}faces",
                 }
-            }, 3, 8, true, true, true, true
+            }, 3, 7, true, true, true, true
         )
 
         register_joker(sdm_la_revolution)
@@ -697,20 +758,19 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_la_revolution.calculate  = function(self, context)
-            if context.pre_discard and not context.hook then
-                local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
-                if disp_text == "Royal Flush" then
-                    local chosen_hand = 'High Card'
-                    local highest_played = 0
-                    for _, v in ipairs(G.handlist) do
-                        if G.GAME.hands[v].played > highest_played then
-                            chosen_hand = v
-                            highest_played = G.GAME.hands[v].played
-                        end
+            if context.cardarea == G.jokers and context.before then
+                self.ability.hand = context.scoring_name
+            elseif SMODS.end_calculate_context(context) and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
+                no_faces = true
+                for i = 1, #context.full_hand do
+                    if context.full_hand[i]:is_face() then
+                        no_faces = false
                     end
+                end
+                if no_faces then
                     card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(chosen_hand , 'poker_hands'),chips = G.GAME.hands[chosen_hand].chips, mult = G.GAME.hands[chosen_hand].mult, level=G.GAME.hands[chosen_hand].level})
-                    level_up_hand(context.blueprint_card or self, chosen_hand, nil, 3)
+                    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(self.ability.hand, 'poker_hands'),chips = G.GAME.hands[self.ability.hand].chips, mult = G.GAME.hands[self.ability.hand].mult, level=G.GAME.hands[self.ability.hand].level})
+                    level_up_hand(context.blueprint_card or self, self.ability.hand, nil, 1)
                     update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
                 end
             end
@@ -723,7 +783,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_clown_bank = SMODS.Joker:new(
             "Clown Bank", "sdm_clown_bank",
-            {extra = {Xmult=1, Xmult_mod=0.25, dollars = 5, inflation = 5}},  {x=0, y=0},
+            {extra = {Xmult=1, Xmult_mod=0.2, dollars = 3, inflation = 3}},  {x=0, y=0},
             {
                 name = "Clown Bank",
                 text = {
@@ -865,6 +925,26 @@ function Card.update(self, dt)
         end
     end
     card_updateref(self, dt)
+end
+
+local game_start_runref = Game.start_run;
+function Game:start_run(args)
+    game_start_runref(self, args);
+    local saveTable = args.savetext or nil
+    if not saveTable then
+        if args.challenge then
+            local _ch = args.challenge
+            if _ch.rules then
+                if _ch.rules.custom then
+                    for k, v in ipairs(_ch.rules.custom) do
+                        if v.id == 'no_shop_planets' then
+                            self.GAME.planet_rate = 0
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 --- sendDebugMessage(inspect(context))
