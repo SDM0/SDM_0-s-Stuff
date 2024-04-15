@@ -33,7 +33,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Wandering Star](./assets/2x/j_sdm_wandering_star.png)<br><b>Wandering Star</b>| 6 | Common | +2 Mult per Planet card sold |
   | ![Ouija Board](./assets/2x/j_sdm_ouija_board.png)<br><b>Ouija Board</b> | 7 | Uncommon | 1 in 50 chance to create a "Soul" card,<br>otherwise 1 in 5 chance to create a "Judgement" card<br>(Must have room) |
   | ![La Révolution](./assets/2x/j_sdm_la_revolution.png)<br><b>La Révolution</b> | 7 | Rare | Upgrade winning poker hand by 1 if it contains no face cards |
-  | ![Clown Bank](./assets/2x/j_sdm_clown_bank.png)<br><b>Clown Bank</b> | 8 | Rare | When Blind is selected, if this is at the leftmost position, gains x0.2 for $3,<br>increases price by $3 |
+  | ![Clown Bank](./assets/2x/j_sdm_clown_bank.png)<br><b>Clown Bank</b> | 8 | Rare | When Blind is selected, if this is at the leftmost position,<br>gains x0.2 for $3, increases price by $3 |
   | ![Archibald](./assets/2x/j_sdm_archibald_compact.png)<br><b>Archibald</b> | 20 | Legendary | On Joker purchased, creates a Negative copy<br>(Occurs 4 times, Negative copy sells for $0) |
 </details>
 
