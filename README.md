@@ -44,4 +44,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
 
   ### Devil's Deal:
   Start with the Joker "Trance the Devil", "Trance" and "The Devil" tarot cards, but those advantages comes at a cost...
+
+  ### Scientific Downfall
+  Start with the Joker "La Révolution", all planet and level-up themed cards are banned.
 </details>
