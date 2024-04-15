@@ -26,14 +26,14 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Lucky Joker](./assets/2x/j_sdm_lucky_joker.png)<br><b>Lucky Joker</b> | 7 | Common | Each played 7 gives +7 Chips and +7 Mult when scored,<br>doubles it if Lucky card |
   | ![Iconic Icon](./assets/2x/j_sdm_iconic_icon.png)<br><b>Iconic Icon</b> | 7 | Uncommon | +4 Mult for each Aces in your full deck |
   | ![Mult'N'Chips](./assets/2x/j_sdm_mult_n_chips.png)<br><b>Mult'N'Chips</b> | 5 | Common | Scored Bonus cards gives +4 Mult,<br>scored Mult cards gives +30 Chips |
-  | ![Moon Base](./assets/2x/j_sdm_moon_base.png)<br><b>Moon Base</b> | 7 | Uncommon | Space Jokers each give +40 Chips<br>(Supernova, Space Joker, Constellation, Rocket, Satellite, Wandering Star) |
-  | ![Shareholder Joker](./assets/2x/j_sdm_shareholder_joker.png)<br><b>Shareholder Joker</b> | 5 | Common | Earn between -$5 and $10 at the end of round |
+  | ![Moon Base](./assets/2x/j_sdm_moon_base.png)<br><b>Moon Base</b> | 7 | Uncommon | Space Jokers each give +40 Chips<br>(Supernova, Space Joker, Constellation, Rocket, Satellite, Astronomer, Wandering Star) |
+  | ![Shareholder Joker](./assets/2x/j_sdm_shareholder_joker.png)<br><b>Shareholder Joker</b> | 5 | Common | Earn between $0 and $8 at the end of round |
   | ![Magic Hands](./assets/2x/j_sdm_magic_hands.png)<br><b>Magic Hands</b> | 6 | Uncommon | x3 Mult if the number of hands left + 1 is equal to<br>the amount of the most prevalent card<br>(ex: Four of a Kind on Hand 4, Full House on Hand 3) |
-  | ![Tip Jar](./assets/2x/j_sdm_tip_jar.png)<br><b>Tip Jar</b> | 5 | Uncommon | Earn your money's highest digit at the end of round |
+  | ![Tip Jar](./assets/2x/j_sdm_tip_jar.png)<br><b>Tip Jar</b> | 6 | Uncommon | Earn your money's highest digit at the end of round |
   | ![Wandering Star](./assets/2x/j_sdm_wandering_star.png)<br><b>Wandering Star</b>| 6 | Common | +2 Mult per Planet card sold |
   | ![Ouija Board](./assets/2x/j_sdm_ouija_board.png)<br><b>Ouija Board</b> | 7 | Uncommon | 1 in 50 chance to create a "Soul" card,<br>otherwise 1 in 5 chance to create a "Judgement" card<br>(Must have room) |
-  | ![La Révolution](./assets/2x/j_sdm_la_revolution.png)<br><b>La Révolution</b> | 8 | Rare | Upgrade most played hand by 3 if discarded poker hand is a Royal Flush |
-  | ![Clown Bank](./assets/2x/j_sdm_clown_bank.png)<br><b>Clown Bank</b> | 8 | Rare | When Blind is selected, if this is at the leftmost position, gains x0.25 for $5,<br>increases price by $5 |
+  | ![La Révolution](./assets/2x/j_sdm_la_revolution.png)<br><b>La Révolution</b> | 7 | Rare | Upgrade winning poker hand by 1 if it contains no face cards |
+  | ![Clown Bank](./assets/2x/j_sdm_clown_bank.png)<br><b>Clown Bank</b> | 8 | Rare | When Blind is selected, if this is at the leftmost position, gains x0.2 for $3,<br>increases price by $3 |
   | ![Archibald](./assets/2x/j_sdm_archibald_compact.png)<br><b>Archibald</b> | 20 | Legendary | On Joker purchased, creates a Negative copy<br>(Occurs 4 times, Negative copy sells for $0) |
 </details>
 
