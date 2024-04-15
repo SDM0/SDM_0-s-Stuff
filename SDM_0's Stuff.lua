@@ -746,7 +746,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "La Révolution",
                 text = {
                     "Upgrade {C:attention}winning poker hand{} by 1",
-                    "if played hand contains no {C:attention}faces",
+                    "if played hand contains no {C:attention}face{} cards",
                 }
             }, 3, 7, true, true, true, true
         )
