@@ -420,7 +420,7 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_iconic_icon.calculate  = function(self, context)
-            if SMODS.end_calculate_context(context) then
+            if SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
                 return {
                     message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
                     mult_mod = self.ability.extra.mult,
@@ -661,7 +661,7 @@ function SMODS.INIT.sdm_0s_stuff()
                         func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}}}); return true
                         end}))
                 end
-            elseif SMODS.end_calculate_context(context) then
+            elseif SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
                 return {
                     message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
                     mult_mod = self.ability.extra.mult
