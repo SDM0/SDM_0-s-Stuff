@@ -1,6 +1,6 @@
 # SDM_0's Stuff
 
-A Balatro mod that adds (as of now) 15 Jokers and 1 Challenge to the game, made by SDM_0 (duh)
+A Balatro mod that adds (as of now) 15 Jokers and 2 Challenges to the game, made by SDM_0 (duh)
 
 Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
 
@@ -48,3 +48,14 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   ### Scientific Downfall
   Start with the Joker "La Révolution", all planet and level-up themed cards are banned.
 </details>
+<br>
+
+# Modded Only Challenges
+
+A Balatro mod that adds Challenges which contains none of the vanilla Jokers. (Useful for joker modpacks)
+
+## Installation
+- Requires [Steamodded](https://github.com/Steamopollys/Steamodded/) v0.9.8 (An installation guide is available there)
+- Download `Modded Only Challenges.lua` in "Releases"
+- Place it into `AppData\Roaming\Balatro\Mods` (Create the "Mods" folder if it doens't exist)
+- Enjoy!
