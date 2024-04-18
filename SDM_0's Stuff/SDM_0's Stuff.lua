@@ -225,7 +225,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "{C:tarot}The Devil{} card used this run",
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive})"
                 }
-            }, 2, 7, true, true, true, true
+            }, 2, 6, true, true, true, true
         )
 
         register_joker(sdm_trance_the_devil)
@@ -384,7 +384,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "and {C:mult}+#2#{} Mult when scored,",
                     "{C:attention}doubles{} it if {C:attention}Lucky{} card"
                 },
-            }, 1, 7, true, true, true, true
+            }, 1, 4, true, true, true, true
         )
 
         register_joker(sdm_lucky_joker)
