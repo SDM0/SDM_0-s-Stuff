@@ -217,7 +217,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_trance_the_devil = SMODS.Joker:new(
             'Trance The Devil', 'sdm_trance_the_devil',
-            {extra = 0.5}, {x=0, y=0}, 
+            {extra = 0.25}, {x=0, y=0}, 
             {
                 name = "Trance The Devil",
                 text = {
@@ -324,12 +324,13 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local sdm_bounciest_ball = SMODS.Joker:new(
             "Bounciest Ball", "sdm_bounciest_ball",
-            {extra = {chips = 10, chip_mod = 10}}, {x=0, y=0},
+            {extra = {chips = 0, chip_mod = 5, hand = "High Card"}}, {x=0, y=0},
             {
                 name = "Bounciest Ball",
                 text = {
-                    "Upgrade by {C:chips}+#2#{} Chips for each",
-                    "{C:attention}Boss Blind{} defeated",
+                    "Gains {C:chips}+#2#{} Chips every time",
+                    "a {C:attention}#3#{} is scored, reset and",
+                    "change on {C:attention}different hand{}",
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
             }}, 1, 5, true, true, true, true
         )
@@ -337,17 +338,31 @@ function SMODS.INIT.sdm_0s_stuff()
         register_joker(sdm_bounciest_ball)
 
         SMODS.Jokers.j_sdm_bounciest_ball.loc_def = function(card)
-            return {card.ability.extra.chips, card.ability.extra.chip_mod}
+            return {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}
         end
 
         SMODS.Jokers.j_sdm_bounciest_ball.calculate  = function(self, context)
-            if context.end_of_round and not (context.individual or context.repetition or context.blueprint) and G.GAME.blind.boss then
-                self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
-                return {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.CHIPS
-                }
-            elseif SMODS.end_calculate_context(context) then
+            if context.cardarea == G.jokers and context.before and not context.blueprint then
+                if context.scoring_name == self.ability.extra.hand then
+                    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                    return {
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.CHIPS,
+                        card = self
+                    }
+                else
+                    self.ability.extra.chips = 0
+                    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_reset'), colour = G.C.RED})
+                    self.ability.extra.hand = context.scoring_name
+                    card_eval_status_text(self, 'extra', nil, nil, nil, {message = context.scoring_name})
+                    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                    return {
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.CHIPS,
+                        card = self
+                    }
+                end
+            elseif SMODS.end_calculate_context(context) and self.ability.extra.chips > 0 then
                 return {
                     message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
                     chip_mod = self.ability.extra.chips
@@ -758,20 +773,22 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_la_revolution.calculate  = function(self, context)
-            if context.cardarea == G.jokers and context.before then
-                self.ability.hand = context.scoring_name
-            elseif SMODS.end_calculate_context(context) and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
-                no_faces = true
-                for i = 1, #context.full_hand do
-                    if context.full_hand[i]:is_face() then
-                        no_faces = false
+            if context.cardarea == G.jokers then
+                if context.before and context.scoring_name then
+                    self.ability.hand = context.scoring_name
+                elseif context.after and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
+                    no_faces = true
+                    for i = 1, #context.full_hand do
+                        if context.full_hand[i]:is_face() then
+                            no_faces = false
+                        end
                     end
-                end
-                if no_faces then
-                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(self.ability.hand, 'poker_hands'),chips = G.GAME.hands[self.ability.hand].chips, mult = G.GAME.hands[self.ability.hand].mult, level=G.GAME.hands[self.ability.hand].level})
-                    level_up_hand(context.blueprint_card or self, self.ability.hand, nil, 1)
-                    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+                    if no_faces then
+                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(self.ability.hand, 'poker_hands'),chips = G.GAME.hands[self.ability.hand].chips, mult = G.GAME.hands[self.ability.hand].mult, level=G.GAME.hands[self.ability.hand].level})
+                        level_up_hand(context.blueprint_card or self, self.ability.hand, nil, 1)
+                        update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+                    end
                 end
             end
         end
@@ -922,6 +939,8 @@ function Card.update(self, dt)
                     self.ability.extra.mult =  self.ability.extra.mult + self.ability.extra.mult_mod
                 end
             end
+        elseif self.ability.name == 'Bounciest Ball' then
+            self.ability.extra.hand = G.GAME.last_hand_played or "High Card"
         end
     end
     card_updateref(self, dt)
