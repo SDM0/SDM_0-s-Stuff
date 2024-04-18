@@ -20,10 +20,10 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
 
   | Joker | Cost | Rarity | Effect | 
   | :---: | :---: | :---: | :---: |
-  | ![Trance The Devil](./SDM_0's%20Stuff/assets/2x/j_sdm_trance_the_devil.png)<br><b>Trance The Devil</b> | 7 | Uncommon | X0.5 Mult per "Trance" or "The Devil" card used this run |
-  | ![Burger](./SDM_0's%20Stuff/assets/2x/j_sdm_burger.png)<br><b>Burger</b> | 8 | Rare | +30 Chips, +10 Mult and x1.5 Mult for the next 4 rounds |
-  | ![Bounciest Ball](./SDM_0's%20Stuff/assets/2x/j_sdm_bounciest_ball.png)<br><b>Bounciest Ball</b> | 5 | Common | Upgrade by +10 Chips for each Boss Blind defeated,<br> starts at +10 Chips |
-  | ![Lucky Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_lucky_joker.png)<br><b>Lucky Joker</b> | 7 | Common | Each played 7 gives +7 Chips and +7 Mult when scored,<br>doubles it if Lucky card |
+  | ![Trance The Devil](./SDM_0's%20Stuff/assets/2x/j_sdm_trance_the_devil.png)<br><b>Trance The Devil</b> | 6 | Uncommon | X0.25 Mult per "Trance" or "The Devil" card used this run |
+  | ![Burger](./SDM_0's%20Stuff/assets/2x/j_sdm_burger.png)<br><b>Burger</b> | 8 | Rare | +30 Chips, +10 Mult and x1.25 Mult for the next 4 rounds |
+  | ![Bounciest Ball](./SDM_0's%20Stuff/assets/2x/j_sdm_bounciest_ball.png)<br><b>Bounciest Ball</b> | 5 | Common | Upgrade by +5 Chips everytime X hand is scored,<br>reset and change on different hand |
+  | ![Lucky Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_lucky_joker.png)<br><b>Lucky Joker</b> | 4 | Common | Each played 7 gives +7 Chips and +7 Mult when scored,<br>doubles it if Lucky card |
   | ![Iconic Icon](./SDM_0's%20Stuff/assets/2x/j_sdm_iconic_icon.png)<br><b>Iconic Icon</b> | 7 | Uncommon | +4 Mult for each Aces in your full deck |
   | ![Mult'N'Chips](./SDM_0's%20Stuff/assets/2x/j_sdm_mult_n_chips.png)<br><b>Mult'N'Chips</b> | 5 | Common | Scored Bonus cards gives +4 Mult,<br>scored Mult cards gives +30 Chips |
   | ![Moon Base](./SDM_0's%20Stuff/assets/2x/j_sdm_moon_base.png)<br><b>Moon Base</b> | 7 | Uncommon | Space Jokers each give +40 Chips<br>(Supernova, Space Joker, Constellation, Rocket, Satellite, Astronomer, Wandering Star) |
