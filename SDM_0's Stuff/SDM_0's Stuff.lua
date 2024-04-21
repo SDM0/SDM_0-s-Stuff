@@ -11,21 +11,27 @@
 --- Config ---
 
 local config = {
-    sdm_trance_the_devil = true,
-    sdm_burger = true,
-    sdm_bounciest_ball = true,
-    sdm_lucky_joker = true,
-    sdm_iconic_icon = true,
-    sdm_mult_n_chips = true,
-    sdm_moon_base = true,
-    sdm_shareholder_joker = true,
-    sdm_magic_hands = true,
-    sdm_tip_jar = true,
-    sdm_wandering_star = true,
-    sdm_ouija_board = true,
-    sdm_la_revolution = true,
-    sdm_clown_bank = true,
-    sdm_archibald = true,
+    j_sdm_trance_the_devil = true,
+    j_sdm_burger = true,
+    j_sdm_bounciest_ball = true,
+    j_sdm_lucky_joker = true,
+    j_sdm_iconic_icon = true,
+    j_sdm_mult_n_chips = true,
+    j_sdm_moon_base = true,
+    j_sdm_shareholder_joker = true,
+    j_sdm_magic_hands = true,
+    j_sdm_tip_jar = true,
+    j_sdm_wandering_star = true,
+    j_sdm_ouija_board = true,
+    j_sdm_la_revolution = true,
+    j_sdm_clown_bank = true,
+    j_sdm_furnace = true,
+    j_sdm_warehouse = true,
+    j_sdm_zombie_joker = true,
+    j_sdm_mystery_joker = true,
+    j_sdm_infinite_staircase = true,
+    j_sdm_ninja_joker = true,
+    j_sdm_archibald = true,
 }
 
 local placeholder_art = false --- Set it to true if you want to play with placeholder art of this mod's jokers
@@ -92,9 +98,10 @@ end
 
 G.localization.misc.dictionary.k_all = "+/X All"
 G.localization.misc.dictionary.k_lucky = "Lucky"
+G.localization.misc.dictionary.k_plus_tag = "+1 Tag"
 G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 
-function SMODS.INIT.sdm_0s_stuff() 
+function SMODS.INIT.j_sdm_0s_stuff() 
 
     init_localization()
 
@@ -102,7 +109,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Devil's Deal ---
 
-    if config.sdm_trance_the_devil then
+    if config.j_sdm_trance_the_devil then
 
         G.localization.misc.challenge_names["c_mod_sdm0_dd"] = "Devil's Deal"
 
@@ -153,7 +160,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Scientific Downfall ---
 
-    if config.sdm_la_revolution then
+    if config.j_sdm_la_revolution then
 
         G.localization.misc.challenge_names["c_mod_sdm0_sd"] = "Scientific Downfall"
 
@@ -213,9 +220,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Trance The Devil ---
 
-    if config.sdm_trance_the_devil then
+    if config.j_sdm_trance_the_devil then
 
-        local sdm_trance_the_devil = SMODS.Joker:new(
+        local j_sdm_trance_the_devil = SMODS.Joker:new(
             'Trance The Devil', 'sdm_trance_the_devil',
             {extra = 0.25}, {x=0, y=0}, 
             {
@@ -228,27 +235,27 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 6, true, true, true, true
         )
 
-        register_joker(sdm_trance_the_devil)
+        register_joker(j_sdm_trance_the_devil)
 
 
         SMODS.Jokers.j_sdm_trance_the_devil.loc_def = function(card)
             return {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}
         end
 
-        SMODS.Jokers.j_sdm_trance_the_devil.calculate = function(self, context)
+        SMODS.Jokers.j_sdm_trance_the_devil.calculate = function(card, context)
             if context.using_consumeable and not context.blueprint then
                 if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
                     G.E_MANAGER:add_event(Event({func = function()
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
-                        vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}}});
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
+                        vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}});
                         return true end}))
                     return
                 end
             elseif SMODS.end_calculate_context(context) and
-                (1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra)) > 1) then
+                (1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra)) > 1) then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}},
-                    Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))
+                    message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}},
+                    Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))
                 }
             end
         end
@@ -256,9 +263,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Burger ---
 
-    if config.sdm_burger then
+    if config.j_sdm_burger then
 
-        local sdm_burger = SMODS.Joker:new(
+        local j_sdm_burger = SMODS.Joker:new(
             "Burger", "sdm_burger",
             {extra = {Xmult=1.25, mult=10, chips=30, remaining=4}}, {x=0, y=0},
             {
@@ -270,27 +277,27 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 8, true, true, true, false
         )
 
-        register_joker(sdm_burger)
+        register_joker(j_sdm_burger)
 
         SMODS.Jokers.j_sdm_burger.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}
         end
 
-        SMODS.Jokers.j_sdm_burger.calculate = function(self, context)
+        SMODS.Jokers.j_sdm_burger.calculate = function(card, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                if self.ability.extra.remaining - 1 <= 0 then 
+                if card.ability.extra.remaining - 1 <= 0 then 
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             play_sound('tarot1')
-                            self.T.r = -0.2
-                            self:juice_up(0.3, 0.4)
-                            self.states.drag.is = true
-                            self.children.center.pinch.x = true
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
                             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                                 func = function()
-                                        G.jokers:remove_card(self)
-                                        self:remove()
-                                        self = nil
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
                                     return true; end})) 
                             return true
                         end
@@ -300,9 +307,9 @@ function SMODS.INIT.sdm_0s_stuff()
                         colour = G.C.FILTER
                     }
                 else
-                    self.ability.extra.remaining = self.ability.extra.remaining - 1
+                    card.ability.extra.remaining = card.ability.extra.remaining - 1
                     return {
-                        message = self.ability.extra.remaining..'',
+                        message = card.ability.extra.remaining..'',
                         colour = G.C.FILTER
                     }
                 end
@@ -310,9 +317,9 @@ function SMODS.INIT.sdm_0s_stuff()
                 return {
                     message = localize('k_all'),
                     colour = G.C.PURPLE,
-                    chip_mod = self.ability.extra.chips,
-                    mult_mod = self.ability.extra.mult,
-                    Xmult_mod = self.ability.extra.Xmult
+                    chip_mod = card.ability.extra.chips,
+                    mult_mod = card.ability.extra.mult,
+                    Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end
@@ -320,52 +327,52 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Bounciest Ball ---
 
-    if config.sdm_bounciest_ball then
+    if config.j_sdm_bounciest_ball then
 
-        local sdm_bounciest_ball = SMODS.Joker:new(
+        local j_sdm_bounciest_ball = SMODS.Joker:new(
             "Bounciest Ball", "sdm_bounciest_ball",
-            {extra = {chips = 0, chip_mod = 5, hand = "High Card"}}, {x=0, y=0},
+            {extra = {chips = 0, chip_mod = 10, hand = "High Card"}}, {x=0, y=0},
             {
                 name = "Bounciest Ball",
                 text = {
-                    "Gains {C:chips}+#2#{} Chips every time",
+                    "This Joker gains {C:chips}+#2#{} Chips every time",
                     "a {C:attention}#3#{} is scored, reset and",
                     "change on {C:attention}different hand{}",
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
             }}, 1, 5, true, true, true, true
         )
 
-        register_joker(sdm_bounciest_ball)
+        register_joker(j_sdm_bounciest_ball)
 
         SMODS.Jokers.j_sdm_bounciest_ball.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}
         end
 
-        SMODS.Jokers.j_sdm_bounciest_ball.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_bounciest_ball.calculate  = function(card, context)
             if context.cardarea == G.jokers and context.before and not context.blueprint then
-                if context.scoring_name == self.ability.extra.hand then
-                    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                if context.scoring_name == card.ability.extra.hand then
+                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                     return {
                         message = localize('k_upgrade_ex'),
                         colour = G.C.CHIPS,
-                        card = self
+                        card = card
                     }
                 else
-                    self.ability.extra.chips = 0
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_reset'), colour = G.C.RED})
-                    self.ability.extra.hand = context.scoring_name
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {message = context.scoring_name})
-                    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                    card.ability.extra.chips = 0
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset'), colour = G.C.RED})
+                    card.ability.extra.hand = context.scoring_name
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = context.scoring_name})
+                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                     return {
                         message = localize('k_upgrade_ex'),
                         colour = G.C.CHIPS,
-                        card = self
+                        card = card
                     }
                 end
-            elseif SMODS.end_calculate_context(context) and self.ability.extra.chips > 0 then
+            elseif SMODS.end_calculate_context(context) and card.ability.extra.chips > 0 then
                 return {
-                    message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                    chip_mod = self.ability.extra.chips
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                    chip_mod = card.ability.extra.chips
                 }
             end
         end
@@ -373,8 +380,8 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Lucky Joker ---
 
-    if config.sdm_lucky_joker then
-        local sdm_lucky_joker = SMODS.Joker:new(
+    if config.j_sdm_lucky_joker then
+        local j_sdm_lucky_joker = SMODS.Joker:new(
             "Lucky Joker", "sdm_lucky_joker",
             {extra = {chips = 7, mult = 7}},  {x=0, y=0},
             {
@@ -387,24 +394,24 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 4, true, true, true, true
         )
 
-        register_joker(sdm_lucky_joker)
+        register_joker(j_sdm_lucky_joker)
 
         SMODS.Jokers.j_sdm_lucky_joker.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.mult}
         end
 
-        SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(card, context)
             if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
                 if context.other_card.ability.effect == "Lucky Card" then
                     return {
-                        chips = self.ability.extra.chips * 2,
-                        mult = self.ability.extra.mult * 2,
-                        card = self
+                        chips = card.ability.extra.chips * 2,
+                        mult = card.ability.extra.mult * 2,
+                        card = card
                     }
                 else return {
-                    chips = self.ability.extra.chips,
-                    mult = self.ability.extra.mult,
-                    card = self
+                    chips = card.ability.extra.chips,
+                    mult = card.ability.extra.mult,
+                    card = card
                 }
                 end
             end
@@ -413,9 +420,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Iconic Icon ---
 
-    if config.sdm_iconic_icon then
+    if config.j_sdm_iconic_icon then
 
-        local sdm_iconic_icon = SMODS.Joker:new(
+        local j_sdm_iconic_icon = SMODS.Joker:new(
             "Iconic Icon", "sdm_iconic_icon",
             {extra = {mult = 0, mult_mod = 4}},  {x=0, y=0},
             {
@@ -428,17 +435,17 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(sdm_iconic_icon)
+        register_joker(j_sdm_iconic_icon)
 
         SMODS.Jokers.j_sdm_iconic_icon.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end
 
-        SMODS.Jokers.j_sdm_iconic_icon.calculate  = function(self, context)
-            if SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
+        SMODS.Jokers.j_sdm_iconic_icon.calculate  = function(card, context)
+            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                    mult_mod = self.ability.extra.mult,
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult,
                     colour = G.C.MULT
                 }
             end
@@ -447,9 +454,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Mult N Chips Joker ---
 
-    if config.sdm_mult_n_chips then
+    if config.j_sdm_mult_n_chips then
 
-        local sdm_mult_n_chips = SMODS.Joker:new(
+        local j_sdm_mult_n_chips = SMODS.Joker:new(
             "Mult'N'Chips", "sdm_mult_n_chips",
             {extra = {mult = 4, chips = 30}},  {x=0, y=0},
             {
@@ -461,23 +468,23 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 5, true, true, true, true
         )
 
-        register_joker(sdm_mult_n_chips)
+        register_joker(j_sdm_mult_n_chips)
 
         SMODS.Jokers.j_sdm_mult_n_chips.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.chips}
         end
 
-        SMODS.Jokers.j_sdm_mult_n_chips.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_mult_n_chips.calculate  = function(card, context)
             if context.individual and context.cardarea == G.play then
                 if context.other_card.ability.effect == "Bonus Card" then
                     return {
-                        mult = self.ability.extra.mult,
-                        card = self
+                        mult = card.ability.extra.mult,
+                        card = card
                     }
                 elseif context.other_card.ability.effect == "Mult Card" then
                     return {
-                        chips = self.ability.extra.chips,
-                        card = self
+                        chips = card.ability.extra.chips,
+                        card = card
                     }
                 end
             end
@@ -486,9 +493,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Moon Base ---
 
-    if config.sdm_moon_base then
+    if config.j_sdm_moon_base then
 
-        local sdm_moon_base = SMODS.Joker:new(
+        local j_sdm_moon_base = SMODS.Joker:new(
             "Moon Base", "sdm_moon_base",
             {extra = 40},  {x=0, y=0},
             {
@@ -500,15 +507,15 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(sdm_moon_base)
+        register_joker(j_sdm_moon_base)
 
         SMODS.Jokers.j_sdm_moon_base.loc_def = function(card)
             return {card.ability.extra}
         end
 
-        SMODS.Jokers.j_sdm_moon_base.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_moon_base.calculate  = function(card, context)
             if context.other_joker then
-                if space_jokers[context.other_joker.ability.name] and context.other_joker.ability.name ~= "Moon Base" then
+                if space_jokers[context.other_joker.ability.name] and context.other_joker ~= card then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             context.other_joker:juice_up(0.5, 0.5)
@@ -516,8 +523,8 @@ function SMODS.INIT.sdm_0s_stuff()
                         end
                     })) 
                     return {
-                        message = localize{type='variable',key='a_chips',vars={self.ability.extra}},
-                        chip_mod = self.ability.extra
+                        message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                        chip_mod = card.ability.extra
                     }
                 end
             end
@@ -526,48 +533,32 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Shareholder Joker ---
 
-    if config.sdm_shareholder_joker then
+    if config.j_sdm_shareholder_joker then
 
-        local sdm_shareholder_joker = SMODS.Joker:new(
+        local j_sdm_shareholder_joker = SMODS.Joker:new(
             "Shareholder Joker", "sdm_shareholder_joker",
-            {extra = {min = 0, max = 8}},  {x=0, y=0},
+            {extra = {min = 1, max = 8}},  {x=0, y=0},
             {
                 name = "Shareholder Joker",
                 text = {
                     "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
                     "at the end of round",
                 }
-            }, 1, 5, true, true, true, true
+            }, 1, 5, true, true, false, true
         )
 
-        register_joker(sdm_shareholder_joker)
+        register_joker(j_sdm_shareholder_joker)
 
         SMODS.Jokers.j_sdm_shareholder_joker.loc_def = function(card)
             return {card.ability.extra.min, card.ability.extra.max}
-        end
-
-        SMODS.Jokers.j_sdm_shareholder_joker.calculate  = function(self, context)
-            if context.end_of_round and not (context.individual or context.repetition) then
-                local temp_Dollars = pseudorandom('sdm_shareholder_joker', self.ability.extra.min, self.ability.extra.max)
-                if temp_Dollars > 0 then
-                    ease_dollars(temp_Dollars)
-                    G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + temp_Dollars
-                    G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-                    return {
-                        message = localize('$')..temp_Dollars,
-                        dollars = temp_Dollars,
-                        colour = G.C.MONEY,
-                    }
-                end
-            end
         end
     end
 
     --- Magic Hands ---
 
-    if config.sdm_magic_hands then
+    if config.j_sdm_magic_hands then
 
-        local sdm_magic_hands = SMODS.Joker:new(
+        local j_sdm_magic_hands = SMODS.Joker:new(
             "Magic Hands", "sdm_magic_hands",
             {extra = 3},  {x=0, y=0},
             {
@@ -580,13 +571,13 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 2, 6, true, true, true, true
         )
 
-        register_joker(sdm_magic_hands)
+        register_joker(j_sdm_magic_hands)
 
         SMODS.Jokers.j_sdm_magic_hands.loc_def = function(card)
             return {card.ability.extra}
         end
 
-        SMODS.Jokers.j_sdm_magic_hands.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_magic_hands.calculate  = function(card, context)
             if SMODS.end_calculate_context(context) then
                 cards_id = {}
                 for i = 1, #context.scoring_hand do
@@ -595,8 +586,8 @@ function SMODS.INIT.sdm_0s_stuff()
                 max_card = count_max_occurence(cards_id) or 0
                 if G.GAME.current_round.hands_left + 1 == max_card then
                     return {
-                        message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                        Xmult_mod = self.ability.extra
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
+                        Xmult_mod = card.ability.extra
                     } 
                 end
             end
@@ -605,9 +596,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Tip Jar ---
 
-    if config.sdm_tip_jar then
+    if config.j_sdm_tip_jar then
 
-        local sdm_tip_jar = SMODS.Joker:new(
+        local j_sdm_tip_jar = SMODS.Joker:new(
             "Tip Jar", "sdm_tip_jar",
             {},  {x=0, y=0},
             {
@@ -616,40 +607,21 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Earn your money's {C:attention}highest digit",
                     "at the end of round",
                 }
-            }, 2, 6, true, true, true, true
+            }, 2, 6, true, true, false, true
         )
 
-        register_joker(sdm_tip_jar)
+        register_joker(j_sdm_tip_jar)
 
         SMODS.Jokers.j_sdm_tip_jar.loc_def = function(card)
             return {}
-        end
-
-        SMODS.Jokers.j_sdm_tip_jar.calculate  = function(self, context)
-            if context.end_of_round and not (context.individual or context.repetition) then
-                local highest = 0
-                for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
-                    highest = math.max(highest, tonumber(digit))
-                end
-                if highest > 0 then
-                    ease_dollars(highest)
-                    G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + highest
-                    G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-                    return {
-                        message = localize('$')..highest,
-                        dollars = highest,
-                        colour = G.C.MONEY,
-                    }
-                end
-            end
         end
     end
 
     --- Wandering Star ---
 
-    if config.sdm_wandering_star then
+    if config.j_sdm_wandering_star then
 
-        local sdm_wandering_star = SMODS.Joker:new(
+        local j_sdm_wandering_star = SMODS.Joker:new(
             "Wandering Star", "sdm_wandering_star",
             {extra = {mult = 0, mult_mod = 2}},  {x=0, y=0},
             {
@@ -662,24 +634,24 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 1, 6, true, true, true, true
         )
 
-        register_joker(sdm_wandering_star)
+        register_joker(j_sdm_wandering_star)
 
         SMODS.Jokers.j_sdm_wandering_star.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end
 
-        SMODS.Jokers.j_sdm_wandering_star.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_wandering_star.calculate  = function(card, context)
             if context.selling_card then
                 if context.card.ability.set == 'Planet' and not context.blueprint then
-                    self.ability.extra.mult = self.ability.extra.mult + self.ability.extra.mult_mod
+                    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     G.E_MANAGER:add_event(Event({
-                        func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}}}); return true
+                        func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}}); return true
                         end}))
                 end
-            elseif SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
+            elseif SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                    mult_mod = self.ability.extra.mult
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult
                 }
             end
         end
@@ -687,61 +659,61 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Ouija Board ---
 
-    if config.sdm_ouija_board then
+    if config.j_sdm_ouija_board then
 
-        local sdm_ouija_board = SMODS.Joker:new(
+        local j_sdm_ouija_board = SMODS.Joker:new(
             "Ouija Board", "sdm_ouija_board",
             {extra = 50},  {x=0, y=0},
             {
                 name = "Ouija Board",
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "{C:green}#1# in #2#{} chance to create a {C:spectral}Soul{} card, or",
+                    "{C:green}#1# in #2#{} chance to create a {C:spectral}Soul{} card or",
                     "{C:green}#1# in #3#{} chance to create a {C:tarot}Judgement{} card",
                     "{C:inactive}(Must have room)"
                 }
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(sdm_ouija_board)
+        register_joker(j_sdm_ouija_board)
 
         SMODS.Jokers.j_sdm_ouija_board.loc_def = function(card)
             return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra, card.ability.extra / 10}
         end
 
-        SMODS.Jokers.j_sdm_ouija_board.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_ouija_board.calculate  = function(card, context)
             if context.setting_blind then
-                if pseudorandom(pseudoseed('ojb1')) < G.GAME.probabilities.normal/self.ability.extra then
-                    if not (context.blueprint_card or self).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                if pseudorandom(pseudoseed('ojb1')) < G.GAME.probabilities.normal/card.ability.extra then
+                    if not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             func = (function()
                                 G.E_MANAGER:add_event(Event({
                                     func = function() 
-                                        local card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
-                                        card:add_to_deck()
-                                        G.consumeables:emplace(card)
+                                        local new_card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
+                                        new_card:add_to_deck()
+                                        G.consumeables:emplace(new_card)
                                         G.GAME.consumeable_buffer = 0
                                         return true
                                     end}))   
-                                card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                       
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                       
                             return true
                         end)}))
                     end
-                elseif pseudorandom(pseudoseed('ojb2')) < G.GAME.probabilities.normal/(self.ability.extra / 10) then
-                    if not (context.blueprint_card or self).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                elseif pseudorandom(pseudoseed('ojb2')) < G.GAME.probabilities.normal/(card.ability.extra / 10) then
+                    if not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             func = (function()
                                 G.E_MANAGER:add_event(Event({
                                     func = function() 
-                                        local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_judgement', 'rtl')
-                                        card:add_to_deck()
-                                        G.consumeables:emplace(card)
+                                        local new_card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_judgement', 'rtl')
+                                        new_card:add_to_deck()
+                                        G.consumeables:emplace(new_card)
                                         G.GAME.consumeable_buffer = 0
                                         return true
                                     end}))   
-                                card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})                       
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})                       
                             return true
                         end)}))
                     end
@@ -752,9 +724,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- La Révolution ---
 
-    if config.sdm_la_revolution then
+    if config.j_sdm_la_revolution then
 
-        local sdm_la_revolution = SMODS.Joker:new(
+        local j_sdm_la_revolution = SMODS.Joker:new(
             "La Révolution", "sdm_la_revolution",
             {hand = "High Card"},  {x=0, y=0},
             {
@@ -766,16 +738,16 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 3, 7, true, true, true, true
         )
 
-        register_joker(sdm_la_revolution)
+        register_joker(j_sdm_la_revolution)
 
         SMODS.Jokers.j_sdm_la_revolution.loc_def = function(card)
             return {}
         end
 
-        SMODS.Jokers.j_sdm_la_revolution.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_la_revolution.calculate  = function(card, context)
             if context.cardarea == G.jokers then
                 if context.before and context.scoring_name then
-                    self.ability.hand = context.scoring_name
+                    card.ability.hand = context.scoring_name
                 elseif context.after and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
                     no_faces = true
                     for i = 1, #context.full_hand do
@@ -784,9 +756,9 @@ function SMODS.INIT.sdm_0s_stuff()
                         end
                     end
                     if no_faces then
-                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(self.ability.hand, 'poker_hands'),chips = G.GAME.hands[self.ability.hand].chips, mult = G.GAME.hands[self.ability.hand].mult, level=G.GAME.hands[self.ability.hand].level})
-                        level_up_hand(context.blueprint_card or self, self.ability.hand, nil, 1)
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.hand].chips, mult = G.GAME.hands[card.ability.hand].mult, level=G.GAME.hands[card.ability.hand].level})
+                        level_up_hand(context.blueprint_card or card, card.ability.hand, nil, 1)
                         update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
                     end
                 end
@@ -796,9 +768,9 @@ function SMODS.INIT.sdm_0s_stuff()
 
     --- Clown Bank ---
 
-    if config.sdm_clown_bank then
+    if config.j_sdm_clown_bank then
 
-        local sdm_clown_bank = SMODS.Joker:new(
+        local j_sdm_clown_bank = SMODS.Joker:new(
             "Clown Bank", "sdm_clown_bank",
             {extra = {Xmult=1, Xmult_mod=0.2, dollars = 3, inflation = 3}},  {x=0, y=0},
             {
@@ -806,50 +778,402 @@ function SMODS.INIT.sdm_0s_stuff()
                 text = {
                     "When {C:attention}Blind{} is selected,",
                     "if at {C:attention}leftmost{} position,",
-                    "gains {X:mult,C:white}X#2#{} Mult for {C:money}#3#${},",
-                    "increases cost by {C:money}#4#${}",
+                    "This Joker gains {X:mult,C:white}X#2#{} Mult for {C:money}$#3#{},",
+                    "increases cost by {C:money}$#4#{}",
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             }, 3, 8, true, true, true, true
         )
 
-        register_joker(sdm_clown_bank)
+        register_joker(j_sdm_clown_bank)
 
         SMODS.Jokers.j_sdm_clown_bank.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}
         end
 
-        SMODS.Jokers.j_sdm_clown_bank.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_clown_bank.calculate  = function(card, context)
             if context.setting_blind and not context.blueprint then
                 if G.jokers.cards[1] and G.jokers.cards[1].ability.name == "Clown Bank" then
-                    if G.GAME.dollars - self.ability.extra.dollars >= G.GAME.bankrupt_at then
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {
-                            message = localize('$') .. "-" .. self.ability.extra.dollars,
+                    if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('$') .. "-" .. card.ability.extra.dollars,
                             colour = G.C.MONEY
                         })
-                        ease_dollars(-self.ability.extra.dollars)
-                        self.ability.extra.Xmult = self.ability.extra.Xmult + self.ability.extra.Xmult_mod
-                        self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.inflation
+                        ease_dollars(-card.ability.extra.dollars)
+                        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
+                        card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.inflation
                         G.E_MANAGER:add_event(Event({
-                            func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}}}); return true
+                            func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}}}); return true
                             end}))
                         return
                     end
                 end
-            elseif SMODS.end_calculate_context(context) and self.ability.extra.Xmult > 1 then
+            elseif SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                    Xmult_mod = self.ability.extra.Xmult
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
                 }
+            end
+        end
+    end
+
+    --- Furnace ---
+
+    if config.j_sdm_furnace then
+        
+        local j_sdm_furnace = SMODS.Joker:new(
+            "Furnace", "sdm_furnace",
+            {extra = {Xmult= 1, dollars = 0, Xmult_mod = 0.5, dollars_mod = 2}},  {x=0, y=0},
+            {
+                name = "Furnace",
+                text = {
+                    "If {C:attention}first played hand{} is a",
+                    "single {C:attention}Steel Card{} or {C:attention}Gold Card{},",
+                    "destroy it and gain {X:mult,C:white}X#3#{} or {C:money}$#4#{},",
+                    "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive})"
+                }
+            }, 2, 8, true, true, true, true
+        )
+
+        register_joker(j_sdm_furnace)
+
+        SMODS.Jokers.j_sdm_furnace.loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}
+        end
+
+        SMODS.Jokers.j_sdm_furnace.calculate  = function(card, context)
+            if context.cardarea == G.jokers and context.before and not context.blueprint then
+                if #context.full_hand == 1 and G.GAME.current_round.hands_played == 0 then
+                    if context.full_hand[1].ability.name == 'Gold Card' then
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        card.ability.extra.dollars =  card.ability.extra.dollars + card.ability.extra.dollars_mod
+                    elseif context.full_hand[1].ability.name == 'Steel Card' then
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        card.ability.extra.Xmult =  card.ability.extra.Xmult + card.ability.extra.Xmult_mod
+                    end
+                end
+            end
+            if context.destroying_card and not context.blueprint and #context.full_hand == 1 and G.GAME.current_round.hands_played == 0 then
+                    if context.full_hand[1].ability.name == 'Gold Card' or context.full_hand[1].ability.name == 'Steel Card' then
+                       return true
+                    end
+                return nil
+            end
+            if SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
+                return {
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
+                }
+            end
+        end
+    end
+
+    --- Warehouse ---
+
+    if config.j_sdm_warehouse then
+        
+        local j_sdm_warehouse = SMODS.Joker:new(
+            "Warehouse", "sdm_warehouse",
+            {extra = {h_size = 3, c_size = 0, dollars = -50}},  {x=0, y=0},
+            {
+                name = "Warehouse",
+                text = {
+                    "{C:attention}+#1#{} hand size,",
+                    "{C:red}No consumable slots{},",
+                    "lose {C:money}$#2#{} if sold"
+                }
+            }, 2, 6, true, true, false, true
+        )
+
+        register_joker(j_sdm_warehouse)
+
+        SMODS.Jokers.j_sdm_warehouse.loc_def = function(card)
+            return {card.ability.extra.h_size, -card.ability.extra.dollars}
+        end
+
+        SMODS.Jokers.j_sdm_warehouse.set_ability = function(card)
+            if card.set_cost then 
+                card.ability.extra_value = card.ability.extra.dollars - math.floor(card.base_cost / 2)
+                card:set_cost()
+            end
+        end
+    end
+
+    --- Zombie Joker ---
+
+    if config.j_sdm_zombie_joker then
+        
+        local j_sdm_zombie_joker = SMODS.Joker:new(
+            "Zombie Joker", "sdm_zombie_joker",
+            {extra = 5},  {x=0, y=0},
+            {
+                name = "Zombie Joker",
+                text = {
+                    "{C:green}#1# in #2#{} chance to create a",
+                    "{C:tarot}Death{} card when {C:attention}selling{}",
+                    "a card other than {C:tarot}Death{}",
+                    "{C:inactive}(Must have room)"
+                }
+            }, 1, 4, true, true, true, true
+        )
+
+        register_joker(j_sdm_zombie_joker)
+
+        SMODS.Jokers.j_sdm_zombie_joker.loc_def = function(card)
+            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
+        end
+
+        SMODS.Jokers.j_sdm_zombie_joker.calculate = function(card, context)
+            if context.selling_card then
+                if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
+                    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
+                    context.card.ability.set ~= 'Joker'and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                    local new_card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_death', 'zmb')
+                                    new_card:add_to_deck()
+                                    G.consumeables:emplace(new_card)
+                                    G.GAME.consumeable_buffer = 0
+                                return true
+                            end)}))
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                    end
+                end
+            end
+        end
+    end
+
+    --- Mystery Joker ---
+
+    if config.j_sdm_mystery_joker then
+        
+        local j_sdm_mystery_joker = SMODS.Joker:new(
+            "Mystery Joker", "sdm_mystery_joker",
+            {extra = 4},  {x=0, y=0},
+            {
+                name = "Mystery Joker",
+                text = {
+                    "When a {C:attention}secret poker hand{} is scored,",
+                    "{C:green}#1# in #2#{} chance to create a {C:red}Rare {C:attention}Joker{} tag,",
+                    "otherwise create an {C:green}Uncommon {C:attention}Joker{} tag"
+                }
+            }, 2, 6, true, true, false, true
+        )
+
+        register_joker(j_sdm_mystery_joker)
+
+        SMODS.Jokers.j_sdm_mystery_joker.loc_def = function(card)
+            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
+        end
+
+        SMODS.Jokers.j_sdm_mystery_joker.calculate = function(card, context)
+            if SMODS.end_calculate_context(context) and not context.blueprint then
+                if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
+                    if pseudorandom(pseudoseed('mstrjkr')) < G.GAME.probabilities.normal/card.ability.extra then
+                        G.E_MANAGER:add_event(Event({
+                            func = (function()
+                                add_tag(Tag('tag_rare'))
+                                play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                return true
+                            end)
+                        }))
+                    else
+                        G.E_MANAGER:add_event(Event({
+                            func = (function()
+                                add_tag(Tag('tag_uncommon'))
+                                play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                return true
+                            end)
+                        }))
+                    end
+                end
+            end
+        end
+    end
+
+    --- Infinite Staircase ---
+
+    if config.j_sdm_infinite_staircase then
+        
+        local j_sdm_infinite_staircase = SMODS.Joker:new(
+            "Infinite Staircase", "sdm_infinite_staircase",
+            {extra = {mult = 0, mult_mod = 4}},  {x=0, y=0},
+            {
+                name = "Infinite Staircase",
+                text = {
+                    "This Joker gains {C:red}+#2#{} Mult if",
+                    "{C:attention}scored hand{} contains a numerical {C:attention}Straight{},",
+                    "increase rank of scored cards by {C:attention}1",
+                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
+                }
+            }, 1, 5, true, true, true, true
+        )
+
+        register_joker(j_sdm_infinite_staircase)
+
+        SMODS.Jokers.j_sdm_infinite_staircase.loc_def = function(card)
+            return {card.ability.extra.mult, card.ability.extra.mult_mod}
+        end
+
+        SMODS.Jokers.j_sdm_infinite_staircase.calculate = function(card, context)
+            if context.cardarea == G.jokers and not context.blueprint and (context.poker_hands and (next(context.poker_hands['Straight']))) then
+                if context.before then
+                    no_faces = true
+                    for i = 1, #context.scoring_hand do
+                        if context.scoring_hand[i]:is_face() then
+                            no_faces = false
+                        end
+                    end
+                    if no_faces then
+                        card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
+                        return {
+                            message = localize('k_upgrade_ex'),
+                            colour = G.C.MULT,
+                            card = card
+                        }
+                    end
+                elseif context.after then
+                    no_faces = true
+                    for i = 1, #context.scoring_hand do
+                        if context.scoring_hand[i]:is_face() then
+                            no_faces = false
+                        end
+                    end
+                    if no_faces then
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_active_ex'),colour = G.C.FILTER})
+                        for i = 1, #context.scoring_hand do
+                            local percent = 1.15 - (i-0.999)/(#context.scoring_hand-0.998)*0.3
+                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.scoring_hand[i]:flip();play_sound('card1', percent);context.scoring_hand[i]:juice_up(0.3, 0.3);return true end }))
+                        end
+                        delay(0.2)
+                        for i = 1, #context.scoring_hand do
+                            local card = context.scoring_hand[i]
+                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.0,func = function()
+                                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                                local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+                                if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+                                elseif rank_suffix == 10 then rank_suffix = 'T'
+                                elseif rank_suffix == 11 then rank_suffix = 'J'
+                                elseif rank_suffix == 12 then rank_suffix = 'Q'
+                                elseif rank_suffix == 13 then rank_suffix = 'K'
+                                elseif rank_suffix == 14 then rank_suffix = 'A'
+                                end
+                                card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                            return true end }))
+                        end
+                        for i = 1, #context.scoring_hand do
+                            local percent = 0.85 + (i-0.999)/(#context.scoring_hand-0.998)*0.3
+                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.scoring_hand[i]:flip();play_sound('tarot2', percent, 0.6);context.scoring_hand[i]:juice_up(0.3, 0.3);return true end }))
+                        end
+                    end
+                    delay(1.5)
+                end
+            end
+            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
+                return {
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult
+                }
+            end
+        end
+    end
+
+    --- Ninja Joker ---
+
+    if config.j_sdm_ninja_joker then
+        
+        local j_sdm_ninja_joker = SMODS.Joker:new(
+            "Ninja Joker", "sdm_ninja_joker",
+            {extra = {remaining = 5, every = 5}},  {x=0, y=0},
+            {
+                name = "Ninja Joker",
+                text = {
+                    "Every {C:attention}#2#{} destroyed cards,",
+                    "create a {C:dark_edition}Negative{} tag",
+                    "{C:inactive}(Remaining {C:attention}#1#{C:inactive})"
+                }
+            }, 2, 6, true, true, false, true
+        )
+
+        register_joker(j_sdm_ninja_joker)
+
+        SMODS.Jokers.j_sdm_ninja_joker.loc_def = function(card)
+            return {card.ability.extra.remaining, card.ability.extra.every}
+        end
+
+        SMODS.Jokers.j_sdm_ninja_joker.calculate = function(card, context)
+            if context.cards_destroyed and not context.blueprint then
+                local destroyed_cards = #context.glass_shattered
+                    if destroyed_cards > 0 then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                card.ability.extra.remaining = card.ability.extra.remaining - destroyed_cards
+                              return true
+                            end
+                          }))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = card.ability.extra.remaining..'',})
+                        if card.ability.extra.remaining <= 0 then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset')})
+                            card.ability.extra.remaining = card.ability.extra.every + card.ability.extra.remaining
+                            if card.ability.extra.remaining ~= card.ability.extra.every then
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining)..''})
+                            end
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
+                                    add_tag(Tag('tag_negative'))
+                                    play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                    return true
+                                end)
+                            }))
+                        end
+                        return true
+                    end
+                  }))
+                    end
+                    return
+            elseif context.remove_playing_cards and not context.blueprint then
+                local removed_cards = #context.removed
+                if removed_cards > 0 then
+                    card.ability.extra.remaining = card.ability.extra.remaining - removed_cards
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining, 0)..''})
+                        if card.ability.extra.remaining <= 0 then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset')})
+                            card.ability.extra.remaining = card.ability.extra.every + card.ability.extra.remaining
+                            if card.ability.extra.remaining ~= card.ability.extra.every then
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining)..''})
+                            end
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
+                                    add_tag(Tag('tag_negative'))
+                                    play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                    return true
+                                end)
+                            }))
+                        end
+                        return true
+                    end
+                }))
+                end
+                return
             end
         end
     end
 
     --- Archibald ---
 
-    if config.sdm_archibald then
+    if config.j_sdm_archibald then
 
-        local sdm_archibald = SMODS.Joker:new(
+        local j_sdm_archibald = SMODS.Joker:new(
             "Archibald", "sdm_archibald",
             {extra = {remaining = 4}},  {x=0, y=0},
             {
@@ -863,61 +1187,61 @@ function SMODS.INIT.sdm_0s_stuff()
             }, 4, 20, true, true, true, false, nil, nil, {x = 0, y = 1}
         )
 
-        register_joker(sdm_archibald)
+        register_joker(j_sdm_archibald)
 
         SMODS.Jokers.j_sdm_archibald.loc_def = function(card)
             return {card.ability.extra.remaining}
         end
 
-        SMODS.Jokers.j_sdm_archibald.calculate  = function(self, context)
+        SMODS.Jokers.j_sdm_archibald.calculate  = function(card, context)
             if context.buying_card then
                 if context.card.ability.set == 'Joker' then
                     if not context.blueprint then
-                        self.ability.extra.remaining = self.ability.extra.remaining - 1
+                        card.ability.extra.remaining = card.ability.extra.remaining - 1
                     end
-                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {
+                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
                         message = localize('k_plus_joker'),
                         colour = G.C.BLUE,
                     })
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                            card = create_card('Joker', G.jokers, nil, nil, nil, nil, context.card.config.center.key, nil)
-                            card:set_edition({negative = true}, true)
-                            card.sell_cost = 0
-                            card:add_to_deck()
-                            G.jokers:emplace(card)
-                            card:start_materialize()
+                            new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, context.card.config.center.key, nil)
+                            new_card:set_edition({negative = true}, true)
+                            new_card.archibald_dupe = true
+                            new_card:add_to_deck()
+                            G.jokers:emplace(new_card)
+                            new_card:start_materialize()
                             return true
                         end
                     }))
-                    if self.ability.extra.remaining >= 1 and not context.blueprint then
+                    if card.ability.extra.remaining >= 1 and not context.blueprint then
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, blockable = false,
                             func = function()
-                                card_eval_status_text(self, 'extra', nil, nil, nil, {
-                                    message =  self.ability.extra.remaining..'',
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                    message =  card.ability.extra.remaining..'',
                                     colour = G.C.FILTER,
                                 })
                                 return true
                             end
                         }))
                     end
-                    if self.ability.extra.remaining < 1 and not context.blueprint then 
+                    if card.ability.extra.remaining < 1 and not context.blueprint then 
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card_eval_status_text(self, 'extra', nil, nil, nil, {
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
                                     message = localize('k_extinct_ex'),
                                     colour = G.C.MONEY,
                                 })
                                 play_sound('tarot1')
-                                self.T.r = -0.2
-                                self:juice_up(0.3, 0.4)
-                                self.states.drag.is = true
-                                self.children.center.pinch.x = true
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
                                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, blockable = false,
                                     func = function()
-                                            G.jokers:remove_card(self)
-                                            self:remove()
-                                            self = nil
+                                            G.jokers:remove_card(card)
+                                            card:remove()
+                                            card = nil
                                         return true; end})) 
                                 return true
                             end
@@ -941,14 +1265,22 @@ function Card.update(self, dt)
             end
         elseif self.ability.name == 'Bounciest Ball' then
             self.ability.extra.hand = G.GAME.last_hand_played or "High Card"
+        elseif self.ability.name == 'Warehouse' then
+            if self.set_cost and self.ability.extra_value ~= self.ability.extra.dollars - math.floor(self.base_cost / 2) then 
+                self.ability.extra_value = self.ability.extra.dollars - math.floor(self.base_cost / 2)
+                self:set_cost()
+            end
+        end
+        if self.archibald_dupe then
+            self.sell_cost = 0
         end
     end
     card_updateref(self, dt)
 end
 
-local game_start_runref = Game.start_run;
+local game_start_runref = Game.start_run
 function Game:start_run(args)
-    game_start_runref(self, args);
+    game_start_runref(self, args)
     local saveTable = args.savetext or nil
     if not saveTable then
         if args.challenge then
@@ -964,6 +1296,55 @@ function Game:start_run(args)
             end
         end
     end
+end
+
+local calculate_dollar_bonusref = Card.calculate_dollar_bonus
+function Card.calculate_dollar_bonus(self)
+    if self.debuff then return end
+    if self.ability.set == "Joker" then
+        if self.ability.name == "Tip Jar" then
+            local highest = 0
+            for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
+                highest = math.max(highest, tonumber(digit))
+            end
+            if highest > 0 then
+                return highest
+            end
+        elseif self.ability.name == "Shareholder Joker" then
+            rand_dollar = pseudorandom(pseudoseed('shareholder'), self.ability.extra.min, self.ability.extra.max)
+            if rand_dollar > 0 then
+                return rand_dollar
+            end
+        elseif self.ability.name == "furnace" then
+            if self.ability.extra.dollars > 0 then
+                return self.ability.extra.dollars
+            end
+        end
+    end
+    return calculate_dollar_bonusref(self)
+end
+
+local add_to_deckref = Card.add_to_deck
+function Card.add_to_deck(self, from_debuff)
+    if not self.added_to_deck then
+        if self.ability.name == 'Warehouse' then
+            self.ability.extra.c_size = G.consumeables.config.card_limit
+            G.hand:change_size(self.ability.extra.h_size)
+            G.consumeables:change_size(-self.ability.extra.c_size)
+        end
+    end
+    add_to_deckref(self, from_debuff)
+end
+
+local remove_from_deckref = Card.remove_from_deck
+function Card.remove_from_deck(self, from_debuff)
+    if self.added_to_deck then
+        if self.ability.name == 'Warehouse' then
+            G.hand:change_size(-self.ability.extra.h_size)
+            G.consumeables:change_size(self.ability.extra.c_size)
+        end
+    end
+    remove_from_deckref(self, from_debuff)
 end
 
 --- sendDebugMessage(inspect(context))
