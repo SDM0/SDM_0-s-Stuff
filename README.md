@@ -34,6 +34,12 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Ouija Board](./SDM_0's%20Stuff/assets/2x/j_sdm_ouija_board.png)<br><b>Ouija Board</b> | 7 | Uncommon | 1 in 50 chance to create a "Soul" card,<br>otherwise 1 in 5 chance to create a "Judgement" card<br>(Must have room) |
   | ![La Révolution](./SDM_0's%20Stuff/assets/2x/j_sdm_la_revolution.png)<br><b>La Révolution</b> | 7 | Rare | Upgrade winning poker hand by 1 if it contains no face cards |
   | ![Clown Bank](./SDM_0's%20Stuff/assets/2x/j_sdm_clown_bank.png)<br><b>Clown Bank</b> | 8 | Rare | When Blind is selected, if this is at the leftmost position,<br>gains x0.2 for $3, increases price by $3 |
+  | ![Furnace](./SDM_0's%20Stuff/assets/2x/j_sdm_furnace.png)<br><b>Furnace</b> | 8 | Uncommon | If first played card is a Steel / Gold card,<br>this joker gains x1.5 Mult / $2 |
+  | ![Warehouse](./SDM_0's%20Stuff/assets/2x/j_sdm_warehouse.png)<br><b>Warehouse</b> | 6 | Uncommon | +3 hand size, no consumable slots, lose $50 if sold |
+  | ![Zombie Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_zombie_joker.png)<br><b>Zombie Joker</b> | 4 | Common | 1 in 5 chance to create a Death card when selling a card other than Death |
+  | ![Mystery Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_mystery_joker.png)<br><b>Mystery Joker</b> | 6 | Uncommon | When scoring a secret poker hand, 1 in 4 chance to create a Rare Joker tag,<br>create an Uncommon Joker tag otherwise |
+  | ![Infinite Staircase](./SDM_0's%20Stuff/assets/2x/j_sdm_infinite_staircase.png)<br><b>Infinite Staircase</b> | 5 | Common | This joker gains +4 Mult when scoring a numerical Straight,<br>increase rank of scored cards |
+  | ![Ninja Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_ninja_joker.png)<br><b>Ninja Joker</b> | 6 | Uncommon | Every 5 cards destroyed/removed, create a Negative tag |
   | ![Archibald](./SDM_0's%20Stuff/assets/2x/j_sdm_archibald_compact.png)<br><b>Archibald</b> | 20 | Legendary | On Joker purchased, creates a Negative copy<br>(Occurs 4 times, Negative copy sells for $0) |
 </details>
 
