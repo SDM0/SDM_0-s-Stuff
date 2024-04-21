@@ -1315,7 +1315,7 @@ function Card.calculate_dollar_bonus(self)
             if rand_dollar > 0 then
                 return rand_dollar
             end
-        elseif self.ability.name == "furnace" then
+        elseif self.ability.name == "Furnace" then
             if self.ability.extra.dollars > 0 then
                 return self.ability.extra.dollars
             end
