@@ -359,14 +359,10 @@ function SMODS.INIT.j_sdm_0s_stuff()
                     }
                 else
                     card.ability.extra.chips = 0
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset'), colour = G.C.RED})
                     card.ability.extra.hand = context.scoring_name
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = context.scoring_name})
-                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                     return {
-                        message = localize('k_upgrade_ex'),
-                        colour = G.C.CHIPS,
-                        card = card
+                        message = localize('k_reset'),
+                        colour = G.C.RED,
                     }
                 end
             elseif SMODS.end_calculate_context(context) and card.ability.extra.chips > 0 then
@@ -383,13 +379,13 @@ function SMODS.INIT.j_sdm_0s_stuff()
     if config.j_sdm_lucky_joker then
         local j_sdm_lucky_joker = SMODS.Joker:new(
             "Lucky Joker", "sdm_lucky_joker",
-            {extra = {chips = 7, mult = 7}},  {x=0, y=0},
+            {extra = {chips = 7, mult = 7, repitition = 1}},  {x=0, y=0},
             {
                 name = "Lucky Joker",
                 text = {
-                    "Each played {C:attention}7{} gives {C:chips}+#1#{} Chips",
-                    "and {C:mult}+#2#{} Mult when scored,",
-                    "{C:attention}doubles{} it if {C:attention}Lucky{} card"
+                    "Retrigger each played {C:attention}Lucky{} card {C:attention}7{},",
+                    "each played {C:attention}7{} gives {C:chips}+#1#{} Chips",
+                    "and {C:mult}+#2#{} Mult when scored",
                 },
             }, 1, 4, true, true, true, true
         )
@@ -402,18 +398,18 @@ function SMODS.INIT.j_sdm_0s_stuff()
 
         SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(card, context)
             if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
-                if context.other_card.ability.effect == "Lucky Card" then
-                    return {
-                        chips = card.ability.extra.chips * 2,
-                        mult = card.ability.extra.mult * 2,
-                        card = card
-                    }
-                else return {
+                return {
                     chips = card.ability.extra.chips,
                     mult = card.ability.extra.mult,
                     card = card
                 }
-                end
+            end
+            if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra.repetition,
+                    card = card
+                }
             end
         end
     end
@@ -497,7 +493,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
 
         local j_sdm_moon_base = SMODS.Joker:new(
             "Moon Base", "sdm_moon_base",
-            {extra = 40},  {x=0, y=0},
+            {extra = 50},  {x=0, y=0},
             {
                 name = "Moon Base",
                 text = {
@@ -772,13 +768,12 @@ function SMODS.INIT.j_sdm_0s_stuff()
 
         local j_sdm_clown_bank = SMODS.Joker:new(
             "Clown Bank", "sdm_clown_bank",
-            {extra = {Xmult=1, Xmult_mod=0.2, dollars = 3, inflation = 3}},  {x=0, y=0},
+            {extra = {Xmult=1, Xmult_mod=0.25, dollars = 3, inflation = 3}},  {x=0, y=0},
             {
                 name = "Clown Bank",
                 text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "if at {C:attention}leftmost{} position,",
-                    "This Joker gains {X:mult,C:white}X#2#{} Mult for {C:money}$#3#{},",
+                    "When {C:attention}Blind{} is selected, this Joker gains",
+                    "{X:mult,C:white}X#2#{} Mult for {C:money}$#3#{} if possible,",
                     "increases cost by {C:money}$#4#{}",
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
@@ -793,20 +788,18 @@ function SMODS.INIT.j_sdm_0s_stuff()
 
         SMODS.Jokers.j_sdm_clown_bank.calculate  = function(card, context)
             if context.setting_blind and not context.blueprint then
-                if G.jokers.cards[1] and G.jokers.cards[1].ability.name == "Clown Bank" then
-                    if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = localize('$') .. "-" .. card.ability.extra.dollars,
-                            colour = G.C.MONEY
-                        })
-                        ease_dollars(-card.ability.extra.dollars)
-                        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
-                        card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.inflation
-                        G.E_MANAGER:add_event(Event({
-                            func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}}}); return true
-                            end}))
-                        return
-                    end
+                if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('$') .. "-" .. card.ability.extra.dollars,
+                        colour = G.C.MONEY
+                    })
+                    ease_dollars(-card.ability.extra.dollars)
+                    card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
+                    card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.inflation
+                    G.E_MANAGER:add_event(Event({
+                        func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}}}); return true
+                        end}))
+                    return
                 end
             elseif SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
                 return {
@@ -828,7 +821,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
                 name = "Furnace",
                 text = {
                     "If {C:attention}first played hand{} is a",
-                    "single {C:attention}Steel Card{} or {C:attention}Gold Card{},",
+                    "single {C:attention}Steel{} card or {C:attention}Gold{} card,",
                     "destroy it and gain {X:mult,C:white}X#3#{} or {C:money}$#4#{},",
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive})"
                 }
@@ -905,7 +898,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
         
         local j_sdm_zombie_joker = SMODS.Joker:new(
             "Zombie Joker", "sdm_zombie_joker",
-            {extra = 5},  {x=0, y=0},
+            {extra = 4},  {x=0, y=0},
             {
                 name = "Zombie Joker",
                 text = {
@@ -952,7 +945,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
         
         local j_sdm_mystery_joker = SMODS.Joker:new(
             "Mystery Joker", "sdm_mystery_joker",
-            {extra = 4},  {x=0, y=0},
+            {extra = 3},  {x=0, y=0},
             {
                 name = "Mystery Joker",
                 text = {
