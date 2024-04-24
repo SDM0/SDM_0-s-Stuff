@@ -50,23 +50,28 @@ local space_jokers = {
 --- Functions ---
 
 --- Registering modded Jokers ---
-function register_joker(id)
+function register_elem(id)
     new_id_slug = id.slug
+
     if placeholder_art and id.slug ~= "j_sdm_archibald" then
         new_id_slug = new_id_slug .. "_ph"
     end
 
-    local sprite = SMODS.Sprite:new(
-        id.slug,
-        SMODS.findModByID("sdm_0s_stuff").path,
-        new_id_slug .. ".png",
-        71,
-        95,
-        "asset_atli"
-    )
+    if new_id_slug:sub(1, 1) == "j" then
+        local sprite = SMODS.Sprite:new(
+            id.slug,
+            SMODS.findModByID("sdm_0s_stuff").path,
+            new_id_slug .. ".png",
+            71,
+            95,
+            "asset_atli"
+        )
 
-    id:register()
-    sprite:register()
+        id:register()
+        sprite:register()
+    else
+        id:register()
+    end
 end
 
 --- Get the amount of time a consumable has been used, returns 0 if never used
@@ -94,6 +99,36 @@ function count_max_occurence(table)
     return max_card
 end
 
+-- Get n jokers from SDM_0's Stuff
+function get_random_sdm_modded_jokers(n, no_legend)
+    local modded_jokers = {}
+    local random_jokers = {}
+
+    for k,v in pairs(config) do
+        if v then
+            if no_legend and k ~= "j_sdm_archibald" then
+                table.insert(modded_jokers, k)
+            end
+        end
+    end
+
+    if modded_jokers and #modded_jokers >= n then
+        while n > 0 do
+            r_joker = modded_jokers[math.random(#modded_jokers)]
+            table.insert(random_jokers, r_joker)
+            for i = 1, #modded_jokers do
+                if modded_jokers[i] == r_joker then
+                    table.remove(modded_jokers, i)
+                end
+            end
+            n = n - 1
+        end
+        return random_jokers
+    else
+        return nil
+    end
+end
+
 --- Text ---
 
 G.localization.misc.dictionary.k_all = "+/X All"
@@ -101,9 +136,34 @@ G.localization.misc.dictionary.k_lucky = "Lucky"
 G.localization.misc.dictionary.k_plus_tag = "+1 Tag"
 G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 
-function SMODS.INIT.j_sdm_0s_stuff() 
+function SMODS.INIT.sdm_0s_stuff() 
 
     init_localization()
+
+    --- Deck ---
+
+    --- SDM_0's Deck ---
+
+    if get_random_sdm_modded_jokers(2, true) then
+
+        local b_sdm_sdm_0_s_deck_loc_def = {
+            name ="SDM_0's Deck",
+            text ={
+                "Start run with",
+                "{C:attention}2{} random {C:eternal}Eternal non-{C:legendary}legendary",
+                "{C:attention,E:1}SDM_0's Stuff{} jokers",
+        },
+        }
+
+        local b_sdm_sdm_0_s_deck = SMODS.Deck:new(
+            "SDM_0's Deck", "sdm_sdm_0_s_deck",
+            {b_sdm_sdm_0_s_deck = true},
+            {x = 5, y = 2},
+            b_sdm_sdm_0_s_deck_loc_def
+        )
+
+        register_elem(b_sdm_sdm_0_s_deck)
+    end
 
     --- Challenges ---
 
@@ -144,13 +204,14 @@ function SMODS.INIT.j_sdm_0s_stuff()
             },
             restrictions = {
                 banned_cards = {
+                    {id = 'j_burglar'},
+                    {id = 'j_drunkard'},
+                    {id = 'j_merry_andy'},
                     {id = 'v_crystal_ball'},
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
                     {id = 'v_wasteful'},
                     {id = 'v_recyclomancy'},
-                    {id = 'v_blank'},
-                    {id = 'v_antimatter'},
                 },
                 banned_tags = {},
                 banned_other = {}
@@ -216,6 +277,166 @@ function SMODS.INIT.j_sdm_0s_stuff()
         })
     end
 
+    --- A Plumber's Hassle ---
+
+    if config.j_sdm_infinite_staircase then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_aph"] = "A Plumber's Hassle"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "A Plumber's Hassle",
+            id = 'c_mod_sdm0_aph',
+            rules = {
+                custom = {
+                },
+                modifiers = {
+                    {id = 'joker_slots', value = 4},
+                    {id = 'hands', value = 3},
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_infinite_staircase', eternal = true},
+                {id = 'j_runner', eternal = true},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                    {id = 'v_grabber'},
+                    {id = 'v_nacho_tong'},
+                    {id = 'j_burglar'},
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
+    --- Jimbomancy ---
+
+    if config.j_sdm_ouija_board and config.j_sdm_zombie_joker then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_jbmc"] = "Jimbomancy"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Jimbomancy",
+            id = 'c_mod_sdm0_jbmc',
+            rules = {
+                custom = {
+                    {id = 'no_shop_jokers'},
+                },
+                modifiers = {
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_ouija_board', eternal = true},
+                {id = 'j_sdm_zombie_joker', eternal = true},
+                {id = 'j_oops', eternal = true, edition = 'negative'},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
+    --- Spare Change ---
+
+    if config.j_sdm_clown_bank and config.j_sdm_tip_jar then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_sc"] = "Spare Change"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Spare Change",
+            id = 'c_mod_sdm0_sc',
+            rules = {
+                custom = {
+                    {id = 'no_extra_hand_money'},
+                    {id = 'no_interest'}
+                },
+                modifiers = {
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_clown_bank', eternal = true},
+                {id = 'j_sdm_tip_jar', eternal = true},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                    {id = 'v_seed_money'},
+                    {id = 'v_money_tree'},
+                    {id = 'j_to_the_moon'},
+                    {id = 'j_rocket'},
+                    {id = 'j_golden'},
+                    {id = 'j_satellite'},
+                    {id = 'j_sdm_shareholder_joker'},
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
+    --- Archifoolery ---
+
+    if config.j_sdm_archibald then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_af"] = "Archifoolery"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Archifoolery",
+            id = 'c_mod_sdm0_af',
+            rules = {
+                custom = {
+                },
+                modifiers = {
+                    {id = 'joker_slots', value = 1},
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_archibald', edition = "negative"},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
     --- Joker Abilities ---
 
     --- Trance The Devil ---
@@ -235,7 +456,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 6, true, true, true, true
         )
 
-        register_joker(j_sdm_trance_the_devil)
+        register_elem(j_sdm_trance_the_devil)
 
 
         SMODS.Jokers.j_sdm_trance_the_devil.loc_def = function(card)
@@ -277,7 +498,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 3, 8, true, true, true, false
         )
 
-        register_joker(j_sdm_burger)
+        register_elem(j_sdm_burger)
 
         SMODS.Jokers.j_sdm_burger.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}
@@ -342,7 +563,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }}, 1, 5, true, true, true, true
         )
 
-        register_joker(j_sdm_bounciest_ball)
+        register_elem(j_sdm_bounciest_ball)
 
         SMODS.Jokers.j_sdm_bounciest_ball.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}
@@ -390,7 +611,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 1, 4, true, true, true, true
         )
 
-        register_joker(j_sdm_lucky_joker)
+        register_elem(j_sdm_lucky_joker)
 
         SMODS.Jokers.j_sdm_lucky_joker.loc_def = function(card)
             return {card.ability.extra.chips, card.ability.extra.mult}
@@ -428,10 +649,10 @@ function SMODS.INIT.j_sdm_0s_stuff()
                     "in your {C:attention}full deck",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive})"
                 }
-            }, 2, 7, true, true, true, true
+            }, 1, 6, true, true, true, true
         )
 
-        register_joker(j_sdm_iconic_icon)
+        register_elem(j_sdm_iconic_icon)
 
         SMODS.Jokers.j_sdm_iconic_icon.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
@@ -464,7 +685,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 1, 5, true, true, true, true
         )
 
-        register_joker(j_sdm_mult_n_chips)
+        register_elem(j_sdm_mult_n_chips)
 
         SMODS.Jokers.j_sdm_mult_n_chips.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.chips}
@@ -503,7 +724,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(j_sdm_moon_base)
+        register_elem(j_sdm_moon_base)
 
         SMODS.Jokers.j_sdm_moon_base.loc_def = function(card)
             return {card.ability.extra}
@@ -538,12 +759,12 @@ function SMODS.INIT.j_sdm_0s_stuff()
                 name = "Shareholder Joker",
                 text = {
                     "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
-                    "at the end of round",
+                    "at end of round",
                 }
             }, 1, 5, true, true, false, true
         )
 
-        register_joker(j_sdm_shareholder_joker)
+        register_elem(j_sdm_shareholder_joker)
 
         SMODS.Jokers.j_sdm_shareholder_joker.loc_def = function(card)
             return {card.ability.extra.min, card.ability.extra.max}
@@ -567,7 +788,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 6, true, true, true, true
         )
 
-        register_joker(j_sdm_magic_hands)
+        register_elem(j_sdm_magic_hands)
 
         SMODS.Jokers.j_sdm_magic_hands.loc_def = function(card)
             return {card.ability.extra}
@@ -601,12 +822,12 @@ function SMODS.INIT.j_sdm_0s_stuff()
                 name = "Tip Jar",
                 text = {
                     "Earn your money's {C:attention}highest digit",
-                    "at the end of round",
+                    "at end of round",
                 }
             }, 2, 6, true, true, false, true
         )
 
-        register_joker(j_sdm_tip_jar)
+        register_elem(j_sdm_tip_jar)
 
         SMODS.Jokers.j_sdm_tip_jar.loc_def = function(card)
             return {}
@@ -630,7 +851,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 1, 6, true, true, true, true
         )
 
-        register_joker(j_sdm_wandering_star)
+        register_elem(j_sdm_wandering_star)
 
         SMODS.Jokers.j_sdm_wandering_star.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
@@ -671,7 +892,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 7, true, true, true, true
         )
 
-        register_joker(j_sdm_ouija_board)
+        register_elem(j_sdm_ouija_board)
 
         SMODS.Jokers.j_sdm_ouija_board.loc_def = function(card)
             return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra, card.ability.extra / 10}
@@ -734,7 +955,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 3, 7, true, true, true, true
         )
 
-        register_joker(j_sdm_la_revolution)
+        register_elem(j_sdm_la_revolution)
 
         SMODS.Jokers.j_sdm_la_revolution.loc_def = function(card)
             return {}
@@ -780,7 +1001,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 3, 8, true, true, true, true
         )
 
-        register_joker(j_sdm_clown_bank)
+        register_elem(j_sdm_clown_bank)
 
         SMODS.Jokers.j_sdm_clown_bank.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}
@@ -828,7 +1049,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 8, true, true, true, true
         )
 
-        register_joker(j_sdm_furnace)
+        register_elem(j_sdm_furnace)
 
         SMODS.Jokers.j_sdm_furnace.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}
@@ -878,7 +1099,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 6, true, true, false, true
         )
 
-        register_joker(j_sdm_warehouse)
+        register_elem(j_sdm_warehouse)
 
         SMODS.Jokers.j_sdm_warehouse.loc_def = function(card)
             return {card.ability.extra.h_size, -card.ability.extra.dollars}
@@ -910,7 +1131,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 1, 4, true, true, true, true
         )
 
-        register_joker(j_sdm_zombie_joker)
+        register_elem(j_sdm_zombie_joker)
 
         SMODS.Jokers.j_sdm_zombie_joker.loc_def = function(card)
             return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
@@ -956,7 +1177,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 6, true, true, false, true
         )
 
-        register_joker(j_sdm_mystery_joker)
+        register_elem(j_sdm_mystery_joker)
 
         SMODS.Jokers.j_sdm_mystery_joker.loc_def = function(card)
             return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
@@ -1006,7 +1227,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 1, 5, true, true, true, true
         )
 
-        register_joker(j_sdm_infinite_staircase)
+        register_elem(j_sdm_infinite_staircase)
 
         SMODS.Jokers.j_sdm_infinite_staircase.loc_def = function(card)
             return {card.ability.extra.mult, card.ability.extra.mult_mod}
@@ -1092,7 +1313,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 2, 6, true, true, false, true
         )
 
-        register_joker(j_sdm_ninja_joker)
+        register_elem(j_sdm_ninja_joker)
 
         SMODS.Jokers.j_sdm_ninja_joker.loc_def = function(card)
             return {card.ability.extra.remaining, card.ability.extra.every}
@@ -1180,7 +1401,7 @@ function SMODS.INIT.j_sdm_0s_stuff()
             }, 4, 20, true, true, true, false, nil, nil, {x = 0, y = 1}
         )
 
-        register_joker(j_sdm_archibald)
+        register_elem(j_sdm_archibald)
 
         SMODS.Jokers.j_sdm_archibald.loc_def = function(card)
             return {card.ability.extra.remaining}
@@ -1340,6 +1561,22 @@ function Card.remove_from_deck(self, from_debuff)
     remove_from_deckref(self, from_debuff)
 end
 
+local backapply_to_runref = Back.apply_to_run
+function Back.apply_to_run(arg_56_0)
+    backapply_to_runref(arg_56_0)
+
+    if arg_56_0.effect.config.b_sdm_sdm_0_s_deck then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                rand_jokers = get_random_sdm_modded_jokers(2, true)
+                for i = 1, #rand_jokers do
+                    add_joker(rand_jokers[i], nil, true, true)
+                end
+                return true
+            end
+        }))
+    end
+end
 --- sendDebugMessage(inspect(context))
 
 ----------------------------------------------
