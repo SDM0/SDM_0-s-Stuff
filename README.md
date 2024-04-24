@@ -1,10 +1,8 @@
 # SDM_0's Stuff
 
-A Balatro mod that adds (as of now) 15 Jokers and 2 Challenges to the game, made by SDM_0 (duh)
+A Balatro mod that adds (as of now) 21 Jokers, 6 Challenges and 1 Deck to the game, made by SDM_0 (duh)
 
 Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
-
-(This mod might not work with other mods, combine them at your own risk)
 
 ## Installation
 - Requires [Steamodded](https://github.com/Steamopollys/Steamodded/) v0.9.8 (An installation guide is available there)
