@@ -598,6 +598,7 @@ function SMODS.INIT.sdm_0s_stuff()
     --- Lucky Joker ---
 
     if config.j_sdm_lucky_joker then
+
         local j_sdm_lucky_joker = SMODS.Joker:new(
             "Lucky Joker", "sdm_lucky_joker",
             {extra = {chips = 7, mult = 7, repitition = 1}},  {x=0, y=0},
@@ -618,17 +619,18 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(card, context)
+            if context.repetition and not context.individual and context.cardarea == G.play
+            and context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
+                return {
+                    message = localize('k_again_ex'),
+                    repetitions = card.ability.extra.repitition,
+                    card = card
+                }
+            end
             if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
                 return {
                     chips = card.ability.extra.chips,
                     mult = card.ability.extra.mult,
-                    card = card
-                }
-            end
-            if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
-                return {
-                    message = localize('k_again_ex'),
-                    repetitions = card.ability.extra.repetition,
                     card = card
                 }
             end
@@ -645,7 +647,7 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Iconic Icon",
                 text = {
-                    "{C:mult}+#2#{} Mult per{C:attention} Aces",
+                    "{C:mult}+#2#{} Mult per{C:attention} modified Aces",
                     "in your {C:attention}full deck",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive})"
                 }
@@ -682,7 +684,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Scored {C:attention}Bonus{} cards gives {C:mult}+#1#{} Mult,",
                     "scored {C:attention}Mult{} cards gives {C:chips}+#2#{} Chips",
                 }
-            }, 1, 5, true, true, true, true
+            }, 1, 4, true, true, true, true
         )
 
         register_elem(j_sdm_mult_n_chips)
@@ -1119,7 +1121,7 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_zombie_joker = SMODS.Joker:new(
             "Zombie Joker", "sdm_zombie_joker",
-            {extra = 4},  {x=0, y=0},
+            {extra = 3},  {x=0, y=0},
             {
                 name = "Zombie Joker",
                 text = {
@@ -1174,7 +1176,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "{C:green}#1# in #2#{} chance to create a {C:red}Rare {C:attention}Joker{} tag,",
                     "otherwise create an {C:green}Uncommon {C:attention}Joker{} tag"
                 }
-            }, 2, 6, true, true, false, true
+            }, 1, 5, true, true, false, true
         )
 
         register_elem(j_sdm_mystery_joker)
@@ -1191,7 +1193,8 @@ function SMODS.INIT.sdm_0s_stuff()
                         G.E_MANAGER:add_event(Event({
                             func = (function()
                                 add_tag(Tag('tag_rare'))
-                                play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                                 return true
                             end)
                         }))
@@ -1199,7 +1202,8 @@ function SMODS.INIT.sdm_0s_stuff()
                         G.E_MANAGER:add_event(Event({
                             func = (function()
                                 add_tag(Tag('tag_uncommon'))
-                                play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                                 return true
                             end)
                         }))
@@ -1310,7 +1314,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "create a {C:dark_edition}Negative{} tag",
                     "{C:inactive}(Remaining {C:attention}#1#{C:inactive})"
                 }
-            }, 2, 6, true, true, false, true
+            }, 1, 5, true, true, false, true
         )
 
         register_elem(j_sdm_ninja_joker)
@@ -1342,7 +1346,8 @@ function SMODS.INIT.sdm_0s_stuff()
                                 func = (function()
                                     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
                                     add_tag(Tag('tag_negative'))
-                                    play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                                     return true
                                 end)
                             }))
@@ -1369,7 +1374,8 @@ function SMODS.INIT.sdm_0s_stuff()
                                 func = (function()
                                     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
                                     add_tag(Tag('tag_negative'))
-                                    play_sound('generic1', 0.6 + math.random()*0.1, 0.8)
+                                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                                     return true
                                 end)
                             }))
@@ -1473,7 +1479,7 @@ function Card.update(self, dt)
         if self.ability.name == 'Iconic Icon' then
             self.ability.extra.mult = 0
             for _, v in pairs(G.playing_cards) do
-                if v:get_id() == 14 then
+                if v:get_id() == 14 and (v.edition or v.seal or v.ability.effect ~= "Base") then
                     self.ability.extra.mult =  self.ability.extra.mult + self.ability.extra.mult_mod
                 end
             end
