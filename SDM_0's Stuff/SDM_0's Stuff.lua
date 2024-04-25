@@ -649,7 +649,8 @@ function SMODS.INIT.sdm_0s_stuff()
                 text = {
                     "{C:mult}+#2#{} Mult per{C:attention} modified Aces",
                     "in your {C:attention}full deck",
-                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive})"
+                    "{C:inactive}(enhancement, seal, edition)",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             }, 1, 6, true, true, true, true
         )
