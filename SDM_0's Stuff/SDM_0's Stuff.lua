@@ -1353,7 +1353,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Ninja Joker",
                 text = {
                     "Creates a {C:dark_edition}Negative{C:attention} Tag",
-                    "if a card is {C:attention}destroyed{}, resets ",
+                    "if a card is {C:attention}destroyed{}, reactivates",
                     "when a {C:attention}playing card{} is added",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
