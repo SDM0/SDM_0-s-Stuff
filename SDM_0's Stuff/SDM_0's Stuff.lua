@@ -37,14 +37,24 @@ local config = {
 local placeholder_art = false --- Set it to true if you want to play with placeholder art of this mod's jokers
 
 local space_jokers = {
+    -- Vanilla --
     ["Supernova"] = "j_supernova",
     ["Space Joker"] = "j_space",
     ["Constellation"] = "j_constellation",
     ["Rocket"] = "j_rocket",
     ["Satellite"] = "j_satellite",
     ["Astronomer"] = "j_astronomer",
+
+    -- SDM_0's Stuff --
     ["Moon Base"] = "j_sdm_moon_base",
     ["Wandering Star"] = "j_sdm_wandering_star",
+
+    -- Other mods --
+    ["Afterburner"] = "j_fuel_tank", -- Ortolab
+    ["Blue Moon"] = "j_mmc_blue_moon", -- Mika's Mod
+    ["Sentai Joker"] = "j_sentai", -- Jank Jonklers
+    ["Ternary System"] = "j_ternary_system", -- Jank Jonklers
+    ["Big Bang"] = "j_big_bang", -- Fusion Joker
 }
 
 --- Functions ---
@@ -114,7 +124,9 @@ function get_random_sdm_modded_jokers(n, no_legend)
 
     if modded_jokers and #modded_jokers >= n then
         while n > 0 do
-            r_joker = modded_jokers[math.random(#modded_jokers)]
+            if G.GAME then
+                r_joker = modded_jokers[pseudorandom("deck_create", 1, #modded_jokers)]
+            end
             table.insert(random_jokers, r_joker)
             for i = 1, #modded_jokers do
                 if modded_jokers[i] == r_joker then
@@ -132,8 +144,6 @@ end
 --- Text ---
 
 G.localization.misc.dictionary.k_all = "+/X All"
-G.localization.misc.dictionary.k_lucky = "Lucky"
-G.localization.misc.dictionary.k_plus_tag = "+1 Tag"
 G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 
 function SMODS.INIT.sdm_0s_stuff() 
@@ -151,7 +161,7 @@ function SMODS.INIT.sdm_0s_stuff()
             text ={
                 "Start run with",
                 "{C:attention}2{} random {C:eternal}Eternal non-{C:legendary}legendary",
-                "{C:attention,E:1}SDM_0's Stuff{} jokers",
+                "{C:attention}SDM_0's Stuff{} jokers",
         },
         }
 
@@ -310,44 +320,6 @@ function SMODS.INIT.sdm_0s_stuff()
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
                     {id = 'j_burglar'},
-                },
-                banned_tags = {
-                },
-                banned_other = {}
-            }
-        })
-    end
-
-    --- Jimbomancy ---
-
-    if config.j_sdm_ouija_board and config.j_sdm_zombie_joker then
-
-        G.localization.misc.challenge_names["c_mod_sdm0_jbmc"] = "Jimbomancy"
-
-        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
-            name = "Jimbomancy",
-            id = 'c_mod_sdm0_jbmc',
-            rules = {
-                custom = {
-                    {id = 'no_shop_jokers'},
-                },
-                modifiers = {
-                },
-            },
-            jokers = {
-                {id = 'j_sdm_ouija_board', eternal = true},
-                {id = 'j_sdm_zombie_joker', eternal = true},
-                {id = 'j_oops', eternal = true, edition = 'negative'},
-            },
-            consumeables = {
-            },
-            vouchers = {
-            },
-            deck = {
-                type = 'Challenge Deck'
-            },
-            restrictions = {
-                banned_cards = {
                 },
                 banned_tags = {
                 },
@@ -648,8 +620,8 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Iconic Icon",
                 text = {
                     "{C:mult}+#2#{} Mult per{C:attention} modified Aces",
+                    "(enhancement, seal, edition)",
                     "in your {C:attention}full deck",
-                    "{C:inactive}(enhancement, seal, edition)",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             }, 1, 6, true, true, true, true
@@ -685,7 +657,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     "Scored {C:attention}Bonus{} cards gives {C:mult}+#1#{} Mult,",
                     "scored {C:attention}Mult{} cards gives {C:chips}+#2#{} Chips",
                 }
-            }, 1, 4, true, true, true, true
+            }, 1, 5, true, true, true, true
         )
 
         register_elem(j_sdm_mult_n_chips)
@@ -843,7 +815,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local j_sdm_wandering_star = SMODS.Joker:new(
             "Wandering Star", "sdm_wandering_star",
-            {extra = {mult = 0, mult_mod = 2}},  {x=0, y=0},
+            {extra = {mult = 0, mult_mod = 3}},  {x=0, y=0},
             {
                 name = "Wandering Star",
                 text = {
@@ -861,14 +833,15 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_wandering_star.calculate  = function(card, context)
-            if context.selling_card then
-                if context.card.ability.set == 'Planet' and not context.blueprint then
+            if context.selling_card and not context.blueprint then
+                if context.card.ability.set == 'Planet' then
                     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     G.E_MANAGER:add_event(Event({
                         func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}}); return true
-                        end}))
+                    end}))
                 end
-            elseif SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
+            end
+            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
                 return {
                     message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
                     mult_mod = card.ability.extra.mult
@@ -883,28 +856,124 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local j_sdm_ouija_board = SMODS.Joker:new(
             "Ouija Board", "sdm_ouija_board",
-            {extra = 50},  {x=0, y=0},
+            {extra = {remaining = 0, rounds = 3, sold_rare = false, scored_secret = false, used_spectral = false}},  {x=0, y=0},
             {
                 name = "Ouija Board",
                 text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "{C:green}#1# in #2#{} chance to create a {C:spectral}Soul{} card or",
-                    "{C:green}#1# in #3#{} chance to create a {C:tarot}Judgement{} card",
-                    "{C:inactive}(Must have room)"
+                    "After selling a {C:red}Rare {C:attention}Joker{}, scoring a",
+                    "{C:attention}secret poker hand{} and using a {C:spectral}Spectral card{},",
+                    "sell this card to create a {C:spectral}Soul{} card",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Remaining {C:attention}#1#{C:inactive}/#2#)"
                 }
-            }, 2, 7, true, true, true, true
+            }, 3, 8, true, true, false, false
         )
 
         register_elem(j_sdm_ouija_board)
 
         SMODS.Jokers.j_sdm_ouija_board.loc_def = function(card)
-            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra, card.ability.extra / 10}
+            return {card.ability.extra.remaining, card.ability.extra.rounds}
         end
 
         SMODS.Jokers.j_sdm_ouija_board.calculate  = function(card, context)
-            if context.setting_blind then
-                if pseudorandom(pseudoseed('ojb1')) < G.GAME.probabilities.normal/card.ability.extra then
-                    if not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if context.selling_card and not context.blueprint and context.card.ability.set == 'Joker' then
+                if context.card.config.center.rarity == 3 then
+                    if not card.ability.extra.sold_rare then
+                        card.ability.extra.sold_rare = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        if card.ability.extra.remaining == card.ability.extra.rounds then 
+                            local eval = function(card) return not card.REMOVED end
+                            juice_card_until(card, eval, true)
+                        end
+                        if card.ability.extra.remaining < card.ability.extra.rounds then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.remaining ..'/'.. card.ability.extra.rounds,
+                                colour = G.C.FILTER
+                            })
+                        else
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                        message = localize('k_active_ex'),
+                                        colour = G.C.FILTER
+                                    })
+                                    G.E_MANAGER:add_event(Event({
+                                        func = function() 
+                                            local eval = function(card) return not card.REMOVED end
+                                            juice_card_until(card, eval, true)
+                                            return true
+                                        end}))
+                                return true
+                            end)}))
+                        end
+                    end
+                end
+            end
+            if context.using_consumeable and not context.blueprint then
+                if context.consumeable.ability.set == "Spectral" then
+                    if not card.ability.extra.used_spectral then
+                        card.ability.extra.used_spectral = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        if card.ability.extra.remaining == card.ability.extra.rounds then 
+                            local eval = function(card) return not card.REMOVED end
+                            juice_card_until(card, eval, true)
+                        end
+                        if card.ability.extra.remaining < card.ability.extra.rounds then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.remaining ..'/'.. card.ability.extra.rounds,
+                                colour = G.C.FILTER
+                            })
+                        else
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                        message = localize('k_active_ex'),
+                                        colour = G.C.FILTER
+                                    })
+                                    G.E_MANAGER:add_event(Event({
+                                        func = function() 
+                                            local eval = function(card) return not card.REMOVED end
+                                            juice_card_until(card, eval, true)
+                                            return true
+                                        end}))
+                                return true
+                            end)}))
+                        end
+                    end
+                end
+            end
+            if SMODS.end_calculate_context(context) and not context.blueprint then
+                if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
+                    if not card.ability.extra.scored_secret then
+                        card.ability.extra.scored_secret = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        if card.ability.extra.remaining < card.ability.extra.rounds then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.remaining ..'/'.. card.ability.extra.rounds,
+                                colour = G.C.FILTER
+                            })
+                        else
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                        message = localize('k_active_ex'),
+                                        colour = G.C.FILTER
+                                    })
+                                    G.E_MANAGER:add_event(Event({
+                                        func = function() 
+                                            local eval = function(card) return not card.REMOVED end
+                                            juice_card_until(card, eval, true)
+                                            return true
+                                        end}))
+                                return true
+                            end)}))
+                        end
+                    end
+                end
+            end
+            if context.selling_self and not context.blueprint then
+                if card.ability.extra.sold_rare and card.ability.extra.used_spectral and card.ability.extra.scored_secret then
+                    if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             func = (function()
@@ -916,24 +985,7 @@ function SMODS.INIT.sdm_0s_stuff()
                                         G.GAME.consumeable_buffer = 0
                                         return true
                                     end}))   
-                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                       
-                            return true
-                        end)}))
-                    end
-                elseif pseudorandom(pseudoseed('ojb2')) < G.GAME.probabilities.normal/(card.ability.extra / 10) then
-                    if not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                        G.E_MANAGER:add_event(Event({
-                            func = (function()
-                                G.E_MANAGER:add_event(Event({
-                                    func = function() 
-                                        local new_card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_judgement', 'rtl')
-                                        new_card:add_to_deck()
-                                        G.consumeables:emplace(new_card)
-                                        G.GAME.consumeable_buffer = 0
-                                        return true
-                                    end}))   
-                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})                       
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
                             return true
                         end)}))
                     end
@@ -992,7 +1044,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local j_sdm_clown_bank = SMODS.Joker:new(
             "Clown Bank", "sdm_clown_bank",
-            {extra = {Xmult=1, Xmult_mod=0.25, dollars = 3, inflation = 3}},  {x=0, y=0},
+            {extra = {Xmult=1, Xmult_mod=0.25, dollars = 1, inflation = 1}},  {x=0, y=0},
             {
                 name = "Clown Bank",
                 text = {
@@ -1014,8 +1066,8 @@ function SMODS.INIT.sdm_0s_stuff()
             if context.setting_blind and not context.blueprint then
                 if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('$') .. "-" .. card.ability.extra.dollars,
-                        colour = G.C.MONEY
+                        message = "-"  .. localize('$') .. card.ability.extra.dollars,
+                        colour = G.C.RED
                     })
                     ease_dollars(-card.ability.extra.dollars)
                     card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
@@ -1144,7 +1196,7 @@ function SMODS.INIT.sdm_0s_stuff()
             if context.selling_card then
                 if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                     if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
-                    context.card.ability.set ~= 'Joker'and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+                    context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             trigger = 'before',
@@ -1169,46 +1221,35 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_mystery_joker = SMODS.Joker:new(
             "Mystery Joker", "sdm_mystery_joker",
-            {extra = 3},  {x=0, y=0},
+            {},  {x=0, y=0},
             {
                 name = "Mystery Joker",
                 text = {
-                    "When a {C:attention}secret poker hand{} is scored,",
-                    "{C:green}#1# in #2#{} chance to create a {C:red}Rare {C:attention}Joker{} tag,",
-                    "otherwise create an {C:green}Uncommon {C:attention}Joker{} tag"
+                    "Create a {C:red}Rare {C:attention}Joker Tag",
+                    "when {C:attention}Boss Blind{} is defeated",
                 }
-            }, 1, 5, true, true, false, true
+            }, 1, 6, true, true, true, true
         )
 
         register_elem(j_sdm_mystery_joker)
 
         SMODS.Jokers.j_sdm_mystery_joker.loc_def = function(card)
-            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
+            return {}
         end
 
         SMODS.Jokers.j_sdm_mystery_joker.calculate = function(card, context)
-            if SMODS.end_calculate_context(context) and not context.blueprint then
-                if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
+            if context.end_of_round and not (context.individual or context.repetition) then
+                if G.GAME.blind.boss then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
-                    if pseudorandom(pseudoseed('mstrjkr')) < G.GAME.probabilities.normal/card.ability.extra then
-                        G.E_MANAGER:add_event(Event({
-                            func = (function()
-                                add_tag(Tag('tag_rare'))
-                                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                                return true
-                            end)
-                        }))
-                    else
-                        G.E_MANAGER:add_event(Event({
-                            func = (function()
-                                add_tag(Tag('tag_uncommon'))
-                                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                                return true
-                            end)
-                        }))
-                    end
+                    G.E_MANAGER:add_event(Event({
+                        func = (function()
+                            add_tag(Tag('tag_rare'))
+                            card:juice_up(0.3, 0.4)
+                            play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                            play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                            return true
+                        end)
+                    }))
                 end
             end
         end
@@ -1307,85 +1348,70 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_ninja_joker = SMODS.Joker:new(
             "Ninja Joker", "sdm_ninja_joker",
-            {extra = {remaining = 5, every = 5}},  {x=0, y=0},
+            {extra = {can_dupe = true, active = "Active", inactive = ""}},  {x=0, y=0},
             {
                 name = "Ninja Joker",
                 text = {
-                    "Every {C:attention}#2#{} destroyed cards,",
-                    "create a {C:dark_edition}Negative{} tag",
-                    "{C:inactive}(Remaining {C:attention}#1#{C:inactive})"
+                    "Creates a {C:dark_edition}Negative{C:attention} Tag",
+                    "if a card is {C:attention}destroyed{}, resets ",
+                    "when a {C:attention}playing card{} is added",
+                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
-            }, 1, 5, true, true, false, true
+            }, 2, 6, true, true, true, true
         )
 
         register_elem(j_sdm_ninja_joker)
 
         SMODS.Jokers.j_sdm_ninja_joker.loc_def = function(card)
-            return {card.ability.extra.remaining, card.ability.extra.every}
+            return {card.ability.extra.active, card.ability.extra.inactive}
         end
 
         SMODS.Jokers.j_sdm_ninja_joker.calculate = function(card, context)
-            if context.cards_destroyed and not context.blueprint then
-                local destroyed_cards = #context.glass_shattered
-                    if destroyed_cards > 0 then
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                card.ability.extra.remaining = card.ability.extra.remaining - destroyed_cards
-                              return true
-                            end
-                          }))
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = card.ability.extra.remaining..'',})
-                        if card.ability.extra.remaining <= 0 then
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset')})
-                            card.ability.extra.remaining = card.ability.extra.every + card.ability.extra.remaining
-                            if card.ability.extra.remaining ~= card.ability.extra.every then
-                                card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining)..''})
-                            end
-                            G.E_MANAGER:add_event(Event({
-                                func = (function()
-                                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
-                                    add_tag(Tag('tag_negative'))
-                                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                                    return true
-                                end)
-                            }))
-                        end
-                        return true
-                    end
-                  }))
-                    end
-                    return
-            elseif context.remove_playing_cards and not context.blueprint then
-                local removed_cards = #context.removed
-                if removed_cards > 0 then
-                    card.ability.extra.remaining = card.ability.extra.remaining - removed_cards
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining, 0)..''})
-                        if card.ability.extra.remaining <= 0 then
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_reset')})
-                            card.ability.extra.remaining = card.ability.extra.every + card.ability.extra.remaining
-                            if card.ability.extra.remaining ~= card.ability.extra.every then
-                                card_eval_status_text(card, 'extra', nil, nil, nil, {message = math.max(card.ability.extra.remaining)..''})
-                            end
-                            G.E_MANAGER:add_event(Event({
-                                func = (function()
-                                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
-                                    add_tag(Tag('tag_negative'))
-                                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                                    return true
-                                end)
-                            }))
-                        end
-                        return true
-                    end
-                }))
+            if context.playing_card_added  and not card.getting_sliced and not context.blueprint then
+                if not card.ability.extra.can_dupe then
+                    card.ability.extra.active = "Active"
+                    card.ability.extra.inactive = ""
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_active_ex'),
+                        colour = G.C.FILTER,
+                    })
+                    card.ability.extra.can_dupe = true
                 end
-                return
+            end
+            if context.cards_destroyed and card.ability.extra.can_dupe then
+                if #context.glass_shattered > 0 then
+                    if not context.blueprint then
+                        card.ability.extra.active = ""
+                        card.ability.extra.inactive = "Inactive"
+                        card.ability.extra.can_dupe = false
+                    end
+                    G.E_MANAGER:add_event(Event({
+                        func = (function()
+                            add_tag(Tag('tag_negative'))
+                            card:juice_up(0.3, 0.4)
+                            play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                            play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                            return true
+                        end)
+                    }))
+                end
+            elseif context.remove_playing_cards and card.ability.extra.can_dupe then
+                if #context.removed > 0 then
+                    if not context.blueprint then
+                        card.ability.extra.active = ""
+                        card.ability.extra.inactive = "Inactive"
+                        card.ability.extra.can_dupe = false
+                    end
+                    G.E_MANAGER:add_event(Event({
+                        func = (function()
+                            add_tag(Tag('tag_negative'))
+                            card:juice_up(0.3, 0.4)
+                            play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                            play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                            return true
+                        end)
+                    }))
+                end
             end
         end
     end
