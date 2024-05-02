@@ -1240,7 +1240,6 @@ function SMODS.INIT.sdm_0s_stuff()
         SMODS.Jokers.j_sdm_mystery_joker.calculate = function(card, context)
             if context.end_of_round and not (context.individual or context.repetition) then
                 if G.GAME.blind.boss then
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize("k_plus_tag")})
                     G.E_MANAGER:add_event(Event({
                         func = (function()
                             add_tag(Tag('tag_rare'))
