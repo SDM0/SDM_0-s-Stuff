@@ -1328,8 +1328,8 @@ function SMODS.INIT.sdm_0s_stuff()
                             local percent = 0.85 + (i-0.999)/(#context.scoring_hand-0.998)*0.3
                             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.scoring_hand[i]:flip();play_sound('tarot2', percent, 0.6);context.scoring_hand[i]:juice_up(0.3, 0.3);return true end }))
                         end
+                        delay(1.0)
                     end
-                    delay(1.5)
                 end
             end
             if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
