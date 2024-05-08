@@ -711,7 +711,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Lucky Joker",
                 text = {
                     "Retrigger each played",
-                    "{C:attention}Lucky{} card {C:attention}7s{},",
+                    "{C:attention}Lucky{} card {C:attention}7{}",
                     "{C:attention}#1#{} additional times"
                 },
             }, 2, 7, true, true, true, true
@@ -1645,7 +1645,7 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_property_damage = SMODS.Joker:new(
             "Property Damage", "sdm_property_damage",
-            {extra = {mult = 0, mult_mod = 8}},  {x=0, y=0},
+            {},  {x=0, y=0},
             {
                 name = "Property Damage",
                 text = {
