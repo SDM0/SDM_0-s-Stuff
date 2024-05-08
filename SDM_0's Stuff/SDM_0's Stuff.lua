@@ -1295,7 +1295,7 @@ function SMODS.INIT.sdm_0s_stuff()
 
         SMODS.Jokers.j_sdm_warehouse.set_ability = function(card)
             if card.set_cost then 
-                card.ability.extra_value = card.ability.extra.dollars - math.floor(card.base_cost / 2)
+                card.ability.extra_value = card.ability.extra.dollars - math.floor(card.cost / 2)
                 card:set_cost()
             end
         end
@@ -1393,61 +1393,36 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_infinite_staircase = SMODS.Joker:new(
             "Infinite Staircase", "sdm_infinite_staircase",
-            {},  {x=0, y=0},
+            {extra = {Xmult = 2}},  {x=0, y=0},
             {
                 name = "Infinite Staircase",
                 text = {
-                    "If {C:attention}scored hand{} contains",
-                    "a numerical {C:attention}Straight{},",
-                    "increase rank of",
-                    "scored cards by {C:attention}1",
+                    "{X:red,C:white}X#1#{} Mult if scored hand",
+                    "contains a {C:attention}numerical Straight{}",
+                    "without an {C:attention}Ace{} card",
                 }
-            }, 1, 5, true, true, false, true
+            }, 2, 6, true, true, true, true
         )
 
         register_elem(j_sdm_infinite_staircase)
 
         SMODS.Jokers.j_sdm_infinite_staircase.loc_def = function(card)
-            return {}
+            return {card.ability.extra.Xmult}
         end
 
         SMODS.Jokers.j_sdm_infinite_staircase.calculate = function(card, context)
-            if context.cardarea == G.jokers and not context.blueprint and (context.poker_hands and (next(context.poker_hands['Straight']))) then
-                if context.after then
-                    no_faces = true
-                    for i = 1, #context.scoring_hand do
-                        if context.scoring_hand[i]:is_face() then
-                            no_faces = false
-                        end
+            if SMODS.end_calculate_context(context) then
+                no_faces_and_ace = true
+                for i = 1, #context.scoring_hand do
+                    if context.scoring_hand[i]:is_face() or context.scoring_hand[i]:get_id() == 14 then
+                        no_faces_and_ace = false
                     end
-                    if no_faces then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_active_ex'),colour = G.C.FILTER})
-                        for i = 1, #context.scoring_hand do
-                            local percent = 1.15 - (i-0.999)/(#context.scoring_hand-0.998)*0.3
-                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.scoring_hand[i]:flip();play_sound('card1', percent);context.scoring_hand[i]:juice_up(0.3, 0.3);return true end }))
-                        end
-                        delay(0.2)
-                        for i = 1, #context.scoring_hand do
-                            local card = context.scoring_hand[i]
-                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.0,func = function()
-                                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
-                                local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
-                                if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
-                                elseif rank_suffix == 10 then rank_suffix = 'T'
-                                elseif rank_suffix == 11 then rank_suffix = 'J'
-                                elseif rank_suffix == 12 then rank_suffix = 'Q'
-                                elseif rank_suffix == 13 then rank_suffix = 'K'
-                                elseif rank_suffix == 14 then rank_suffix = 'A'
-                                end
-                                card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
-                            return true end }))
-                        end
-                        for i = 1, #context.scoring_hand do
-                            local percent = 0.85 + (i-0.999)/(#context.scoring_hand-0.998)*0.3
-                            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() context.scoring_hand[i]:flip();play_sound('tarot2', percent, 0.6);context.scoring_hand[i]:juice_up(0.3, 0.3);return true end }))
-                        end
-                        delay(1.0)
-                    end
+                end
+                if no_faces_and_ace then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                        Xmult_mod = card.ability.extra.Xmult
+                    }
                 end
             end
         end
@@ -1658,7 +1633,7 @@ function SMODS.INIT.sdm_0s_stuff()
         register_elem(j_sdm_property_damage)
 
         SMODS.Jokers.j_sdm_property_damage.loc_def = function(card)
-            return {card.ability.extra.mult_mod, card.ability.extra.mult}
+            return {}
         end
 
         SMODS.Jokers.j_sdm_property_damage.calculate = function(card, context)
