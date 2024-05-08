@@ -31,6 +31,16 @@ local config = {
     j_sdm_mystery_joker = true,
     j_sdm_infinite_staircase = true,
     j_sdm_ninja_joker = true,
+    j_sdm_reach_the_stars = true,
+    j_sdm_sword_of_damocles = true,
+    j_sdm_property_damage = true,
+    j_sdm_rock_n_roll = true,
+    j_sdm_contract = true,
+    j_sdm_cupidon = true,
+    j_sdm_pizza = true,
+    j_sdm_treasure_chest = true,
+    j_sdm_bullet_train = true,
+    j_sdm_chaos_theory = true,
     j_sdm_archibald = true,
 }
 
@@ -48,6 +58,7 @@ local space_jokers = {
     -- SDM_0's Stuff --
     ["Moon Base"] = "j_sdm_moon_base",
     ["Wandering Star"] = "j_sdm_wandering_star",
+    ["Reach The Stars"] = "j_sdm_reach_the_stars",
 
     -- Other mods --
     ["Afterburner"] = "j_fuel_tank", -- Ortolab
@@ -60,14 +71,14 @@ local space_jokers = {
 --- Functions ---
 
 --- Registering modded Jokers ---
-function register_elem(id)
+function register_elem(id, no_sprite)
     new_id_slug = id.slug
 
     if placeholder_art and id.slug ~= "j_sdm_archibald" then
         new_id_slug = new_id_slug .. "_ph"
     end
 
-    if new_id_slug:sub(1, 1) == "j" then
+    if new_id_slug:sub(1, 1) == "j" and not no_sprite then
         local sprite = SMODS.Sprite:new(
             id.slug,
             SMODS.findModByID("sdm_0s_stuff").path,
@@ -141,10 +152,54 @@ function get_random_sdm_modded_jokers(n, no_legend)
     end
 end
 
+--- Creates the most played hand planet card
+function create_most_played_planet(card, context)
+    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.0,
+            func = (function()
+                local _planet, _hand, _tally = nil, nil, 0
+                for k, v in ipairs(G.handlist) do
+                    if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+                        _hand = v
+                        _tally = G.GAME.hands[v].played
+                    end
+                end
+                if _hand then
+                    for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+                        if v.config.hand_type == _hand then
+                            _planet = v.key
+                        end
+                    end
+                end
+                _card = create_card("Planet", G.pack_cards, nil, nil, true, true, _planet, 'pl1')
+                _card:add_to_deck()
+                G.consumeables:emplace(_card)
+                G.GAME.consumeable_buffer = 0
+                return true
+            end)}))
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
+    end
+end
+
+--- Get the sum of (almost) all existing numbers
+function sum_incremental()
+    return (G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
+    + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
+    #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) or 0
+end
+
 --- Text ---
 
 G.localization.misc.dictionary.k_all = "+/X All"
+G.localization.misc.dictionary.k_stone = "Stone"
+G.localization.misc.dictionary.k_signed_ex = "Signed!"
+G.localization.misc.dictionary.k_breached_ex = "Breached!"
+G.localization.misc.dictionary.k_shared_ex = "Shared!"
 G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
+G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
 
 function SMODS.INIT.sdm_0s_stuff() 
 
@@ -217,6 +272,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     {id = 'j_burglar'},
                     {id = 'j_drunkard'},
                     {id = 'j_merry_andy'},
+                    {id = 'j_sdm_pizza'},
                     {id = 'v_crystal_ball'},
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
@@ -320,6 +376,7 @@ function SMODS.INIT.sdm_0s_stuff()
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
                     {id = 'j_burglar'},
+                    {id = 'j_sdm_pizza'},
                 },
                 banned_tags = {
                 },
@@ -365,6 +422,81 @@ function SMODS.INIT.sdm_0s_stuff()
                     {id = 'j_golden'},
                     {id = 'j_satellite'},
                     {id = 'j_sdm_shareholder_joker'},
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
+    --- Rock Smash ---
+
+    if config.j_sdm_property_damage and config.j_sdm_rock_n_roll then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_rs"] = "Rock Smash"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Rock Smash",
+            id = 'c_mod_sdm0_rs',
+            rules = {
+                custom = {
+                },
+                modifiers = {
+                    {id = 'joker_slots', value = 4},
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_property_damage', eternal = true},
+                {id = 'j_sdm_rock_n_roll', eternal = true},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
+                    {id = 'c_lovers'},
+                    {id = 'c_tower'},
+                    {id = 'j_marble'},
+                },
+                banned_tags = {
+                },
+                banned_other = {}
+            }
+        })
+    end
+
+    --- Dionysius' Burden ---
+
+    if config.j_sdm_sword_of_damocles then
+
+        G.localization.misc.challenge_names["c_mod_sdm0_db"] = "Dionysius' Burden"
+
+        table.insert(G.CHALLENGES,#G.CHALLENGES+1,{
+            name = "Dionysius' Burden",
+            id = 'c_mod_sdm0_db',
+            rules = {
+                custom = {
+                },
+                modifiers = {
+                },
+            },
+            jokers = {
+                {id = 'j_sdm_sword_of_damocles', eternal = true},
+            },
+            consumeables = {
+            },
+            vouchers = {
+            },
+            deck = {
+                type = 'Challenge Deck'
+            },
+            restrictions = {
+                banned_cards = {
                 },
                 banned_tags = {
                 },
@@ -464,7 +596,8 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Burger",
                 text = {
-                    "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult and {X:mult,C:white}X#1#{} Mult",
+                    "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult",
+                    "and {X:mult,C:white}X#1#{} Mult",
                     "for the next {C:attention}#4#{} rounds",
                 }
             }, 3, 8, true, true, true, false
@@ -573,38 +706,32 @@ function SMODS.INIT.sdm_0s_stuff()
 
         local j_sdm_lucky_joker = SMODS.Joker:new(
             "Lucky Joker", "sdm_lucky_joker",
-            {extra = {chips = 7, mult = 7, repitition = 1}},  {x=0, y=0},
+            {extra = {repitition = 2}},  {x=0, y=0},
             {
                 name = "Lucky Joker",
                 text = {
-                    "Retrigger each played {C:attention}Lucky{} card {C:attention}7{},",
-                    "each played {C:attention}7{} gives {C:chips}+#1#{} Chips",
-                    "and {C:mult}+#2#{} Mult when scored",
+                    "Retrigger each played",
+                    "{C:attention}Lucky{} card {C:attention}7s{},",
+                    "{C:attention}#1#{} additional times"
                 },
-            }, 1, 4, true, true, true, true
+            }, 2, 7, true, true, true, true
         )
 
         register_elem(j_sdm_lucky_joker)
 
         SMODS.Jokers.j_sdm_lucky_joker.loc_def = function(card)
-            return {card.ability.extra.chips, card.ability.extra.mult}
+            return {card.ability.extra.repitition}
         end
 
         SMODS.Jokers.j_sdm_lucky_joker.calculate  = function(card, context)
-            if context.repetition and not context.individual and context.cardarea == G.play
-            and context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
-                return {
-                    message = localize('k_again_ex'),
-                    repetitions = card.ability.extra.repitition,
-                    card = card
-                }
-            end
-            if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
-                return {
-                    chips = card.ability.extra.chips,
-                    mult = card.ability.extra.mult,
-                    card = card
-                }
+            if context.repetition and not context.individual and context.cardarea == G.play then
+                if context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
+                    return {
+                        message = localize('k_again_ex'),
+                        repetitions = card.ability.extra.repitition,
+                        card = card
+                    }
+                end
             end
         end
     end
@@ -654,8 +781,10 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Mult'N'Chips",
                 text = {
-                    "Scored {C:attention}Bonus{} cards gives {C:mult}+#1#{} Mult,",
-                    "scored {C:attention}Mult{} cards gives {C:chips}+#2#{} Chips",
+                    "Scored {C:attention}Bonus{} cards",
+                    "gives {C:mult}+#1#{} Mult,",
+                    "scored {C:attention}Mult{} cards",
+                    "gives {C:chips}+#2#{} Chips",
                 }
             }, 1, 5, true, true, true, true
         )
@@ -733,7 +862,8 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Shareholder Joker",
                 text = {
-                    "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
+                    "Earn between",
+                    "{C:money}$#1#{} and {C:money}$#2#{}",
                     "at end of round",
                 }
             }, 1, 5, true, true, false, true
@@ -770,7 +900,7 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_magic_hands.calculate  = function(card, context)
-            if SMODS.end_calculate_context(context) then
+            if SMODS.end_calculate_context(context) and context.scoring_hand then
                 cards_id = {}
                 for i = 1, #context.scoring_hand do
                     table.insert(cards_id, context.scoring_hand[i]:get_id())
@@ -796,7 +926,8 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Tip Jar",
                 text = {
-                    "Earn your money's {C:attention}highest digit",
+                    "Earn your money's",
+                    "{C:attention}highest digit",
                     "at end of round",
                 }
             }, 2, 6, true, true, false, true
@@ -819,8 +950,8 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Wandering Star",
                 text = {
-                    "{C:red}+#2#{} Mult per",
-                    "{C:planet}Planet{} card sold",
+                    "This Joker gains {C:red}+#2#{} Mult",
+                    "per {C:planet}Planet{} card sold",
                     "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
                 }
             }, 1, 6, true, true, true, true
@@ -860,10 +991,11 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Ouija Board",
                 text = {
-                    "After selling a {C:red}Rare {C:attention}Joker{}, scoring a",
-                    "{C:attention}secret poker hand{} and using a {C:spectral}Spectral card{},",
+                    "After selling a {C:red}Rare {C:attention}Joker{}",
+                    "scoring a {C:attention}secret poker hand{}",
+                    "and using a {C:spectral}Spectral{} card,",
                     "sell this card to create a {C:spectral}Soul{} card",
-                    "{C:inactive}(Must have room)",
+                    "{s:0.8,C:inactive}(Must have room)",
                     "{C:inactive}(Remaining {C:attention}#1#{C:inactive}/#2#)"
                 }
             }, 3, 8, true, true, false, false
@@ -1004,10 +1136,11 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "La Révolution",
                 text = {
-                    "Upgrade {C:attention}winning poker hand{} by 1",
-                    "if played hand contains no {C:attention}face{} cards",
+                    "Upgrade {C:attention}winning poker hand{}",
+                    "by {C:attention}1{} if played hand",
+                    "contains no {C:attention}face{} cards",
                 }
-            }, 3, 7, true, true, true, true
+            }, 3, 8, true, true, true, true
         )
 
         register_elem(j_sdm_la_revolution)
@@ -1048,8 +1181,8 @@ function SMODS.INIT.sdm_0s_stuff()
             {
                 name = "Clown Bank",
                 text = {
-                    "When {C:attention}Blind{} is selected, this Joker gains",
-                    "{X:mult,C:white}X#2#{} Mult for {C:money}$#3#{} if possible,",
+                    "When {C:attention}Blind{} is selected, this Joker",
+                    "gains {X:mult,C:white}X#2#{} Mult for {C:money}$#3#{} if possible,",
                     "increases cost by {C:money}$#4#{}",
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
@@ -1063,7 +1196,7 @@ function SMODS.INIT.sdm_0s_stuff()
         end
 
         SMODS.Jokers.j_sdm_clown_bank.calculate  = function(card, context)
-            if context.setting_blind and not context.blueprint then
+            if context.setting_blind and not card.getting_sliced and not context.blueprint then
                 if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = "-"  .. localize('$') .. card.ability.extra.dollars,
@@ -1148,7 +1281,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Warehouse",
                 text = {
                     "{C:attention}+#1#{} hand size,",
-                    "{C:red}No consumable slots{},",
+                    "{C:red}no consumable slots{},",
                     "lose {C:money}$#2#{} if sold"
                 }
             }, 2, 6, true, true, false, true
@@ -1174,7 +1307,7 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_zombie_joker = SMODS.Joker:new(
             "Zombie Joker", "sdm_zombie_joker",
-            {extra = 3},  {x=0, y=0},
+            {extra = 2},  {x=0, y=0},
             {
                 name = "Zombie Joker",
                 text = {
@@ -1260,42 +1393,27 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_infinite_staircase = SMODS.Joker:new(
             "Infinite Staircase", "sdm_infinite_staircase",
-            {extra = {mult = 0, mult_mod = 4}},  {x=0, y=0},
+            {},  {x=0, y=0},
             {
                 name = "Infinite Staircase",
                 text = {
-                    "This Joker gains {C:red}+#2#{} Mult if",
-                    "{C:attention}scored hand{} contains a numerical {C:attention}Straight{},",
-                    "increase rank of scored cards by {C:attention}1",
-                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
+                    "If {C:attention}scored hand{} contains",
+                    "a numerical {C:attention}Straight{},",
+                    "increase rank of",
+                    "scored cards by {C:attention}1",
                 }
-            }, 1, 5, true, true, true, true
+            }, 1, 5, true, true, false, true
         )
 
         register_elem(j_sdm_infinite_staircase)
 
         SMODS.Jokers.j_sdm_infinite_staircase.loc_def = function(card)
-            return {card.ability.extra.mult, card.ability.extra.mult_mod}
+            return {}
         end
 
         SMODS.Jokers.j_sdm_infinite_staircase.calculate = function(card, context)
             if context.cardarea == G.jokers and not context.blueprint and (context.poker_hands and (next(context.poker_hands['Straight']))) then
-                if context.before then
-                    no_faces = true
-                    for i = 1, #context.scoring_hand do
-                        if context.scoring_hand[i]:is_face() then
-                            no_faces = false
-                        end
-                    end
-                    if no_faces then
-                        card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
-                        return {
-                            message = localize('k_upgrade_ex'),
-                            colour = G.C.MULT,
-                            card = card
-                        }
-                    end
-                elseif context.after then
+                if context.after then
                     no_faces = true
                     for i = 1, #context.scoring_hand do
                         if context.scoring_hand[i]:is_face() then
@@ -1331,12 +1449,6 @@ function SMODS.INIT.sdm_0s_stuff()
                         delay(1.0)
                     end
                 end
-            end
-            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
-                return {
-                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
-                    mult_mod = card.ability.extra.mult
-                }
             end
         end
     end
@@ -1415,19 +1527,491 @@ function SMODS.INIT.sdm_0s_stuff()
         end
     end
 
+    --- Reach The Stars ---
+
+    if config.j_sdm_reach_the_stars then
+        
+        local j_sdm_reach_the_stars = SMODS.Joker:new(
+            "Reach The Stars", "sdm_reach_the_stars",
+            {extra = {handsize = 1, amount = 2}},  {x=0, y=0},
+            {
+                name = "Reach The Stars",
+                text = {
+                    "Scoring from 1 to 5 cards",
+                    "creates {C:attention}#3# {C:planet}Planet{} card of",
+                    "most played {C:attention}poker hand",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Currently {C:attention}#1#{C:inactive} #2#)"
+                }
+            }, 1, 5, true, true, true, true
+        )
+
+        register_elem(j_sdm_reach_the_stars)
+
+        SMODS.Jokers.j_sdm_reach_the_stars.loc_def = function(card)
+            return {card.ability.extra.handsize, (card.ability.extra.handsize > 1 and "hands") or "hand", card.ability.extra.amount}
+        end
+
+        SMODS.Jokers.j_sdm_reach_the_stars.calculate = function(card, context)
+            if context.cardarea == G.jokers and not (context.before or context.after) then
+                if (context.scoring_hand and #context.scoring_hand == card.ability.extra.handsize) then
+                    if card.ability.extra.handsize == 5 then
+                        card.ability.extra.handsize = 0
+                        for i = 0, card.ability.extra.amount do
+                            create_most_played_planet(card, context)
+                        end
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message =  localize("k_reset"),
+                            colour = G.C.FILTER,
+                        })
+                    end
+                    if not context.blueprint then
+                        card.ability.extra.handsize = card.ability.extra.handsize + 1
+                        if card.ability.extra.handsize > 1 then
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message =  card.ability.extra.handsize..'',
+                                colour = G.C.FILTER,
+                            })
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    --- Sword Of Damocles ---
+
+    if config.j_sdm_sword_of_damocles then
+        
+        local j_sdm_sword_of_damocles = SMODS.Joker:new(
+            "Sword Of Damocles", "sdm_sword_of_damocles",
+            {},  {x=0, y=0},
+            {
+                name = "Sword Of Damocles",
+                text = {
+                    "{C:attention}Doubles{} or {C:red}destroys{}",
+                    "added {C:attention}Joker{} cards",
+                    "{C:inactive}(Must have room)"
+                }
+            }, 2, 5, true, true, false, true
+        )
+
+        register_elem(j_sdm_sword_of_damocles)
+
+        SMODS.Jokers.j_sdm_sword_of_damocles.loc_def = function(card)
+            return {}
+        end
+
+        SMODS.Jokers.j_sdm_sword_of_damocles.calculate = function(card, context)
+            if context.sdm_adding_card and not context.blueprint then
+                if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
+                    do_dupe = pseudorandom(pseudoseed('sword_of_damocles'), 0, 1)
+                    if do_dupe == 1 then
+                        if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
+                            G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = localize('k_plus_joker'),
+                                colour = G.C.BLUE,
+                            })
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    new_card = copy_card(context.card, nil, nil, nil, nil)
+                                    new_card:add_to_deck2()
+                                    G.jokers:emplace(new_card)
+                                    new_card:start_materialize()
+                                    G.GAME.joker_buffer = 0
+                                    return true
+                                end
+                            }))
+                        end
+                    elseif not context.card.ability.eternal then
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_nope_ex'),
+                            colour = G.C.RED,
+                        })
+                        G.E_MANAGER:add_event(Event({func = function()
+                            context.card.getting_sliced = true
+                            context.card:start_dissolve({G.C.RED}, nil, 1.6)
+                        return true end }))
+                    end
+                end
+            end
+        end
+    end
+
+    --- Property Damage ---
+
+    if config.j_sdm_property_damage then
+        
+        local j_sdm_property_damage = SMODS.Joker:new(
+            "Property Damage", "sdm_property_damage",
+            {extra = {mult = 0, mult_mod = 8}},  {x=0, y=0},
+            {
+                name = "Property Damage",
+                text = {
+                    "Discarded {C:attention}Full House{} cards",
+                    "become {C:attention}Stone{} cards"
+                }
+            }, 2, 7, true, true, false, true
+        )
+
+        register_elem(j_sdm_property_damage)
+
+        SMODS.Jokers.j_sdm_property_damage.loc_def = function(card)
+            return {card.ability.extra.mult_mod, card.ability.extra.mult}
+        end
+
+        SMODS.Jokers.j_sdm_property_damage.calculate = function(card, context)
+            if context.pre_discard and not context.blueprint then
+                if G.FUNCS.get_poker_hand_info(G.hand.highlighted) == "Full House" then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize("k_stone"),
+                        colour = G.C.GREY
+                    })
+                    for k, v in ipairs(G.hand.highlighted) do
+                        v:set_ability(G.P_CENTERS.m_stone, nil)
+                        v:juice_up()
+                    end
+                end
+            end
+        end
+    end
+
+    --- Rock'N'Roll ---
+
+    if config.j_sdm_rock_n_roll then
+        
+        local j_sdm_rock_n_roll = SMODS.Joker:new(
+            "Rock'N'Roll", "sdm_rock_n_roll",
+            {extra = 1},  {x=0, y=0},
+            {
+                name = "Rock'N'Roll",
+                text = {
+                    "Retrigger all played",
+                    "{C:attention}Wild{} and {C:attention}Stone{} cards",
+                }
+            }, 2, 6, true, true, true, true
+        )
+
+        register_elem(j_sdm_rock_n_roll)
+
+        SMODS.Jokers.j_sdm_rock_n_roll.loc_def = function(card)
+            return {}
+        end
+
+        SMODS.Jokers.j_sdm_rock_n_roll.calculate = function(card, context)
+            if context.repetition and not context.individual and context.cardarea == G.play then
+                if context.other_card.ability.effect == "Wild Card" or context.other_card.ability.effect == "Stone Card" then
+                    return {
+                        message = localize('k_again_ex'),
+                        repetitions = card.ability.extra,
+                        card = card
+                    }
+                end
+            end
+        end
+    end
+
+    --- Contract ---
+
+    if config.j_sdm_contract then
+        
+        local j_sdm_contract = SMODS.Joker:new(
+            "Contract", "sdm_contract",
+            {extra = {Xmult = 3, dollars = 0, dollars_mod = 15, registered = false, breached = false}},  {x=0, y=0},
+            {
+                name = "Contract",
+                text = {
+                    "{X:red,C:white}X#1#{} Mult",
+                    "when {C:attention}Blind{} is selected,",
+                    "register current money,",
+                    "destroyed if out of range",
+                    "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
+                }
+            }, 2, 6, true, true, true, false
+        )
+
+        register_elem(j_sdm_contract)
+
+        SMODS.Jokers.j_sdm_contract.loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.dollars_mod,
+            (card.ability.extra.registered and card.ability.extra.dollars) or "?",
+            (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?"}
+        end
+
+        SMODS.Jokers.j_sdm_contract.calculate = function(card, context)
+            if context.setting_blind and not (card.getting_sliced or card.breached) and not card.ability.extra.registered then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_signed_ex'),
+                    colour = G.C.FILTER
+                })
+                card.ability.extra.dollars = G.GAME.dollars
+                card.ability.extra.registered = true
+            end
+            if SMODS.end_calculate_context(context) then
+                return {
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
+                }
+            end
+        end
+    end
+
+    --- Cupidon ---
+
+    if config.j_sdm_cupidon then
+        
+        local j_sdm_cupidon = SMODS.Joker:new(
+            "Cupidon", "sdm_cupidon",
+            {extra = {mult = 15}},  {x=0, y=0},
+            {
+                name = "Cupidon",
+                text = {
+                    "{C:red}+#1#{} Mult if scored hand",
+                    "contains a {C:attention}King{} and {C:attention}Queen{}",
+                    "card of the same {C:attention}suit",
+                }
+            }, 1, 5, true, true, true, true
+        )
+
+        register_elem(j_sdm_cupidon)
+
+        SMODS.Jokers.j_sdm_cupidon.loc_def = function(card)
+            return {card.ability.extra.mult}
+        end
+
+        SMODS.Jokers.j_sdm_cupidon.calculate = function(card, context)
+            if SMODS.end_calculate_context(context) and context.scoring_hand then
+                local king_suit = {}
+                local queen_suit = {}
+                local wild_king = 0
+                local wild_queen = 0
+                local couple = false
+                for k, v in ipairs(context.scoring_hand) do
+                    if v:get_id() == 12 then
+                        if v.ability.name == 'Wild Card' then
+                            wild_king = wild_king + 1
+                        else
+                            table.insert(king_suit, v.base.suit)
+                        end
+                    elseif v:get_id() == 13 then
+                        if v.ability.name == 'Wild Card' then
+                            wild_queen = wild_queen + 1
+                        else
+                            table.insert(queen_suit, v.base.suit)
+                        end
+                    end
+                end
+                if (wild_king > 0 and #queen_suit > 0) or (wild_queen > 0 and #king_suit > 0) or (wild_king > 0 and wild_queen > 0) then
+                    couple = true
+                end
+                if not couple and #king_suit > 0 and #queen_suit > 0 then
+                    for _, v in ipairs(king_suit) do
+                        for _, vv in ipairs(queen_suit) do
+                            if v == vv then
+                                couple = true
+                            end
+                        end
+                    end
+                end
+                if couple then
+                    return {
+                        message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                        mult_mod = card.ability.extra.mult
+                    }
+                end
+            end
+        end
+    end
+
+    --- Pizza ---
+
+    if config.j_sdm_pizza then
+        
+        local j_sdm_pizza = SMODS.Joker:new(
+            "Pizza", "sdm_pizza",
+            {extra = {hands = 4, hand_mod = 1}},  {x=0, y=0},
+            {
+                name = "Pizza",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "{C:blue}+#1#{} #3#, reduces by",
+                    "{C:red}#2#{} every round"
+                }
+            }, 1, 5, true, true, true, false
+        )
+
+        register_elem(j_sdm_pizza)
+
+        SMODS.Jokers.j_sdm_pizza.loc_def = function(card)
+            return {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}
+        end
+
+        SMODS.Jokers.j_sdm_pizza.calculate = function(card, context)
+            if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+                card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
+                if card.ability.extra.hands > 0 then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = card.ability.extra.hands .. '',
+                        colour = G.C.CHIPS
+                    })
+                else    
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('tarot1')
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                func = function()
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
+                                return true; end})) 
+                            return true
+                        end
+                    })) 
+                    return {
+                        message = localize('k_shared_ex'),
+                        colour = G.C.FILTER
+                    }
+                end
+            end
+            if context.setting_blind and not (context.blueprint_card or card).getting_sliced then
+                G.E_MANAGER:add_event(Event({func = function()
+                    ease_hands_played(card.ability.extra.hands)
+                    if card.ability.extra.hands > 1 then
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra.hands}}})
+                    else
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra.hands}}})
+                    end
+                return true end }))
+            end
+        end
+    end
+
+    --- Treasure Chest ---
+
+    if config.j_sdm_treasure_chest then
+        
+        local j_sdm_treasure_chest = SMODS.Joker:new(
+            "Treasure Chest", "sdm_treasure_chest",
+            {extra = 2},  {x=0, y=0},
+            {
+                name = "Treasure Chest",
+                text = {
+                    "Gains {C:money}$#1#{} of",
+                    "{C:attention}sell value{} per",
+                    "{C:attention}consumable{} sold"
+                }
+            }, 1, 4, true, true, false, false
+        )
+
+        register_elem(j_sdm_treasure_chest)
+
+        SMODS.Jokers.j_sdm_treasure_chest.loc_def = function(card)
+            return {card.ability.extra}
+        end
+
+        SMODS.Jokers.j_sdm_treasure_chest.calculate = function(card, context)
+            if context.selling_card and not context.blueprint then
+                if context.card.ability.set ~= 'Joker' then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                        card.ability.extra_value = card.ability.extra_value + card.ability.extra
+                        card:set_cost()
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_val_up'),
+                            colour = G.C.MONEY
+                        })
+                        return true
+                    end}))
+                end
+            end
+        end
+    end
+
+    --- Bullet Train ---
+
+    if config.j_sdm_bullet_train then
+        
+        local j_sdm_bullet_train = SMODS.Joker:new(
+            "Bullet Train", "sdm_bullet_train",
+            {extra = 150},  {x=0, y=0},
+            {
+                name = "Bullet Train",
+                text = {
+                    "{C:chips}+#1#{} Chips on your",
+                    "{C:attention}first hand{} if no discards",
+                    "were used this round",
+                }
+            }, 1, 6, true, true, true, true
+        )
+
+        register_elem(j_sdm_bullet_train)
+
+        SMODS.Jokers.j_sdm_bullet_train.loc_def = function(card)
+            return {card.ability.extra}
+        end
+
+        SMODS.Jokers.j_sdm_bullet_train.calculate = function(card, context)
+            if SMODS.end_calculate_context(context) and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
+                return {
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                    chip_mod = card.ability.extra
+                }
+            end
+        end
+    end
+
+    --- Chaos Theory ---
+
+    if config.j_sdm_chaos_theory then
+        
+        local j_sdm_chaos_theory = SMODS.Joker:new(
+            "Chaos Theory", "sdm_chaos_theory",
+            {extra = 0},  {x=0, y=0},
+            {
+                name = "Chaos Theory",
+                text = {
+                    "{C:chips}+#1#{} Chips per",
+                    "existing numerical value",
+                    "{s:0.8,C:inactive}(Except round score, score goal,",
+                    "{s:0.8,C:inactive}hand level and descriptions)"
+                }
+            }, 3, 8, true, true, true, true
+        )
+
+        register_elem(j_sdm_chaos_theory)
+
+        SMODS.Jokers.j_sdm_chaos_theory.loc_def = function(card)
+            return {card.ability.extra}
+        end
+
+        SMODS.Jokers.j_sdm_chaos_theory.calculate = function(card, context)
+            if SMODS.end_calculate_context(context) then
+                return {
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                    chip_mod = card.ability.extra
+                }
+            end
+        end
+    end
+
     --- Archibald ---
 
     if config.j_sdm_archibald then
 
         local j_sdm_archibald = SMODS.Joker:new(
             "Archibald", "sdm_archibald",
-            {extra = {remaining = 4}},  {x=0, y=0},
+            {extra = {remaining = 5}},  {x=0, y=0},
             {
                 name = "Archibald",
                 text = {
-                    "On {C:attention}Joker{} purchased,",
+                    "On {C:attention}Joker{} card added,",
                     "creates a {C:dark_edition}Negative{} copy",
-                    "{C:inactive}({C:dark_edition}Negative{C:inactive} copy sells for {C:money}$0{C:inactive})",
+                    "{C:inactive}(Copy start selling for {C:money}$0{C:inactive})",
                     "{C:inactive}(Remaining {C:attention}#1#{C:inactive})"
                 }
             }, 4, 20, true, true, true, false, nil, nil, {x = 0, y = 1}
@@ -1453,8 +2037,8 @@ function SMODS.INIT.sdm_0s_stuff()
                         func = function()
                             new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, context.card.config.center.key, nil)
                             new_card:set_edition({negative = true}, true)
-                            new_card.archibald_dupe = true
-                            new_card:add_to_deck()
+                            new_card.sell_cost = 0
+                            new_card:add_to_deck2()
                             G.jokers:emplace(new_card)
                             new_card:start_materialize()
                             return true
@@ -1485,10 +2069,10 @@ function SMODS.INIT.sdm_0s_stuff()
                                 card.children.center.pinch.x = true
                                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, blockable = false,
                                     func = function()
-                                            G.jokers:remove_card(card)
-                                            card:remove()
-                                            card = nil
-                                        return true; end})) 
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
+                                    return true; end})) 
                                 return true
                             end
                         }))
@@ -1498,6 +2082,8 @@ function SMODS.INIT.sdm_0s_stuff()
         end
     end
 end
+
+--- Overrides ---
 
 local card_updateref = Card.update
 function Card.update(self, dt)
@@ -1512,13 +2098,40 @@ function Card.update(self, dt)
         elseif self.ability.name == 'Bounciest Ball' then
             self.ability.extra.hand = G.GAME.last_hand_played or "High Card"
         elseif self.ability.name == 'Warehouse' then
-            if self.set_cost and self.ability.extra_value ~= self.ability.extra.dollars - math.floor(self.base_cost / 2) then 
-                self.ability.extra_value = self.ability.extra.dollars - math.floor(self.base_cost / 2)
+            if self.set_cost and self.ability.extra_value ~= self.ability.extra.dollars - math.floor(self.cost / 2) then 
+                self.ability.extra_value = self.ability.extra.dollars - math.floor(self.cost / 2)
                 self:set_cost()
             end
-        end
-        if self.archibald_dupe then
-            self.sell_cost = 0
+        elseif self.ability.name == 'Contract' then
+            if self.ability.extra.registered and not self.ability.extra.breached then
+                if G.GAME.dollars < self.ability.extra.dollars or
+                G.GAME.dollars > self.ability.extra.dollars + self.ability.extra.dollars_mod then
+                    self.ability.extra.breached = true
+                    self.getting_sliced = true
+                    G.E_MANAGER:add_event(Event({trigger = 'immediate', blockable = false,
+                    func = function()
+                        card_eval_status_text(self, 'extra', nil, nil, nil, {
+                            message = localize('k_breached_ex'),
+                            colour = G.C.RED
+                        })
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, blockable = false,
+                        func = function()
+                            G.jokers:remove_card(self)
+                            self:remove()
+                            self = nil
+                            return true; 
+                        end})) 
+                        return true
+                    end }))
+                end
+            end
+        elseif self.ability.name == 'Chaos Theory' then
+            self.ability.extra = sum_incremental()
         end
     end
     card_updateref(self, dt)
@@ -1573,6 +2186,11 @@ end
 local add_to_deckref = Card.add_to_deck
 function Card.add_to_deck(self, from_debuff)
     if not self.added_to_deck then
+        if G.jokers and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                G.jokers.cards[i]:calculate_joker({sdm_adding_card = true, card = self})
+            end
+        end
         if self.ability.name == 'Warehouse' then
             self.ability.extra.c_size = G.consumeables.config.card_limit
             G.hand:change_size(self.ability.extra.h_size)
@@ -1602,14 +2220,122 @@ function Back.apply_to_run(arg_56_0)
             func = function()
                 rand_jokers = get_random_sdm_modded_jokers(2, true)
                 for i = 1, #rand_jokers do
-                    add_joker(rand_jokers[i], nil, true, true)
+                    add_joker2(rand_jokers[i], nil, true, true)
                 end
                 return true
             end
         }))
     end
 end
---- sendDebugMessage(inspect(context))
+
+local card_set_ability_ref = Card.set_ability
+function Card.set_ability(self, center, initial, delay_sprites)
+    card_set_ability_ref(self,center,initial,delay_sprites)
+    local W, H = self.T.w, self.T.h
+    local scale = 1
+    if center.name == "Treasure Chest" then 
+        self.children.center.scale.y = self.children.center.scale.x
+        H = W
+        self.T.h = H*scale
+        self.T.w = W*scale
+    end
+end 
+
+function Card:add_to_deck2(from_debuff)
+    if not self.config.center.discovered then
+        discover_card(self.config.center)
+    end
+    if not self.added_to_deck then
+        self.added_to_deck = true
+        if self.ability.set == 'Enhanced' or self.ability.set == 'Default' then 
+            if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
+                check_for_unlock({type = 'double_gold'})
+            end
+            return 
+        end
+
+        if self.edition then
+            if not G.P_CENTERS['e_'..(self.edition.type)].discovered then 
+                discover_card(G.P_CENTERS['e_'..(self.edition.type)])
+            end
+        else
+            if not G.P_CENTERS['e_base'].discovered then 
+                discover_card(G.P_CENTERS['e_base'])
+            end
+        end
+        if self.ability.h_size ~= 0 then
+            G.hand:change_size(self.ability.h_size)
+        end
+        if self.ability.d_size > 0 then
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.ability.d_size
+            ease_discard(self.ability.d_size)
+        end
+        if self.ability.name == 'Credit Card' then
+            G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra
+        end
+        if self.ability.name == 'Chicot' and G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
+            G.GAME.blind:disable()
+            play_sound('timpani')
+            card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
+        end
+        if self.ability.name == 'Chaos the Clown' then
+            G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + 1
+            calculate_reroll_cost(true)
+        end
+        if self.ability.name == 'Turtle Bean' then
+            G.hand:change_size(self.ability.extra.h_size)
+        end
+        if self.ability.name == 'Oops! All 6s' then
+            for k, v in pairs(G.GAME.probabilities) do 
+                G.GAME.probabilities[k] = v*2
+            end
+        end
+        if self.ability.name == 'To the Moon' then
+            G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
+        end
+        if self.ability.name == 'Astronomer' then 
+            G.E_MANAGER:add_event(Event({func = function()
+                for k, v in pairs(G.I.CARD) do
+                    if v.set_cost then v:set_cost() end
+                end
+                return true
+            end }))
+        end
+        if self.ability.name == 'Troubadour' then
+            G.hand:change_size(self.ability.extra.h_size)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.ability.extra.h_plays
+        end
+        if self.ability.name == 'Stuntman' then
+            G.hand:change_size(-self.ability.extra.h_size)
+        end
+        if self.edition and self.edition.negative then 
+            if from_debuff then 
+                self.ability.queue_negative_removal = nil
+            else
+                if self.ability.consumeable then
+                    G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
+                else
+                    G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+                end
+            end
+        end
+        if G.GAME.blind then G.E_MANAGER:add_event(Event({ func = function() G.GAME.blind:set_blind(nil, true, nil); return true end })) end
+    end
+end
+
+function add_joker2(joker, edition, silent, eternal)
+    local _area = G.P_CENTERS[joker].consumeable and G.consumeables or G.jokers
+    local _T = _area and _area.T or {x = G.ROOM.T.w/2 - G.CARD_W/2, y = G.ROOM.T.h/2 - G.CARD_H/2}
+    local card = Card(_T.x, _T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[joker],{discover = true, bypass_discovery_center = true, bypass_discovery_ui = true, bypass_back = G.GAME.selected_back.pos })
+    card:start_materialize(nil, silent)
+    if _area then card:add_to_deck2() end
+    if edition then card:set_edition{[edition] = true} end
+    if eternal then card:set_eternal(true) end
+    if _area and card.ability.set == 'Joker' then _area:emplace(card)
+    elseif G.consumeables then G.consumeables:emplace(card) end
+    card.created_on_pause = nil
+    return card
+end
 
 ----------------------------------------------
 ------------MOD CODE END----------------------
