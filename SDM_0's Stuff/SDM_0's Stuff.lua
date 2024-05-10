@@ -153,6 +153,7 @@ function get_random_sdm_modded_jokers(n, no_legend)
 end
 
 --- Creates the most played hand planet card
+--[[
 function create_most_played_planet(card, context)
     if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -183,12 +184,13 @@ function create_most_played_planet(card, context)
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
     end
 end
+]]--
 
 --- Get the sum of (almost) all existing numbers
-function sum_incremental()
-    return (G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
+function sum_incremental(n)
+    return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
     + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
-    #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) or 0
+    #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
 end
 
 --- Text ---
@@ -1508,15 +1510,14 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_reach_the_stars = SMODS.Joker:new(
             "Reach The Stars", "sdm_reach_the_stars",
-            {extra = {handsize = 1, amount = 2}},  {x=0, y=0},
+            {extra = {num_card1 = 1, num_card2 = 5, rts_scored = 0, remaining = 2, c1_scored = false, c2_scored = false}},  {x=0, y=0},
             {
                 name = "Reach The Stars",
                 text = {
-                    "Scoring from 1 to 5 cards",
-                    "creates {C:attention}#3# {C:planet}Planet{} card of",
-                    "most played {C:attention}poker hand",
+                    "Scoring {C:attention}#1#{} and {C:attention}#2#{} cards",
+                    " creates a {C:planet}Planet{} card,",
+                    "changes at end of round",
                     "{C:inactive}(Must have room)",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive} #2#)"
                 }
             }, 1, 5, true, true, true, true
         )
@@ -1524,32 +1525,88 @@ function SMODS.INIT.sdm_0s_stuff()
         register_elem(j_sdm_reach_the_stars)
 
         SMODS.Jokers.j_sdm_reach_the_stars.loc_def = function(card)
-            return {card.ability.extra.handsize, (card.ability.extra.handsize > 1 and "hands") or "hand", card.ability.extra.amount}
+            return {card.ability.extra.num_card1, card.ability.extra.num_card2}
+        end
+
+        SMODS.Jokers.j_sdm_reach_the_stars.set_ability = function(card, initial, delay_sprites)
+            local valid_nums = {1, 2, 3, 4, 5}
+            local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+            table.remove(valid_nums, c1)
+            local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+            if c1 > c2 then
+                card.ability.extra.num_card1 = c2
+                card.ability.extra.num_card2 = c1
+            elseif c1 < c2 then
+                card.ability.extra.num_card1 = c1
+                card.ability.extra.num_card2 = c2
+            end
         end
 
         SMODS.Jokers.j_sdm_reach_the_stars.calculate = function(card, context)
             if context.cardarea == G.jokers and not (context.before or context.after) then
-                if (context.scoring_hand and #context.scoring_hand == card.ability.extra.handsize) then
-                    if card.ability.extra.handsize == 5 then
-                        card.ability.extra.handsize = 0
-                        for i = 0, card.ability.extra.amount do
-                            create_most_played_planet(card, context)
-                        end
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message =  localize("k_reset"),
-                            colour = G.C.FILTER,
-                        })
-                    end
-                    if not context.blueprint then
-                        card.ability.extra.handsize = card.ability.extra.handsize + 1
-                        if card.ability.extra.handsize > 1 then
+                if context.scoring_hand then 
+                    if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
+                        if not context.blueprint then 
+                            card.ability.extra.c1_scored = true
+                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                             card_eval_status_text(card, 'extra', nil, nil, nil, {
-                                message =  card.ability.extra.handsize..'',
+                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
+                                colour = G.C.FILTER,
+                            })
+                        end
+                    elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
+                        if not context.blueprint then 
+                            card.ability.extra.c2_scored = true
+                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
                                 colour = G.C.FILTER,
                             })
                         end
                     end
+                    if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
+                        card.ability.extra.rts_scored = 0
+                        card.ability.extra.c1_scored = false
+                        card.ability.extra.c2_scored = false
+                        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                            G.E_MANAGER:add_event(Event({
+                                trigger = 'before',
+                                delay = 0.0,
+                                func = (function()
+                                    local new_card = create_card('Planet', G.consumeables, nil, nil, nil, nil, nil, 'rts')
+                                    new_card:add_to_deck()
+                                    G.consumeables:emplace(new_card)
+                                    G.GAME.consumeable_buffer = 0
+                                    return true
+                                end)}))
+                            return {
+                                message = localize('k_plus_planet'),
+                                colour = G.C.SECONDARY_SET.Planet,
+                                card = card
+                            }
+                        end
+                    end
                 end
+            end
+            if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+                card.ability.extra.rts_scored = 0
+                card.ability.extra.c1_scored = false
+                card.ability.extra.c2_scored = false
+                local valid_nums = {1, 2, 3, 4, 5}
+                local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+                table.remove(valid_nums, c1)
+                local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+                if c1 > c2 then
+                    card.ability.extra.num_card1 = c2
+                    card.ability.extra.num_card2 = c1
+                elseif c1 < c2 then
+                    card.ability.extra.num_card1 = c1
+                    card.ability.extra.num_card2 = c2
+                end
+                return {
+                    message = localize('k_reset')
+                }
             end
         end
     end
@@ -1711,7 +1768,7 @@ function SMODS.INIT.sdm_0s_stuff()
         SMODS.Jokers.j_sdm_contract.loc_def = function(card)
             return {card.ability.extra.Xmult, card.ability.extra.dollars_mod,
             (card.ability.extra.registered and card.ability.extra.dollars) or "?",
-            (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?"}
+            (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?+" .. card.ability.extra.dollars_mod}
         end
 
         SMODS.Jokers.j_sdm_contract.calculate = function(card, context)
@@ -1946,14 +2003,15 @@ function SMODS.INIT.sdm_0s_stuff()
         
         local j_sdm_chaos_theory = SMODS.Joker:new(
             "Chaos Theory", "sdm_chaos_theory",
-            {extra = 0},  {x=0, y=0},
+            {extra = {chips = 0, chip_mod = 2}},  {x=0, y=0},
             {
                 name = "Chaos Theory",
                 text = {
-                    "{C:chips}+#1#{} Chips per",
-                    "existing numerical value",
+                    "{C:chips}+#1#{} Chips per existing",
+                    "numerical value",
                     "{s:0.8,C:inactive}(Except round score, score goal,",
-                    "{s:0.8,C:inactive}hand level and descriptions)"
+                    "{s:0.8,C:inactive}hand level and descriptions)",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             }, 3, 8, true, true, true, true
         )
@@ -1961,14 +2019,14 @@ function SMODS.INIT.sdm_0s_stuff()
         register_elem(j_sdm_chaos_theory)
 
         SMODS.Jokers.j_sdm_chaos_theory.loc_def = function(card)
-            return {card.ability.extra}
+            return {card.ability.extra.chip_mod, card.ability.extra.chips}
         end
 
         SMODS.Jokers.j_sdm_chaos_theory.calculate = function(card, context)
             if SMODS.end_calculate_context(context) then
                 return {
-                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
-                    chip_mod = card.ability.extra
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                    chip_mod = card.ability.extra.chips
                 }
             end
         end
@@ -2063,21 +2121,21 @@ end
 local card_updateref = Card.update
 function Card.update(self, dt)
     if G.STAGE == G.STAGES.RUN then
-        if self.ability.name == 'Iconic Icon' then
+        if self.config.center_key == 'j_sdm_iconic_icon' then
             self.ability.extra.mult = 0
             for _, v in pairs(G.playing_cards) do
                 if v:get_id() == 14 and (v.edition or v.seal or v.ability.effect ~= "Base") then
                     self.ability.extra.mult =  self.ability.extra.mult + self.ability.extra.mult_mod
                 end
             end
-        elseif self.ability.name == 'Bounciest Ball' then
+        elseif self.config.center_key == 'j_sdm_bounciest_ball' then
             self.ability.extra.hand = G.GAME.last_hand_played or "High Card"
-        elseif self.ability.name == 'Warehouse' then
+        elseif self.config.center_key == 'j_sdm_warehouse' then
             if self.set_cost and self.ability.extra_value ~= self.ability.extra.dollars - math.floor(self.cost / 2) then 
                 self.ability.extra_value = self.ability.extra.dollars - math.floor(self.cost / 2)
                 self:set_cost()
             end
-        elseif self.ability.name == 'Contract' then
+        elseif self.config.center_key == 'j_sdm_contract' then
             if self.ability.extra.registered and not self.ability.extra.breached then
                 if G.GAME.dollars < self.ability.extra.dollars or
                 G.GAME.dollars > self.ability.extra.dollars + self.ability.extra.dollars_mod then
@@ -2105,8 +2163,8 @@ function Card.update(self, dt)
                     end }))
                 end
             end
-        elseif self.ability.name == 'Chaos Theory' then
-            self.ability.extra = sum_incremental()
+        elseif self.config.center_key == 'j_sdm_chaos_theory' then
+            self.ability.extra.chips = sum_incremental(2)
         end
     end
     card_updateref(self, dt)
@@ -2136,7 +2194,7 @@ local calculate_dollar_bonusref = Card.calculate_dollar_bonus
 function Card.calculate_dollar_bonus(self)
     if self.debuff then return end
     if self.ability.set == "Joker" then
-        if self.ability.name == "Tip Jar" then
+        if self.config.center_key == 'j_sdm_tip_jar' then
             local highest = 0
             for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
                 highest = math.max(highest, tonumber(digit))
@@ -2144,12 +2202,12 @@ function Card.calculate_dollar_bonus(self)
             if highest > 0 then
                 return highest
             end
-        elseif self.ability.name == "Shareholder Joker" then
+        elseif self.config.center_key == 'j_sdm_shareholder_joker' then
             rand_dollar = pseudorandom(pseudoseed('shareholder'), self.ability.extra.min, self.ability.extra.max)
             if rand_dollar > 0 then
                 return rand_dollar
             end
-        elseif self.ability.name == "Furnace" then
+        elseif self.config.center_key == 'j_sdm_furnace' then
             if self.ability.extra.dollars > 0 then
                 return self.ability.extra.dollars
             end
@@ -2166,7 +2224,7 @@ function Card.add_to_deck(self, from_debuff)
                 G.jokers.cards[i]:calculate_joker({sdm_adding_card = true, card = self})
             end
         end
-        if self.ability.name == 'Warehouse' then
+        if self.config.center_key == 'j_sdm_warehouse' then
             self.ability.extra.c_size = G.consumeables.config.card_limit
             G.hand:change_size(self.ability.extra.h_size)
             G.consumeables:change_size(-self.ability.extra.c_size)
@@ -2178,7 +2236,7 @@ end
 local remove_from_deckref = Card.remove_from_deck
 function Card.remove_from_deck(self, from_debuff)
     if self.added_to_deck then
-        if self.ability.name == 'Warehouse' then
+        if self.config.center_key == 'j_sdm_warehouse' then
             G.hand:change_size(-self.ability.extra.h_size)
             G.consumeables:change_size(self.ability.extra.c_size)
         end
@@ -2203,18 +2261,24 @@ function Back.apply_to_run(arg_56_0)
     end
 end
 
-local card_set_ability_ref = Card.set_ability
+local card_set_abilityref = Card.set_ability
 function Card.set_ability(self, center, initial, delay_sprites)
-    card_set_ability_ref(self,center,initial,delay_sprites)
+    card_set_abilityref(self,center,initial,delay_sprites)
     local W, H = self.T.w, self.T.h
     local scale = 1
-    if center.name == "Treasure Chest" then 
+    if center.key == "j_sdm_treasure_chest" then 
         self.children.center.scale.y = self.children.center.scale.x
         H = W
         self.T.h = H*scale
         self.T.w = W*scale
     end
-end 
+end
+
+local end_calculate_contextref = SMODS.end_calculate_context
+function SMODS.end_calculate_context(c)
+    local e = end_calculate_contextref(c)
+    return e and not c.sdm_adding_card
+end
 
 function Card:add_to_deck2(from_debuff)
     if not self.config.center.discovered then
