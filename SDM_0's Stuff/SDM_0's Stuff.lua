@@ -1515,7 +1515,7 @@ function SMODS.INIT.sdm_0s_stuff()
                 name = "Reach The Stars",
                 text = {
                     "Scoring {C:attention}#1#{} and {C:attention}#2#{} cards",
-                    " creates a {C:planet}Planet{} card,",
+                    "creates a random{C:planet}Planet{} card,",
                     "changes at end of round",
                     "{C:inactive}(Must have room)",
                 }
