@@ -38,7 +38,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Mystery Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_mystery_joker.png)<br><b>Mystery Joker</b> | 6 | Common | When Boss Blind is defeated,<br>creates a Rare Joker tag |
   | ![Infinite Staircase](./SDM_0's%20Stuff/assets/2x/j_sdm_infinite_staircase.png)<br><b>Infinite Staircase</b> | 5 | Common | x2 Mult if scored hand contains<br>a numerical Straight without an Ace card  |
   | ![Ninja Joker](./SDM_0's%20Stuff/assets/2x/j_sdm_ninja_joker.png)<br><b>Ninja Joker</b> | 6 | Uncommon | When a card is destroyed, create a Negative tag,<br>reset on adding a playing card |
-  | ![Reach The Stars](./SDM_0's%20Stuff/assets/2x/j_sdm_reach_the_stars.png)<br><b>Reach The Stars</b> | 5 | Common | Scoring from 1 to 5 cards creates 2 planet cards of your most played hand<br>(Must have room) |
+  | ![Reach The Stars](./SDM_0's%20Stuff/assets/2x/j_sdm_reach_the_stars.png)<br><b>Reach The Stars</b> | 5 | Common | Scoring X and Y cards this round creates a<br>random Planet card, changes at the end of round<br>(Must have room) |
   | ![Sword Of Damocles](./SDM_0's%20Stuff/assets/2x/j_sdm_sword_of_damocles.png)<br><b>Sword Of Damocles</b> | 5 | Uncommon | Doubles or destroys added Jokers <br>(Must have room) |
   | ![Property Damage](./SDM_0's%20Stuff/assets/2x/j_sdm_property_damage.png)<br><b>Property Damage</b> | 7 | Uncommon | Discarded Full House cards become Stone cards |
   | ![Rock'N'Roll](./SDM_0's%20Stuff/assets/2x/j_sdm_rock_n_roll.png)<br><b>Rock'N'Roll</b> | 6 | Uncommon | Retrigger all played Wild and Stone cards |
@@ -47,7 +47,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | ![Pizza](./SDM_0's%20Stuff/assets/2x/j_sdm_pizza.png)<br><b>Pizza</b> | 5 | Common | When selecting Blind, +4 hands, reduces by 1 every round |
   | ![Treasure Chest](./SDM_0's%20Stuff/assets/2x/j_sdm_treasure_chest.png)<br><b>Treasure Chest</b> | 4 | Common | Gains $2 of sell value per consumable sold |
   | ![Bullet Train](./SDM_0's%20Stuff/assets/2x/j_sdm_bullet_train.png)<br><b>Bullet Train</b> | 6 | Common | +150 Chips on your first hand if no discards were used this round |
-  | ![Chaos Theory](./SDM_0's%20Stuff/assets/2x/j_sdm_chaos_theory.png)<br><b>Chaos Theory</b> | 8 | Rare | +1 Chip per existing numerical value<br>(Except round score, score goal, hand level and descriptions) |
+  | ![Chaos Theory](./SDM_0's%20Stuff/assets/2x/j_sdm_chaos_theory.png)<br><b>Chaos Theory</b> | 8 | Rare | +2 Chips per existing numerical value<br>(Except round score, score goal, hand level and descriptions) |
   | ![Archibald](./SDM_0's%20Stuff/assets/2x/j_sdm_archibald_compact.png)<br><b>Archibald</b> | 20 | Legendary | On Joker added, creates a Negative copy<br>(Occurs 5 times, Negative copy starts selling for $0) |
 </details>
 
