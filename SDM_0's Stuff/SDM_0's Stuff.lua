@@ -1420,7 +1420,7 @@ function SMODS.INIT.sdm_0s_stuff()
                         no_faces_and_ace = false
                     end
                 end
-                if no_faces_and_ace then
+                if no_faces_and_ace and next(context.poker_hands["Straight"]) then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
