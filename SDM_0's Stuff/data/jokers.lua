@@ -38,23 +38,23 @@ if config.j_sdm_trance_the_devil then
                 "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive})"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}
+        loc_def = function(card)
+            return {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.using_consumeable and not context.blueprint then
                 if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
                     G.E_MANAGER:add_event(Event({func = function()
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
-                        vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}}});
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
+                        vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}});
                         return true end}))
                     return
                 end
             elseif SMODS.end_calculate_context(context) and
-                (1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra)) > 1) then
+                (1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra)) > 1) then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))}},
-                    Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / self.ability.extra) + (get_count('c_devil') or 1) / (1 / self.ability.extra))
+                    message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}},
+                    Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))
                 }
             end
         end,
@@ -83,24 +83,24 @@ if config.j_sdm_burger then
                 "for the next {C:attention}#4#{} rounds",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.Xmult, self.ability.extra.mult, self.ability.extra.chips, self.ability.extra.remaining}
+        loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                if self.ability.extra.remaining - 1 <= 0 then 
+                if card.ability.extra.remaining - 1 <= 0 then 
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             play_sound('tarot1')
-                            self.T.r = -0.2
-                            self:juice_up(0.3, 0.4)
-                            self.states.drag.is = true
-                            self.children.center.pinch.x = true
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
                             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                                 func = function()
-                                        G.jokers:remove_self(self)
-                                        self:remove()
-                                        self = nil
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
                                     return true; end})) 
                             return true
                         end
@@ -110,18 +110,18 @@ if config.j_sdm_burger then
                         colour = G.C.FILTER
                     }
                 else
-                    self.ability.extra.remaining = self.ability.extra.remaining - 1
+                    card.ability.extra.remaining = card.ability.extra.remaining - 1
                     return {
-                        message = self.ability.extra.remaining..'',
+                        message = card.ability.extra.remaining..'',
                         colour = G.C.FILTER
                     }
                 end
             elseif SMODS.end_calculate_context(context) then
-                eval_this(self, {chip_mod = self.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}}})
-                eval_this(self, {mult_mod = self.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}}})
+                eval_this(card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
+                eval_this(card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                    Xmult_mod = self.ability.extra.Xmult
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end,
@@ -151,30 +151,30 @@ if config.j_sdm_bounciest_ball then
                 "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.chips, self.ability.extra.chip_mod, self.ability.extra.hand}
+        loc_def = function(card)
+            return {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.cardarea == G.jokers and context.before and not context.blueprint then
-                if context.scoring_name == self.ability.extra.hand then
-                    self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                if context.scoring_name == card.ability.extra.hand then
+                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                     return {
                         message = localize('k_upgrade_ex'),
                         colour = G.C.CHIPS,
-                        card = self
+                        card = card
                     }
                 else
-                    self.ability.extra.chips = 0
-                    self.ability.extra.hand = context.scoring_name
+                    card.ability.extra.chips = 0
+                    card.ability.extra.hand = context.scoring_name
                     return {
                         message = localize('k_reset'),
                         colour = G.C.RED,
                     }
                 end
-            elseif SMODS.end_calculate_context(context) and self.ability.extra.chips > 0 then
+            elseif SMODS.end_calculate_context(context) and card.ability.extra.chips > 0 then
                 return {
-                    message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                    chip_mod = self.ability.extra.chips
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                    chip_mod = card.ability.extra.chips
                 }
             end
         end,
@@ -202,16 +202,16 @@ if config.j_sdm_lucky_joker then
                 "{C:attention}#1#{} additional times"
             },
         },
-        loc_def = function(self)
-            return {self.ability.extra.repitition}
+        loc_def = function(card)
+            return {card.ability.extra.repitition}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.repetition and not context.individual and context.cardarea == G.play then
                 if context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
                     return {
                         message = localize('k_again_ex'),
-                        repetitions = self.ability.extra.repitition,
-                        card = self
+                        repetitions = card.ability.extra.repitition,
+                        card = card
                     }
                 end
             end
@@ -241,14 +241,14 @@ if config.j_sdm_iconic_icon then
                 "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.mult, self.ability.extra.mult_mod}
+        loc_def = function(card)
+            return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end,
-        calculate = function(self, context)
-            if SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
+        calculate = function(card, context)
+            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                    mult_mod = self.ability.extra.mult,
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult,
                     colour = G.C.MULT
                 }
             end
@@ -278,20 +278,20 @@ if config.j_sdm_mult_n_chips then
                 "gives {C:chips}+#2#{} Chips",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.mult, self.ability.extra.chips}
+        loc_def = function(card)
+            return {card.ability.extra.mult, card.ability.extra.chips}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.individual and context.cardarea == G.play then
                 if context.other_card.ability.effect == "Bonus Card" then
                     return {
-                        mult = self.ability.extra.mult,
-                        card = self
+                        mult = card.ability.extra.mult,
+                        card = card
                     }
                 elseif context.other_card.ability.effect == "Mult Card" then
                     return {
-                        chips = self.ability.extra.chips,
-                        card = self
+                        chips = card.ability.extra.chips,
+                        card = card
                     }
                 end
             end
@@ -319,13 +319,13 @@ if config.j_sdm_moon_base then
                 "give{C:chips} +#1# {}Chips",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.other_joker then
                 sendDebugMessage(context.other_joker.config.center_key)
-                if space_jokers[context.other_joker.config.center_key] and context.other_joker ~= self then
+                if space_jokers[context.other_joker.config.center_key] and context.other_joker ~= card then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             context.other_joker:juice_up(0.5, 0.5)
@@ -333,8 +333,8 @@ if config.j_sdm_moon_base then
                         end
                     })) 
                     return {
-                        message = localize{type='variable',key='a_chips',vars={self.ability.extra}},
-                        chip_mod = self.ability.extra
+                        message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                        chip_mod = card.ability.extra
                     }
                 end
             end
@@ -362,8 +362,8 @@ if config.j_sdm_shareholder_joker then
                 "at end of round",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.min, self.ability.extra.max}
+        loc_def = function(card)
+            return {card.ability.extra.min, card.ability.extra.max}
         end,
         atlas = "sdm_jokers"
     }
@@ -389,10 +389,10 @@ if config.j_sdm_magic_hands then
                 "{C:inactive}(ex: {C:attention}Four of a Kind{} {C:inactive}on {C:chips}Hand 4{C:inactive})",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if SMODS.end_calculate_context(context) and context.scoring_hand then
                 cards_id = {}
                 for i = 1, #context.scoring_hand do
@@ -401,8 +401,8 @@ if config.j_sdm_magic_hands then
                 max_card = count_max_occurence(cards_id) or 0
                 if G.GAME.current_round.hands_left + 1 == max_card then
                     return {
-                        message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                        Xmult_mod = self.ability.extra
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
+                        Xmult_mod = card.ability.extra
                     } 
                 end
             end
@@ -454,22 +454,22 @@ if config.j_sdm_wandering_star then
                 "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.mult, self.ability.extra.mult_mod}
+        loc_def = function(card)
+            return {card.ability.extra.mult, card.ability.extra.mult_mod}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.selling_card and not context.blueprint then
                 if context.card.ability.set == 'Planet' then
-                    self.ability.extra.mult = self.ability.extra.mult + self.ability.extra.mult_mod
+                    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
                     G.E_MANAGER:add_event(Event({
-                        func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}}}); return true
+                        func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}}); return true
                     end}))
                 end
             end
-            if SMODS.end_calculate_context(context) and self.ability.extra.mult > 0 then
+            if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                    mult_mod = self.ability.extra.mult
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult
                 }
             end
         end,
@@ -500,40 +500,40 @@ if config.j_sdm_ouija_board then
                 "{C:inactive}(Remaining {C:attention}#1#{C:inactive}/#2#)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.remaining, self.ability.extra.rounds}
+        loc_def = function(card)
+            return {card.ability.extra.remaining, card.ability.extra.rounds}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.selling_card and not context.blueprint and context.card.ability.set == 'Joker' then
                 if context.card.config.center.rarity == 3 then
-                    if not self.ability.extra.sold_rare then
-                        self.ability.extra.sold_rare = true
-                        self.ability.extra.remaining = self.ability.extra.remaining + 1
-                        ouija_check(self, context)
+                    if not card.ability.extra.sold_rare then
+                        card.ability.extra.sold_rare = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        ouija_check(card, context)
                     end
                 end
             end
             if context.using_consumeable and not context.blueprint then
                 if context.consumeable.ability.set == "Spectral" then
-                    if not self.ability.extra.used_spectral then
-                        self.ability.extra.used_spectral = true
-                        self.ability.extra.remaining = self.ability.extra.remaining + 1
-                        ouija_check(self, context)
+                    if not card.ability.extra.used_spectral then
+                        card.ability.extra.used_spectral = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        ouija_check(card, context)
                     end
                 end
             end
             if SMODS.end_calculate_context(context) and not context.blueprint then
                 if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
-                    if not self.ability.extra.scored_secret then
-                        self.ability.extra.scored_secret = true
-                        self.ability.extra.remaining = self.ability.extra.remaining + 1
-                        ouija_check(self, context)
+                    if not card.ability.extra.scored_secret then
+                        card.ability.extra.scored_secret = true
+                        card.ability.extra.remaining = card.ability.extra.remaining + 1
+                        ouija_check(card, context)
                     end
                 end
             end
-            if context.selling_self and not context.blueprint then
-                if self.ability.extra.sold_rare and self.ability.extra.used_spectral and self.ability.extra.scored_secret then
-                    if not self.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if context.selling_card and not context.blueprint then
+                if card.ability.extra.sold_rare and card.ability.extra.used_spectral and card.ability.extra.scored_secret then
+                    if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             func = (function()
@@ -545,7 +545,7 @@ if config.j_sdm_ouija_board then
                                         G.GAME.consumeable_buffer = 0
                                         return true
                                     end}))   
-                                card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
                             return true
                         end)}))
                     end
@@ -576,10 +576,10 @@ if config.j_sdm_la_revolution then
                 "contains no {C:attention}face{} cards",
             }
         },
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.cardarea == G.jokers then
                 if context.before and context.scoring_name then
-                    self.ability.hand = context.scoring_name
+                    card.ability.hand = context.scoring_name
                 elseif context.after and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
                     no_faces = true
                     for i = 1, #context.full_hand do
@@ -588,9 +588,9 @@ if config.j_sdm_la_revolution then
                         end
                     end
                     if no_faces then
-                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(self.ability.hand, 'poker_hands'),chips = G.GAME.hands[self.ability.hand].chips, mult = G.GAME.hands[self.ability.hand].mult, level=G.GAME.hands[self.ability.hand].level})
-                        level_up_hand(context.blueprint_card or self, self.ability.hand, nil, 1)
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.hand].chips, mult = G.GAME.hands[card.ability.hand].mult, level=G.GAME.hands[card.ability.hand].level})
+                        level_up_hand(context.blueprint_card or card, card.ability.hand, nil, 1)
                         update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
                     end
                 end
@@ -622,28 +622,28 @@ if config.j_sdm_clown_bank then
                 "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.Xmult, self.ability.extra.Xmult_mod, self.ability.extra.dollars, self.ability.extra.inflation}
+        loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}
         end,
-        calculate = function(self, context)
-            if context.setting_blind and not self.getting_sliced and not context.blueprint then
-                if G.GAME.dollars - self.ability.extra.dollars >= G.GAME.bankrupt_at then
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {
-                        message = "-"  .. localize('$') .. self.ability.extra.dollars,
+        calculate = function(card, context)
+            if context.setting_blind and not card.getting_sliced and not context.blueprint then
+                if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = "-"  .. localize('$') .. card.ability.extra.dollars,
                         colour = G.C.RED
                     })
-                    ease_dollars(-self.ability.extra.dollars)
-                    self.ability.extra.Xmult = self.ability.extra.Xmult + self.ability.extra.Xmult_mod
-                    self.ability.extra.dollars = self.ability.extra.dollars + self.ability.extra.inflation
+                    ease_dollars(-card.ability.extra.dollars)
+                    card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
+                    card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.inflation
                     G.E_MANAGER:add_event(Event({
-                        func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}}}); return true
+                        func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}}}); return true
                         end}))
                     return
                 end
-            elseif SMODS.end_calculate_context(context) and self.ability.extra.Xmult > 1 then
+            elseif SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                    Xmult_mod = self.ability.extra.Xmult
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end,
@@ -673,18 +673,18 @@ if config.j_sdm_furnace then
                 "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive})"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.Xmult, self.ability.extra.dollars, self.ability.extra.Xmult_mod, self.ability.extra.dollars_mod}
+        loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.cardarea == G.jokers and context.before and not context.blueprint then
                 if #context.full_hand == 1 and G.GAME.current_round.hands_played == 0 then
                     if context.full_hand[1].ability.name == 'Gold Card' then
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                        self.ability.extra.dollars =  self.ability.extra.dollars + self.ability.extra.dollars_mod
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        card.ability.extra.dollars =  card.ability.extra.dollars + card.ability.extra.dollars_mod
                     elseif context.full_hand[1].ability.name == 'Steel Card' then
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                        self.ability.extra.Xmult =  self.ability.extra.Xmult + self.ability.extra.Xmult_mod
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+                        card.ability.extra.Xmult =  card.ability.extra.Xmult + card.ability.extra.Xmult_mod
                     end
                 end
             end
@@ -694,10 +694,10 @@ if config.j_sdm_furnace then
                     end
                 return nil
             end
-            if SMODS.end_calculate_context(context) and self.ability.extra.Xmult > 1 then
+            if SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                    Xmult_mod = self.ability.extra.Xmult
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end,
@@ -725,8 +725,8 @@ if config.j_sdm_warehouse then
                 "lose {C:money}$#2#{} if sold"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.h_size, -self.ability.extra.dollars}
+        loc_def = function(card)
+            return {card.ability.extra.h_size, -card.ability.extra.dollars}
         end,
         atlas = "sdm_jokers"
     }
@@ -753,12 +753,12 @@ if config.j_sdm_zombie_joker then
                 "{C:inactive}(Must have room)"
             }
         },
-        loc_def = function(self)
-            return {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra}
+        loc_def = function(card)
+            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.selling_card then
-                if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/self.ability.extra then
+                if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                     if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
                     context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -772,7 +772,7 @@ if config.j_sdm_zombie_joker then
                                     G.GAME.consumeable_buffer = 0
                                 return true
                             end)}))
-                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
                     end
                 end
             end
@@ -799,13 +799,13 @@ if config.j_sdm_mystery_joker then
                 "when {C:attention}Boss Blind{} is defeated",
             }
         },
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.end_of_round and not (context.individual or context.repetition) then
                 if G.GAME.blind.boss then
                     G.E_MANAGER:add_event(Event({
                         func = (function()
                             add_tag(Tag('tag_rare'))
-                            self:juice_up(0.3, 0.4)
+                            card:juice_up(0.3, 0.4)
                             play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                             play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                             return true
@@ -838,10 +838,10 @@ if config.j_sdm_infinite_staircase then
                 "without an {C:attention}Ace{} card",
             }
         },
-        loc_def = function(self)
-            return {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra}
+        loc_def = function(card)
+            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if SMODS.end_calculate_context(context) then
                 no_faces_and_ace = true
                 for i = 1, #context.scoring_hand do
@@ -851,8 +851,8 @@ if config.j_sdm_infinite_staircase then
                 end
                 if no_faces_and_ace and next(context.poker_hands["Straight"]) then
                     return {
-                        message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                        Xmult_mod = self.ability.extra.Xmult
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                        Xmult_mod = card.ability.extra.Xmult
                     }
                 end
             end
@@ -882,49 +882,49 @@ if config.j_sdm_ninja_joker then
                 "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.active, self.ability.extra.inactive}
+        loc_def = function(card)
+            return {card.ability.extra.active, card.ability.extra.inactive}
         end,
-        calculate = function(self, context)
-            if context.playing_card_added  and not self.getting_sliced and not context.blueprint then
-                if not self.ability.extra.can_dupe then
-                    self.ability.extra.active = "Active"
-                    self.ability.extra.inactive = ""
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {
+        calculate = function(card, context)
+            if context.playing_card_added  and not card.getting_sliced and not context.blueprint then
+                if not card.ability.extra.can_dupe then
+                    card.ability.extra.active = "Active"
+                    card.ability.extra.inactive = ""
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_active_ex'),
                         colour = G.C.FILTER,
                     })
-                    self.ability.extra.can_dupe = true
+                    card.ability.extra.can_dupe = true
                 end
             end
-            if context.cards_destroyed and self.ability.extra.can_dupe then
+            if context.cards_destroyed and card.ability.extra.can_dupe then
                 if #context.glass_shattered > 0 then
                     if not context.blueprint then
-                        self.ability.extra.active = ""
-                        self.ability.extra.inactive = "Inactive"
-                        self.ability.extra.can_dupe = false
+                        card.ability.extra.active = ""
+                        card.ability.extra.inactive = "Inactive"
+                        card.ability.extra.can_dupe = false
                     end
                     G.E_MANAGER:add_event(Event({
                         func = (function()
                             add_tag(Tag('tag_negative'))
-                            self:juice_up(0.3, 0.4)
+                            card:juice_up(0.3, 0.4)
                             play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                             play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                             return true
                         end)
                     }))
                 end
-            elseif context.remove_playing_cards and self.ability.extra.can_dupe then
+            elseif context.remove_playing_cards and card.ability.extra.can_dupe then
                 if #context.removed > 0 then
                     if not context.blueprint then
-                        self.ability.extra.active = ""
-                        self.ability.extra.inactive = "Inactive"
-                        self.ability.extra.can_dupe = false
+                        card.ability.extra.active = ""
+                        card.ability.extra.inactive = "Inactive"
+                        card.ability.extra.can_dupe = false
                     end
                     G.E_MANAGER:add_event(Event({
                         func = (function()
                             add_tag(Tag('tag_negative'))
-                            self:juice_up(0.3, 0.4)
+                            card:juice_up(0.3, 0.4)
                             play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                             play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                             return true
@@ -958,48 +958,48 @@ if config.j_sdm_reach_the_stars then
                 "{C:inactive}(Must have room)",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.num_card1, self.ability.extra.num_card2}
+        loc_def = function(card)
+            return {card.ability.extra.num_card1, card.ability.extra.num_card2}
         end,
-        set_ability = function(self, initial, delay_sprites)
+        set_ability = function(card, initial, delay_sprites)
             local valid_nums = {1, 2, 3, 4, 5}
             local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
             table.remove(valid_nums, c1)
             local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
             if c1 > c2 then
-                self.ability.extra.num_card1 = c2
-                self.ability.extra.num_card2 = c1
+                card.ability.extra.num_card1 = c2
+                card.ability.extra.num_card2 = c1
             elseif c1 < c2 then
-                self.ability.extra.num_card1 = c1
-                self.ability.extra.num_card2 = c2
+                card.ability.extra.num_card1 = c1
+                card.ability.extra.num_card2 = c2
             end
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.cardarea == G.jokers and not (context.before or context.after) then
                 if context.scoring_hand then 
-                    if #context.scoring_hand == self.ability.extra.num_card1 and not self.ability.extra.c1_scored then
+                    if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
                         if not context.blueprint then 
-                            self.ability.extra.c1_scored = true
-                            self.ability.extra.rts_scored = self.ability.extra.rts_scored + 1
-                            card_eval_status_text(self, 'extra', nil, nil, nil, {
-                                message = self.ability.extra.rts_scored .. '/' .. self.ability.extra.remaining,
+                            card.ability.extra.c1_scored = true
+                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
                                 colour = G.C.FILTER,
                             })
                         end
-                    elseif #context.scoring_hand == self.ability.extra.num_card2 and not self.ability.extra.c2_scored then
+                    elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
                         if not context.blueprint then 
-                            self.ability.extra.c2_scored = true
-                            self.ability.extra.rts_scored = self.ability.extra.rts_scored + 1
-                            card_eval_status_text(self, 'extra', nil, nil, nil, {
-                                message = self.ability.extra.rts_scored .. '/' .. self.ability.extra.remaining,
+                            card.ability.extra.c2_scored = true
+                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
                                 colour = G.C.FILTER,
                             })
                         end
                     end
-                    if self.ability.extra.c1_scored and self.ability.extra.c2_scored then
-                        self.ability.extra.rts_scored = 0
-                        self.ability.extra.c1_scored = false
-                        self.ability.extra.c2_scored = false
+                    if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
+                        card.ability.extra.rts_scored = 0
+                        card.ability.extra.c1_scored = false
+                        card.ability.extra.c2_scored = false
                         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                             G.E_MANAGER:add_event(Event({
@@ -1015,26 +1015,26 @@ if config.j_sdm_reach_the_stars then
                             return {
                                 message = localize('k_plus_planet'),
                                 colour = G.C.SECONDARY_SET.Planet,
-                                card = self
+                                card = card
                             }
                         end
                     end
                 end
             end
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                self.ability.extra.rts_scored = 0
-                self.ability.extra.c1_scored = false
-                self.ability.extra.c2_scored = false
+                card.ability.extra.rts_scored = 0
+                card.ability.extra.c1_scored = false
+                card.ability.extra.c2_scored = false
                 local valid_nums = {1, 2, 3, 4, 5}
                 local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
                 table.remove(valid_nums, c1)
                 local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
                 if c1 > c2 then
-                    self.ability.extra.num_card1 = c2
-                    self.ability.extra.num_card2 = c1
+                    card.ability.extra.num_card1 = c2
+                    card.ability.extra.num_card2 = c1
                 elseif c1 < c2 then
-                    self.ability.extra.num_card1 = c1
-                    self.ability.extra.num_card2 = c2
+                    card.ability.extra.num_card1 = c1
+                    card.ability.extra.num_card2 = c2
                 end
                 return {
                     message = localize('k_reset')
@@ -1065,17 +1065,17 @@ if config.j_sdm_crooked_joker then
                 "{C:inactive}(Must have room)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.sdm_adding_card and not context.blueprint then
-                if context.card and context.card ~= self and context.card.ability.set == 'Joker' then
+                if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
                     do_dupe = pseudorandom(pseudoseed('sword_of_damocles'), 0, 1)
                     if do_dupe == 1 then
                         if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
                             G.GAME.joker_buffer = G.GAME.joker_buffer + 1
-                            card_eval_status_text(self, 'extra', nil, nil, nil, {
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
                                 message = localize('k_plus_joker'),
                                 colour = G.C.BLUE,
                             })
@@ -1091,7 +1091,7 @@ if config.j_sdm_crooked_joker then
                             }))
                         end
                     elseif not context.card.ability.eternal then
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
                             message = localize('k_nope_ex'),
                             colour = G.C.RED,
                         })
@@ -1100,11 +1100,11 @@ if config.j_sdm_crooked_joker then
                             context.card:start_dissolve({G.C.RED}, nil, 1.6)
                         return true end }))
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
-                            card_eval_status_text(self, 'extra', nil, nil, nil, {
-                                message = localize('$') .. self.ability.extra,
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = localize('$') .. card.ability.extra,
                                 colour = G.C.MONEY
                             })
-                            ease_dollars(self.ability.extra)
+                            ease_dollars(card.ability.extra)
                         return true end }))
                     end
                 end
@@ -1131,10 +1131,10 @@ if config.j_sdm_property_damage then
                 "become {C:attention}Stone{} cards"
             }
         },
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.pre_discard and not context.blueprint then
                 if G.FUNCS.get_poker_hand_info(G.hand.highlighted) == "Full House" then
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize("k_stone"),
                         colour = G.C.GREY
                     })
@@ -1168,13 +1168,13 @@ if config.j_sdm_rock_n_roll then
                 "{C:attention}Wild{} and {C:attention}Stone{} cards",
             }
         },
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.repetition and not context.individual and context.cardarea == G.play then
                 if context.other_card.ability.effect == "Wild Card" or context.other_card.ability.effect == "Stone Card" then
                     return {
                         message = localize('k_again_ex'),
-                        repetitions = self.ability.extra,
-                        card = self
+                        repetitions = card.ability.extra,
+                        card = card
                     }
                 end
             end
@@ -1206,24 +1206,24 @@ if config.j_sdm_contract then
                 "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.Xmult, self.ability.extra.dollars_mod,
-            (self.ability.extra.registered and self.ability.extra.dollars) or "?",
-            (self.ability.extra.registered and self.ability.extra.dollars + self.ability.extra.dollars_mod) or "?+" .. self.ability.extra.dollars_mod}
+        loc_def = function(card)
+            return {card.ability.extra.Xmult, card.ability.extra.dollars_mod,
+            (card.ability.extra.registered and card.ability.extra.dollars) or "?",
+            (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?+" .. card.ability.extra.dollars_mod}
         end,
-        calculate = function(self, context)
-            if context.setting_blind and not (self.getting_sliced or self.breached) and not self.ability.extra.registered then
-                card_eval_status_text(self, 'extra', nil, nil, nil, {
+        calculate = function(card, context)
+            if context.setting_blind and not (card.getting_sliced or card.breached) and not card.ability.extra.registered then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = localize('k_signed_ex'),
                     colour = G.C.FILTER
                 })
-                self.ability.extra.dollars = G.GAME.dollars
-                self.ability.extra.registered = true
+                card.ability.extra.dollars = G.GAME.dollars
+                card.ability.extra.registered = true
             end
             if SMODS.end_calculate_context(context) then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                    Xmult_mod = self.ability.extra.Xmult
+                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end,
@@ -1251,10 +1251,10 @@ if config.j_sdm_cupidon then
                 "card of the same {C:attention}suit",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if SMODS.end_calculate_context(context) and context.scoring_hand then
                 local king_suit = {}
                 local queen_suit = {}
@@ -1290,8 +1290,8 @@ if config.j_sdm_cupidon then
                 end
                 if couple then
                     return {
-                        message = localize{type='variable',key='a_mult',vars={self.ability.extra}},
-                        mult_mod = self.ability.extra
+                        message = localize{type='variable',key='a_mult',vars={card.ability.extra}},
+                        mult_mod = card.ability.extra
                     }
                 end
             end
@@ -1321,30 +1321,30 @@ if config.j_sdm_pizza then
                 "{C:red}#2#{} every round"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.hands, self.ability.extra.hand_mod, (self.ability.extra.hands > 1 and "hands") or "hand"}
+        loc_def = function(card)
+            return {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                self.ability.extra.hands = self.ability.extra.hands - self.ability.extra.hand_mod
-                if self.ability.extra.hands > 0 then
-                    card_eval_status_text(self, 'extra', nil, nil, nil, {
-                        message = self.ability.extra.hands .. '',
+                card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
+                if card.ability.extra.hands > 0 then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = card.ability.extra.hands .. '',
                         colour = G.C.CHIPS
                     })
                 else    
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             play_sound('tarot1')
-                            self.T.r = -0.2
-                            self:juice_up(0.3, 0.4)
-                            self.states.drag.is = true
-                            self.children.center.pinch.x = true
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
                             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                                 func = function()
-                                    G.jokers:remove_card(self)
-                                    self:remove()
-                                    self = nil
+                                    G.jokers:remove_card(card)
+                                    card:remove()
+                                    card = nil
                                 return true; end})) 
                             return true
                         end
@@ -1355,13 +1355,13 @@ if config.j_sdm_pizza then
                     }
                 end
             end
-            if context.setting_blind and not (context.blueprint_card or self).getting_sliced then
+            if context.setting_blind and not (context.blueprint_card or card).getting_sliced then
                 G.E_MANAGER:add_event(Event({func = function()
-                    ease_hands_played(self.ability.extra.hands)
-                    if self.ability.extra.hands > 1 then
-                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {self.ability.extra.hands}}})
+                    ease_hands_played(card.ability.extra.hands)
+                    if card.ability.extra.hands > 1 then
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra.hands}}})
                     else
-                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {self.ability.extra.hands}}})
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra.hands}}})
                     end
                 return true end }))
             end
@@ -1390,17 +1390,17 @@ if config.j_sdm_treasure_chest then
                 "{C:attention}consumable{} sold"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.selling_card and not context.blueprint then
                 if context.card.ability.set ~= 'Joker' then
                     G.E_MANAGER:add_event(Event({
                         func = function()
-                        self.ability.extra_value = self.ability.extra_value + self.ability.extra
-                        self:set_cost()
-                        card_eval_status_text(self, 'extra', nil, nil, nil, {
+                        card.ability.extra_value = card.ability.extra_value + card.ability.extra
+                        card:set_cost()
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
                             message = localize('k_val_up'),
                             colour = G.C.MONEY
                         })
@@ -1433,14 +1433,14 @@ if config.j_sdm_bullet_train then
                 "were used this round",
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra}
+        loc_def = function(card)
+            return {card.ability.extra}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if SMODS.end_calculate_context(context) and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
                 return {
-                    message = localize{type='variable',key='a_chips',vars={self.ability.extra}},
-                    chip_mod = self.ability.extra
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                    chip_mod = card.ability.extra
                 }
             end
         end,
@@ -1470,14 +1470,14 @@ if config.j_sdm_chaos_theory then
                 "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.chip_mod, self.ability.extra.chips}
+        loc_def = function(card)
+            return {card.ability.extra.chip_mod, card.ability.extra.chips}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if SMODS.end_calculate_context(context) then
                 return {
-                    message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                    chip_mod = self.ability.extra.chips
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                    chip_mod = card.ability.extra.chips
                 }
             end
         end,
@@ -1507,16 +1507,16 @@ if config.j_sdm_archibald then
                 "{C:inactive}(Remaining {C:attention}#1#{C:inactive})"
             }
         },
-        loc_def = function(self)
-            return {self.ability.extra.remaining}
+        loc_def = function(card)
+            return {card.ability.extra.remaining}
         end,
-        calculate = function(self, context)
+        calculate = function(card, context)
             if context.buying_card then
                 if context.card.ability.set == 'Joker' then
                     if not context.blueprint then
-                        self.ability.extra.remaining = self.ability.extra.remaining - 1
+                        card.ability.extra.remaining = card.ability.extra.remaining - 1
                     end
-                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {
+                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
                         message = localize('k_plus_joker'),
                         colour = G.C.BLUE,
                     })
@@ -1531,34 +1531,34 @@ if config.j_sdm_archibald then
                             return true
                         end
                     }))
-                    if self.ability.extra.remaining >= 1 and not context.blueprint then
+                    if card.ability.extra.remaining >= 1 and not context.blueprint then
                         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, blockable = false,
                             func = function()
-                                card_eval_status_text(self, 'extra', nil, nil, nil, {
-                                    message =  self.ability.extra.remaining..'',
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                    message =  card.ability.extra.remaining..'',
                                     colour = G.C.FILTER,
                                 })
                                 return true
                             end
                         }))
                     end
-                    if self.ability.extra.remaining < 1 and not context.blueprint then 
+                    if card.ability.extra.remaining < 1 and not context.blueprint then 
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                card_eval_status_text(self, 'extra', nil, nil, nil, {
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
                                     message = localize('k_extinct_ex'),
                                     colour = G.C.MONEY,
                                 })
                                 play_sound('tarot1')
-                                self.T.r = -0.2
-                                self:juice_up(0.3, 0.4)
-                                self.states.drag.is = true
-                                self.children.center.pinch.x = true
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
                                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, blockable = false,
                                     func = function()
-                                        G.jokers:remove_card(self)
-                                        self:remove()
-                                        self = nil
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
                                     return true; end})) 
                                 return true
                             end
