@@ -839,7 +839,7 @@ if config.j_sdm_infinite_staircase then
             }
         },
         loc_def = function(card)
-            return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
+            return {card.ability.extra.Xmult}
         end,
         calculate = function(card, context)
             if SMODS.end_calculate_context(context) then
