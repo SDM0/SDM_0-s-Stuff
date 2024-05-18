@@ -17,7 +17,6 @@ function SMODS.current_mod.process_loc_text()
     G.localization.misc.dictionary.k_signed_ex = "Signed!"
     G.localization.misc.dictionary.k_breached_ex = "Breached!"
     G.localization.misc.dictionary.k_shared_ex = "Shared!"
-
     G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
 end
 

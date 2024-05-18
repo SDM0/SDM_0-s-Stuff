@@ -1,14 +1,6 @@
 local parameters = NFS.load(SMODS.current_mod.path.."config.lua")()
 local config, space_jokers = parameters.config, parameters.space_jokers
 
-function SMODS.current_mod.process_loc_text()
-    G.localization.misc.dictionary.k_stone = "Stone"
-    G.localization.misc.dictionary.k_signed_ex = "Signed!"
-    G.localization.misc.dictionary.k_breached_ex = "Breached!"
-    G.localization.misc.dictionary.k_shared_ex = "Shared!"
-    G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
-end
-
 SMODS.Atlas{
     key = "sdm_jokers",
     path = "sdm_jokers.png",
