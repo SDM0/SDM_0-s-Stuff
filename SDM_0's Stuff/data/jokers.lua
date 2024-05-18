@@ -110,8 +110,8 @@ if config.jokers then
                         }
                     end
                 elseif SMODS.end_calculate_context(context) then
-                    SMODS.eval_this(card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
-                    SMODS.eval_this(card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
+                    SMODS.eval_this(context.blueprint_card or card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
+                    SMODS.eval_this(context.blueprint_card or card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
