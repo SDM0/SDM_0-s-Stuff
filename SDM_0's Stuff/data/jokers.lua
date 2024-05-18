@@ -39,8 +39,8 @@ if config.jokers then
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive})"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}
             end,
             calculate = function(card, context)
                 if context.using_consumeable and not context.blueprint then
@@ -84,8 +84,8 @@ if config.jokers then
                     "for the next {C:attention}#4#{} rounds",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}}
             end,
             calculate = function(card, context)
                 if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
@@ -152,8 +152,8 @@ if config.jokers then
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}}
             end,
             calculate = function(card, context)
                 if context.cardarea == G.jokers and context.before and not context.blueprint then
@@ -203,8 +203,8 @@ if config.jokers then
                     "{C:attention}#1#{} additional times"
                 },
             },
-            loc_def = function(card)
-                return {card.ability.extra.repitition}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.repitition}}
             end,
             calculate = function(card, context)
                 if context.repetition and not context.individual and context.cardarea == G.play then
@@ -242,8 +242,8 @@ if config.jokers then
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.mult, card.ability.extra.mult_mod}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
@@ -279,8 +279,8 @@ if config.jokers then
                     "gives {C:chips}+#2#{} Chips",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.mult, card.ability.extra.chips}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.mult, card.ability.extra.chips}}
             end,
             calculate = function(card, context)
                 if context.individual and context.cardarea == G.play then
@@ -320,8 +320,8 @@ if config.jokers then
                     "give{C:chips} +#1# {}Chips",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if context.other_joker then
@@ -363,8 +363,8 @@ if config.jokers then
                     "at end of round",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.min, card.ability.extra.max}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.min, card.ability.extra.max}}
             end,
             atlas = "sdm_jokers"
         }
@@ -390,8 +390,8 @@ if config.jokers then
                     "{C:inactive}(ex: {C:attention}Four of a Kind{} {C:inactive}on {C:chips}Hand 4{C:inactive})",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) and context.scoring_hand then
@@ -455,8 +455,8 @@ if config.jokers then
                     "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.mult, card.ability.extra.mult_mod}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
             calculate = function(card, context)
                 if context.selling_card and not context.blueprint then
@@ -501,8 +501,8 @@ if config.jokers then
                     "{C:inactive}(Remaining {C:attention}#1#{C:inactive}/#2#)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.remaining, card.ability.extra.rounds}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.remaining, card.ability.extra.rounds}}
             end,
             calculate = function(card, context)
                 if context.selling_card and not context.blueprint and context.card.ability.set == 'Joker' then
@@ -623,8 +623,8 @@ if config.jokers then
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}}
             end,
             calculate = function(card, context)
                 if context.setting_blind and not card.getting_sliced and not context.blueprint then
@@ -674,8 +674,8 @@ if config.jokers then
                     "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive})"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}}
             end,
             calculate = function(card, context)
                 if context.cardarea == G.jokers and context.before and not context.blueprint then
@@ -726,8 +726,8 @@ if config.jokers then
                     "lose {C:money}$#2#{} if sold"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.h_size, -card.ability.extra.dollars}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.h_size, -card.ability.extra.dollars}}
             end,
             atlas = "sdm_jokers"
         }
@@ -754,8 +754,8 @@ if config.jokers then
                     "{C:inactive}(Must have room)"
                 }
             },
-            loc_def = function(card)
-                return {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
             end,
             calculate = function(card, context)
                 if context.selling_card then
@@ -839,8 +839,8 @@ if config.jokers then
                     "without an {C:attention}Ace{} card",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.Xmult}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.Xmult}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) then
@@ -883,8 +883,8 @@ if config.jokers then
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.active, card.ability.extra.inactive}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.active, card.ability.extra.inactive}}
             end,
             calculate = function(card, context)
                 if context.playing_card_added  and not card.getting_sliced and not context.blueprint then
@@ -959,8 +959,8 @@ if config.jokers then
                     "{C:inactive}(Must have room)",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.num_card1, card.ability.extra.num_card2}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.num_card1, card.ability.extra.num_card2}}
             end,
             set_ability = function(card, initial, delay_sprites)
                 local valid_nums = {1, 2, 3, 4, 5}
@@ -1066,8 +1066,8 @@ if config.jokers then
                     "{C:inactive}(Must have room)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if context.sdm_adding_card and not context.blueprint then
@@ -1207,10 +1207,10 @@ if config.jokers then
                     "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.Xmult, card.ability.extra.dollars_mod,
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.Xmult, card.ability.extra.dollars_mod,
                 (card.ability.extra.registered and card.ability.extra.dollars) or "?",
-                (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?+" .. card.ability.extra.dollars_mod}
+                (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?+" .. card.ability.extra.dollars_mod}}
             end,
             calculate = function(card, context)
                 if context.setting_blind and not (card.getting_sliced or card.breached) and not card.ability.extra.registered then
@@ -1252,8 +1252,8 @@ if config.jokers then
                     "card of the same {C:attention}suit",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) and context.scoring_hand then
@@ -1322,8 +1322,8 @@ if config.jokers then
                     "{C:red}#2#{} every round"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}}
             end,
             calculate = function(card, context)
                 if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
@@ -1391,8 +1391,8 @@ if config.jokers then
                     "{C:attention}consumable{} sold"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if context.selling_card and not context.blueprint then
@@ -1434,8 +1434,8 @@ if config.jokers then
                     "were used this round",
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
@@ -1471,8 +1471,8 @@ if config.jokers then
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
-            loc_def = function(card)
-                return {card.ability.extra.chip_mod, card.ability.extra.chips}
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
             end,
             calculate = function(card, context)
                 if SMODS.end_calculate_context(context) then
