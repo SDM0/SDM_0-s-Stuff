@@ -72,8 +72,8 @@ if config.jokers then
                 name = "Burger",
                 text = {
                     "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult",
-                    "and {X:mult,C:white}X#1#{} Mult",
-                    "for the next {C:attention}#4#{} rounds",
+                    "and {X:mult,C:white}X#1#{} Mult for",
+                    "the next {C:attention}#4#{} rounds",
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -110,8 +110,8 @@ if config.jokers then
                         }
                     end
                 elseif SMODS.end_calculate_context(context) then
-                    eval_this(card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
-                    eval_this(card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
+                    SMODS.eval_this(card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
+                    SMODS.eval_this(card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
