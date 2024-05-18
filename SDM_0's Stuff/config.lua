@@ -1,5 +1,8 @@
 local parameters = {
     config = {
+
+        jokers = true,  --- disables all of the mod jokers, challenges and SDM_0's Deck on "false"
+
         j_sdm_trance_the_devil = true,
         j_sdm_burger = true,
         j_sdm_bounciest_ball = true,
@@ -32,9 +35,9 @@ local parameters = {
         j_sdm_chaos_theory = true,
         j_sdm_archibald = true,
 
-        challenges = true,
+        challenges = true,  --- disables all of the mod challenges on "false"
 
-        decks = true,
+        decks = true,   --- disables all of the mod decks on "false"
     },
 
     space_jokers = {

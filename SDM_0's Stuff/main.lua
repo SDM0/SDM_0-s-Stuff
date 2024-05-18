@@ -28,9 +28,8 @@ NFS.load(sdm_mod_path.."data/jokers.lua")()
 NFS.load(sdm_mod_path.."data/challenges.lua")()
 NFS.load(sdm_mod_path.."data/decks.lua")()
 
-SMODS.Sprite{
+SMODS.Atlas{
     key = "modicon",
-    atlas = "asset_atlas",
     path = "sdm_modicon.png",
     px = 34,
     py = 34,

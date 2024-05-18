@@ -9,7 +9,7 @@ function SMODS.current_mod.process_loc_text()
     G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 end
 
-if config.challenges then
+if config.challenges and config.jokers then
 
     --- Devil's Deal ---
 

@@ -3,7 +3,7 @@ local config = parameters.config
 
 if config.decks then
 
-    if get_random_sdm_modded_jokers(2, true) then
+    if config.jokers and get_random_sdm_modded_jokers(2, true) then
         SMODS.Back{
             name = "SDM_0's Deck",
             key = "sdm_0_s_deck",
