@@ -1,4 +1,4 @@
-local parameters = NFS.load(SMODS.current_mod.path.."config.lua")()
+local parameters = NFS.load(sdm_mod.path.."config.lua")()
 local config = parameters.config
 
 --- Get the amount of time a consumable has been used

@@ -1,4 +1,4 @@
-local parameters = NFS.load(SMODS.current_mod.path.."config.lua")()
+local parameters = NFS.load(sdm_mod.path.."config.lua")()
 local config, space_jokers = parameters.config, parameters.space_jokers
 
 SMODS.Atlas{
