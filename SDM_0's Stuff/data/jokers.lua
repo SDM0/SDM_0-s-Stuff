@@ -1,4 +1,4 @@
-local parameters = NFS.load(sdm_mod.path.."config.lua")()
+local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
 local config, space_jokers = parameters.config, parameters.space_jokers
 
 SMODS.Atlas{
@@ -28,7 +28,7 @@ if config.jokers then
                 text = {
                     "{X:mult,C:white}X#1#{} Mult per {C:spectral}Trance{} and",
                     "{C:tarot}The Devil{} card used this run",
-                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive})"
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -138,9 +138,9 @@ if config.jokers then
             loc_txt = {
                 name = "Bounciest Ball",
                 text = {
-                    "This Joker gains {C:chips}+#2#{} Chips every time",
-                    "a {C:attention}#3#{} is scored, reset and",
-                    "change on {C:attention}different hand{}",
+                    "This Joker gains {C:chips}+#2#{} Chips when",
+                    "a {C:attention}#3#{} is scored, halved",
+                    "and changed on {C:attention}different hand{}",
                     "{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
                 }
             },
@@ -157,10 +157,10 @@ if config.jokers then
                             card = card
                         }
                     else
-                        card.ability.extra.chips = 0
+                        card.ability.extra.chips = math.floor(card.ability.extra.chips / 2)
                         card.ability.extra.hand = context.scoring_name
                         return {
-                            message = localize('k_reset'),
+                            message = localize('k_halved_ex'),
                             colour = G.C.RED,
                         }
                     end
@@ -870,8 +870,9 @@ if config.jokers then
                 name = "Ninja Joker",
                 text = {
                     "Creates a {C:dark_edition}Negative{C:attention} Tag",
-                    "if a card is {C:attention}destroyed{}, reactivates",
-                    "when a {C:attention}playing card{} is added",
+                    "if a card is {C:attention}destroyed{},",
+                    "reactivates when a",
+                    "{C:attention}playing card{} is added",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },

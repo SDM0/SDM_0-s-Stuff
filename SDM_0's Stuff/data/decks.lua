@@ -1,4 +1,4 @@
-local parameters = NFS.load(sdm_mod.path.."config.lua")()
+local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
 local config = parameters.config
 
 if config.decks then

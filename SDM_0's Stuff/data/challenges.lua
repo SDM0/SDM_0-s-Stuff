@@ -1,10 +1,10 @@
-local parameters = NFS.load(sdm_mod.path.."config.lua")()
+local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
 local config = parameters.config
 
 --- Challenges ---
 
-local smods_current_mod_process_loc_textref = sdm_mod.process_loc_text
-function sdm_mod.process_loc_text()
+local smods_current_mod_process_loc_textref = SDM_0s_Stuff_Mod.process_loc_text
+function SDM_0s_Stuff_Mod.process_loc_text()
     smods_current_mod_process_loc_textref()
     G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
 end

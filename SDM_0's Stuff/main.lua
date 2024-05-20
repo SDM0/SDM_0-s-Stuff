@@ -12,9 +12,10 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-sdm_mod = SMODS.current_mod
+SDM_0s_Stuff_Mod = SMODS.current_mod
 
-function sdm_mod.process_loc_text()
+function SDM_0s_Stuff_Mod.process_loc_text()
+    G.localization.misc.dictionary.k_halved_ex = "Halved!"
     G.localization.misc.dictionary.k_stone = "Stone"
     G.localization.misc.dictionary.k_signed_ex = "Signed!"
     G.localization.misc.dictionary.k_breached_ex = "Breached!"
@@ -22,12 +23,12 @@ function sdm_mod.process_loc_text()
     G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
 end
 
-NFS.load(sdm_mod.path.."utils.lua")()
-NFS.load(sdm_mod.path.."overrides.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."utils.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."overrides.lua")()
 
-NFS.load(sdm_mod.path.."data/jokers.lua")()
-NFS.load(sdm_mod.path.."data/challenges.lua")()
-NFS.load(sdm_mod.path.."data/decks.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."data/jokers.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."data/challenges.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."data/decks.lua")()
 
 SMODS.Atlas{
     key = "modicon",
