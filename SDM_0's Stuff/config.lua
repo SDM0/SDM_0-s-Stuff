@@ -42,25 +42,25 @@ local parameters = {
 
     space_jokers = {
         -- Vanilla --
-        j_supernova = true,
-        j_space = true,
-        j_constellation = true,
-        j_rocket = true,
-        j_satellite = true,
-        j_astronomer = true,
+        j_supernova = {name = "Supernova", enable = true},
+        j_space = {name = "Space Joker", enable = true},
+        j_constellation = {name = "Constellation", enable = true},
+        j_rocket = {name = "Rocket", enable = true},
+        j_satellite = {name = "Satellite", enable = true},
+        j_astronomer = {name = "Astronomer", enable = true},
 
         -- SDM_0's Stuff --
-        j_sdm_moon_base = true,
-        j_sdm_wandering_star = true,
-        j_sdm_reach_the_stars = true,
-        j_sdm_moon_landing = true,
+        j_sdm_moon_base = {name = "Moon Base", enable = true},
+        j_sdm_wandering_star = {name = "Wandering Star", enable = true},
+        j_sdm_reach_the_stars = {name = "Reach The Stars", enable = true},
+        -- j_sdm_moon_landing = {name = "Moon Landing", (fusion)
 
         -- Other mods (currently unavailable) --
-        j_fuel_tank = true, -- Ortolab
-        j_mmc_blue_moon = true, -- Mika's Mod
-        j_sentai = true, -- Jank Jonklers
-        j_ternary_system = true, -- Jank Jonklers
-        j_big_bang = true, -- Fusion Joker
+        j_fuel_tank = {name = "Fuel Tank", enable = true}, -- Ortolab
+        j_mmc_blue_moon = {name = "Blue Moon", enable = true}, -- Mika's Mod
+        j_sentai = {name = "Sentai Joker", enable = true}, -- Jank Jonklers
+        j_ternary_system = {name = "Ternary System", enable = true}, -- Jank Jonklers
+        j_big_bang = {name = "Big Bang", enable = true}, -- Fusion Joker
     }
 }
 

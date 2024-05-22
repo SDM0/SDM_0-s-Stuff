@@ -32,6 +32,8 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.c_trance
+                info_queue[#info_queue+1] = G.P_CENTERS.c_devil
                 return {vars = {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}
             end,
             calculate = function(card, context)
@@ -43,7 +45,7 @@ if config.jokers then
                             return true end}))
                         return
                     end
-                elseif SMODS.end_calculate_context(context) and
+                elseif context.joker_main and
                     (1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra)) > 1) then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}},
@@ -109,7 +111,7 @@ if config.jokers then
                             colour = G.C.FILTER
                         }
                     end
-                elseif SMODS.end_calculate_context(context) then
+                elseif context.joker_main then
                     SMODS.eval_this(context.blueprint_card or card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
                     SMODS.eval_this(context.blueprint_card or card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
                     return {
@@ -164,12 +166,15 @@ if config.jokers then
                             colour = G.C.RED,
                         }
                     end
-                elseif SMODS.end_calculate_context(context) and card.ability.extra.chips > 0 then
+                elseif context.joker_main and card.ability.extra.chips > 0 then
                     return {
                         message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
                         chip_mod = card.ability.extra.chips
                     }
                 end
+            end,
+            update = function(card, dt)
+                card.ability.extra.hand = G.GAME.last_hand_played or "High Card"
             end,
             atlas = "sdm_jokers"
         }
@@ -196,6 +201,7 @@ if config.jokers then
                 },
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
                 return {vars = {card.ability.extra.repitition}}
             end,
             calculate = function(card, context)
@@ -238,12 +244,22 @@ if config.jokers then
                 return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
+                if context.joker_main and card.ability.extra.mult > 0 then
                     return {
                         message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
                         mult_mod = card.ability.extra.mult,
                         colour = G.C.MULT
                     }
+                end
+            end,
+            update = function(card, dt)
+                card.ability.extra.mult = 0
+                if G.playing_cards then
+                    for _, v in pairs(G.playing_cards) do
+                        if v:get_id() == 14 and (v.edition or v.seal or v.ability.effect ~= "Base") then
+                            card.ability.extra.mult =  card.ability.extra.mult + card.ability.extra.mult_mod
+                        end
+                    end
                 end
             end,
             atlas = "sdm_jokers"
@@ -272,6 +288,8 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
+                info_queue[#info_queue+1] = G.P_CENTERS.m_mult
                 return {vars = {card.ability.extra.mult, card.ability.extra.chips}}
             end,
             calculate = function(card, context)
@@ -313,12 +331,14 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = {key = "space_jokers", set = "Other"}
                 return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
                 if context.other_joker then
                     sendDebugMessage(context.other_joker.config.center_key)
-                    if space_jokers[context.other_joker.config.center_key] and context.other_joker ~= card then
+                    local jkr = context.other_joker.config.center_key
+                    if space_jokers[jkr] and space_jokers[jkr].enable and context.other_joker ~= card then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 context.other_joker:juice_up(0.5, 0.5)
@@ -386,7 +406,7 @@ if config.jokers then
                 return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) and context.scoring_hand then
+                if context.joker_main and context.scoring_hand then
                     cards_id = {}
                     for i = 1, #context.scoring_hand do
                         table.insert(cards_id, context.scoring_hand[i]:get_id())
@@ -459,7 +479,7 @@ if config.jokers then
                         end}))
                     end
                 end
-                if SMODS.end_calculate_context(context) and card.ability.extra.mult > 0 then
+                if context.joker_main and card.ability.extra.mult > 0 then
                     return {
                         message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
                         mult_mod = card.ability.extra.mult
@@ -515,7 +535,7 @@ if config.jokers then
                         end
                     end
                 end
-                if SMODS.end_calculate_context(context) and not context.blueprint then
+                if context.joker_main and not context.blueprint then
                     if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
                         if not card.ability.extra.scored_secret then
                             card.ability.extra.scored_secret = true
@@ -633,7 +653,7 @@ if config.jokers then
                             end}))
                         return
                     end
-                elseif SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
+                elseif context.joker_main and card.ability.extra.Xmult > 1 then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
@@ -667,6 +687,8 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+                info_queue[#info_queue+1] = G.P_CENTERS.m_gold
                 return {vars = {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}}
             end,
             calculate = function(card, context)
@@ -687,7 +709,7 @@ if config.jokers then
                         end
                     return nil
                 end
-                if SMODS.end_calculate_context(context) and card.ability.extra.Xmult > 1 then
+                if context.joker_main and card.ability.extra.Xmult > 1 then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
@@ -720,6 +742,12 @@ if config.jokers then
             },
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.h_size, -card.ability.extra.dollars}}
+            end,
+            update = function(card, dt)
+                if card.set_cost and card.ability.extra_value ~= card.ability.extra.dollars - math.floor(card.cost / 2) then 
+                    card.ability.extra_value = card.ability.extra.dollars - math.floor(card.cost / 2)
+                    card:set_cost()
+                end
             end,
             atlas = "sdm_jokers"
         }
@@ -835,7 +863,7 @@ if config.jokers then
                 return {vars = {card.ability.extra.Xmult}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) then
+                if context.joker_main then
                     no_faces_and_ace = true
                     for i = 1, #context.scoring_hand do
                         if context.scoring_hand[i]:is_face() or context.scoring_hand[i]:get_id() == 14 then
@@ -1125,6 +1153,9 @@ if config.jokers then
                     "become {C:attention}Stone{} cards"
                 }
             },
+            loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+            end,
             calculate = function(card, context)
                 if context.pre_discard and not context.blueprint then
                     if G.FUNCS.get_poker_hand_info(G.hand.highlighted) == "Full House" then
@@ -1214,11 +1245,40 @@ if config.jokers then
                     card.ability.extra.dollars = G.GAME.dollars
                     card.ability.extra.registered = true
                 end
-                if SMODS.end_calculate_context(context) then
+                if context.joker_main then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
                     }
+                end
+            end,
+            update = function(card, dt)
+                if card.ability.extra.registered and not card.ability.extra.breached then
+                    if G.GAME.dollars < card.ability.extra.dollars or
+                    G.GAME.dollars > card.ability.extra.dollars + card.ability.extra.dollars_mod then
+                        card.ability.extra.breached = true
+                        card.getting_sliced = true
+                        G.E_MANAGER:add_event(Event({trigger = 'immediate', blockable = false,
+                        func = function()
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                message = localize('k_breached_ex'),
+                                colour = G.C.RED
+                            })
+                            play_sound('tarot1')
+                            card.T.r = -0.2
+                            card:juice_up(0.3, 0.4)
+                            card.states.drag.is = true
+                            card.children.center.pinch.x = true
+                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, blockable = false,
+                            func = function()
+                                G.jokers:remove_card(card)
+                                card:remove()
+                                card = nil
+                                return true; 
+                            end})) 
+                            return true
+                        end }))
+                    end
                 end
             end,
             atlas = "sdm_jokers"
@@ -1249,7 +1309,7 @@ if config.jokers then
                 return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) and context.scoring_hand then
+                if context.joker_main and context.scoring_hand then
                     local king_suit = {}
                     local queen_suit = {}
                     local wild_king = 0
@@ -1431,7 +1491,7 @@ if config.jokers then
                 return {vars = {card.ability.extra}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
+                if context.joker_main and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
                     return {
                         message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
                         chip_mod = card.ability.extra
@@ -1468,12 +1528,15 @@ if config.jokers then
                 return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
             end,
             calculate = function(card, context)
-                if SMODS.end_calculate_context(context) then
+                if context.joker_main then
                     return {
                         message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
                         chip_mod = card.ability.extra.chips
                     }
                 end
+            end,
+            update = function(card, dt)
+                card.ability.extra.chips = sum_incremental(2)
             end,
             atlas = "sdm_jokers"
         }

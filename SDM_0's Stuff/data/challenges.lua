@@ -15,7 +15,7 @@ if config.challenges and config.jokers then
 
     if config.j_sdm_trance_the_devil then
         SMODS.Challenge{
-            name = "Devil's Deal",
+            loc_txt = "Devil's Deal",
             key = 'devil_s_deal',
             rules = {
                 custom = {},
@@ -73,7 +73,7 @@ if config.challenges and config.jokers then
 
     if config.j_sdm_la_revolution then
         SMODS.Challenge{
-            name = "Scientific Downfall",
+            loc_txt = "Scientific Downfall",
             key = 'scientific_downfall',
             rules = {
                 custom = {
@@ -109,7 +109,7 @@ if config.challenges and config.jokers then
 
     if config.j_sdm_infinite_staircase then
         SMODS.Challenge{
-            name = "A Plumber's Hassle",
+            loc_txt = "A Plumber's Hassle",
             key = 'a_plumber_s_hassle',
             rules = {
                 custom = {},
@@ -139,7 +139,7 @@ if config.challenges and config.jokers then
 
     if config.j_sdm_clown_bank and config.j_sdm_tip_jar then
         SMODS.Challenge{
-            name = "Spare Change",
+            loc_txt = "Spare Change",
             key = 'spare_change',
             rules = {
                 custom = {
@@ -172,7 +172,7 @@ if config.challenges and config.jokers then
 
     if config.j_sdm_property_damage and config.j_sdm_rock_n_roll then
         SMODS.Challenge{
-            name = "Rock Smash",
+            loc_txt = "Rock Smash",
             key = 'rock_smash',
             rules = {
                 custom = {},
@@ -201,7 +201,7 @@ if config.challenges and config.jokers then
     if config.j_sdm_crooked_joker then
 
         SMODS.Challenge{
-            name = "Twisted Binding",
+            loc_txt = "Twisted Binding",
             key = 'twisted_binding',
             jokers = {
                 {id = 'j_sdm_crooked_joker', eternal = true},
@@ -215,7 +215,7 @@ if config.challenges and config.jokers then
     if config.j_sdm_archibald then
 
         SMODS.Challenge{
-            name = "Archifoolery",
+            loc_txt = "Archifoolery",
             key = 'archifoolery',
             rules = {
                 custom = {},

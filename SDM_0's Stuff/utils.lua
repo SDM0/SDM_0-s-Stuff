@@ -118,9 +118,12 @@ end
 
 --- Get the sum of (almost) all existing numbers
 function sum_incremental(n)
-    return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
-    + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
-    #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
+    if G.jokers then
+        return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
+        + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
+        #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
+    end
+    return 0
 end
 
 --- Second "add_to_deck" to prevent context.sdm_adding_card to loop ---
