@@ -36,7 +36,7 @@ if config.jokers then
                 info_queue[#info_queue+1] = G.P_CENTERS.c_devil
                 return {vars = {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.using_consumeable and not context.blueprint then
                     if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
                         G.E_MANAGER:add_event(Event({func = function()
@@ -81,7 +81,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
                     if card.ability.extra.remaining - 1 <= 0 then 
                         G.E_MANAGER:add_event(Event({
@@ -149,7 +149,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, card.ability.extra.hand}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.cardarea == G.jokers and context.before and not context.blueprint then
                     if context.scoring_name == card.ability.extra.hand then
                         card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
@@ -173,7 +173,7 @@ if config.jokers then
                     }
                 end
             end,
-            update = function(card, dt)
+            update = function(self, card, dt)
                 card.ability.extra.hand = G.GAME.last_hand_played or "High Card"
             end,
             atlas = "sdm_jokers"
@@ -204,7 +204,7 @@ if config.jokers then
                 info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
                 return {vars = {card.ability.extra.repitition}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.repetition and not context.individual and context.cardarea == G.play then
                     if context.other_card:get_id() == 7 and context.other_card.ability.effect == "Lucky Card" then
                         return {
@@ -243,7 +243,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main and card.ability.extra.mult > 0 then
                     return {
                         message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
@@ -252,7 +252,7 @@ if config.jokers then
                     }
                 end
             end,
-            update = function(card, dt)
+            update = function(self, card, dt)
                 card.ability.extra.mult = 0
                 if G.playing_cards then
                     for _, v in pairs(G.playing_cards) do
@@ -292,7 +292,7 @@ if config.jokers then
                 info_queue[#info_queue+1] = G.P_CENTERS.m_mult
                 return {vars = {card.ability.extra.mult, card.ability.extra.chips}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.individual and context.cardarea == G.play then
                     if context.other_card.ability.effect == "Bonus Card" then
                         return {
@@ -334,11 +334,11 @@ if config.jokers then
                 info_queue[#info_queue+1] = {key = "space_jokers", set = "Other"}
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.other_joker then
                     sendDebugMessage(context.other_joker.config.center_key)
                     local jkr = context.other_joker.config.center_key
-                    if space_jokers[jkr] and space_jokers[jkr].enable and context.other_joker ~= card then
+                    if space_jokers[jkr] ~= nil and context.other_joker ~= card then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 context.other_joker:juice_up(0.5, 0.5)
@@ -405,7 +405,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main and context.scoring_hand then
                     cards_id = {}
                     for i = 1, #context.scoring_hand do
@@ -470,7 +470,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.selling_card and not context.blueprint then
                     if context.card.ability.set == 'Planet' then
                         card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_mod
@@ -514,9 +514,10 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.c_soul
                 return {vars = {card.ability.extra.remaining, card.ability.extra.rounds}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.selling_card and not context.blueprint and context.card.ability.set == 'Joker' then
                     if context.card.config.center.rarity == 3 then
                         if not card.ability.extra.sold_rare then
@@ -589,7 +590,7 @@ if config.jokers then
                     "contains no {C:attention}face{} cards",
                 }
             },
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.cardarea == G.jokers then
                     if context.before and context.scoring_name then
                         card.ability.hand = context.scoring_name
@@ -638,7 +639,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.setting_blind and not card.getting_sliced and not context.blueprint then
                     if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -691,7 +692,7 @@ if config.jokers then
                 info_queue[#info_queue+1] = G.P_CENTERS.m_gold
                 return {vars = {card.ability.extra.Xmult, card.ability.extra.dollars, card.ability.extra.Xmult_mod, card.ability.extra.dollars_mod}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.cardarea == G.jokers and context.before and not context.blueprint then
                     if #context.full_hand == 1 and G.GAME.current_round.hands_played == 0 then
                         if context.full_hand[1].ability.name == 'Gold Card' then
@@ -743,7 +744,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.h_size, -card.ability.extra.dollars}}
             end,
-            update = function(card, dt)
+            update = function(self, card, dt)
                 if card.set_cost and card.ability.extra_value ~= card.ability.extra.dollars - math.floor(card.cost / 2) then 
                     card.ability.extra_value = card.ability.extra.dollars - math.floor(card.cost / 2)
                     card:set_cost()
@@ -775,9 +776,10 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.c_death
                 return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.selling_card then
                     if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
@@ -820,7 +822,7 @@ if config.jokers then
                     "when {C:attention}Boss Blind{} is defeated",
                 }
             },
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.end_of_round and not (context.individual or context.repetition) then
                     if G.GAME.blind.boss then
                         G.E_MANAGER:add_event(Event({
@@ -862,7 +864,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.Xmult}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main then
                     no_faces_and_ace = true
                     for i = 1, #context.scoring_hand do
@@ -905,9 +907,10 @@ if config.jokers then
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.tag_negative
                 return {vars = {card.ability.extra.active, card.ability.extra.inactive}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.playing_card_added  and not card.getting_sliced and not context.blueprint then
                     if not card.ability.extra.can_dupe then
                         card.ability.extra.active = "Active"
@@ -983,7 +986,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.num_card1, card.ability.extra.num_card2}}
             end,
-            set_ability = function(card, initial, delay_sprites)
+            set_ability = function(self, card, initial, delay_sprites)
                 local valid_nums = {1, 2, 3, 4, 5}
                 local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
                 table.remove(valid_nums, c1)
@@ -996,7 +999,7 @@ if config.jokers then
                     card.ability.extra.num_card2 = c2
                 end
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.cardarea == G.jokers and not (context.before or context.after) then
                     if context.scoring_hand then 
                         if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
@@ -1090,7 +1093,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.sdm_adding_card and not context.blueprint then
                     if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
                         do_dupe = pseudorandom(pseudoseed('sword_of_damocles'), 0, 1)
@@ -1156,7 +1159,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 info_queue[#info_queue+1] = G.P_CENTERS.m_stone
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.pre_discard and not context.blueprint then
                     if G.FUNCS.get_poker_hand_info(G.hand.highlighted) == "Full House" then
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -1193,7 +1196,11 @@ if config.jokers then
                     "{C:attention}Wild{} and {C:attention}Stone{} cards",
                 }
             },
-            calculate = function(card, context)
+            loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = G.P_CENTERS.m_wild
+                info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+            end,
+            calculate = function(self, card, context)
                 if context.repetition and not context.individual and context.cardarea == G.play then
                     if context.other_card.ability.effect == "Wild Card" or context.other_card.ability.effect == "Stone Card" then
                         return {
@@ -1236,7 +1243,7 @@ if config.jokers then
                 (card.ability.extra.registered and card.ability.extra.dollars) or "?",
                 (card.ability.extra.registered and card.ability.extra.dollars + card.ability.extra.dollars_mod) or "?+" .. card.ability.extra.dollars_mod}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.setting_blind and not (card.getting_sliced or card.breached) and not card.ability.extra.registered then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_signed_ex'),
@@ -1252,7 +1259,7 @@ if config.jokers then
                     }
                 end
             end,
-            update = function(card, dt)
+            update = function(self, card, dt)
                 if card.ability.extra.registered and not card.ability.extra.breached then
                     if G.GAME.dollars < card.ability.extra.dollars or
                     G.GAME.dollars > card.ability.extra.dollars + card.ability.extra.dollars_mod then
@@ -1308,7 +1315,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main and context.scoring_hand then
                     local king_suit = {}
                     local queen_suit = {}
@@ -1378,7 +1385,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
                     card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
                     if card.ability.extra.hands > 0 then
@@ -1447,7 +1454,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.selling_card and not context.blueprint then
                     if context.card.ability.set ~= 'Joker' then
                         G.E_MANAGER:add_event(Event({
@@ -1490,7 +1497,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
                     return {
                         message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
@@ -1519,15 +1526,14 @@ if config.jokers then
                 text = {
                     "{C:chips}+#1#{} Chips per existing",
                     "numerical value",
-                    "{s:0.8,C:inactive}(Except round score, score goal,",
-                    "{s:0.8,C:inactive}hand level and descriptions)",
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = {key = "chaos_exceptions", set = "Other"}
                 return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
             end,
-            calculate = function(card, context)
+            calculate = function(self, card, context)
                 if context.joker_main then
                     return {
                         message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
@@ -1535,7 +1541,7 @@ if config.jokers then
                     }
                 end
             end,
-            update = function(card, dt)
+            update = function(self, card, dt)
                 card.ability.extra.chips = sum_incremental(2)
             end,
             atlas = "sdm_jokers"
@@ -1551,7 +1557,6 @@ if config.jokers then
             rarity = 4,
             discovered = true,
             blueprint_compat = true,
-            eternal_compat = false,
             pos = {x = 0, y = 3},
             cost = 20,
             loc_txt = {
@@ -1562,8 +1567,8 @@ if config.jokers then
                     "{C:inactive}(Copy start selling for {C:money}$0{C:inactive})"
                 }
             },
-            calculate = function(card, context)
-                if context.buying_card then
+            calculate = function(self, card, context)
+                if context.sdm_adding_card then
                     if context.card.ability.set == 'Joker' then
                         card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
                             message = localize('k_plus_joker'),
@@ -1580,6 +1585,62 @@ if config.jokers then
                                 return true
                             end
                         }))
+                    end
+                end
+            end,
+            atlas = "sdm_jokers",
+            soul_pos = {x = 0, y = 4}
+        }
+    end
+
+    --- SDM_0 ---
+
+    if config.j_sdm_sdm_0 then
+        SMODS.Joker{
+            key = "sdm_0",
+            name = "SDM_0",
+            rarity = 4,
+            discovered = true,
+            blueprint_compat = false,
+            pos = {x = 0, y = 3},
+            cost = 20,
+            config = {extra = {jkr_slots = 1}},
+            loc_txt = {
+                name = "SDM_0",
+                text = {
+                    "{C:dark_edition}+#1#{} Joker #2#,",
+                    "+{C:attention}1{} Joker Slot per",
+                    "destroyed {C:attention}2{}s"
+                }
+            },
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra.jkr_slots, (card.ability.extra.jkr_slots > 1 and "Slots") or "Slot"}}
+            end,
+            calculate = function(self, card, context)
+                if context.cards_destroyed and not context.blueprint then
+                    if #context.glass_shattered > 0 then
+                        for k, v in ipairs(context.glass_shattered) do
+                            if v.rank == 2 then
+                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + #context.glass_shattered
+                                G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
+                                G.E_MANAGER:add_event(Event({
+                                    func = function() 
+                                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                        message = localize('k_upgrade_ex'),
+                                        colour = G.C.DARK_EDITION,
+                                    })
+                                end}))
+                            end
+                        end
+                    end
+                elseif context.remove_playing_cards and not context.blueprint then
+                    if #context.removed > 0 then
+                        for k, v in ipairs(context.removed) do
+                            if v.rank == 2 then
+                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + #context.removed
+                                G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
+                            end
+                        end
                     end
                 end
             end,

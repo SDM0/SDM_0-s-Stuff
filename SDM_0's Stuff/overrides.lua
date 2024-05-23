@@ -58,6 +58,11 @@ function Card.add_to_deck(self, from_debuff)
             G.hand:change_size(self.ability.extra.h_size)
             G.consumeables:change_size(-self.ability.extra.c_size)
         end
+        if self.config.center_key == "j_sdm_sdm_0" then
+            if G.jokers then 
+                G.jokers.config.card_limit = G.jokers.config.card_limit + self.ability.extra.jkr_slots
+            end
+        end
     end
     add_to_deckref(self, from_debuff)
 end
@@ -69,28 +74,13 @@ function Card.remove_from_deck(self, from_debuff)
             G.hand:change_size(-self.ability.extra.h_size)
             G.consumeables:change_size(self.ability.extra.c_size)
         end
+        if self.config.center_key == "j_sdm_sdm_0" then
+            if G.jokers then 
+                G.jokers.config.card_limit = G.jokers.config.card_limit - self.ability.extra.jkr_slots
+            end
+        end
     end
     remove_from_deckref(self, from_debuff)
-end
-
-local backapply_to_runref = Back.apply_to_run
-function Back.apply_to_run(arg_56_0)
-    backapply_to_runref(arg_56_0)
-
-    if arg_56_0.effect.config.b_sdm_sdm_0_s_deck then
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                rand_jokers = get_random_sdm_modded_jokers(2, true)
-                for i = 1, #rand_jokers do
-                    add_joker2(rand_jokers[i], nil, true, true)
-                end
-                return true
-            end
-        }))
-    end
-    if arg_56_0.effect.config.b_sdm_sandbox_deck then
-        G.GAME.win_ante = 10
-    end
 end
 
 local card_set_abilityref = Card.set_ability
@@ -104,12 +94,6 @@ function Card.set_ability(self, center, initial, delay_sprites)
         self.T.h = H*scale
         self.T.w = W*scale
     end
-end
-
-local end_calculate_contextref = SMODS.end_calculate_context
-function SMODS.end_calculate_context(c)
-    local e = end_calculate_contextref(c)
-    return e and not c.sdm_adding_card
 end
 
 return
