@@ -178,17 +178,23 @@ if config.challenges and config.jokers then
                 custom = {},
                 modifiers = {
                     {id = 'joker_slots', value = 4},
+                    {id = 'hands', value = 3},
                 },
             },
             jokers = {
-                {id = 'j_sdm_property_damage', eternal = true},
+                {id = 'j_sdm_property_damage', edition = 'negative', eternal = true},
                 {id = 'j_sdm_rock_n_roll', eternal = true},
+                {id = 'j_sdm_stone', eternal = true},
             },
             restrictions = {
                 banned_cards = {
                     {id = 'c_lovers'},
                     {id = 'c_tower'},
                     {id = 'j_marble'},
+                    {id = 'v_grabber'},
+                    {id = 'v_nacho_tong'},
+                    {id = 'j_burglar'},
+                    {id = 'j_sdm_pizza'},
                 },
                 banned_tags = {},
                 banned_other = {}
@@ -199,32 +205,11 @@ if config.challenges and config.jokers then
     --- Twisted Binding ---
 
     if config.j_sdm_crooked_joker then
-
         SMODS.Challenge{
             loc_txt = "Twisted Binding",
             key = 'twisted_binding',
             jokers = {
                 {id = 'j_sdm_crooked_joker', eternal = true},
-            },
-        }
-
-    end
-
-    --- Archifoolery ---
-
-    if config.j_sdm_archibald then
-
-        SMODS.Challenge{
-            loc_txt = "Archifoolery",
-            key = 'archifoolery',
-            rules = {
-                custom = {},
-                modifiers = {
-                    {id = 'joker_slots', value = 1},
-                },
-            },
-            jokers = {
-                {id = 'j_sdm_archibald', edition = "negative"},
             },
         }
     end
