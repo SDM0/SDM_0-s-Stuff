@@ -15,11 +15,26 @@
 SDM_0s_Stuff_Mod = SMODS.current_mod
 
 local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
-local config, space_jokers = parameters.config, parameters.space_jokers
+local space_jokers = parameters.space_jokers
 
-local sj_list = {}
-for k, v in pairs(parameters.space_jokers) do
-    if v.enable then table.insert(sj_list, "{C:inactive}" .. v.name) end
+
+local sj_list= {}
+local temp_string = ""
+local words = 2
+local i = 0
+for _, v in pairs(space_jokers) do
+    if i < words then
+        temp_string = temp_string .. "{s:0.8}" .. v .. ", "
+        i = i + 1
+    end
+    if i >= words or next(space_jokers, _) == nil then
+        if next(space_jokers, _) == nil then
+            temp_string = temp_string:sub(1, -3)
+        end
+        table.insert(sj_list, temp_string)
+        temp_string = ""
+        i = 0
+    end
 end
 
 function SDM_0s_Stuff_Mod.process_loc_text()
@@ -32,6 +47,13 @@ function SDM_0s_Stuff_Mod.process_loc_text()
     G.localization.descriptions.Other.space_jokers = {
         name = "Space Jokers",
         text = sj_list
+    }
+    G.localization.descriptions.Other.chaos_exceptions = {
+        name = "Exceptions",
+        text = {
+            "Score round, score goal,",
+            "hand level and descriptions",
+        }
     }
 end
 

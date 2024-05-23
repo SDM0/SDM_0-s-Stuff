@@ -34,6 +34,7 @@ local parameters = {
         j_sdm_bullet_train = true,
         j_sdm_chaos_theory = true,
         j_sdm_archibald = true,
+        j_sdm_sdm_0 = true,
 
         challenges = true,  --- disables all of the mod challenges on "false"
 
@@ -42,26 +43,46 @@ local parameters = {
 
     space_jokers = {
         -- Vanilla --
-        j_supernova = {name = "Supernova", enable = true},
-        j_space = {name = "Space Joker", enable = true},
-        j_constellation = {name = "Constellation", enable = true},
-        j_rocket = {name = "Rocket", enable = true},
-        j_satellite = {name = "Satellite", enable = true},
-        j_astronomer = {name = "Astronomer", enable = true},
-
-        -- SDM_0's Stuff --
-        j_sdm_moon_base = {name = "Moon Base", enable = true},
-        j_sdm_wandering_star = {name = "Wandering Star", enable = true},
-        j_sdm_reach_the_stars = {name = "Reach The Stars", enable = true},
-        -- j_sdm_moon_landing = {name = "Moon Landing", (fusion)
-
-        -- Other mods (currently unavailable) --
-        j_fuel_tank = {name = "Fuel Tank", enable = true}, -- Ortolab
-        j_mmc_blue_moon = {name = "Blue Moon", enable = true}, -- Mika's Mod
-        j_sentai = {name = "Sentai Joker", enable = true}, -- Jank Jonklers
-        j_ternary_system = {name = "Ternary System", enable = true}, -- Jank Jonklers
-        j_big_bang = {name = "Big Bang", enable = true}, -- Fusion Joker
+        j_supernova = "Supernova",
+        j_space = "Space Joker",
+        j_constellation = "Constellation",
+        j_rocket = "Rocket",
+        j_satellite = "Satellite",
+        j_astronomer = "Astronomer",
     }
 }
+
+-- SDM_0's Stuff space jokers --
+if parameters.config.j_sdm_moon_base then parameters.space_jokers.j_sdm_moon_base = "Moon Base" end
+if parameters.config.j_sdm_wandering_star then parameters.space_jokers.j_sdm_wandering_star = "Wandering Star" end
+if parameters.config.j_sdm_reach_the_stars then parameters.space_jokers.j_sdm_reach_the_stars = "Reach The Stars" end
+-- if parameters.config.j_sdm_moon_landing then parameters.space_jokers.j_sdm_moon_landing = "Moon Landing" end
+
+-- Other mods space jokers
+-- !! DISABLED UNTIL MODS ARE UPDATED !! --
+--[[
+if SMODS.Mods["OrtalabDEMO"] then
+    parameters.space_jokers.j_fuel_tank = "Afterburner"
+end
+if SMODS.Mods["MikasMods"] then
+    parameters.space_jokers.j_mmc_blue_moon = "Blue Moon"
+end
+if SMODS.Mods["OrtalabDEMO"] then
+    parameters.space_jokers.j_fuel_tank = "Afterburner"
+end
+if SMODS.Mods["JankJonklersMod"] then
+    parameters.space_jokers.j_sentai = "Sentai Joker"
+    parameters.space_jokers.j_ternary_system = "Ternary System"
+end
+if SMODS.Mods["FusionJokers"] then
+    parameters.space_jokers.j_big_bang = "Big Bang"
+end
+if SMODS.Mods["VictinsCollection"] then
+    parameters.space_jokers.j_syzygy = "Syzygy"
+end
+if SMODS.Mods["mtl_jkr"] then
+    parameters.space_jokers.j_moon = "Moon Rabbit"
+end
+]]--
 
 return parameters
