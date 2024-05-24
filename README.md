@@ -18,7 +18,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | Joker | Cost | Rarity | Effect | 
   | :---: | :---: | :---: | :---: |
   | <b>Trance The Devil</b> | $6 | Uncommon | X0.25 Mult per "Trance" or "The Devil" card used this run |
-  | <b>Burger</b> | $8 | Rare | +30 Chips, +10 Mult and x1.25 Mult for the next 4 rounds |
+  | <b>Burger</b> | $8 | Rare | +30 Chips, +10 Mult and x1.5 Mult for the next 4 rounds |
   | <b>Bounciest Ball</b> | $5 | Common | This joker gains by +10 Chips everytime X hand is scored,<br>halved and change on different hand |
   | <b>Lucky Joker</b> | $7 | Uncommon | Retrigger each played Lucky card 7 twice 2 additional times |
   | <b>Iconic Icon</b> | $6 | Common | +4 Mult for each modified Aces in your full deck<br>(enhancement, seal, edition) |
