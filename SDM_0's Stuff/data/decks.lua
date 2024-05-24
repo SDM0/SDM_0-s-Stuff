@@ -50,7 +50,7 @@ if config.decks then
         loc_txt = {
             name ="Sandbox Deck",
             text ={
-            "{C:attention}+2{} Joker slots",
+            "{C:attention}+2{} Joker Slots",
             "Win at Ante {C:attention}10",
             }
         },
@@ -70,7 +70,7 @@ if config.decks then
             name ="Lucky 7 Deck",
             text ={
             "Start run with",
-            "an {C:eternal}eternal{} {C:attention}Lucky Joker",
+            "an {C:eternal}Eternal{} {C:attention}Lucky Joker",
             "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
             }
         },
