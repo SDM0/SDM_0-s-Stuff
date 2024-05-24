@@ -1572,6 +1572,10 @@ if config.jokers then
                     "{C:inactive}(Copy start selling for {C:money}$0{C:inactive})"
                 }
             },
+            loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = {key = "perishable_no_debuff", set = "Other", vars = {G.GAME.perishable_rounds or 1}}
+                info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+            end,
             calculate = function(self, card, context)
                 if context.sdm_adding_card then
                     if context.card.ability.set == 'Joker' then

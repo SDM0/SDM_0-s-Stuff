@@ -55,6 +55,13 @@ function SDM_0s_Stuff_Mod.process_loc_text()
             "hand level and descriptions",
         }
     }
+    G.localization.descriptions.Other.perishable_no_debuff = {
+        name = "Perishable",
+        text = {
+            "Debuffed after",
+            "{C:attention}#1#{} rounds"
+        }
+    }
 end
 
 NFS.load(SDM_0s_Stuff_Mod.path.."utils.lua")()
