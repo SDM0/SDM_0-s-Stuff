@@ -86,7 +86,6 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   ### SDM_0's Deck
   Start with 2 random non-legendary eternal SDM_0's Stuff jokers
 </details>
-<br>
 
 # Modded Only Challenges
 
