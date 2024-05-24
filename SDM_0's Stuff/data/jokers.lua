@@ -1567,8 +1567,8 @@ if config.jokers then
             loc_txt = {
                 name = "Archibald",
                 text = {
-                    "On {C:attention}Joker{} card added,",
-                    "creates a {C:dark_edition}Negative{} copy",
+                    "On {C:attention}Joker{} card added, creates",
+                    "a {C:attention}Perishable {C:dark_edition}Negative{} copy",
                     "{C:inactive}(Copy start selling for {C:money}$0{C:inactive})"
                 }
             },
@@ -1583,6 +1583,7 @@ if config.jokers then
                             func = function()
                                 new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, context.card.config.center.key, nil)
                                 new_card:set_edition({negative = true}, true)
+                                new_card:set_perishable(true)
                                 new_card.sell_cost = 0
                                 new_card:add_to_deck2()
                                 G.jokers:emplace(new_card)
