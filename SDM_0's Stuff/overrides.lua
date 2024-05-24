@@ -53,47 +53,8 @@ function Card.add_to_deck(self, from_debuff)
                 G.jokers.cards[i]:calculate_joker({sdm_adding_card = true, card = self})
             end
         end
-        if self.config.center_key == 'j_sdm_warehouse' then
-            self.ability.extra.c_size = G.consumeables.config.card_limit
-            G.hand:change_size(self.ability.extra.h_size)
-            G.consumeables:change_size(-self.ability.extra.c_size)
-        end
-        if self.config.center_key == "j_sdm_sdm_0" then
-            if G.jokers then 
-                G.jokers.config.card_limit = G.jokers.config.card_limit + self.ability.extra.jkr_slots
-            end
-        end
     end
     add_to_deckref(self, from_debuff)
-end
-
-local remove_from_deckref = Card.remove_from_deck
-function Card.remove_from_deck(self, from_debuff)
-    if self.added_to_deck then
-        if self.config.center_key == 'j_sdm_warehouse' then
-            G.hand:change_size(-self.ability.extra.h_size)
-            G.consumeables:change_size(self.ability.extra.c_size)
-        end
-        if self.config.center_key == "j_sdm_sdm_0" then
-            if G.jokers then 
-                G.jokers.config.card_limit = G.jokers.config.card_limit - self.ability.extra.jkr_slots
-            end
-        end
-    end
-    remove_from_deckref(self, from_debuff)
-end
-
-local card_set_abilityref = Card.set_ability
-function Card.set_ability(self, center, initial, delay_sprites)
-    card_set_abilityref(self,center,initial,delay_sprites)
-    local W, H = self.T.w, self.T.h
-    local scale = 1
-    if center.key == "j_sdm_treasure_chest" then 
-        self.children.center.scale.y = self.children.center.scale.x
-        H = W
-        self.T.h = H*scale
-        self.T.w = W*scale
-    end
 end
 
 return
