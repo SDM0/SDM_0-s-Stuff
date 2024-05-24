@@ -14,8 +14,8 @@ if config.decks then
 
     if config.jokers and get_random_sdm_modded_jokers(2, true) then
         SMODS.Back{
-            name = "SDM_0's Deck",
             key = "sdm_0_s_deck",
+            name = "SDM_0's Deck",
             pos = {x = 1, y = 0},
             loc_txt = {
                 name ="SDM_0's Deck",
@@ -43,8 +43,8 @@ if config.decks then
     --- Sandbox Deck
 
     SMODS.Back{
-        name = "Sandbox Deck",
         key = "sandbox_deck",
+        name = "Sandbox Deck",
         pos = {x = 2, y = 0},
         config = {joker_slot = 2},
         loc_txt = {
@@ -63,8 +63,8 @@ if config.decks then
     --- Lucky 7 Deck
 
     SMODS.Back{
-        name = "Lucky 7 Deck",
         key = "lucky_7_deck",
+        name = "Lucky 7 Deck",
         pos = {x = 3, y = 0},
         loc_txt = {
             name ="Lucky 7 Deck",
