@@ -545,7 +545,7 @@ if config.jokers then
                         end
                     end
                 end
-                if context.selling_card and not context.blueprint then
+                if context.selling_self and not context.blueprint then
                     if card.ability.extra.sold_rare and card.ability.extra.used_spectral and card.ability.extra.scored_secret then
                         if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
