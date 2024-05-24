@@ -47,7 +47,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Treasure Chest</b> | $4 | Common | Gains $2 of sell value per consumable sold |
   | <b>Bullet Train</b> | $6 | Common | +150 Chips on your first hand if no discards were used this round |
   | <b>Chaos Theory</b> | $8 | Rare | +2 Chips per existing numerical value<br>(Except round score, score goal, hand level and descriptions) |
-  | <b>Archibald</b> | $20 | Legendary | On Joker added, creates a Negative copy<br>(Negative copy starts selling for $0) |
+  | <b>Archibald</b> | $20 | Legendary | On Joker added, creates a Perishable Negative copy<br>(Negative copy starts selling for $0) |
   | <b>SDM_0</b> | $20 | Legendary | +2 Joker Slots, +1 Joker Slot per destroyed 2s |
 
 </details>
