@@ -57,7 +57,7 @@ function get_random_sdm_modded_jokers(n, no_legend)
 
     for k,v in pairs(config) do
         if v and string.sub(k, 1, 1) == "j" then
-            if no_legend and k ~= "j_sdm_archibald" then
+            if no_legend and k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
                 table.insert(modded_jokers, k)
             end
         end

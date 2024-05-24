@@ -184,7 +184,7 @@ if config.challenges and config.jokers then
             jokers = {
                 {id = 'j_sdm_property_damage', edition = 'negative', eternal = true},
                 {id = 'j_sdm_rock_n_roll', eternal = true},
-                {id = 'j_sdm_stone', eternal = true},
+                {id = 'j_stone', eternal = true},
             },
             restrictions = {
                 banned_cards = {

@@ -69,7 +69,7 @@ if config.jokers then
             eternal_compat = false,
             pos = {x = 1, y = 0},
             cost = 8,
-            config = {extra = {Xmult = 1.25, mult = 10, chips = 30, remaining = 4}},
+            config = {extra = {Xmult = 1.5, mult = 10, chips = 30, remaining = 4}},
             loc_txt = {
                 name = "Burger",
                 text = {
@@ -1607,6 +1607,7 @@ if config.jokers then
             rarity = 4,
             discovered = true,
             blueprint_compat = false,
+            perishable_compat = false,
             pos = {x = 1, y = 3},
             cost = 20,
             config = {extra = {jkr_slots = 2}},
