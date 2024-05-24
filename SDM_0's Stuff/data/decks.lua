@@ -1,6 +1,13 @@
 local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
 local config = parameters.config
 
+SMODS.Atlas{
+    key = "sdm_enhancers",
+    path = "sdm_enhancers.png",
+    px = 71,
+    py = 95
+}
+
 if config.decks then
 
     --- SDM_0's Deck
@@ -9,7 +16,7 @@ if config.decks then
         SMODS.Back{
             name = "SDM_0's Deck",
             key = "sdm_0_s_deck",
-            pos = {x = 5, y = 2},
+            pos = {x = 1, y = 0},
             loc_txt = {
                 name ="SDM_0's Deck",
                 text ={
@@ -28,7 +35,8 @@ if config.decks then
                         return true
                     end
                 }))
-            end
+            end,
+            atlas = "sdm_enhancers"
         }
     end
 
@@ -37,7 +45,7 @@ if config.decks then
     SMODS.Back{
         name = "Sandbox Deck",
         key = "sandbox_deck",
-        pos = {x = 5, y = 2},
+        pos = {x = 2, y = 0},
         config = {joker_slot = 2},
         loc_txt = {
             name ="Sandbox Deck",
@@ -48,7 +56,8 @@ if config.decks then
         },
         apply = function(back)
             G.GAME.win_ante = 10
-        end
+        end,
+        atlas = "sdm_enhancers"
     }
 
     --- Lucky 7 Deck
@@ -56,13 +65,13 @@ if config.decks then
     SMODS.Back{
         name = "Lucky 7 Deck",
         key = "lucky_7_deck",
-        pos = {x = 5, y = 2},
+        pos = {x = 3, y = 0},
         loc_txt = {
             name ="Lucky 7 Deck",
             text ={
             "Start run with",
             "an {C:eternal}eternal{} {C:attention}Lucky Joker",
-            "Every 7 is a {C:attention}Lucky card",
+            "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
             }
         },
         apply = function(back)
@@ -77,7 +86,8 @@ if config.decks then
                     return true
                 end
             }))
-        end
+        end,
+        atlas = "sdm_enhancers"
     }
 end
 
