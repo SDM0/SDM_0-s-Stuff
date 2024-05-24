@@ -744,6 +744,15 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.h_size, -card.ability.extra.dollars}}
             end,
+            add_to_deck = function(self, card, from_debuff)
+                card.ability.extra.c_size = G.consumeables.config.card_limit
+                G.hand:change_size(card.ability.extra.h_size)
+                G.consumeables:change_size(-card.ability.extra.c_size)
+            end,
+            remove_from_deck = function(self, card, from_debuff)
+                G.hand:change_size(-card.ability.extra.h_size)
+                G.consumeables:change_size(card.ability.extra.c_size)
+            end,
             update = function(self, card, dt)
                 if card.set_cost and card.ability.extra_value ~= card.ability.extra.dollars - math.floor(card.cost / 2) then 
                     card.ability.extra_value = card.ability.extra.dollars - math.floor(card.cost / 2)
@@ -1080,19 +1089,14 @@ if config.jokers then
             discovered = true,
             pos = {x = 1, y = 2},
             cost = 6,
-            config = {extra = 1},
             loc_txt = {
                 name = "Crooked Joker",
                 text = {
                     "{C:attention}Doubles{} added {C:attention}Joker{}",
                     "or {C:red}destroys{} it",
-                    "and gain {C:money}$#1#",
                     "{C:inactive}(Must have room)"
                 }
             },
-            loc_vars = function(self, info_queue, card)
-                return {vars = {card.ability.extra}}
-            end,
             calculate = function(self, card, context)
                 if context.sdm_adding_card and not context.blueprint then
                     if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
@@ -1123,13 +1127,6 @@ if config.jokers then
                             G.E_MANAGER:add_event(Event({func = function()
                                 context.card.getting_sliced = true
                                 context.card:start_dissolve({G.C.RED}, nil, 1.6)
-                            return true end }))
-                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
-                                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                                    message = localize('$') .. card.ability.extra,
-                                    colour = G.C.MONEY
-                                })
-                                ease_dollars(card.ability.extra)
                             return true end }))
                         end
                     end
@@ -1454,6 +1451,14 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra}}
             end,
+            set_ability = function(self, card, initial, delay_sprites)
+                local W, H = card.T.w, card.T.h
+                local scale = 1
+                card.children.center.scale.y = card.children.center.scale.x
+                H = W
+                card.T.h = H*scale
+                card.T.w = W*scale
+            end,
             calculate = function(self, card, context)
                 if context.selling_card and not context.blueprint then
                     if context.card.ability.set ~= 'Joker' then
@@ -1602,9 +1607,9 @@ if config.jokers then
             rarity = 4,
             discovered = true,
             blueprint_compat = false,
-            pos = {x = 0, y = 3},
+            pos = {x = 1, y = 3},
             cost = 20,
-            config = {extra = {jkr_slots = 1}},
+            config = {extra = {jkr_slots = 2}},
             loc_txt = {
                 name = "SDM_0",
                 text = {
@@ -1616,36 +1621,47 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.jkr_slots, (card.ability.extra.jkr_slots > 1 and "Slots") or "Slot"}}
             end,
+            add_to_deck = function(self, card, from_debuff)
+                if G.jokers then 
+                    G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
+                end
+            end,
+            remove_from_deck = function(self, card, from_debuff)
+                if G.jokers then 
+                    G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.jkr_slots
+                end
+            end,
             calculate = function(self, card, context)
                 if context.cards_destroyed and not context.blueprint then
                     if #context.glass_shattered > 0 then
-                        for k, v in ipairs(context.glass_shattered) do
-                            if v.rank == 2 then
-                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + #context.glass_shattered
-                                G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
-                                G.E_MANAGER:add_event(Event({
-                                    func = function() 
-                                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                                        message = localize('k_upgrade_ex'),
-                                        colour = G.C.DARK_EDITION,
-                                    })
-                                end}))
+                        for _, v in ipairs(context.glass_shattered) do
+                            if v:get_id() == 2 then
+                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + 1
+                                G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                    message = localize('k_upgrade_ex'),
+                                    colour = G.C.DARK_EDITION,
+                                })
                             end
                         end
                     end
                 elseif context.remove_playing_cards and not context.blueprint then
                     if #context.removed > 0 then
-                        for k, v in ipairs(context.removed) do
-                            if v.rank == 2 then
-                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + #context.removed
-                                G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
+                        for _, v in ipairs(context.removed) do
+                            if v:get_id() == 2 then
+                                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + 1
+                                G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+                                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                                    message = localize('k_upgrade_ex'),
+                                    colour = G.C.DARK_EDITION,
+                                })
                             end
                         end
                     end
                 end
             end,
             atlas = "sdm_jokers",
-            soul_pos = {x = 0, y = 4}
+            soul_pos = {x = 1, y = 4}
         }
     end
 end
