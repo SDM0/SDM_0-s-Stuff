@@ -586,8 +586,7 @@ if config.jokers then
                 name = "La Révolution",
                 text = {
                     "Upgrade {C:attention}winning poker hand{}",
-                    "by {C:attention}1{} if played hand",
-                    "contains no {C:attention}face{} cards",
+                    "without {C:attention}face{} cards",
                 }
             },
             calculate = function(self, card, context)
