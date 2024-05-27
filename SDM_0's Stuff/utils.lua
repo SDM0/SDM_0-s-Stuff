@@ -26,6 +26,17 @@ function count_max_occurence(table)
     return max_card
 end
 
+--- Get a value's index in a table
+function index_elem(table, value)
+    for k, v in ipairs(table) do
+        if v == value then
+            return k
+        end
+    end
+    return nil
+end
+
+--- Check if Ouija effect can trigger
 function ouija_check(card, context)
     if card.ability.extra.remaining < card.ability.extra.rounds then
         card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -52,33 +63,29 @@ end
 
 -- Get n jokers from SDM_0's Stuff
 function get_random_sdm_modded_jokers(n, no_legend)
-    local modded_jokers = {}
-    local random_jokers = {}
+    if G.GAME then
+        local modded_jokers = {}
+        local random_jokers = {}
 
-    for k,v in pairs(config) do
-        if v and string.sub(k, 1, 1) == "j" then
-            if no_legend and k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
-                table.insert(modded_jokers, k)
-            end
-        end
-    end
-
-    if modded_jokers and #modded_jokers >= n then
-        while n > 0 do
-            if G.GAME then
-                r_joker = modded_jokers[pseudorandom("deck_create", 1, #modded_jokers)]
-            end
-            table.insert(random_jokers, r_joker)
-            for i = 1, #modded_jokers do
-                if modded_jokers[i] == r_joker then
-                    table.remove(modded_jokers, i)
+        for k,v in pairs(config) do
+            if v and string.sub(k, 1, 1) == "j" then
+                if no_legend and k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+                    table.insert(modded_jokers, k)
                 end
             end
-            n = n - 1
         end
-        return random_jokers
-    else
-        return nil
+
+        if modded_jokers and #modded_jokers >= n then
+            while n > 0 do
+                r_num = pseudorandom("deck_create", 1, #modded_jokers)
+                r_joker = modded_jokers[r_num]
+                table.insert(random_jokers, r_joker)
+                table.remove(modded_jokers, r_num)
+                n = n - 1
+            end
+            return random_jokers
+        end
+    return nil
     end
 end
 
@@ -128,6 +135,10 @@ end
 
 --- Second "add_to_deck" to prevent context.sdm_adding_card to loop ---
 function Card:add_to_deck2(from_debuff)
+    local obj = self.config.center
+    if obj and obj.add_to_deck and type(obj.add_to_deck) == 'function' then
+	    obj:add_to_deck(self, from_debuff)
+    end
     if not self.config.center.discovered then
         discover_card(self.config.center)
     end

@@ -235,12 +235,12 @@ if config.jokers then
                 name = "Iconic Icon",
                 text = {
                     "{C:mult}+#2#{} Mult per{C:attention} modified Aces",
-                    "(enhancement, seal, edition)",
                     "in your {C:attention}full deck",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             },
             loc_vars = function(self, info_queue, card)
+                info_queue[#info_queue+1] = {key = "modified_card", set = "Other"}
                 return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod}}
             end,
             calculate = function(self, card, context)
@@ -440,6 +440,7 @@ if config.jokers then
                     "Earn your money's",
                     "{C:attention}highest digit",
                     "at end of round",
+                    "{C:inactive}(ex: $58 -> $8)",
                 }
             },
             atlas = "sdm_jokers"
@@ -1627,8 +1628,10 @@ if config.jokers then
                 return {vars = {card.ability.extra.jkr_slots, (card.ability.extra.jkr_slots > 1 and "Slots") or "Slot"}}
             end,
             add_to_deck = function(self, card, from_debuff)
-                if G.jokers then 
+                if G.jokers then
+                    sendDebugMessage("" .. G.jokers.config.card_limit)
                     G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
+                    sendDebugMessage("" .. G.jokers.config.card_limit)
                 end
             end,
             remove_from_deck = function(self, card, from_debuff)

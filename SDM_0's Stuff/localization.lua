@@ -26,10 +26,25 @@ function SDM_0s_Stuff_Mod.process_loc_text()
     G.localization.misc.dictionary.k_signed_ex = "Signed!"
     G.localization.misc.dictionary.k_breached_ex = "Breached!"
     G.localization.misc.dictionary.k_shared_ex = "Shared!"
+
     G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
+    G.localization.misc.v_dictionary.a_hand_minus = "+#1# Hand"
+    G.localization.misc.v_dictionary.a_discard = "+#1# Discard"
+    G.localization.misc.v_dictionary.a_discard_minus = "-#1# Discard"
+    G.localization.misc.v_dictionary.a_joker_slot = "+#1# Joker Slot"
+    G.localization.misc.v_dictionary.a_joker_slot_minus = "-#1# Joker Slot"
+    G.localization.misc.v_dictionary.a_consumable_slot = "+#1# Cons. Slot"
+    G.localization.misc.v_dictionary.a_consumable_slot_minus = "-#1# Cons. Slot"
+
     G.localization.descriptions.Other.space_jokers = {
         name = "Space Jokers",
         text = sj_list
+    }
+    G.localization.descriptions.Other.modified_card = {
+        name = "Modified",
+        text = {
+            "Enhancement, seal, edition"
+        }
     }
     G.localization.descriptions.Other.chaos_exceptions = {
         name = "Exceptions",
@@ -43,6 +58,13 @@ function SDM_0s_Stuff_Mod.process_loc_text()
         text = {
             "Debuffed after",
             "{C:attention}#1#{} rounds"
+        }
+    }
+    G.localization.descriptions.Other.ressources = {
+        name = "Ressources",
+        text = {
+            "Hand, discard, dollar, handsize,",
+            "joker slot, consumable slot"
         }
     }
 end
