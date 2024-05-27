@@ -26,6 +26,23 @@ function count_max_occurence(table)
     return max_card
 end
 
+-- Get the amount of enabled SDM_0's Stuff jokers
+function count_sdm_modded_jokers(no_legend)
+    local modded_jokers = {}
+    for k,v in pairs(config) do
+        if v and string.sub(k, 1, 2) == "j_" then
+            if no_legend then
+                if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+                    table.insert(modded_jokers, k)
+                end
+            else
+                table.insert(modded_jokers, k)
+            end
+        end
+    end
+    return #modded_jokers
+end
+
 --- Get a value's index in a table
 function index_elem(table, value)
     for k, v in ipairs(table) do
@@ -68,8 +85,12 @@ function get_random_sdm_modded_jokers(n, no_legend)
         local random_jokers = {}
 
         for k,v in pairs(config) do
-            if v and string.sub(k, 1, 1) == "j" then
-                if no_legend and k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+            if v and string.sub(k, 1, 2) == "j_" then
+                if no_legend then
+                    if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+                        table.insert(modded_jokers, k)
+                    end
+                else
                     table.insert(modded_jokers, k)
                 end
             end

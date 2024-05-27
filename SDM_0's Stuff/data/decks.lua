@@ -12,11 +12,11 @@ if config.decks then
 
     --- SDM_0's Deck
 
-    if config.jokers and get_random_sdm_modded_jokers(2, true) then
+    if config.jokers and count_sdm_modded_jokers(true) then
         SMODS.Back{
             key = "sdm_0_s_deck",
             name = "SDM_0's Deck",
-            pos = {x = 1, y = 0},
+            pos = {x = 0, y = 0},
             loc_txt = {
                 name = "SDM_0's Deck",
                 text = {
