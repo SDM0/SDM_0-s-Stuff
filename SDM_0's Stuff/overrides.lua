@@ -22,24 +22,9 @@ local calculate_dollar_bonusref = Card.calculate_dollar_bonus
 function Card.calculate_dollar_bonus(self)
     if self.debuff then return end
     if self.ability.set == "Joker" then
-        if self.config.center_key == 'j_sdm_tip_jar' then
-            local highest = 0
-            for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
-                highest = math.max(highest, tonumber(digit))
-            end
-            if highest > 0 then
-                return highest
-            end
-        elseif self.config.center_key == 'j_sdm_shareholder_joker' then
-            rand_dollar = pseudorandom(pseudoseed('shareholder'), self.ability.extra.min, self.ability.extra.max)
-            return rand_dollar
-        elseif self.config.center_key == 'j_sdm_furnace' or self.config.center_key == 'j_sdm_denaturalisation' then
-            if self.ability.extra.dollars > 0 then
-                return self.ability.extra.dollars
-            end
-        elseif self.config.center_key == 'j_sdm_gold_dealer_joker' then
-            rand_dollar = pseudorandom(pseudoseed('golddealer'), self.ability.extra.min, self.ability.extra.max)
-            return rand_dollar
+        local obj = self.config.center
+        if obj and obj.sdm_calc_dollar_bonus and type(obj.sdm_calc_dollar_bonus) == 'function' then
+            return obj:sdm_calc_dollar_bonus(self)
         end
     end
     return calculate_dollar_bonusref(self)

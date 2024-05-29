@@ -336,7 +336,6 @@ if config.jokers then
             end,
             calculate = function(self, card, context)
                 if context.other_joker then
-                    sendDebugMessage(context.other_joker.config.center_key)
                     local jkr = context.other_joker.config.center_key
                     if space_jokers[jkr] ~= nil and context.other_joker ~= card then
                         G.E_MANAGER:add_event(Event({
@@ -377,6 +376,10 @@ if config.jokers then
             },
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.min, card.ability.extra.max}}
+            end,
+            sdm_calc_dollar_bonus = function(self, card)
+                rand_dollar = pseudorandom(pseudoseed('shareholder'), card.ability.extra.min, card.ability.extra.max)
+                return rand_dollar
             end,
             atlas = "sdm_jokers"
         }
@@ -440,9 +443,18 @@ if config.jokers then
                     "Earn your money's",
                     "{C:attention}highest digit",
                     "at end of round",
-                    "{C:inactive}(ex: $58 -> $8)",
+                    "{C:inactive}(ex: $24 -> $4)",
                 }
             },
+            sdm_calc_dollar_bonus = function(self, card)
+                local highest = 0
+                for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
+                    highest = math.max(highest, tonumber(digit))
+                end
+                if highest > 0 then
+                    return highest
+                end
+            end,
             atlas = "sdm_jokers"
         }
     end
@@ -715,6 +727,11 @@ if config.jokers then
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                         Xmult_mod = card.ability.extra.Xmult
                     }
+                end
+            end,
+            sdm_calc_dollar_bonus = function(self, card)
+                if card.ability.extra.dollars > 0 then
+                    return card.ability.extra.dollars
                 end
             end,
             atlas = "sdm_jokers"
@@ -1587,7 +1604,9 @@ if config.jokers then
                             func = function()
                                 new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, context.card.config.center.key, nil)
                                 new_card:set_edition({negative = true}, true)
-                                new_card:set_perishable(true)
+                                if context.card.config.center.rarity ~= 4 then
+                                    new_card:set_perishable(true)
+                                end
                                 new_card.sell_cost = 0
                                 new_card:add_to_deck2()
                                 G.jokers:emplace(new_card)
@@ -1612,7 +1631,7 @@ if config.jokers then
             rarity = 4,
             discovered = true,
             blueprint_compat = false,
-            perishable_compat = false,
+            perishable_compat = true,
             pos = {x = 1, y = 3},
             cost = 20,
             config = {extra = {jkr_slots = 2}},
@@ -1629,9 +1648,7 @@ if config.jokers then
             end,
             add_to_deck = function(self, card, from_debuff)
                 if G.jokers then
-                    sendDebugMessage("" .. G.jokers.config.card_limit)
                     G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
-                    sendDebugMessage("" .. G.jokers.config.card_limit)
                 end
             end,
             remove_from_deck = function(self, card, from_debuff)
