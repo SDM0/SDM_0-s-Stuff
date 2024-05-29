@@ -13,7 +13,7 @@ if config.challenges and config.jokers then
 
     --- Devil's Deal ---
 
-    if config.j_sdm_trance_the_devil then
+    if config.j_trance_the_devil then
         SMODS.Challenge{
             loc_txt = "Devil's Deal",
             key = 'devil_s_deal',
@@ -28,7 +28,7 @@ if config.challenges and config.jokers then
                 }
             },
             jokers = {
-                {id = 'j_sdm_trance_the_devil', eternal = true},
+                {id = 'j_trance_the_devil', eternal = true},
             },
             consumeables = {
                 {id = 'c_trance'},
@@ -54,7 +54,7 @@ if config.challenges and config.jokers then
                     {id = 'j_satellite'},
                     {id = 'j_astronomer'},
                     {id = 'j_burnt'},
-                    {id = 'j_sdm_wandering_star'},
+                    {id = 'j_wandering_star'},
                     {id = 'v_telescope'},
                     {id = 'v_observatory'},
                     {id = 'v_planet_merchant'},
@@ -71,7 +71,7 @@ if config.challenges and config.jokers then
 
     --- Scientific Downfall ---
 
-    if config.j_sdm_la_revolution then
+    if config.j_la_revolution then
         SMODS.Challenge{
             loc_txt = "Scientific Downfall",
             key = 'scientific_downfall',
@@ -85,14 +85,14 @@ if config.challenges and config.jokers then
                 },
             },
             jokers = {
-                {id = 'j_sdm_la_revolution', eternal = true},
+                {id = 'j_la_revolution', eternal = true},
             },
             restrictions = {
                 banned_cards = {
                     {id = 'j_burglar'},
                     {id = 'j_drunkard'},
                     {id = 'j_merry_andy'},
-                    {id = 'j_sdm_pizza'},
+                    {id = 'j_pizza'},
                     {id = 'v_crystal_ball'},
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
@@ -107,7 +107,7 @@ if config.challenges and config.jokers then
 
     --- A Plumber's Hassle ---
 
-    if config.j_sdm_infinite_staircase then
+    if config.j_infinite_staircase then
         SMODS.Challenge{
             loc_txt = "A Plumber's Hassle",
             key = 'a_plumber_s_hassle',
@@ -119,7 +119,7 @@ if config.challenges and config.jokers then
                 },
             },
             jokers = {
-                {id = 'j_sdm_infinite_staircase', eternal = true},
+                {id = 'j_infinite_staircase', eternal = true},
                 {id = 'j_runner', eternal = true},
             },
             restrictions = {
@@ -127,7 +127,7 @@ if config.challenges and config.jokers then
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
                     {id = 'j_burglar'},
-                    {id = 'j_sdm_pizza'},
+                    {id = 'j_pizza'},
                 },
                 banned_tags = {},
                 banned_other = {}
@@ -137,7 +137,7 @@ if config.challenges and config.jokers then
 
     --- Spare Change ---
 
-    if config.j_sdm_clown_bank and config.j_sdm_tip_jar then
+    if config.j_clown_bank and config.j_tip_jar then
         SMODS.Challenge{
             loc_txt = "Spare Change",
             key = 'spare_change',
@@ -149,8 +149,8 @@ if config.challenges and config.jokers then
                 modifiers = {},
             },
             jokers = {
-                {id = 'j_sdm_clown_bank', eternal = true},
-                {id = 'j_sdm_tip_jar', eternal = true},
+                {id = 'j_clown_bank', eternal = true},
+                {id = 'j_tip_jar', eternal = true},
             },
             restrictions = {
                 banned_cards = {
@@ -160,7 +160,7 @@ if config.challenges and config.jokers then
                     {id = 'j_rocket'},
                     {id = 'j_golden'},
                     {id = 'j_satellite'},
-                    {id = 'j_sdm_shareholder_joker'},
+                    {id = 'j_shareholder_joker'},
                 },
                 banned_tags = {},
                 banned_other = {}
@@ -170,7 +170,7 @@ if config.challenges and config.jokers then
 
     --- Rock Smash ---
 
-    if config.j_sdm_property_damage and config.j_sdm_rock_n_roll then
+    if config.j_property_damage and config.j_rock_n_roll then
         SMODS.Challenge{
             loc_txt = "Rock Smash",
             key = 'rock_smash',
@@ -182,8 +182,8 @@ if config.challenges and config.jokers then
                 },
             },
             jokers = {
-                {id = 'j_sdm_property_damage', edition = 'negative', eternal = true},
-                {id = 'j_sdm_rock_n_roll', eternal = true},
+                {id = 'j_property_damage', edition = 'negative', eternal = true},
+                {id = 'j_rock_n_roll', eternal = true},
                 {id = 'j_stone', eternal = true},
             },
             restrictions = {
@@ -194,7 +194,7 @@ if config.challenges and config.jokers then
                     {id = 'v_grabber'},
                     {id = 'v_nacho_tong'},
                     {id = 'j_burglar'},
-                    {id = 'j_sdm_pizza'},
+                    {id = 'j_pizza'},
                 },
                 banned_tags = {},
                 banned_other = {}
@@ -204,12 +204,12 @@ if config.challenges and config.jokers then
 
     --- Twisted Binding ---
 
-    if config.j_sdm_crooked_joker then
+    if config.j_crooked_joker then
         SMODS.Challenge{
             loc_txt = "Twisted Binding",
             key = 'twisted_binding',
             jokers = {
-                {id = 'j_sdm_crooked_joker', eternal = true},
+                {id = 'j_crooked_joker', eternal = true},
             },
         }
     end

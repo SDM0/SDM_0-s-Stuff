@@ -32,7 +32,7 @@ function count_sdm_modded_card(prefix, no_legend)
     for k,v in pairs(config) do
         if v and string.sub(k, 1, 2) == prefix then
             if prefix == "j_" and no_legend then
-                if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+                if k ~= "j_archibald" and k ~= "j_sdm_0" then
                     table.insert(modded_elem, k)
                 end
             else
@@ -87,7 +87,7 @@ function get_random_sdm_modded_card(prefix, n, no_legend)
         for k,v in pairs(config) do
             if v and string.sub(k, 1, 2) == prefix then
                 if prefix == "j_" and no_legend then
-                    if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
+                    if k ~= "j_archibald" and k ~= "j_sdm_0" then
                         table.insert(modded_elem, k)
                     end
                 else

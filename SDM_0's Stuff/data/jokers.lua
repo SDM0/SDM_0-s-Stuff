@@ -12,7 +12,7 @@ if config.jokers then
 
     --- Trance The Devil ---
 
-    if config.j_sdm_trance_the_devil then
+    if config.j_trance_the_devil then
         SMODS.Joker{
             key = "trance_the_devil",
             name = "Trance The Devil",
@@ -59,7 +59,7 @@ if config.jokers then
 
     --- Burger ---
 
-    if config.j_sdm_burger then
+    if config.j_burger then
         SMODS.Joker{
             key = "burger",
             name = "Burger",
@@ -126,7 +126,7 @@ if config.jokers then
 
     --- Bounciest Ball ---
 
-    if config.j_sdm_bounciest_ball then
+    if config.j_bounciest_ball then
         SMODS.Joker{
             key = "bounciest_ball",
             name = "Bounciest Ball",
@@ -182,7 +182,7 @@ if config.jokers then
 
     --- Lucky Joker ---
 
-    if config.j_sdm_lucky_joker then
+    if config.j_lucky_joker then
         SMODS.Joker{
             key = "lucky_joker",
             name = "Lucky Joker",
@@ -221,7 +221,7 @@ if config.jokers then
 
     --- Iconic Icon ---
 
-    if config.j_sdm_iconic_icon then
+    if config.j_iconic_icon then
         SMODS.Joker{
             key = "iconic_icon",
             name = "Iconic Icon",
@@ -268,7 +268,7 @@ if config.jokers then
 
     --- Mult'N'Chips ---
 
-    if config.j_sdm_mult_n_chips then
+    if config.j_mult_n_chips then
         SMODS.Joker{
             key = "mult_n_chips",
             name = "Mult'N'Chips",
@@ -313,7 +313,7 @@ if config.jokers then
 
     --- Moon Base ---
 
-    if config.j_sdm_moon_base then
+    if config.j_moon_base then
         SMODS.Joker{
             key = "moon_base",
             name = "Moon Base",
@@ -357,7 +357,7 @@ if config.jokers then
 
     --- Shareholder Joker ---
 
-    if config.j_sdm_shareholder_joker then
+    if config.j_shareholder_joker then
         SMODS.Joker{
             key = "shareholder_joker",
             name = "Shareholder Joker",
@@ -387,7 +387,7 @@ if config.jokers then
 
     --- Magic Hands ---
 
-    if config.j_sdm_magic_hands then
+    if config.j_magic_hands then
         SMODS.Joker{
             key = "magic_hands",
             name = "Magic Hands",
@@ -429,7 +429,7 @@ if config.jokers then
 
     --- Tip Jar ---
 
-    if config.j_sdm_tip_jar then
+    if config.j_tip_jar then
         SMODS.Joker{
             key = "tip_jar",
             name = "Tip Jar",
@@ -461,7 +461,7 @@ if config.jokers then
 
     --- Wandering Star ---
 
-    if config.j_sdm_wandering_star then
+    if config.j_wandering_star then
         SMODS.Joker{
             key = "wandering_star",
             name = "Wandering Star",
@@ -505,7 +505,7 @@ if config.jokers then
 
     --- Ouija Board ---
 
-    if config.j_sdm_ouija_board then
+    if config.j_ouija_board then
         SMODS.Joker{
             key = "ouija_board",
             name = "Ouija Board",
@@ -585,7 +585,7 @@ if config.jokers then
 
     --- La Révolution ---
 
-    if config.j_sdm_la_revolution then
+    if config.j_la_revolution then
         SMODS.Joker{
             key = "la_revolution",
             name = "La Révolution",
@@ -628,7 +628,7 @@ if config.jokers then
 
     --- Clown Bank ---
 
-    if config.j_sdm_clown_bank then
+    if config.j_clown_bank then
         SMODS.Joker{
             key = "clown_bank",
             name = "Clown Bank",
@@ -679,7 +679,7 @@ if config.jokers then
 
     --- Furnace ---
 
-    if config.j_sdm_furnace then
+    if config.j_furnace then
         SMODS.Joker{
             key = "furnace",
             name = "Furnace",
@@ -740,7 +740,7 @@ if config.jokers then
 
     --- Warehouse ---
 
-    if config.j_sdm_warehouse then
+    if config.j_warehouse then
         SMODS.Joker{
             key = "warehouse",
             name = "Warehouse",
@@ -782,7 +782,7 @@ if config.jokers then
 
     --- Zombie Joker ---
 
-    if config.j_sdm_zombie_joker then
+    if config.j_zombie_joker then
         SMODS.Joker{
             key = "zombie_joker",
             name = "Zombie Joker",
@@ -832,7 +832,7 @@ if config.jokers then
 
     --- Mystery Joker ---
 
-    if config.j_sdm_mystery_joker then
+    if config.j_mystery_joker then
         SMODS.Joker{
             key = "mystery_joker",
             name = "Mystery Joker",
@@ -869,7 +869,7 @@ if config.jokers then
 
     --- Infinite Staircase ---
 
-    if config.j_sdm_infinite_staircase then
+    if config.j_infinite_staircase then
         SMODS.Joker{
             key = "infinite_staircase",
             name = "Infinite Staircase",
@@ -912,7 +912,7 @@ if config.jokers then
 
     --- Ninja Joker ---
 
-    if config.j_sdm_ninja_joker then
+    if config.j_ninja_joker then
         SMODS.Joker{
             key = "ninja_joker",
             name = "Ninja Joker",
@@ -990,7 +990,7 @@ if config.jokers then
 
     --- Reach The Stars ---
 
-    if config.j_sdm_reach_the_stars then
+    if config.j_reach_the_stars then
         SMODS.Joker{
             key = "reach_the_stars",
             name = "Reach The Stars",
@@ -1098,7 +1098,7 @@ if config.jokers then
 
     --- Crooked Joker ---
 
-    if config.j_sdm_crooked_joker then
+    if config.j_crooked_joker then
         SMODS.Joker{
             key = "crooked_joker",
             name = "Crooked Joker",
@@ -1155,7 +1155,7 @@ if config.jokers then
 
     --- Property Damage ---
 
-    if config.j_sdm_property_damage then
+    if config.j_property_damage then
         SMODS.Joker{
             key = "property_damage",
             name = "Property Damage",
@@ -1193,7 +1193,7 @@ if config.jokers then
 
     --- Rock'N'Roll ---
 
-    if config.j_sdm_rock_n_roll then
+    if config.j_rock_n_roll then
         SMODS.Joker{
             key = "rock_n_roll",
             name = "Rock'N'Roll",
@@ -1231,7 +1231,7 @@ if config.jokers then
 
     --- Contract ---
 
-    if config.j_sdm_contract then
+    if config.j_contract then
         SMODS.Joker{
             key = "contract",
             name = "Contract",
@@ -1308,7 +1308,7 @@ if config.jokers then
 
     --- Cupidon ---
 
-    if config.j_sdm_cupidon then
+    if config.j_cupidon then
         SMODS.Joker{
             key = "cupidon",
             name = "Cupidon",
@@ -1377,7 +1377,7 @@ if config.jokers then
 
     --- Pizza ---
 
-    if config.j_sdm_pizza then
+    if config.j_pizza then
         SMODS.Joker{
             key = "pizza",
             name = "Pizza",
@@ -1447,7 +1447,7 @@ if config.jokers then
 
     --- Treasure Chest ---
 
-    if config.j_sdm_treasure_chest then
+    if config.j_treasure_chest then
         SMODS.Joker{
             key = "treasure_chest",
             name = "Treasure Chest",
@@ -1498,7 +1498,7 @@ if config.jokers then
 
     --- Bullet Train ---
 
-    if config.j_sdm_bullet_train then
+    if config.j_bullet_train then
         SMODS.Joker{
             key = "bullet_train",
             name = "Bullet Train",
@@ -1533,7 +1533,7 @@ if config.jokers then
 
     --- Chaos Theory ---
 
-    if config.j_sdm_chaos_theory then
+    if config.j_chaos_theory then
         SMODS.Joker{
             key = "chaos_theory",
             name = "Chaos Theory",
@@ -1572,7 +1572,7 @@ if config.jokers then
 
     --- Archibald ---
 
-    if config.j_sdm_archibald then
+    if config.j_archibald then
         SMODS.Joker{
             key = "archibald",
             name = "Archibald",
@@ -1624,7 +1624,7 @@ if config.jokers then
 
     --- SDM_0 ---
 
-    if config.j_sdm_sdm_0 then
+    if config.j_sdm_0 then
         SMODS.Joker{
             key = "sdm_0",
             name = "SDM_0",

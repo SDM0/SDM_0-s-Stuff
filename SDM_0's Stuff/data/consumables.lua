@@ -10,48 +10,6 @@ SMODS.Atlas{
 
 if config.consumables then
 
-    --[[
-    SMODS.Consumable = SMODS.Center:extend {
-        unlocked = true,
-        discovered = false,
-        consumeable = true,
-        pos = { x = 0, y = 0 },
-        atlas = 'Tarot',
-        legendaries = {},
-        cost = 3,
-        config = {},
-        prefix = 'c',
-        required_params = {
-            'set',
-            'key',
-            'loc_txt'
-        },
-        inject = function(self)
-            SMODS.Center.inject(self)
-            SMODS.insert_pool(G.P_CENTER_POOLS['Consumeables'], self)
-            self.type = SMODS.ConsumableTypes[self.set]
-            if self.hidden then
-                self.soul_set = self.soul_set or 'Spectral'
-                self.soul_rate = self.soul_rate or 0.003
-                table.insert(self.legendaries, self)
-            end
-            if self.type and self.type.inject_card and type(self.type.inject_card) == 'function' then
-                self.type:inject_card(self)
-            end
-        end,
-        delete = function(self)
-            if self.type and self.type.delete_card and type(self.type.delete_card) == 'function' then
-                self.type:delete_card(self)
-            end
-            SMODS.remove_pool(G.P_CENTER_POOLS['Consumeables'], self.key)
-            self.super.delete(self)
-        end,
-        loc_vars = function(self, info_queue)
-            return {}
-        end
-    }
-    ]]--
-
     if config.c_sphinx then
         SMODS.Consumable{
             key = 'c_sphinx',
@@ -174,12 +132,13 @@ if config.consumables then
             loc_txt = {
                 name = "Morph",
                 text = {
-                    "Swap a {C:attention}ressource{}",
+                    "Swap {C:attention}#1#{} #2#",
                     "with another one"
                 }
             },
             loc_vars = function(self, info_queue, card)
                 info_queue[#info_queue+1] = {key = "ressources", set = "Other"}
+                return {vars = {self.config.extra, (self.config.extra > 1 and "ressources") or "ressource"}}
             end,
             can_use = function(self, card, area, copier)
                 return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or G.GAME.dollars > 0

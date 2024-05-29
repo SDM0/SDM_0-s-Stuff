@@ -12,9 +12,9 @@ if config.decks then
 
     --- SDM_0's Deck
 
-    if config.jokers and count_sdm_modded_card("j_", true) > 1 then
+    if config.b_sdm_0_s and config.jokers and count_sdm_modded_card("j_", true) > 1 then
         SMODS.Back{
-            key = "sdm_0_s_deck",
+            key = "b_sdm_0_s",
             name = "SDM_0's Deck",
             pos = {x = 0, y = 0},
             loc_txt = {
@@ -42,9 +42,9 @@ if config.decks then
 
     --- Bazaar Deck
 
-    if config.consumables and count_sdm_modded_card("c_") > 1 then
+    if config.b_bazaar and config.consumables and count_sdm_modded_card("c_") > 1 then
         SMODS.Back{
-            key = "bazaar_deck",
+            key = "b_bazaar",
             name = "Bazaar Deck",
             pos = {x = 1, y = 0},
             loc_txt = {
@@ -74,95 +74,109 @@ if config.decks then
 
     --- Sandbox Deck
 
-    SMODS.Back{
-        key = "sandbox_deck",
-        name = "Sandbox Deck",
-        pos = {x = 2, y = 0},
-        config = {joker_slot = 2},
-        loc_txt = {
+    if config.b_sandbox then
+        SMODS.Back{
+            key = "b_sandbox",
             name = "Sandbox Deck",
-            text = {
-            "{C:attention}+2{} Joker Slots",
-            "Win at Ante {C:attention}10",
-            }
-        },
-        apply = function(back)
-            G.GAME.win_ante = 10
-        end,
-        atlas = "sdm_enhancers"
-    }
+            pos = {x = 2, y = 0},
+            config = {joker_slot = 2},
+            loc_txt = {
+                name = "Sandbox Deck",
+                text = {
+                "{C:attention}+2{} Joker Slots",
+                "Win at Ante {C:attention}10",
+                }
+            },
+            apply = function(back)
+                G.GAME.win_ante = 10
+            end,
+            atlas = "sdm_enhancers"
+        }
+    end
 
     --- Lucky 7 Deck
 
-    SMODS.Back{
-        key = "lucky_7_deck",
-        name = "Lucky 7 Deck",
-        pos = {x = 3, y = 0},
-        loc_txt = {
+    if config.b_lucky_7 then
+        SMODS.Back{
+            key = "b_lucky_7",
             name = "Lucky 7 Deck",
-            text = {
-            "Start run with",
-            "an {C:eternal}Eternal{} {C:attention}Lucky Joker",
-            "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
-            }
-        },
-        apply = function(back)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    for i = #G.playing_cards, 1, -1 do
-                        if G.playing_cards[i].base.id == 7 then
-                            G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
+            pos = {x = 3, y = 0},
+            loc_txt = {
+                name = "Lucky 7 Deck",
+                text = {
+                "Start run with",
+                "an {C:eternal}Eternal{} {C:attention}Lucky Joker",
+                "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                }
+            },
+            apply = function(back)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        for i = #G.playing_cards, 1, -1 do
+                            if G.playing_cards[i].base.id == 7 then
+                                G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
+                            end
                         end
+                        add_joker2("j_lucky_joker", nil, true, true)
+                        return true
                     end
-                    add_joker2("j_sdm_lucky_joker", nil, true, true)
-                    return true
-                end
-            }))
-        end,
-        atlas = "sdm_enhancers"
-    }
+                }))
+            end,
+            atlas = "sdm_enhancers"
+        }
+    end
 
     --- Deck Of Stuff
 
-    SMODS.Back{
-        key = "deck_of_stuff",
-        name = "Deck of Stuff",
-        pos = {x = 0, y = 1},
-        config = {joker_slot = 2},
-        loc_txt = {
+    if config.b_stuff and (config.b_sdm_0_s or config.b_bazaar or config.b_sandbox or config.b_lucky_7) then
+        SMODS.Back{
+            key = "deck_of_stuff",
             name = "Deck of Stuff",
-            text = {
-            "Combines every",
-            "{C:attention}SDM_0's Stuff{}",
-            "deck effect"
-            }
-        },
-        apply = function(back)
-            G.GAME.win_ante = 10
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    for i = #G.playing_cards, 1, -1 do
-                        if G.playing_cards[i].base.id == 7 then
-                            G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
-                        end
-                    end
-                    rand_jokers = get_random_sdm_modded_card("j_", 2, true)
-                    for i = 1, #rand_jokers do
-                        add_joker2(rand_jokers[i], nil, true, true)
-                    end
-                    add_joker2("j_sdm_lucky_joker", nil, true, true)
-                    rand_cons = get_random_sdm_modded_card("c_", 2)
-                        for i = 1, #rand_cons do
-                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
-                            card:add_to_deck()
-                            G.consumeables:emplace(card)
-                        end
-                    return true
+            pos = {x = 0, y = 1},
+            config = {joker_slot = (config.b_sandbox and 2) or 0},
+            loc_txt = {
+                name = "Deck of Stuff",
+                text = {
+                "Combines every",
+                "{C:attention}SDM_0's Stuff{}",
+                "deck effect"
+                }
+            },
+            apply = function(back)
+                if config.b_sandbox then
+                    G.GAME.win_ante = 10
                 end
-            }))
-        end,
-        atlas = "sdm_enhancers"
-    }
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        if config.b_lucky_7 then
+                            for i = #G.playing_cards, 1, -1 do
+                                if G.playing_cards[i].base.id == 7 then
+                                    G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
+                                end
+                            end
+                            add_joker2("j_lucky_joker", nil, true, true)
+                        end
+                        if config.b_sdm_0_s then
+                            rand_jokers = get_random_sdm_modded_card("j_", 2, true)
+                            for i = 1, #rand_jokers do
+                                add_joker2(rand_jokers[i], nil, true, true)
+                            end
+                        end
+                        if config.b_bazaar then
+                            rand_cons = get_random_sdm_modded_card("c_", 2)
+                            for i = 1, #rand_cons do
+                                local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                                card:add_to_deck()
+                                G.consumeables:emplace(card)
+                            end
+                        end
+                        return true
+                    end
+                }))
+            end,
+            atlas = "sdm_enhancers"
+        }
+    end
 end
 
 return
