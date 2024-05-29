@@ -12,7 +12,7 @@ if config.decks then
 
     --- SDM_0's Deck
 
-    if config.jokers and count_sdm_modded_jokers(true) then
+    if config.jokers and count_sdm_modded_card("j_", true) > 1 then
         SMODS.Back{
             key = "sdm_0_s_deck",
             name = "SDM_0's Deck",
@@ -28,9 +28,41 @@ if config.decks then
             apply = function(back)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        rand_jokers = get_random_sdm_modded_jokers(2, true)
+                        rand_jokers = get_random_sdm_modded_card("j_", 2, true)
                         for i = 1, #rand_jokers do
                             add_joker2(rand_jokers[i], nil, true, true)
+                        end
+                        return true
+                    end
+                }))
+            end,
+            atlas = "sdm_enhancers"
+        }
+    end
+
+    --- Bazaar Deck
+
+    if config.consumables and count_sdm_modded_card("c_") > 1 then
+        SMODS.Back{
+            key = "bazaar_deck",
+            name = "Bazaar Deck",
+            pos = {x = 1, y = 0},
+            loc_txt = {
+                name = "Bazaar Deck",
+                text = {
+                    "Start run with",
+                    "{C:attention}2{} random {C:attention}SDM_0's Stuff{}",
+                    "consumables",
+                },
+            },
+            apply = function(back)
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        rand_cons = get_random_sdm_modded_card("c_", 2)
+                        for i = 1, #rand_cons do
+                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
                         end
                         return true
                     end
@@ -114,11 +146,17 @@ if config.decks then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    rand_jokers = get_random_sdm_modded_jokers(2, true)
+                    rand_jokers = get_random_sdm_modded_card("j_", 2, true)
                     for i = 1, #rand_jokers do
                         add_joker2(rand_jokers[i], nil, true, true)
                     end
                     add_joker2("j_sdm_lucky_joker", nil, true, true)
+                    rand_cons = get_random_sdm_modded_card("c_", 2)
+                        for i = 1, #rand_cons do
+                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                        end
                     return true
                 end
             }))

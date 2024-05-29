@@ -26,21 +26,21 @@ function count_max_occurence(table)
     return max_card
 end
 
--- Get the amount of enabled SDM_0's Stuff jokers
-function count_sdm_modded_jokers(no_legend)
-    local modded_jokers = {}
+-- Get the amount of enabled SDM_0's Stuff cards
+function count_sdm_modded_card(prefix, no_legend)
+    local modded_elem = {}
     for k,v in pairs(config) do
-        if v and string.sub(k, 1, 2) == "j_" then
-            if no_legend then
+        if v and string.sub(k, 1, 2) == prefix then
+            if prefix == "j_" and no_legend then
                 if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
-                    table.insert(modded_jokers, k)
+                    table.insert(modded_elem, k)
                 end
             else
-                table.insert(modded_jokers, k)
+                table.insert(modded_elem, k)
             end
         end
     end
-    return #modded_jokers
+    return #modded_elem
 end
 
 --- Get a value's index in a table
@@ -78,33 +78,33 @@ function ouija_check(card, context)
     end
 end
 
--- Get n jokers from SDM_0's Stuff
-function get_random_sdm_modded_jokers(n, no_legend)
+-- Get n cards from SDM_0's Stuff
+function get_random_sdm_modded_card(prefix, n, no_legend)
     if G.GAME then
-        local modded_jokers = {}
-        local random_jokers = {}
+        local modded_elem = {}
+        local random_elem = {}
 
         for k,v in pairs(config) do
-            if v and string.sub(k, 1, 2) == "j_" then
-                if no_legend then
+            if v and string.sub(k, 1, 2) == prefix then
+                if prefix == "j_" and no_legend then
                     if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
-                        table.insert(modded_jokers, k)
+                        table.insert(modded_elem, k)
                     end
                 else
-                    table.insert(modded_jokers, k)
+                    table.insert(modded_elem, k)
                 end
             end
         end
 
-        if modded_jokers and #modded_jokers >= n then
+        if modded_elem and #modded_elem >= n then
             while n > 0 do
-                r_num = pseudorandom("deck_create", 1, #modded_jokers)
-                r_joker = modded_jokers[r_num]
-                table.insert(random_jokers, r_joker)
-                table.remove(modded_jokers, r_num)
+                r_num = pseudorandom("deck_create", 1, #modded_elem)
+                r_elem = modded_elem[r_num]
+                table.insert(random_elem, r_elem)
+                table.remove(modded_elem, r_num)
                 n = n - 1
             end
-            return random_jokers
+            return random_elem
         end
     return nil
     end

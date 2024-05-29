@@ -21,6 +21,7 @@ NFS.load(SDM_0s_Stuff_Mod.path.."overrides.lua")()
 
 NFS.load(SDM_0s_Stuff_Mod.path.."data/jokers.lua")()
 NFS.load(SDM_0s_Stuff_Mod.path.."data/challenges.lua")()
+NFS.load(SDM_0s_Stuff_Mod.path.."data/consumables.lua")()
 NFS.load(SDM_0s_Stuff_Mod.path.."data/decks.lua")()
 
 SMODS.Atlas{

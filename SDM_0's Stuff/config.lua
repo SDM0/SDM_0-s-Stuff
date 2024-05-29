@@ -36,6 +36,12 @@ local parameters = {
         j_sdm_archibald = true,
         j_sdm_sdm_0 = true,
 
+        consumables = true,  --- disables all of the mod consumables on "false"
+
+        c_sphinx = true,
+        c_sacrifice = true,
+        c_morph = true,
+
         challenges = true,  --- disables all of the mod challenges on "false"
 
         decks = true,   --- disables all of the mod decks on "false"
