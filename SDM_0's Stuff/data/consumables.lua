@@ -20,9 +20,8 @@ if config.consumables then
             loc_txt = {
                 name = "The Sphinx",
                 text = {
-                    "{C:green}#1# in #2#{} chance to add",
-                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
-                    "{C:dark_edition}Polychrome{} edition to",
+                    "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
+                    "or {C:dark_edition}Polychrome{} edition to",
                     "a random {C:attention}card{} in hand"
                 }
             },
@@ -45,38 +44,19 @@ if config.consumables then
             end,
             use = function(self, card)
                 local used_tarot = card or self
-                if pseudorandom(pseudoseed('sphinx')) < G.GAME.probabilities.normal/card.ability.extra then
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                        local valid_card = {}
-                        for i = 1, #G.hand.cards do
-                            if not G.hand.cards[i]:get_edition() then
-                                table.insert(valid_card, G.hand.cards[i])
-                            end
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    local valid_card = {}
+                    for i = 1, #G.hand.cards do
+                        if not G.hand.cards[i]:get_edition() then
+                            table.insert(valid_card, G.hand.cards[i])
                         end
-                        local edition = poll_edition('wheel_of_fortune', nil, true, true)
-                        local random_card = valid_card[pseudorandom('sphinx', 1, #valid_card)]
-                        random_card:set_edition(edition, true)
-                        used_tarot:juice_up(0.3, 0.5)
-                    return true end }))
-                else
-                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                        attention_text({
-                            text = localize('k_nope_ex'),
-                            scale = 1.3, 
-                            hold = 1.4,
-                            major = used_tarot,
-                            backdrop_colour = G.C.SECONDARY_SET.Tarot,
-                            align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
-                            offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
-                            silent = true
-                            })
-                            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
-                                play_sound('tarot2', 0.76, 0.4);return true end}))
-                            play_sound('tarot2', 1, 0.4)
-                            used_tarot:juice_up(0.3, 0.5)
-                    return true end }))
-                end
-                delay(0.6)
+                    end
+                    local edition = poll_edition('wheel_of_fortune', nil, true, true)
+                    local random_card = valid_card[pseudorandom('sphinx', 1, #valid_card)]
+                    random_card:set_edition(edition, true)
+                    used_tarot:juice_up(0.3, 0.5)
+                    return true
+                end }))
             end,
             atlas = "sdm_consumables"
         }
