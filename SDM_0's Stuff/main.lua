@@ -14,8 +14,8 @@
 
 SDM_0s_Stuff_Mod = SMODS.current_mod
 
+NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
 NFS.load(SDM_0s_Stuff_Mod.path.."localization.lua")()
-
 NFS.load(SDM_0s_Stuff_Mod.path.."utils.lua")()
 NFS.load(SDM_0s_Stuff_Mod.path.."overrides.lua")()
 

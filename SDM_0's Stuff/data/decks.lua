@@ -1,5 +1,4 @@
-local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
-local config = parameters.config
+local config = SDM_0s_Stuff_Config.config
 
 SMODS.Atlas{
     key = "sdm_enhancers",
@@ -12,7 +11,7 @@ if config.decks then
 
     --- SDM_0's Deck
 
-    if config.b_sdm_0_s and config.jokers and count_sdm_modded_card("j_", true) > 1 then
+    if config.b_sdm_0_s and config.jokers and count_sdm_modded_card("j_sdm", true) > 1 then
         SMODS.Back{
             key = "b_sdm_0_s",
             name = "SDM_0's Deck",
@@ -28,7 +27,7 @@ if config.decks then
             apply = function(back)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        rand_jokers = get_random_sdm_modded_card("j_", 2, true)
+                        rand_jokers = get_random_sdm_modded_card("j_sdm", 2, true)
                         for i = 1, #rand_jokers do
                             add_joker2(rand_jokers[i], nil, true, true)
                         end
@@ -117,11 +116,31 @@ if config.decks then
                                 G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                             end
                         end
-                        add_joker2("j_lucky_joker", nil, true, true)
+                        add_joker("j_sdm_lucky_joker", nil, true, true)
                         return true
                     end
                 }))
             end,
+            atlas = "sdm_enhancers"
+        }
+    end
+
+    --- DNA Deck
+
+    if config.b_dna then
+        SMODS.Back{
+            key = "b_dna",
+            name = "DNA Deck",
+            pos = {x = 1, y = 1},
+            loc_txt = {
+                name = "DNA Deck",
+                text = {
+                "Scored cards from",
+                "{C:attention}winning poker hand{}",
+                "are {C:blue}dupli{C:red}cated{}",
+                }
+            },
+            -- Effect in "overrides.lua"
             atlas = "sdm_enhancers"
         }
     end
@@ -154,10 +173,10 @@ if config.decks then
                                     G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                                 end
                             end
-                            add_joker2("j_lucky_joker", nil, true, true)
+                            add_joker2("j_sdm_lucky_joker", nil, true, true)
                         end
                         if config.b_sdm_0_s then
-                            rand_jokers = get_random_sdm_modded_card("j_", 2, true)
+                            rand_jokers = get_random_sdm_modded_card("j_sdm", 2, true)
                             for i = 1, #rand_jokers do
                                 add_joker2(rand_jokers[i], nil, true, true)
                             end

@@ -1,5 +1,4 @@
-local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
-local config = parameters.config
+local config = SDM_0s_Stuff_Config.config
 
 SMODS.Atlas{
     key = "sdm_consumables",

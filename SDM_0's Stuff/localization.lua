@@ -1,5 +1,4 @@
-local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
-local space_jokers = parameters.space_jokers
+local space_jokers = SDM_0s_Stuff_Config.space_jokers
 
 local sj_list= {}
 local temp_string = ""

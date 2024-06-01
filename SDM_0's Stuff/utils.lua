@@ -1,5 +1,4 @@
-local parameters = NFS.load(SDM_0s_Stuff_Mod.path.."config.lua")()
-local config = parameters.config
+local config = SDM_0s_Stuff_Config.config
 
 --- Get the amount of time a consumable has been used
 function get_count(card)
@@ -30,7 +29,7 @@ end
 function count_sdm_modded_card(prefix, no_legend)
     local modded_elem = {}
     for k,v in pairs(config) do
-        if v and string.sub(k, 1, 2) == prefix then
+        if v and string.sub(k, 1, #prefix) == prefix then
             if prefix == "j_" and no_legend then
                 if k ~= "j_archibald" and k ~= "j_sdm_0" then
                     table.insert(modded_elem, k)
@@ -85,7 +84,7 @@ function get_random_sdm_modded_card(prefix, n, no_legend)
         local random_elem = {}
 
         for k,v in pairs(config) do
-            if v and string.sub(k, 1, 2) == prefix then
+            if v and string.sub(k, 1, #prefix) == prefix then
                 if prefix == "j_" and no_legend then
                     if k ~= "j_archibald" and k ~= "j_sdm_0" then
                         table.insert(modded_elem, k)
