@@ -26,12 +26,12 @@ function count_max_occurence(table)
 end
 
 -- Get the amount of enabled SDM_0's Stuff cards
-function count_sdm_modded_card(prefix, no_legend)
+function count_sdm_modded_card(prefix)
     local modded_elem = {}
-    for k,v in pairs(config) do
+    for k, v in pairs(config) do
         if v and string.sub(k, 1, #prefix) == prefix then
-            if prefix == "j_" and no_legend then
-                if k ~= "j_archibald" and k ~= "j_sdm_0" then
+            if string.sub(prefix, 1, 2) == "j_" and not config.enable_legends then
+                if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
                     table.insert(modded_elem, k)
                 end
             else
@@ -78,15 +78,15 @@ function ouija_check(card, context)
 end
 
 -- Get n cards from SDM_0's Stuff
-function get_random_sdm_modded_card(prefix, n, no_legend)
+function get_random_sdm_modded_card(prefix, n)
     if G.GAME then
         local modded_elem = {}
         local random_elem = {}
 
-        for k,v in pairs(config) do
+        for k, v in pairs(config) do
             if v and string.sub(k, 1, #prefix) == prefix then
-                if prefix == "j_" and no_legend then
-                    if k ~= "j_archibald" and k ~= "j_sdm_0" then
+                if string.sub(prefix, 1, 2) == "j_" and not config.enable_legends then
+                    if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
                         table.insert(modded_elem, k)
                     end
                 else

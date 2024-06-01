@@ -11,7 +11,7 @@ if config.decks then
 
     --- SDM_0's Deck
 
-    if config.b_sdm_0_s and config.jokers and count_sdm_modded_card("j_sdm", true) > 1 then
+    if config.b_sdm_0_s and config.jokers and count_sdm_modded_card("j_sdm") > 1 then
         SMODS.Back{
             key = "b_sdm_0_s",
             name = "SDM_0's Deck",
@@ -27,7 +27,7 @@ if config.decks then
             apply = function(back)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        rand_jokers = get_random_sdm_modded_card("j_sdm", 2, true)
+                        rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
                         for i = 1, #rand_jokers do
                             add_joker2(rand_jokers[i], nil, true, true)
                         end
@@ -176,7 +176,7 @@ if config.decks then
                             add_joker2("j_sdm_lucky_joker", nil, true, true)
                         end
                         if config.b_sdm_0_s then
-                            rand_jokers = get_random_sdm_modded_card("j_sdm", 2, true)
+                            rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
                             for i = 1, #rand_jokers do
                                 add_joker2(rand_jokers[i], nil, true, true)
                             end

@@ -1,7 +1,7 @@
 SDM_0s_Stuff_Config = {
     config = {
 
-        jokers = true,  --- disables all of the mod jokers, challenges and SDM_0's Deck on "false"
+        jokers = true,  --- disable all of the mod jokers, challenges and SDM_0's Deck on "false"
 
         j_sdm_trance_the_devil = true,
         j_sdm_burger = true,
@@ -36,22 +36,24 @@ SDM_0s_Stuff_Config = {
         j_sdm_archibald = true,
         j_sdm_sdm_0 = true,
 
-        consumables = true,  --- disables all of the mod consumables on "false"
+        consumables = true,  --- disable all of the mod consumables on "false"
 
         c_sphinx = true,
         c_sacrifice = true,
         c_morph = true,
 
-        challenges = true,  --- disables all of the mod challenges on "false"
+        challenges = true,  --- disable all of the mod challenges on "false"
 
-        decks = true,   --- disables all of the mod decks on "false"
+        decks = true,   --- disable all of the mod decks on "false"
 
         b_sdm_0_s = true,
         b_bazaar = true,
         b_sandbox = true,
         b_lucky_7 = true,
         b_dna = true,
-        b_stuff = true
+        b_stuff = true,
+
+        enable_legends = false, --- enable legendary to spawn in decks with starting random jokers
     },
 
     space_jokers = {
