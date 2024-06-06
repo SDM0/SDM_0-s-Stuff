@@ -59,8 +59,8 @@ function SDM_0s_Stuff_Mod.process_loc_text()
             "{C:attention}#1#{} rounds"
         }
     }
-    G.localization.descriptions.Other.ressources = {
-        name = "Ressources",
+    G.localization.descriptions.Other.resources = {
+        name = "Resources",
         text = {
             "Hand, discard, dollar, handsize,",
             "joker slot, consumable slot"

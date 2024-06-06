@@ -116,15 +116,15 @@ if config.consumables then
                 }
             },
             loc_vars = function(self, info_queue, card)
-                info_queue[#info_queue+1] = {key = "ressources", set = "Other"}
-                return {vars = {self.config.extra, (self.config.extra > 1 and "ressources") or "ressource"}}
+                info_queue[#info_queue+1] = {key = "resources", set = "Other"}
+                return {vars = {self.config.extra, (self.config.extra > 1 and "resources") or "resource"}}
             end,
             can_use = function(self, card, area, copier)
                 return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or G.GAME.dollars > 0
                 or G.hand.config.card_limit > card.ability.extra or G.jokers.config.card_limit > 0 or G.consumeables.config.card_limit > 0
             end,
             use = function(self, card)
-                local ressource = {"hand", "discard", "dollar", "handsize", "joker_slot", "consumable_slot"}
+                local resource = {"hand", "discard", "dollar", "handsize", "joker_slot", "consumable_slot"}
                 local taken = {}
                 if G.GAME.round_resets.hands > card.ability.extra then
                     table.insert(taken, "hand")
@@ -146,8 +146,8 @@ if config.consumables then
                 end
                 local removed_ind = pseudorandom("tmtt_removed", 1, #taken)
                 local removed = taken[removed_ind]
-                table.remove(ressource, (index_elem(ressource, removed) or "dollar"))
-                local added = ressource[pseudorandom("tmtt_added", 1, #ressource)]
+                table.remove(resource, (index_elem(resource, removed) or "dollar"))
+                local added = resource[pseudorandom("tmtt_added", 1, #resource)]
 
                 local used_tarot = card or self
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
