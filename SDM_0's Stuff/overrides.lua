@@ -47,18 +47,6 @@ function Back:trigger_effect(args)
     end
 end
 
-local calculate_dollar_bonusref = Card.calculate_dollar_bonus
-function Card.calculate_dollar_bonus(self)
-    if self.debuff then return end
-    if self.ability.set == "Joker" then
-        local obj = self.config.center
-        if obj and obj.sdm_calc_dollar_bonus and type(obj.sdm_calc_dollar_bonus) == 'function' then
-            return obj:sdm_calc_dollar_bonus(self)
-        end
-    end
-    return calculate_dollar_bonusref(self)
-end
-
 local add_to_deckref = Card.add_to_deck
 function Card.add_to_deck(self, from_debuff)
     if not self.added_to_deck then

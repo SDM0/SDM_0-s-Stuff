@@ -376,7 +376,7 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra.min, card.ability.extra.max}}
             end,
-            sdm_calc_dollar_bonus = function(self, card)
+            calc_dollar_bonus = function(self, card)
                 rand_dollar = pseudorandom(pseudoseed('shareholder'), card.ability.extra.min, card.ability.extra.max)
                 return rand_dollar
             end,
@@ -445,7 +445,7 @@ if config.jokers then
                     "{C:inactive}(ex: $24 -> $4)",
                 }
             },
-            sdm_calc_dollar_bonus = function(self, card)
+            calc_dollar_bonus = function(self, card)
                 local highest = 0
                 for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
                     highest = math.max(highest, tonumber(digit))
@@ -728,7 +728,7 @@ if config.jokers then
                     }
                 end
             end,
-            sdm_calc_dollar_bonus = function(self, card)
+            calc_dollar_bonus = function(self, card)
                 if card.ability.extra.dollars > 0 then
                     return card.ability.extra.dollars
                 end
