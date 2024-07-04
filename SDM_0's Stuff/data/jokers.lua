@@ -30,25 +30,40 @@ if config.jokers then
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             },
+            counted_keys = {
+                ['c_trance'] = true,
+                ['c_trance_dx'] = true,
+                ['c_trance_cu'] = true,
+                ['c_devil'] = true,
+                ['c_devil_dx'] = true,
+                ['c_devil_cu'] = true
+            },
+            current_x_mult = function(self, card)
+                local count = 0
+                for k, _ in pairs(self.counted_keys) do
+                    count = count + get_count(k)
+                end
+                return 1 + count * card.ability.extra
+            end,
             loc_vars = function(self, info_queue, card)
                 info_queue[#info_queue+1] = G.P_CENTERS.c_trance
                 info_queue[#info_queue+1] = G.P_CENTERS.c_devil
-                return {vars = {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}
+                return {vars = {card.ability.extra, self:current_x_mult(card)}}
             end,
             calculate = function(self, card, context)
                 if context.using_consumeable and not context.blueprint then
-                    if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
+                    local key = context.consumeable.config.center.key
+                    if self.counted_keys[key] then
                         G.E_MANAGER:add_event(Event({func = function()
                             card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
-                            vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}});
+                            vars={self:current_x_mult(card)}}});
                             return true end}))
                         return
                     end
-                elseif context.joker_main and
-                    (1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra)) > 1) then
+                elseif context.joker_main and self:current_x_mult(card) > 1 then
                     return {
-                        message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}},
-                        Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))
+                        message = localize{type='variable',key='a_xmult',vars={self:current_x_mult(card)}},
+                        Xmult_mod = self:current_x_mult(card)
                     }
                 end
             end,
