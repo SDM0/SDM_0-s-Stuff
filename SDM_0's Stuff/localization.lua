@@ -27,7 +27,7 @@ function SDM_0s_Stuff_Mod.process_loc_text()
     G.localization.misc.dictionary.k_shared_ex = "Shared!"
 
     G.localization.misc.v_dictionary.a_hand = "+#1# Hand"
-    G.localization.misc.v_dictionary.a_hand_minus = "+#1# Hand"
+    G.localization.misc.v_dictionary.a_hand_minus = "-#1# Hand"
     G.localization.misc.v_dictionary.a_discard = "+#1# Discard"
     G.localization.misc.v_dictionary.a_discard_minus = "-#1# Discard"
     G.localization.misc.v_dictionary.a_joker_slot = "+#1# Joker Slot"
