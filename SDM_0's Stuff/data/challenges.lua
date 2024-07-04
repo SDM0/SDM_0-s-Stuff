@@ -12,7 +12,7 @@ if config.challenges and config.jokers then
 
     --- Devil's Deal ---
 
-    if config.j_trance_the_devil then
+    if config.j_sdm_trance_the_devil then
         SMODS.Challenge{
             loc_txt = "Devil's Deal",
             key = 'devil_s_deal',
@@ -70,7 +70,7 @@ if config.challenges and config.jokers then
 
     --- Scientific Downfall ---
 
-    if config.j_la_revolution then
+    if config.j_sdm_la_revolution then
         SMODS.Challenge{
             loc_txt = "Scientific Downfall",
             key = 'scientific_downfall',
@@ -106,7 +106,7 @@ if config.challenges and config.jokers then
 
     --- A Plumber's Hassle ---
 
-    if config.j_infinite_staircase then
+    if config.j_sdm_infinite_staircase then
         SMODS.Challenge{
             loc_txt = "A Plumber's Hassle",
             key = 'a_plumber_s_hassle',
@@ -136,7 +136,7 @@ if config.challenges and config.jokers then
 
     --- Spare Change ---
 
-    if config.j_clown_bank and config.j_tip_jar then
+    if config.j_sdm_clown_bank and config.j_sdm_tip_jar then
         SMODS.Challenge{
             loc_txt = "Spare Change",
             key = 'spare_change',
