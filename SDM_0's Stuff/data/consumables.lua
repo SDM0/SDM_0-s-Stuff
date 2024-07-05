@@ -149,57 +149,86 @@ if config.consumables then
                 table.remove(resource, (index_elem(resource, removed) or "dollar"))
                 local added = resource[pseudorandom("tmtt_added", 1, #resource)]
 
+                local morph_funcs = {
+                    hand = function(extra, sign)
+                        G.GAME.round_resets.hands = G.GAME.round_resets.hands + (sign * extra)
+                        ease_hands_played(sign * extra)
+                    end,
+                    discard = function(extra, sign)
+                        G.GAME.round_resets.discards = G.GAME.round_resets.discards + (sign * extra)
+                        ease_discard(sign * extra)
+                    end,
+                    dollar = function(extra, sign)
+                        ease_dollars(sign * extra)
+                    end,
+                    handsize = function(extra, sign)
+                        G.hand:change_size(sign * extra)
+                    end,
+                    joker_slot = function(extra, sign)
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + (sign * extra)
+                    end,
+                    consumable_slot = function(extra, sign)
+                        G.consumeables.config.card_limit = G.consumeables.config.card_limit + (sign * extra)
+                    end
+                }
+
                 local used_tarot = card or self
-                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
                     play_sound('tarot1')
                     used_tarot:juice_up(0.3, 0.5)
 
-                    if removed == "hand" then
-                        G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra
-                        ease_hands_played(-card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand_minus', vars = {card.ability.extra}}, colour = G.C.RED})
-                    elseif removed == "discard" then
-                        G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra
-                        ease_discard(-card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard_minus', vars = {card.ability.extra}}, colour = G.C.RED})
-                    elseif removed == "dollar" then
-                        ease_dollars(-card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = "-$" .. card.ability.extra, colour = G.C.RED})
-                    elseif removed == "handsize" then
-                        G.hand:change_size(-card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_handsize_minus', vars = {card.ability.extra}}, colour = G.C.RED})
-                    elseif removed == "joker_slot" then
-                        G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_joker_slot_minus', vars = {card.ability.extra}}, colour = G.C.RED})
-                    elseif removed == "consumable_slot" then
-                        G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_consumable_slot_minus', vars = {card.ability.extra}}, colour = G.C.RED})
-                    end
+                    removed_result = {
+                        hand = localize{type = 'variable', key = 'a_hand_minus', vars = {card.ability.extra}},
+                        discard = localize{type = 'variable', key = 'a_discard_minus', vars = {card.ability.extra}},
+                        dollar = "-$" .. card.ability.extra,
+                        handsize = localize{type = 'variable', key = 'a_handsize_minus', vars = {card.ability.extra}},
+                        joker_slot = localize{type = 'variable', key = 'a_joker_slot_minus', vars = {card.ability.extra}},
+                        consumable_slot = localize{type = 'variable', key = 'a_consumable_slot_minus', vars = {card.ability.extra}},
+                    }
 
-                    delay(0.2)
+                    morph_funcs[removed](card.ability.extra, -1)
 
-                    if added == "hand" then
-                        G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra
-                        ease_hands_played(card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}}, colour = G.C.BLUE})
-                    elseif added == "discard" then
-                        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra
-                        ease_discard(card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}}, colour = G.C.RED})
-                    elseif added == "dollar" then
-                        ease_dollars(card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = "$" .. card.ability.extra, colour = G.C.MONEY})
-                    elseif added == "handsize" then
-                        G.hand:change_size(card.ability.extra)
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_handsize', vars = {card.ability.extra}}, colour = G.C.FILTER})
-                    elseif added == "joker_slot" then
-                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra}}, colour = G.C.DARK_EDITION})
-                    elseif added == "consumable_slot" then
-                        G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_consumable_slot', vars = {card.ability.extra}}, colour = G.C.FILTER})
-                    end
+                    attention_text({
+                        text = removed_result[removed],
+                        scale = 1,
+                        hold = 1,
+                        major = used_tarot,
+                        backdrop_colour = G.C.RED,
+                        align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
+                        offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
+                        silent = true
+                    })
                 return true end }))
+
+                delay(0.8)
+
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
+                    play_sound('tarot1')
+                    used_tarot:juice_up(0.3, 0.5)
+
+                    added_result = {
+                        hand = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}},
+                        discard = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}},
+                        dollar = "$" .. card.ability.extra,
+                        handsize = localize{type = 'variable', key = 'a_handsize', vars = {card.ability.extra}},
+                        joker_slot = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra}},
+                        consumable_slot = localize{type = 'variable', key = 'a_consumable_slot', vars = {card.ability.extra}},
+                    }
+
+                    morph_funcs[added](card.ability.extra, 1)
+
+                    attention_text({
+                        text = added_result[added],
+                        scale = 1,
+                        hold = 1,
+                        major = used_tarot,
+                        backdrop_colour = G.C.BLUE,
+                        align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
+                        offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
+                        silent = true
+                    })
+                return true end }))
+                delay(0.6)
             end,
             atlas = "sdm_consumables"
         }
