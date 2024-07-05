@@ -9,6 +9,16 @@ function get_count(card)
     end
 end
 
+-- Helper function to calculate the "Trance the Devil" joker Xmult
+function calculate_sum_trance(card)
+    return 1 + get_count('c_trance') * card.ability.extra
+    + get_count('c_devil') * card.ability.extra
+    + get_count('c_trance_dx') * card.ability.extra -- "Deluxe Tarots" addition
+    + get_count('c_trance_cu') * card.ability.extra
+    + get_count('c_devil_dx') * card.ability.extra
+    + get_count('c_devil_cu') * card.ability.extra
+end
+
 --- Get the max occurence of a card in a hand
 function count_max_occurence(table)
     local max_card = 0

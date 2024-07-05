@@ -33,22 +33,24 @@ if config.jokers then
             loc_vars = function(self, info_queue, card)
                 info_queue[#info_queue+1] = G.P_CENTERS.c_trance
                 info_queue[#info_queue+1] = G.P_CENTERS.c_devil
-                return {vars = {card.ability.extra, 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}
+                return {vars = {card.ability.extra, calculate_sum_trance(card)}}
             end,
             calculate = function(self, card, context)
                 if context.using_consumeable and not context.blueprint then
-                    if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil' then
+                    if context.consumeable.ability.name == 'Trance' or context.consumeable.ability.name == 'The Devil'
+                    -- "Deluxe Tarots" addition
+                    or context.consumeable.ability.name == 'Trance DX' or context.consumeable.ability.name == 'The Devil DX'
+                    or context.consumeable.ability.name == 'Cursed Trance' or context.consumeable.ability.name == 'The Cursed Devil' then
                         G.E_MANAGER:add_event(Event({func = function()
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',
-                            vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}}});
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={calculate_sum_trance(card)}}});
                             return true end}))
                         return
                     end
                 elseif context.joker_main and
-                    (1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra)) > 1) then
+                    (calculate_sum_trance(card) > 1) then
                     return {
-                        message = localize{type='variable',key='a_xmult',vars={1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))}},
-                        Xmult_mod = 1 + ((get_count('c_trance') or 1) / (1 / card.ability.extra) + (get_count('c_devil') or 1) / (1 / card.ability.extra))
+                        message = localize{type='variable',key='a_xmult',vars={calculate_sum_trance(card)}},
+                        Xmult_mod = calculate_sum_trance(card)
                     }
                 end
             end,
