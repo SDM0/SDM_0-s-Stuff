@@ -789,10 +789,9 @@ if config.jokers then
             name = "Zombie Joker",
             rarity = 1,
             discovered = true,
-            blueprint_compat = true,
             pos = {x = 6, y = 1},
             cost = 4,
-            config = {extra = 2},
+            config = {extra = 3},
             loc_txt = {
                 name = "Zombie Joker",
                 text = {
@@ -807,7 +806,7 @@ if config.jokers then
                 return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
             end,
             calculate = function(self, card, context)
-                if context.selling_card then
+                if context.selling_card and not context.blueprint then
                     if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                         if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
                         context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
@@ -822,7 +821,7 @@ if config.jokers then
                                         G.GAME.consumeable_buffer = 0
                                     return true
                                 end)}))
-                            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
                         end
                     end
                 end
@@ -921,7 +920,7 @@ if config.jokers then
             discovered = true,
             blueprint_compat = true,
             pos = {x = 9, y = 1},
-            cost = 6,
+            cost = 8,
             config = {extra = {can_dupe = true, active = "Active", inactive = ""}},
             loc_txt = {
                 name = "Ninja Joker",
@@ -1163,7 +1162,7 @@ if config.jokers then
             rarity = 2,
             discovered = true,
             pos = {x = 2, y = 2},
-            cost = 7,
+            cost = 6,
             loc_txt = {
                 name = "Property Damage",
                 text = {
