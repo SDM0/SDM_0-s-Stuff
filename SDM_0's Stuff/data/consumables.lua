@@ -68,7 +68,7 @@ if config.consumables then
             set = 'Spectral',
             discovered = true,
             pos = {x = 1, y = 0},
-            cost = 3,
+            cost = 4,
             config = {extra = {jkr_slot = 1, hand = 1, discard = 1}},
             loc_txt = {
                 name = "Sacrifice",
@@ -106,7 +106,7 @@ if config.consumables then
             set = 'Spectral',
             discovered = true,
             pos = {x = 2, y = 0},
-            cost = 3,
+            cost = 4,
             config = {extra = 1},
             loc_txt = {
                 name = "Morph",
