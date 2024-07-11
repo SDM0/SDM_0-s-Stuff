@@ -1258,9 +1258,9 @@ if config.jokers then
                 name = "Contract",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult",
-                    "Permanently set {C:money}?{} to current money",
+                    "Permanently set {C:money}?{} to current {C:money}money{}",
                     "next time you select a {C:attention}Blind{}.",
-                    "Destroy this Joker if out of range",
+                    "Destroy this Joker if {C:money}money{} ever leaves range",
                     "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
                 }
             },
