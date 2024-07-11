@@ -400,15 +400,17 @@ if config.jokers then
             loc_txt = {
                 name = "Magic Hands",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if {C:attention}poker hand{} contains",
-                    "{C:blue}#2#{} {C:inactive}(equal to hands left before play){}",
+                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{}",
+                    "contains {C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){}",
                     "cards of the same rank, but not more",
                     "{C:inactive}(ex: {C:attention}K K K Q Q{C:inactive} with {C:blue}3{C:inactive} hands left)",
-                    "{C:inactive}(ex: {C:attention}6 5 4 3 2{C:inactive} with {C:blue}1{C:inactive} hand left)",
                 }
             },
             loc_vars = function(self, info_queue, card)
-                return {vars = {card.ability.extra}}
+                return {vars = {
+                    card.ability.extra,
+                    (not G.jokers and 4) or G.GAME.current_round.hands_left
+                }}
             end,
             calculate = function(self, card, context)
                 if context.joker_main and context.scoring_hand then
@@ -602,7 +604,7 @@ if config.jokers then
                 name = "La Révolution",
                 text = {
                     "Upgrade {C:attention}winning hand{}",
-                    "without played {C:attention}face{} cards",
+                    "played without {C:attention}face{} cards",
                 }
             },
             calculate = function(self, card, context)
@@ -645,9 +647,9 @@ if config.jokers then
             loc_txt = {
                 name = "Clown Bank",
                 text = {
-                    "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}. {C:inactive,s:0.8}(if possible)",
-                    "If you do, this Joker gains {X:mult,C:white}X#2#{} Mult",
-                    "and {C:money}+$#4#{} to requirement",
+                    "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}",
+                    "to give this Joker {X:mult,C:white}X#2#{} Mult",
+                    "and increase requirement by {C:money}$#4#{}",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },
@@ -1556,7 +1558,7 @@ if config.jokers then
             loc_txt = {
                 name = "Chaos Theory",
                 text = {
-                    "Adds {X:chips,C:white}#1#X{} the value of all",
+                    "Adds {C:attention}double{} the value of all",
                     "{C:attention}on-screen numbers{} to Chips",
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
