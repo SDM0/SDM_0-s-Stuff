@@ -48,8 +48,8 @@ function SDM_0s_Stuff_Mod.process_loc_text()
     G.localization.descriptions.Other.chaos_exceptions = {
         name = "Exceptions",
         text = {
-            "Score round, score goal,",
-            "hand level and descriptions",
+            "Round score, goal score,",
+            "hand level, and descriptions",
         }
     }
     G.localization.descriptions.Other.perishable_no_debuff = {
