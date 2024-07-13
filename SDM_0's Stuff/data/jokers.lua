@@ -935,7 +935,7 @@ if config.jokers then
             loc_txt = {
                 name = "Ninja Joker",
                 text = {
-                    "Create a {C:dark_edition}Negative{C:attention} Tag{} if",
+                    "Creates a {C:dark_edition}Negative{C:attention} Tag{} if",
                     "a playing card is {C:attention}destroyed{},",
                     "becomes inactive until a",
                     "{C:attention}playing card{} is added",
@@ -1182,9 +1182,9 @@ if config.jokers then
             loc_txt = {
                 name = "Property Damage",
                 text = {
-                    "All played cards become",
-                    "{C:attention}Stone{} cards when",
-                    "discarding a {C:attention}Full House{}",
+                    "If discard contains a",
+                    "{C:attention}Full House{}, all discarded",
+                    "cards become {C:attention}Stone{} cards",
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1192,7 +1192,8 @@ if config.jokers then
             end,
             calculate = function(self, card, context)
                 if context.pre_discard and not context.blueprint then
-                    if G.FUNCS.get_poker_hand_info(G.hand.highlighted) == "Full House" then
+                    local eval = evaluate_poker_hand(G.hand.highlighted)
+                    if eval["Full House"] and eval["Full House"][1] then
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
                             message = localize("k_stone"),
                             colour = G.C.GREY
@@ -1263,9 +1264,9 @@ if config.jokers then
                 name = "Contract",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult",
-                    "when {C:attention}Blind{} is selected,",
-                    "register current {C:money}${} to {C:money}?{},",
-                    "destroyed if out of range",
+                    "When {C:attention}Blind{} is selected,",
+                    "saves current {C:money}${} to {C:money}?{} once,",
+                    "destroyed if {C:money}${} leaves range",
                     "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
                 }
             },

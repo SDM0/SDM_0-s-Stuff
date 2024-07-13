@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.5.0g
+--- VERSION: 1.5.0h
 --- LOADER_VERSION_GEQ: 1.0.0 
 
 ----------------------------------------------
