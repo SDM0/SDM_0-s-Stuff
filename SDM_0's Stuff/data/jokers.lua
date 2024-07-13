@@ -74,7 +74,7 @@ if config.jokers then
             loc_txt = {
                 name = "Burger",
                 text = {
-                    "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult",
+                    "{C:chips}+#3#{} Chips, {C:mult}+#2#{} Mult,",
                     "and {X:mult,C:white}X#1#{} Mult for",
                     "the next {C:attention}#4#{} rounds",
                 }
@@ -196,8 +196,8 @@ if config.jokers then
             loc_txt = {
                 name = "Lucky Joker",
                 text = {
-                    "Retrigger each played",
-                    "{C:attention}Lucky{} card {C:attention}7{}",
+                    "Retrigger each",
+                    "played {C:attention}Lucky{} {C:attention}7{}",
                     "{C:attention}#1#{} additional times"
                 },
             },
@@ -235,7 +235,7 @@ if config.jokers then
             loc_txt = {
                 name = "Iconic Icon",
                 text = {
-                    "{C:mult}+#2#{} Mult per{C:attention} modified Aces",
+                    "{C:mult}+#2#{} Mult per {C:attention}modified Ace",
                     "in your {C:attention}full deck",
                     "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
@@ -283,9 +283,9 @@ if config.jokers then
                 name = "Mult'N'Chips",
                 text = {
                     "Scored {C:attention}Bonus{} cards",
-                    "gives {C:mult}+#1#{} Mult,",
-                    "scored {C:attention}Mult{} cards",
-                    "gives {C:chips}+#2#{} Chips",
+                    "give {C:mult}+#1#{} Mult",
+                    "Scored {C:attention}Mult{} cards",
+                    "give {C:chips}+#2#{} Chips",
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -370,8 +370,7 @@ if config.jokers then
             loc_txt = {
                 name = "Shareholder Joker",
                 text = {
-                    "Earn between",
-                    "{C:money}$#1#{} and {C:money}$#2#{}",
+                    "Earn {C:money}$#1#{}-{C:money}$#2#{}",
                     "at end of round",
                 }
             },
@@ -401,13 +400,17 @@ if config.jokers then
             loc_txt = {
                 name = "Magic Hands",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if number of {C:chips}hands{} left + 1",
-                    "equals the most prevalent card amount",
-                    "{C:inactive}(ex: {C:attention}Four of a Kind{} {C:inactive}on {C:chips}Hand 4{C:inactive})",
+                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{}",
+                    "contains {C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){}",
+                    "cards of the same rank, but not more",
+                    "{C:inactive}(ex: {C:attention}K K K Q Q{C:inactive} with {C:blue}3{C:inactive} hands left)",
                 }
             },
             loc_vars = function(self, info_queue, card)
-                return {vars = {card.ability.extra}}
+                return {vars = {
+                    card.ability.extra,
+                    (not G.jokers and 4) or G.GAME.current_round.hands_left
+                }}
             end,
             calculate = function(self, card, context)
                 if context.joker_main and context.scoring_hand then
@@ -444,7 +447,7 @@ if config.jokers then
                     "Earn your money's",
                     "{C:attention}highest digit",
                     "at end of round",
-                    "{C:inactive}(ex: $24 -> $4)",
+                    "{C:inactive}(ex: {C:money}$24{C:inactive} -> {C:money}$4{C:inactive})",
                 }
             },
             calc_dollar_bonus = function(self, card)
@@ -476,9 +479,9 @@ if config.jokers then
             loc_txt = {
                 name = "Wandering Star",
                 text = {
-                    "This Joker gains {C:red}+#2#{} Mult",
+                    "This Joker gains {C:mult}+#2#{} Mult",
                     "per {C:planet}Planet{} card sold",
-                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -519,12 +522,13 @@ if config.jokers then
             loc_txt = {
                 name = "Ouija Board",
                 text = {
-                    "After selling a {C:red}Rare {C:attention}Joker{}",
-                    "scoring a {C:attention}secret poker hand{}",
+                    "After selling a {C:red}Rare {C:attention}Joker{},",
+                    "scoring a {C:attention}secret poker hand{},",
                     "and using a {C:spectral}Spectral{} card,",
-                    "sell this card to create a {C:spectral}Soul{} card",
+                    "sell this Joker to create a {C:spectral}Soul{} card",
                     "{s:0.8,C:inactive}(Must have room)",
                     "{C:inactive}(Remaining {C:attention}#1#{C:inactive}/#2#)"
+                    -- TODO instead, grey completed tasks
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -599,8 +603,8 @@ if config.jokers then
             loc_txt = {
                 name = "La Révolution",
                 text = {
-                    "Upgrade {C:attention}winning poker hand{}",
-                    "without {C:attention}face{} cards",
+                    "Upgrade {C:attention}winning hand{}",
+                    "played without {C:attention}face{} cards",
                 }
             },
             calculate = function(self, card, context)
@@ -643,10 +647,10 @@ if config.jokers then
             loc_txt = {
                 name = "Clown Bank",
                 text = {
-                    "When {C:attention}Blind{} is selected, this Joker",
-                    "gains {X:mult,C:white}X#2#{} Mult for {C:money}$#3#{} if possible,",
-                    "increases cost by {C:money}$#4#{}",
-                    "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult)"
+                    "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}",
+                    "to give this Joker {X:mult,C:white}X#2#{} Mult",
+                    "and increase requirement by {C:money}$#4#{}",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -695,9 +699,10 @@ if config.jokers then
                 name = "Furnace",
                 text = {
                     "If {C:attention}first played hand{} is a",
-                    "single {C:attention}Steel{} card or {C:attention}Gold{} card,",
-                    "destroy it and gain {X:mult,C:white}X#3#{} or {C:money}$#4#{},",
-                    "{C:inactive}(Currenty {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive})"
+                    "single {C:attention}Steel{} or {C:attention}Gold{} card,",
+                    "destroy it and this Joker gains",
+                    "{X:mult,C:white}X#3#{} Mult or {C:money}+$#4#{}, respectively",
+                    "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult, {C:money}$#2#{C:inactive} at end of round)"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -844,8 +849,9 @@ if config.jokers then
             loc_txt = {
                 name = "Mystery Joker",
                 text = {
-                    "Create a {C:red}Rare {C:attention}Joker Tag",
+                    "Create a {C:red}Rare {C:attention}Tag",
                     "when {C:attention}Boss Blind{} is defeated",
+                    -- TODO Rare Tag tooltip
                 }
             },
             calculate = function(self, card, context)
@@ -882,9 +888,9 @@ if config.jokers then
             loc_txt = {
                 name = "Infinite Staircase",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult if scored hand",
+                    "{X:mult,C:white}X#1#{} Mult if scored hand",
                     "contains a {C:attention}numerical Straight{}",
-                    "without an {C:attention}Ace{} card",
+                    "without an {C:attention}Ace{}",
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -925,9 +931,9 @@ if config.jokers then
             loc_txt = {
                 name = "Ninja Joker",
                 text = {
-                    "Creates a {C:dark_edition}Negative{C:attention} Tag",
-                    "if a card is {C:attention}destroyed{},",
-                    "reactivates when a",
+                    "Create a {C:dark_edition}Negative{C:attention} Tag",
+                    "if a playing card is {C:attention}destroyed{}, then",
+                    "this Joker becomes inactive until a",
                     "{C:attention}playing card{} is added",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
@@ -1005,8 +1011,9 @@ if config.jokers then
                 text = {
                     "Scoring {C:attention}#1#{} and {C:attention}#2#{} cards",
                     "creates a random {C:planet}Planet{} card,",
-                    "changes at end of round",
+                    "{s:0.8}changes at end of round",
                     "{C:inactive}(Must have room)",
+                    -- TODO grey out completed numbers
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1109,8 +1116,8 @@ if config.jokers then
             loc_txt = {
                 name = "Crooked Joker",
                 text = {
-                    "{C:attention}Doubles{} added {C:attention}Joker{}",
-                    "or {C:red}destroys{} it",
+                    "{C:attention}Doubles{} or {C:red}destroys{}",
+                    "each added {C:attention}Joker{}",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -1166,8 +1173,13 @@ if config.jokers then
             loc_txt = {
                 name = "Property Damage",
                 text = {
-                    "Discarded {C:attention}Full House{} cards",
+                    "Discarded {C:attention}Full Houses{}",
                     "become {C:attention}Stone{} cards"
+                    -- TODO grammatically this is a bit weird,
+                    -- it's intended for this to mean that the cards in the Full House
+                    -- become Stone cards. (Strictly speaking this says
+                    -- the Full House itself becomes Stone.)
+                    -- I think this is clear enough?
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1245,10 +1257,10 @@ if config.jokers then
             loc_txt = {
                 name = "Contract",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult",
-                    "when {C:attention}Blind{} is selected,",
-                    "register current money,",
-                    "destroyed if out of range",
+                    "{X:mult,C:white}X#1#{} Mult",
+                    "Permanently set {C:money}?{} to current {C:money}money{}",
+                    "next time you select a {C:attention}Blind{}.",
+                    "Destroy this Joker if {C:money}money{} ever leaves range",
                     "{C:inactive}({C:money}$#3#{C:inactive} - {C:money}$#4#{C:inactive})"
                 }
             },
@@ -1321,9 +1333,9 @@ if config.jokers then
             loc_txt = {
                 name = "Cupidon",
                 text = {
-                    "{C:red}+#1#{} Mult if scored hand",
-                    "contains a {C:attention}King{} and {C:attention}Queen{}",
-                    "card of the same {C:attention}suit",
+                    "{C:mult}+#1#{} Mult if played hand has",
+                    "a scoring {C:attention}King{} and {C:attention}Queen{}",
+                    "of the same {C:attention}suit",
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1392,8 +1404,8 @@ if config.jokers then
                 name = "Pizza",
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "{C:blue}+#1#{} #3#, reduces by",
-                    "{C:red}#2#{} every round"
+                    "gain {C:blue}+#1#{} #3#",
+                    "{C:blue}-#2#{} per round played"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1546,8 +1558,8 @@ if config.jokers then
             loc_txt = {
                 name = "Chaos Theory",
                 text = {
-                    "{C:chips}+#1#{} Chips per existing",
-                    "numerical value",
+                    "Adds {C:attention}double{} the value of all",
+                    "{C:attention}on-screen numbers{} to Chips",
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
@@ -1584,9 +1596,9 @@ if config.jokers then
             loc_txt = {
                 name = "Archibald",
                 text = {
-                    "On {C:attention}Joker{} card added, creates",
-                    "a {C:attention}Perishable {C:dark_edition}Negative{} copy",
-                    "{C:inactive}(Copy start selling for {C:money}$0{C:inactive})"
+                    "Create a {C:attention}Perishable {C:dark_edition}Negative{} copy",
+                    "of each {C:attention}Joker{} added",
+                    "{C:inactive}(Copy sells for {C:money}$0{C:inactive})"
                 }
             },
             loc_vars = function(self, info_queue, card)
@@ -1638,9 +1650,9 @@ if config.jokers then
             loc_txt = {
                 name = "SDM_0",
                 text = {
-                    "{C:dark_edition}+#1#{} Joker #2#,",
-                    "+{C:attention}1{} Joker Slot per",
-                    "destroyed {C:attention}2{}s"
+                    "{C:dark_edition}+#1#{} Joker #2#",
+                    "This Joker gains {C:dark_edition}+1{} Joker Slot",
+                    "per destroyed {C:attention}2{}"
                 }
             },
             loc_vars = function(self, info_queue, card)
