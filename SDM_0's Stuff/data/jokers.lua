@@ -400,9 +400,9 @@ if config.jokers then
             loc_txt = {
                 name = "Magic Hands",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{}'s",
-                    "most frequent rank occurs exactly",
-                    "{C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){} times",
+                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{} has",
+                    "exactly {C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){}",
+                    "of its most frequent rank",
                     "{C:inactive}(ex: {C:attention}K K K Q Q{C:inactive} with {C:blue}3{C:inactive} hands left)",
                 }
             },
