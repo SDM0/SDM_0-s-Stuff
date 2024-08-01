@@ -1,0 +1,70 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# sdm_adding_card context
+# regex also has Talisman compat
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''
+[\t ]*function Card:add_to_deck[\s\S]*?
+(?<indent>[\t ]*)if G\.GAME\.blind.*then G\.E_MANAGER:add_event\(Event\(\{ func = function\(\) G\.GAME\.blind:set_blind\(nil, true, nil\); return true end \}\)\) end\n'''
+position = "after"
+payload = """
+if not from_debuff and G.jokers and #G.jokers.cards > 0 then
+    for i = 1, #G.jokers.cards do
+        G.jokers.cards[i]:calculate_joker({sdm_adding_card = true, card = self})
+    end
+end
+
+"""
+line_prepend = '$indent'
+
+# No shop planets
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "elseif v.id == 'no_shop_jokers' then"
+position = "before"
+payload = """
+elseif v.id == 'no_shop_planets' then
+    self.GAME.planet_rate = 0
+"""
+match_indent = true
+
+# Show "Contract" boosted cash out
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "delay(0.4)"
+position = "after"
+payload = """
+local old_config_dollars = config.dollars
+if next(find_joker("Contract")) then
+    local contract_mod = 0
+    for i = 1, #G.jokers.cards do
+        if G.jokers.cards[i].ability.name == "Contract" and not G.jokers.cards[i].debuff then
+            contract_mod = contract_mod + G.jokers.cards[i].ability.extra.cashout
+        end
+    end
+    config.dollars = math.floor(config.dollars * contract_mod)
+end
+"""
+match_indent = true
+
+# Juice up every "Contract"
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "G.GAME.current_round.dollars = config.dollars"
+position = "after"
+payload = """
+for i = 1, #G.jokers.cards do
+    if G.jokers.cards[i].ability.name == "Contract" and not G.jokers.cards[i].debuff then
+        G.jokers.cards[i]:juice_up(0.3, 0.5)
+    end
+end
+"""
+match_indent = true
