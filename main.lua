@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.0b
+--- VERSION: 1.6.0c
 --- LOADER_VERSION_GEQ: 1.0.0 
 
 ----------------------------------------------
@@ -17,12 +17,55 @@ sdm_config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
 SDM_0s_Stuff_Mod.space_jokers = {
+    --- Vanilla ---
     j_supernova = "Supernova",
     j_space = "Space Joker",
     j_constellation = "Constellation",
     j_rocket = "Rocket",
     j_satellite = "Satellite",
     j_astronomer = "Astronomer",
+
+    --- Modded ---
+    j_mtl__j_moon = "Moon Rabbit",
+    j_evo_astronaut = "Astronaut Joker",
+    j_dsix_planet_die = "Planet Die",
+    j_dsix_planet_plus_die = "Planet Die+",
+    j_dsix_interstellar_die = "Interstellar Die",
+    j_dsix_interstellar_plus_die = "Interstellar Die+",
+    j_bala_eclipse = "Eclipse Joker",
+    j_cj_extraterrestrial = "Extraterrestrial",
+    j_cry_spaceglobe = "Celestial Globe",
+    j_cry_meteor = "Meteor Shower",
+    j_cry_exoplanet = "Exoplanet",
+    j_cry_stardust = "Stardust",
+    j_cry_virgo = "Virgo",
+    j_cry_Universum = "Universum",
+    j_jank_j_sentai = "Sentai Joker",
+    j_jank_j_ternary_system = "Ternary System",
+    j_KCVa_collapse = "Cosmic Collapse",
+    j_lobc_child_galaxy = "O-01-55",
+    j_mmc_aurora_borealis = "Aurora Borealis",
+    j_mmc_blue_moon = "Blue Moon",
+    j_mmc_nebula = "Nebula",
+    j_olab_bowling_ball_solar_system = "Bowling Ball Solar System",
+    j_olab_fuel_tank = "Afterburner",
+    j_olab_evil_eye = "Evil Eye",
+    j_ssj_void = "Sagittarius A*",
+    j_twewy_lightningMoon = "Lightning Moon",
+    j_Them_cosmicaries = "Cosmic - Aries",
+    j_Them_cosmictaurus = "Cosmic - Taurus",
+    j_Them_cosmicgemini = "Cosmic - Gemini",
+    j_Them_cosmiccancer = "Cosmic - Cancer",
+    j_Them_cosmicleo = "Cosmic - Leo",
+    j_Them_cosmicvirgo = "Cosmic - Virgo",
+    j_Them_cosmiclibra = "Cosmic - Libra",
+    j_Them_cosmicscorpio = "Cosmic - Scorpio",
+    j_Them_cosmicsagittarius = "Cosmic - Sagittarius",
+    j_Them_cosmiccapricorn = "Cosmic - Capricorn",
+    j_Them_cosmicaquarius = "Cosmic - Aquarius",
+    j_Them_cosmicpisces = "Cosmic - Pisces",
+    j_Them_cosmicophiuchus = "Cosmic - Ophiuchus",
+    j_flou_orb = "Orbit"
 }
 
 SMODS.load_file("utils.lua")()

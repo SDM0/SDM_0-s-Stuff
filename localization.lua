@@ -1,24 +1,3 @@
-local space_jokers = SDM_0s_Stuff_Mod.space_jokers
-
-local sj_list= {}
-local temp_string = ""
-local words = 2
-local i = 0
-for _, v in pairs(space_jokers) do
-    if i < words then
-        temp_string = temp_string .. "{s:0.8}" .. v .. ", "
-        i = i + 1
-    end
-    if i >= words or next(space_jokers, _) == nil then
-        if next(space_jokers, _) == nil then
-            temp_string = temp_string:sub(1, -3)
-        end
-        table.insert(sj_list, temp_string)
-        temp_string = ""
-        i = 0
-    end
-end
-
 function SDM_0s_Stuff_Mod.process_loc_text()
     G.localization.misc.dictionary.k_halved_ex = "Halved!"
     G.localization.misc.dictionary.k_stone = "Stone"
@@ -36,7 +15,12 @@ function SDM_0s_Stuff_Mod.process_loc_text()
 
     G.localization.descriptions.Other.space_jokers = {
         name = "Space Jokers",
-        text = sj_list
+        text = {
+            "Astronomer, Constellation,",
+            "Rocket, Satellite,",
+            "Space Joker, Supernova etc.",
+
+        }
     }
     G.localization.descriptions.Other.modified_card = {
         name = "Modified",
