@@ -77,6 +77,10 @@ SMODS.load_file("data/decks.lua")()
 
 SMODS.load_file("localization.lua")()
 
+if JokerDisplay then
+    SMODS.load_file("data/jokerdisplay_definitions.lua")()
+end
+
 SMODS.Atlas{
     key = "modicon",
     path = "sdm_modicon.png",
