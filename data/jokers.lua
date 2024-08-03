@@ -340,10 +340,14 @@ if sdm_config.sdm_jokers then
                     func = function() 
                         local space = {}
                         for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
-                            if k ~= "j_sdm_moon_base" then
-                                table.insert(space, k)
+                            sendDebugMessage(k)
+                            if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil then
+                                if G.P_CENTERS[k].rarity ~= "evo" then -- Prevent space evos from Joker Evolution
+                                    table.insert(space, k)
+                                end
                             end
                         end
+                        sendDebugMessage(inspect(space))
                         local chosen_space = space[pseudorandom(pseudoseed('mnb'), 1, #space)]
                         local card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_space, 'mnb')
                         card:add_to_deck()
