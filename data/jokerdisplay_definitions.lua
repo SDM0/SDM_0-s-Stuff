@@ -60,7 +60,8 @@ jd_def["j_sdm_bounciest_ball"] = { -- Bounciest Ball
         end
 
         card.joker_display_values.chips = hand_exists and (is_most_played_hand and
-            card.ability.extra.chips + card.ability.extra.chip_mod or math.floor(card.ability.extra.chips / 2)) or card.ability.extra.chips
+                card.ability.extra.chips + card.ability.extra.chip_mod or math.floor(card.ability.extra.chips / 2)) or
+            card.ability.extra.chips
     end
 }
 jd_def["j_sdm_lucky_joker"] = { -- Lucky Joker
@@ -172,6 +173,14 @@ jd_def["j_sdm_wandering_star"] = { -- Wandering Star
     calc_function = function(card)
         card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
     end,
+    style_function = function(card, text, reminder_text, extra)
+        if reminder_text and reminder_text.children[2] then
+            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
+                G.C.UI.TEXT_INACTIVE
+        end
+        return false
+    end
+
 }
 jd_def["j_sdm_ouija_board"] = { -- Ouija Board
     reminder_text = {
@@ -183,9 +192,9 @@ jd_def["j_sdm_ouija_board"] = { -- Ouija Board
         { ref_table = "card.joker_display_values", ref_value = "localized_text_spectral" },
         { text = ")" },
     },
-    calc_function = function (card)
+    calc_function = function(card)
         card.joker_display_values.localized_text_rare = localize("k_rare")
-        card.joker_display_values.localized_text_secret =       "Secret"
+        card.joker_display_values.localized_text_secret = "Secret"
         card.joker_display_values.localized_text_spectral = localize("k_spectral")
     end,
     style_function = function(card, text, reminder_text, extra)
@@ -282,6 +291,13 @@ jd_def["j_sdm_ninja_joker"] = { -- Ninja Joker
     calc_function = function(card)
         card.joker_display_values.active = card.ability.extra.can_dupe and localize("k_active_ex") or "Inactive"
     end,
+    style_function = function(card, text, reminder_text, extra)
+        if reminder_text and reminder_text.children[2] then
+            reminder_text.children[2].config.colour = card.ability.extra.can_dupe and G.C.ORANGE or
+                G.C.UI.TEXT_INACTIVE
+        end
+        return false
+    end
 }
 jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
     text = {
@@ -359,7 +375,8 @@ jd_def["j_sdm_bullet_train"] = { -- Bullet Train
     },
     text_config = { colour = G.C.CHIPS },
     calc_function = function(card)
-        card.joker_display_values.chips = G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 and card.ability.extra or 0
+        card.joker_display_values.chips = G.GAME.current_round.hands_played == 0 and
+            G.GAME.current_round.discards_used == 0 and card.ability.extra or 0
     end
 }
 jd_def["j_sdm_chaos_theory"] = { -- Chaos Theory
@@ -378,6 +395,13 @@ jd_def["j_sdm_archibald"] = { -- Archibald
     calc_function = function(card)
         card.joker_display_values.active = card.ability.extra.can_copy and localize("k_active_ex") or "Inactive"
     end,
+    style_function = function(card, text, reminder_text, extra)
+        if reminder_text and reminder_text.children[2] then
+            reminder_text.children[2].config.colour = card.ability.extra.can_copy and G.C.ORANGE or
+                G.C.UI.TEXT_INACTIVE
+        end
+        return false
+    end
 }
 jd_def["j_sdm_0"] = { -- SDM_0
     reminder_text = {
