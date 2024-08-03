@@ -202,7 +202,6 @@ if sdm_config.sdm_decks then
                 end
             end
             G.GAME.starting_params.extra_cards = extra_cards
-            disable_exotics()
         end,
         atlas = "sdm_enhancers"
     }
