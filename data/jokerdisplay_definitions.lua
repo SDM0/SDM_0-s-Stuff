@@ -67,7 +67,7 @@ jd_def["j_sdm_bounciest_ball"] = { -- Bounciest Ball
 jd_def["j_sdm_lucky_joker"] = { -- Lucky Joker
     retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
         if held_in_hand then return 0 end
-        return playing_card:get_id() == 7 and joker_card.ability.extra.repitition or 0
+        return playing_card:get_id() == 7 and joker_card.ability.extra.repetition or 0
     end
 }
 jd_def["j_sdm_iconic_icon"] = { -- Iconic Icon
