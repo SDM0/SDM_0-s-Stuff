@@ -73,7 +73,6 @@ function get_random_sdm_modded_card(prefix, n)
         local random_elem = {}
 
         for k, v in pairs(SDM_0s_Stuff_Mod.modded_objects) do
-            sendDebugMessage(k)
             if string.sub(k, 1, #prefix) == prefix then
                 if string.sub(prefix, 1, 2) == "j_" then
                     if k ~= "j_sdm_archibald" and k ~= "j_sdm_sdm_0" then
