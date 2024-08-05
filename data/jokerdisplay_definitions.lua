@@ -308,7 +308,7 @@ jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
     reminder_text = {
         { text = "(" },
         { ref_table = "card.ability.extra", ref_value = "num_card1" },
-        { text = "/" },
+        { text = " & " },
         { ref_table = "card.ability.extra", ref_value = "num_card2" },
         { text = ")" },
     },

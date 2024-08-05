@@ -1008,7 +1008,7 @@ if sdm_config.sdm_jokers then
                 "creates a random {C:planet}Planet{} card",
                 "{s:0.8}Changes at end of round",
                 "{C:inactive}(Must have room)",
-                "{C:inactive}(Currently {C:attention}#3#{C:inactive}#4# / {C:attention}#5#{C:inactive}#6#)"
+                "{C:inactive}(Currently {C:attention}#3#{C:inactive}#4# & {C:attention}#5#{C:inactive}#6#)"
             }
         },
         loc_vars = function(self, info_queue, card)
