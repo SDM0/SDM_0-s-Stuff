@@ -87,8 +87,7 @@ jd_def["j_sdm_mult_n_chips"] = { -- Mult'N'Chips
     calc_function = function(card)
         local chips = 0
         local mult = 0
-        local hand = next(G.play.cards) and G.play.cards or G.hand.highlighted
-        local text, _, scoring_hand = JokerDisplay.evaluate_hand(hand)
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
         if text ~= "Unknown" then
             for _, scoring_card in pairs(scoring_hand) do
                 if scoring_card.ability.effect and scoring_card.ability.effect == "Bonus Card" then
@@ -133,8 +132,7 @@ jd_def["j_sdm_magic_hands"] = { -- Magic Hands
     },
     calc_function = function(card)
         local is_magic_hands_hand = false
-        local hand = next(G.play.cards) and G.play.cards or G.hand.highlighted
-        local text, _, scoring_hand = JokerDisplay.evaluate_hand(hand)
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
         if #hand > 0 and text ~= "Unknown" then
             local cards_id = {}
             for _, scoring_card in pairs(scoring_hand) do
@@ -269,8 +267,7 @@ jd_def["j_sdm_infinite_staircase"] = { -- Infinite Staircase
     },
     calc_function = function(card)
         local is_infinite_staircase_hand = false
-        local hand = next(G.play.cards) and G.play.cards or G.hand.highlighted
-        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand(hand)
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
         if #hand > 0 and text ~= "Unknown" and poker_hands["Straight"] and next(poker_hands["Straight"]) then
             is_infinite_staircase_hand = true
             for _, scoring_card in pairs(scoring_hand) do
@@ -313,8 +310,7 @@ jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
         { text = ")" },
     },
     calc_function = function(card)
-        local hand = next(G.play.cards) and G.play.cards or G.hand.highlighted
-        local text, _, scoring_hand = JokerDisplay.evaluate_hand(hand)
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
         card.joker_display_values.count = text ~= 'Unknown' and
             ((#scoring_hand == card.ability.extra.num_card1 and card.ability.extra.c2_scored) or (#scoring_hand == card.ability.extra.num_card2 and card.ability.extra.c1_scored)) and
             1 or 0
