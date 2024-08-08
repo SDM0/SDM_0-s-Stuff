@@ -223,13 +223,11 @@ if sdm_config.sdm_decks then
         },
         apply = function(back)
             local extra_cards = {}
-            for k, v in pairs(G.P_CARDS) do
-                local temp = {}
-                for s, r in string.gmatch(k, "([^_]+)_([^_]+)") do
-                    temp.s = s
-                    temp.r = r
+            for k, _ in pairs(G.P_CARDS) do
+                if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
+                    local s, r = k:match("^(.*)_(.-)$")
+                    extra_cards[#extra_cards + 1] = {s = s, r = r}
                 end
-                extra_cards[#extra_cards + 1] = temp
             end
             G.GAME.starting_params.extra_cards = extra_cards
             G.GAME.win_ante = 10
