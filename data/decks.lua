@@ -130,7 +130,7 @@ if sdm_config.sdm_decks then
         loc_txt = {
             name = "DNA Deck",
             text = {
-                "{C:attention}1{} scored card from",
+                "{C:attention}1{} playing card from",
                 "{C:attention}winning poker hand{}",
                 "is {C:blue}dupli{C:red}cated{}",
             }
