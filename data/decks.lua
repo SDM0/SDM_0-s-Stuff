@@ -130,29 +130,27 @@ if sdm_config.sdm_decks then
         loc_txt = {
             name = "DNA Deck",
             text = {
-                "Scored cards from",
+                "{C:attention}1{} scored card from",
                 "{C:attention}winning poker hand{}",
-                "are {C:blue}dupli{C:red}cated{}",
+                "is {C:blue}dupli{C:red}cated{}",
             }
         },
         trigger_effect = function(args)
             if hand_chips and mult then
-                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
-                    local text, loc_disp_text, poker_hands, scoring_hand, disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                     G.E_MANAGER:add_event(Event({func = function()
-                        local new_cards = {}
-                        for _, v in ipairs(scoring_hand) do
-                            G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                            local _card = copy_card(v, nil, nil, G.playing_card)
-                            table.insert(new_cards, _card)
+                        G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                        local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dna_deck'))
+                        if chosen_card then
+                            local _card = copy_card(chosen_card, nil, nil, G.playing_card)
                             _card:add_to_deck()
                             G.deck.config.card_limit = G.deck.config.card_limit + 1
                             table.insert(G.playing_cards, _card)
                             G.hand:emplace(_card)
                             _card.states.visible = nil
                             _card:start_materialize()
+                            playing_card_joker_effects({true})
                         end
-                        playing_card_joker_effects(new_cards)
                         return true
                     end}))
                 end
@@ -259,22 +257,20 @@ if sdm_config.sdm_decks then
         end,
         trigger_effect = function(args)
             if hand_chips and mult then
-                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
-                    local text, loc_disp_text, poker_hands, scoring_hand, disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                     G.E_MANAGER:add_event(Event({func = function()
-                        local new_cards = {}
-                        for _, v in ipairs(scoring_hand) do
-                            G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                            local _card = copy_card(v, nil, nil, G.playing_card)
-                            table.insert(new_cards, _card)
+                        G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                        local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dos_deck'))
+                        if chosen_card then
+                            local _card = copy_card(chosen_card, nil, nil, G.playing_card)
                             _card:add_to_deck()
                             G.deck.config.card_limit = G.deck.config.card_limit + 1
                             table.insert(G.playing_cards, _card)
                             G.hand:emplace(_card)
                             _card.states.visible = nil
                             _card:start_materialize()
+                            playing_card_joker_effects({true})
                         end
-                        playing_card_joker_effects(new_cards)
                         return true
                     end}))
                 end
