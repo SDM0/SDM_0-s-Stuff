@@ -28,11 +28,11 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Shareholder Joker</b> | 5 | Common | Earn between $1 and $8 at the end of round |
   | <b>Magic Hands</b> | 6 | Uncommon | x3 Mult if scored poker hand has<br>exactly (number of hands) equal to most frequent rank<br>(ex: Four of a Kind on Hand 4, Full House on Hand 3) |
   | <b>Tip Jar</b> | 6 | Uncommon | Earn your money's highest digit at the end of round |
-  | <b>Wandering Star</b>| 6 | Uncommon | Creates a copy of a used Planet card, once per Ante<br>(Must have room) |
+  | <b>Wandering Star</b>| 6 | Uncommon | Creates a copy of a used Planet card, once per round<br>(Must have room) |
   | <b>Ouija Board</b> | 8 | Rare | After selling a Rare Joker, scoring a secret poker hand and using a spectral card,<br>sell this card for a Soul card<br>(Must have room) |
   | <b>La Révolution</b> | 8 | Rare | Upgrade winning poker hand by 1 if it contains no face cards |
   | <b>Clown Bank</b> | 6 | Rare | When Blind is selected, this joker gains x0.25 Mult for $1,<br>increases price by $1 |
-  | <b>Furnace</b> | 6 | Uncommon | When rounds begins, add a random Glass,<br>Gold or Steel playing card |
+  | <b>Furnace</b> | 6 | Uncommon | When rounds begins, add a random Gold<br>or Steel playing card |
   | <b>Warehouse</b> | 6 | Uncommon | +2 hand size, -1 consumable slot, lose $100 if sold |
   | <b>Zombie Joker</b> | 5 | Common | 1 in 3 chance to create a Death card<br>when selling a card other than Death<br>(Must have room) |
   | <b>Mystery Joker</b> | 6 | Common | When Boss Blind is defeated,<br>creates a Rare Joker tag |
@@ -83,7 +83,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   Start run with an Eternal "Lucky Joker", every 7 is a Lucky card
 
   ### DNA Deck
-  Scored cards from winning poker hand are duplicated
+  1 scored card from winning poker hand is duplicated
 
   ### Hieroglyph Deck
   Spectral cards may appear in the shop, start with an Ankh card, -1 Joker Slot
