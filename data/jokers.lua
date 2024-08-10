@@ -479,7 +479,7 @@ if sdm_config.sdm_jokers then
             text = {
                 "Creates a copy of",
                 "a used {C:planet}Planet{} card,",
-                "once per {C:attention}Ante{}",
+                "once per {C:attention}round{}",
                 "{s:0.8,C:inactive}(Must have room)",
                 "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
             }
@@ -509,7 +509,7 @@ if sdm_config.sdm_jokers then
                 end
             end
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint)
-            and G.GAME.blind.boss and not card.ability.extra.repetition then
+            and not card.ability.extra.repetition then
                 card.ability.extra.repetition = true
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = localize('k_active_ex'),
@@ -709,13 +709,12 @@ if sdm_config.sdm_jokers then
         loc_txt = {
             name = "Furnace",
             text = {
-                "When round begins, add",
-                "a random {C:attention}Glass{}, {C:attention}Gold{}",
-                "or {C:attention}Steel{} playing card",
+                "When round begins,",
+                "add a random {C:attention}Gold{} or",
+                "{C:attention}Steel{} playing card",
             }
         },
         loc_vars = function(self, info_queue, card)
-            info_queue[#info_queue+1] = G.P_CENTERS.m_glass
             info_queue[#info_queue+1] = G.P_CENTERS.m_gold
             info_queue[#info_queue+1] = G.P_CENTERS.m_steel
         end,
@@ -727,8 +726,7 @@ if sdm_config.sdm_jokers then
                             front = pseudorandom_element(G.P_CARDS, pseudoseed('furn_fr')), 
                             center = G.P_CENTERS.c_base}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
                         local enhance_type = pseudorandom(pseudoseed('furned'))
-                        if enhance_type > 0.66 then _card:set_ability(G.P_CENTERS.m_glass)
-                        elseif enhance_type > 0.33 then _card:set_ability(G.P_CENTERS.m_gold)
+                        if enhance_type > 0.5 then _card:set_ability(G.P_CENTERS.m_gold)
                         else _card:set_ability(G.P_CENTERS.m_steel)
                         end
                         G.GAME.blind:debuff_card(_card)
