@@ -172,9 +172,11 @@ jd_def["j_sdm_wandering_star"] = { -- Wandering Star
         card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
     end,
     style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
+        if card.ability.extra then
+            if reminder_text and reminder_text.children[2] then
+                reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
+                    G.C.UI.TEXT_INACTIVE
+            end
         end
         return false
     end
@@ -289,9 +291,11 @@ jd_def["j_sdm_ninja_joker"] = { -- Ninja Joker
         card.joker_display_values.active = card.ability.extra.can_dupe and localize("k_active_ex") or "Inactive"
     end,
     style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.can_dupe and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
+        if card.ability.extra then
+            if reminder_text and reminder_text.children[2] then
+                reminder_text.children[2].config.colour = card.ability.extra.can_dupe and G.C.ORANGE or
+                    G.C.UI.TEXT_INACTIVE
+            end
         end
         return false
     end
@@ -316,14 +320,16 @@ jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
             1 or 0
     end,
     style_function = function(card, text, reminder_text, extra)
-        if reminder_text then
-            if reminder_text.children[2] then
-                reminder_text.children[2].config.colour = card.ability.extra.c1_scored and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-            if reminder_text.children[4] then
-                reminder_text.children[4].config.colour = card.ability.extra.c2_scored and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
+        if card.ability.extra then
+            if reminder_text then
+                if reminder_text.children[2] then
+                    reminder_text.children[2].config.colour = card.ability.extra.c1_scored and G.C.ORANGE or
+                        G.C.UI.TEXT_INACTIVE
+                end
+                if reminder_text.children[4] then
+                    reminder_text.children[4].config.colour = card.ability.extra.c2_scored and G.C.ORANGE or
+                        G.C.UI.TEXT_INACTIVE
+                end
             end
         end
         return false
@@ -392,9 +398,11 @@ jd_def["j_sdm_archibald"] = { -- Archibald
         card.joker_display_values.active = card.ability.extra.can_copy and localize("k_active_ex") or "Inactive"
     end,
     style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.can_copy and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
+        if card.ability.extra then
+            if reminder_text and reminder_text.children[2] then
+                reminder_text.children[2].config.colour = card.ability.extra.can_copy and G.C.ORANGE or
+                    G.C.UI.TEXT_INACTIVE
+            end
         end
         return false
     end
