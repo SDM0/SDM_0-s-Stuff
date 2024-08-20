@@ -48,6 +48,9 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Treasure Chest</b> | 4 | Common | Gains $2 of sell value per consumable sold |
   | <b>Bullet Train</b> | 6 | Common | +150 Chips on your first hand if no discards were used this round |
   | <b>Chaos Theory</b> | 8 | Rare | Adds double the value of all on-screen numbers to Chips<br>(Except round score, score goal, hand level and descriptions) |
+  | <b>Jambo</b> | 6 | Common | Adds double the rank of a random discarded card to Mult |
+  | <b>Water Slide</b> | 4 | Common | This Joker gains +8 Chipsif scored hand<br>contains a 9, 7 or 6 |
+  | <b>Joker Voucher</b> | 8 | Rare | X0.5 Mult per redeemed Voucher |
   | <b>Archibald</b> | 20 | Legendary | Once per Ante, create a Negative copy of a random Joker<br>at the end of the shop<br>(Cannot copy Archibald) |
   | <b>SDM_0</b> | 20 | Legendary | +0 Joker Slot, +2 Joker Slots per removed 2 |
 </details>
