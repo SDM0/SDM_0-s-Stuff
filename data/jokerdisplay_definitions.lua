@@ -349,10 +349,32 @@ jd_def["j_sdm_rock_n_roll"] = { -- Rock'N'Roll
     end
 }
 jd_def["j_sdm_contract"] = { -- Contract
-
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "cashout" }
+            },
+            border_colour = G.C.MONEY
+        },
+        { text = " " },
+        { ref_table = "card.ability.extra", ref_value = "blind_req", colour = G.C.RED },
+        {
+            text = "X",
+            colour = G.C.RED
+        },
+    },
 }
 jd_def["j_sdm_cupidon"] = { -- Cupidon
-
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability", ref_value = "extra" }
+            },
+            border_colour = G.C.FILTER
+        }
+    },
 }
 jd_def["j_sdm_pizza"] = { -- Pizza
     reminder_text = {
@@ -381,6 +403,37 @@ jd_def["j_sdm_chaos_theory"] = { -- Chaos Theory
         { ref_table = "card.ability.extra", ref_value = "chips" },
     },
     text_config = { colour = G.C.CHIPS },
+}
+jd_def["j_sdm_jambo"] = { -- Jambo
+
+}
+jd_def["j_sdm_water_slide"] = { -- Water Slide
+    text = {
+        { text = "+" },
+        { ref_table = "card.ability.extra", ref_value = "chips" }
+    },
+    text_config = { colour = G.C.CHIPS },
+}
+jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
+    text = {
+        {
+            border_nodes = {
+                { text = "X", colour = G.C.WHITE },
+                { ref_table = "card.joker_display_values", ref_value = "x_mult", colour = G.C.WHITE }
+            },
+            border_colour = G.C.MULT
+        }
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local has_voucher = false
+        local used_voucher = 0
+        for _, _ in pairs(G.GAME.used_vouchers) do
+            has_voucher = true
+            used_voucher = used_voucher + 1
+        end
+        card.joker_display_values.x_mult = (has_voucher and 1 + used_voucher * card.ability.extra.Xmult_mod) or 1
+    end
 }
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {

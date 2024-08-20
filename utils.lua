@@ -142,6 +142,19 @@ function sum_incremental(n)
     return 0
 end
 
+function get_amount_vouchers()
+    if G.GAME and G.GAME.used_vouchers then
+        local used_voucher = 0
+        for k, _ in pairs(G.GAME.used_vouchers) do
+            used_voucher = used_voucher + 1
+        end
+        if used_voucher > 0 then
+            return used_voucher
+        end
+    end
+    return 0
+end
+
 --- Second "add_to_deck" to prevent context.sdm_adding_card to loop ---
 function Card:add_to_deck2(from_debuff)
     local obj = self.config.center

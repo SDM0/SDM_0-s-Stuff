@@ -369,6 +369,7 @@ if sdm_config.sdm_jokers then
         key = "shareholder_joker",
         name = "Shareholder Joker",
         rarity = 1,
+        blueprint_compat = false,
         pos = {x = 7, y = 0},
         cost = 5,
         config = {extra = {min = 1, max = 8}},
@@ -439,6 +440,7 @@ if sdm_config.sdm_jokers then
         key = "tip_jar",
         name = "Tip Jar",
         rarity = 2,
+        blueprint_compat = false,
         pos = {x = 9, y = 0},
         cost = 6,
         loc_txt = {
@@ -496,7 +498,6 @@ if sdm_config.sdm_jokers then
                         func = (function()
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    sendDebugMessage(inspect(context.consumeable.config))
                                     local _card = create_card('Planet', G.consumeables, nil, nil, nil, nil, context.consumeable.config.center.key, 'wds')
                                     _card:add_to_deck()
                                     G.consumeables:emplace(_card)
@@ -1505,6 +1506,139 @@ if sdm_config.sdm_jokers then
 
     SDM_0s_Stuff_Mod.modded_objects.j_sdm_chaos_theory = "Chaos Theory"
 
+    --- Jambo ---
+
+    SMODS.Joker{
+        key = "jambo",
+        name = "Jambo",
+        rarity = 1,
+        blueprint_compat = true,
+        pos = {x = 0, y = 5},
+        cost = 6,
+        loc_txt = {
+            name = "Jambo",
+            text = {
+                "Adds {C:attention}double{}",
+                "the rank of a",
+                "random {C:attention}discarded{}",
+                "card to Mult",
+            }
+        },
+        calculate = function(self, card, context)
+            if context.joker_main and (G.discard and #G.discard.cards > 0) then
+                local _card = pseudorandom_element(G.discard.cards, pseudoseed('jambo'))
+                if _card.debuff then
+                    return {
+                        message = localize('k_debuffed'),
+                    }
+                end
+                local mlt = _card.base.nominal * 2
+                if mlt > 0 then
+                    return {
+                        message = localize{type='variable',key='a_mult',vars={mlt}},
+                        mult_mod = mlt
+                    }
+                end
+            end
+        end,
+        atlas = "sdm_jokers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.j_sdm_jambo = "Jambo"
+
+    --- Water Slide ---
+
+    SMODS.Joker{
+        key = "water_slide",
+        name = "Water Slide",
+        rarity = 1,
+        blueprint_compat = true,
+        perishable_compat = false,
+        pos = {x = 1, y = 5},
+        cost = 4,
+        config = {extra = {chips = 0, chip_mod = 8}},
+        loc_txt = {
+            name = "Water Slide",
+            text = {
+                "This Joker gains {C:chips}+#1#{}",
+                "Chips if scored hand",
+                "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
+                "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+            }
+        },
+        loc_vars = function(self, info_queue, card)
+            return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
+        end,
+        calculate = function(self, card, context)
+            if context.cardarea == G.jokers and context.before and context.scoring_hand and not context.blueprint then
+                for i = 1, #context.scoring_hand do
+                    if context.scoring_hand[i]:get_id() == 9 or
+                    context.scoring_hand[i]:get_id() == 7 or
+                    context.scoring_hand[i]:get_id() == 6 then
+                        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+                        return {
+                            message = localize('k_upgrade_ex'),
+                            colour = G.C.BLUE,
+                            card = card
+                        }
+                    end
+                end
+            end
+            if context.joker_main and card.ability.extra.chips > 0 then
+                return {
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                    chip_mod = card.ability.extra.chips,
+                }
+            end
+        end,
+        atlas = "sdm_jokers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.j_sdm_water_slide = "Water Slide"
+
+    --- joker_voucher ---
+
+    SMODS.Joker{
+        key = "joker_voucher",
+        name = "Joker Voucher",
+        rarity = 3,
+        blueprint_compat = true,
+        pos = {x = 2, y = 5},
+        cost = 8,
+        config = {extra = {Xmult_mod = 0.5}},
+        loc_txt = {
+            name = "Joker Voucher",
+            text = {
+                "{X:mult,C:white}X#1#{} Mult per",
+                "redeemed {C:attention}Voucher{}",
+                "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
+            }
+        },
+        loc_vars = function(self, info_queue, card)
+            return {vars = {card.ability.extra.Xmult_mod, 1 + get_amount_vouchers() * card.ability.extra.Xmult_mod}}
+        end,
+        calculate = function(self, card, context)
+            if context.buying_card and context.card.ability.set == "Voucher" then
+                G.E_MANAGER:add_event(Event({
+                    func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={1 + get_amount_vouchers() * card.ability.extra.Xmult_mod}}}); return true
+                    end}))
+                return
+            end
+            if context.joker_main then
+                local xmlt = 1 + get_amount_vouchers() * card.ability.extra.Xmult_mod
+                if xmlt > 1 then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={xmlt}},
+                        Xmult_mod = xmlt,
+                    }
+                end
+            end
+        end,
+        atlas = "sdm_jokers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.j_sdm_joker_voucher = "Joker Voucher"
+
     --- Archibald ---
 
     SMODS.Joker{
@@ -1518,7 +1652,7 @@ if sdm_config.sdm_jokers then
         loc_txt = {
             name = "Archibald",
             text = {
-                "Once per {C:attention}Ante{}, creates",
+                "After {C:attention}Boss Blind{}, creates",
                 "a {C:dark_edition}Negative{} copy of a",
                 "random {C:attention}Joker{} at the",
                 "end of the {C:attention}shop",
@@ -1593,7 +1727,8 @@ if sdm_config.sdm_jokers then
             name = "SDM_0",
             text = {
                 "This Joker gains {C:dark_edition}+#1#{} Joker",
-                "Slots per removed {C:attention}2{}",
+                "Slots per removed",
+                "or destroyed {C:attention}2{}",
                 "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #3#)"
             }
         },
