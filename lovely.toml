@@ -33,38 +33,3 @@ elseif v.id == 'no_shop_planets' then
     self.GAME.planet_rate = 0
 """
 match_indent = true
-
-# Show "Contract" boosted cash out
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "delay(0.4)"
-position = "after"
-payload = """
-local old_config_dollars = config.dollars
-if next(find_joker("Contract")) then
-    local contract_mod = 0
-    for i = 1, #G.jokers.cards do
-        if G.jokers.cards[i].ability.name == "Contract" and not G.jokers.cards[i].debuff then
-            contract_mod = contract_mod + G.jokers.cards[i].ability.extra.cashout
-        end
-    end
-    config.dollars = math.floor(config.dollars * contract_mod)
-end
-"""
-match_indent = true
-
-# Juice up every "Contract"
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "G.GAME.current_round.dollars = config.dollars"
-position = "after"
-payload = """
-for i = 1, #G.jokers.cards do
-    if G.jokers.cards[i].ability.name == "Contract" and not G.jokers.cards[i].debuff then
-        G.jokers.cards[i]:juice_up(0.3, 0.5)
-    end
-end
-"""
-match_indent = true

@@ -199,7 +199,7 @@ if sdm_config.sdm_jokers then
             },
         },
         loc_vars = function(self, info_queue, card)
-            return {vars = {card.ability.extra.repetition}}
+            return {vars = {card and card.ability.extra.repetition or 2}} -- Made this way to avoid Lucky Deck crashing on Lucky Joker hover
         end,
         calculate = function(self, card, context)
             if context.repetition and not context.individual and context.cardarea == G.play then
@@ -1245,17 +1245,18 @@ if sdm_config.sdm_jokers then
         name = "Contract",
         rarity = 2,
         pos = {x = 4, y = 2},
-        cost = 8,
-        config = {extra = {cashout = 1.5, blind_req = 2}},
+        cost = 6,
+        config = {extra = {money = 8, blind_req = 2}},
         loc_txt = {
             name = "Contract",
             text = {
-                "{X:money,C:white}X#1#{} Cash Out",
-                "{C:red}#2#X{} Blind requirement",
+                "Earn {C:money}$#1#{} at",
+                "end of round,",
+                "{C:red}#2#X{} Blind goal",
             }
         },
         loc_vars = function(self, info_queue, card)
-            return {vars = {card.ability.extra.cashout, card.ability.extra.blind_req}}
+            return {vars = {card.ability.extra.money, card.ability.extra.blind_req}}
         end,
         calculate = function(self, card, context)
             if context.setting_blind and not card.getting_sliced and not context.blueprint then
@@ -1271,6 +1272,9 @@ if sdm_config.sdm_jokers then
                     if not silent then play_sound('chips2') end
                 return true end }))
             end
+        end,
+        calc_dollar_bonus = function(self, card)
+            return card.ability.extra.money
         end,
         atlas = "sdm_jokers"
     }

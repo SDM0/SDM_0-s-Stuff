@@ -133,7 +133,7 @@ jd_def["j_sdm_magic_hands"] = { -- Magic Hands
     calc_function = function(card)
         local is_magic_hands_hand = false
         local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
-        if #hand > 0 and text ~= "Unknown" then
+        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
             local cards_id = {}
             for _, scoring_card in pairs(scoring_hand) do
                 table.insert(cards_id, scoring_card:get_id())
@@ -268,7 +268,7 @@ jd_def["j_sdm_infinite_staircase"] = { -- Infinite Staircase
     calc_function = function(card)
         local is_infinite_staircase_hand = false
         local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
-        if #hand > 0 and text ~= "Unknown" and poker_hands["Straight"] and next(poker_hands["Straight"]) then
+        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" and poker_hands["Straight"] and next(poker_hands["Straight"]) then
             is_infinite_staircase_hand = true
             for _, scoring_card in pairs(scoring_hand) do
                 if scoring_card:is_face() or scoring_card:get_id() == 14 then
@@ -351,12 +351,10 @@ jd_def["j_sdm_rock_n_roll"] = { -- Rock'N'Roll
 jd_def["j_sdm_contract"] = { -- Contract
     text = {
         {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability.extra", ref_value = "cashout" }
-            },
-            border_colour = G.C.MONEY
+            text = "+$",
+            colour = G.C.MONEY
         },
+        { ref_table = "card.ability.extra", ref_value = "money", colour = G.C.MONEY },
         { text = " " },
         { ref_table = "card.ability.extra", ref_value = "blind_req", colour = G.C.RED },
         {
