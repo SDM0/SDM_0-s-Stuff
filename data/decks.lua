@@ -100,7 +100,7 @@ if sdm_config.sdm_decks then
                 name = "Lucky 7 Deck",
                 text = {
                     "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention}Lucky Joker",
+                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
                 }
             },
@@ -135,9 +135,9 @@ if sdm_config.sdm_decks then
                 "is {C:blue}dupli{C:red}cated{}",
             }
         },
-        trigger_effect = function(args)
-            if hand_chips and mult then
-                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips and (G.play and G.play.cards) then
+        trigger_effect = function(self, args)
+            if args.context == "final_scoring_step" then
+                if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                     G.E_MANAGER:add_event(Event({func = function()
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                         local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dna_deck'))
@@ -255,9 +255,9 @@ if sdm_config.sdm_decks then
                 end
             }))
         end,
-        trigger_effect = function(args)
-            if hand_chips and mult then
-                if G.GAME.chips + hand_chips * mult > G.GAME.blind.chips and (G.play and G.play.cards) then
+        trigger_effect = function(self, args)
+            if args.context == "final_scoring_step" then
+                if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                     G.E_MANAGER:add_event(Event({func = function()
                         G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                         local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dos_deck'))
