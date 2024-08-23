@@ -42,7 +42,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Crooked Joker</b> | 1 | Common | Doubles or destroys added Jokers <br>(Must have room) |
   | <b>Property Damage</b> | 8 | Rare | This Joker gains X0.25 Mult when discarded hand<br>contains a Full House |
   | <b>Rock'N'Roll</b> | 6 | Uncommon | Retrigger all played enhanced cards |
-  | <b>Contract</b> | 8 | Uncommon | X1.5 Cash Out, X2 Blind requirement |
+  | <b>Contract</b> | 6 | Uncommon | Earn $8 at the end of round, X2 Blind requirement |
   | <b>Cupidon</b> | 6 | Uncommon | X0.75 Blind requirement |
   | <b>Pizza</b> | 5 | Common | When selecting Blind, +4 hands, reduces by 1 every round |
   | <b>Treasure Chest</b> | 4 | Common | Gains $2 of sell value per consumable sold |
