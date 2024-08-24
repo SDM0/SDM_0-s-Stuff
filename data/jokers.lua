@@ -341,7 +341,7 @@ if sdm_config.sdm_jokers then
                         local space = {}
                         for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
                             if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil then
-                                if G.P_CENTERS[k].rarity ~= "evo" then -- Prevent space evos from Joker Evolution
+                                if not sdm_config.limit_moon_base or (sdm_config.limit_moon_base and type(G.P_CENTERS[k].rarity) ~= "string" and G.P_CENTERS[k].rarity < 4) then
                                     table.insert(space, k)
                                 end
                             end

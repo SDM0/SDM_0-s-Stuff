@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.2b
+--- VERSION: 1.6.2c
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
 
 ----------------------------------------------
@@ -115,6 +115,15 @@ SDM_0s_Stuff_Mod.config_tab = function()
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Decks", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
+
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = sdm_config, ref_value = "limit_moon_base" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Limit Moon Base", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
