@@ -65,7 +65,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_cosmicpisces = "Cosmic - Pisces",
     j_cosmicophiuchus = "Cosmic - Ophiuchus",
     j_thel_thelemnisc8 = "The Lemnisc 8"
-    j_thel_interstellar = "Interstellar"
+    j_inte_interstellar = "Interstellar"
 }
 
 SMODS.load_file("utils.lua")()
