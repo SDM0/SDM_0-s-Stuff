@@ -1,6 +1,6 @@
 # SDM_0's Stuff
 
-A Balatro mod that adds (as of now) 32 Jokers, 3 Consumables, 8 Decks and 5 Challenges to the game, made by SDM_0 (duh)
+A Balatro mod that adds (as of now) 35 Jokers, 3 Consumables, 8 Decks and 5 Challenges to the game, made by SDM_0 (duh)
 
 Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
 
