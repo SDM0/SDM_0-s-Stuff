@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.2c
+--- VERSION: 1.6.2d
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
 
 ----------------------------------------------
@@ -65,8 +65,8 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_cosmicaquarius = "Cosmic - Aquarius",
     j_cosmicpisces = "Cosmic - Pisces",
     j_cosmicophiuchus = "Cosmic - Ophiuchus",
-    j_plusjokers_thelemnisc8 = "The Lemnisc 8"
-    j_plusjokers_interstellar = "Interstellar"
+    j_PlusJokers_thelemnisc8 = "The Lemnisc 8",
+    j_PlusJokers_interstellar = "Interstellar"
 }
 
 SMODS.load_file("utils.lua")()
