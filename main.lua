@@ -38,6 +38,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_cry_exoplanet = "Exoplanet",
     j_cry_stardust = "Stardust",
     j_cry_virgo = "Virgo",
+    j_cry_universum = "Universum",
     j_jank_sentai = "Sentai Joker",
     j_jank_ternary_system = "Ternary System",
     j_kcva_collapse = "Cosmic Collapse",
@@ -64,8 +65,8 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_cosmicaquarius = "Cosmic - Aquarius",
     j_cosmicpisces = "Cosmic - Pisces",
     j_cosmicophiuchus = "Cosmic - Ophiuchus",
-    j_thel_thelemnisc8 = "The Lemnisc 8"
-    j_inte_interstellar = "Interstellar"
+    j_plusjokers_thelemnisc8 = "The Lemnisc 8"
+    j_plusjokers_interstellar = "Interstellar"
 }
 
 SMODS.load_file("utils.lua")()
