@@ -1358,9 +1358,9 @@ if sdm_config.sdm_jokers then
                     func = function()
                         ease_hands_played(card.ability.extra)
                         if card.ability.extra <= 1 then
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}}})
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}}, colour = G.C.BLUE})
                         else
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra}}})
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra}}, colour = G.C.BLUE})
                         end
                         return true
                     end}))
@@ -1371,9 +1371,9 @@ if sdm_config.sdm_jokers then
                     func = function()
                         ease_discard(card.ability.extra)
                         if card.ability.extra <= 1 then
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}}})
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}}, colour = G.C.RED})
                         else
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discards', vars = {card.ability.extra}}})
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discards', vars = {card.ability.extra}}, colour = G.C.RED})
                         end
                         return true
                     end}))
@@ -1399,8 +1399,8 @@ if sdm_config.sdm_jokers then
         end,
         calculate = function(self, card, context)
             if not context.end_of_round and context.individual and context.cardarea == G.hand then
-                if context.other_card and context.other_card:is_suit("Spades")
-                or context.other_card:is_suit("Diamonds") then
+                if context.other_card and context.other_card:is_suit("Spades", nil, true)
+                or context.other_card:is_suit("Diamonds", nil, true) then
                     if context.other_card.debuff then
                         return {
                             message = localize('k_debuffed'),
