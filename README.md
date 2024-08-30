@@ -52,7 +52,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Water Slide</b> | 4 | Common | This Joker gains +8 Chipsif scored hand<br>contains a 9, 7 or 6 |
   | <b>Joker Voucher</b> | 8 | Rare | X0.5 Mult per redeemed Voucher |
   | <b>Free Pass</b> | 5 | Common | If first hand or discard contains 1 card, gain +1 hand or discard respectively |
-  | <b>Legionary Joker</b> | 5 | Common | Each Diamond and Spade card held in hand gives +3 Mult |
+  | <b>Legionary Joker</b> | 5 | Common | Each Spade or Diamond card held in hand gives +3 Mult |
   | <b>Archibald</b> | 20 | Legendary | Once per Ante, create a Negative copy of a random Joker<br>at the end of the shop<br>(Cannot copy Archibald) |
   | <b>SDM_0</b> | 20 | Legendary | +0 Joker Slot, +2 Joker Slots per removed 2 |
 </details>
