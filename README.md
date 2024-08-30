@@ -1,6 +1,6 @@
 # SDM_0's Stuff
 
-A Balatro mod that adds (as of now) 35 Jokers, 3 Consumables, 8 Decks and 5 Challenges to the game, made by SDM_0 (duh)
+A Balatro mod that adds (as of now) 37 Jokers, 3 Consumables, 8 Decks and 5 Challenges to the game, made by SDM_0 (duh)
 
 Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
 
@@ -24,7 +24,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Lucky Joker</b> | 5 | Uncommon | Retrigger each played 7 2 additional times |
   | <b>Iconic Icon</b> | 6 | Common | +2 Mult for each Ace in your full deck,<br>+4 Mult if modified (enhancement, seal, edition) |
   | <b>Mult'N'Chips</b> | 5 | Common | Scored Bonus cards gives +4 Mult,<br>scored Mult cards gives +30 Chips |
-  | <b>Moon Base</b> | 5 | Common | When Blind is selected, create a random Space Joker<br>(Supernova, Space Joker, Constellation, Rocket, Satellite,<br>Astronomer, Wandering Star, Reach The Stars) |
+  | <b>Moon Base</b> | 6 | Common | When Blind is selected, create a random Space Joker<br>(Supernova, Space Joker, Constellation, Rocket, Satellite,<br>Astronomer, Wandering Star, Reach The Stars) |
   | <b>Shareholder Joker</b> | 5 | Common | Earn between $1 and $8 at the end of round |
   | <b>Magic Hands</b> | 6 | Uncommon | x3 Mult if scored poker hand has<br>exactly (number of hands) equal to most frequent rank<br>(ex: Four of a Kind on Hand 4, Full House on Hand 3) |
   | <b>Tip Jar</b> | 6 | Uncommon | Earn your money's highest digit at the end of round |
@@ -43,7 +43,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Property Damage</b> | 8 | Rare | This Joker gains X0.25 Mult when discarded hand<br>contains a Full House |
   | <b>Rock'N'Roll</b> | 6 | Uncommon | Retrigger all played enhanced cards |
   | <b>Contract</b> | 6 | Uncommon | Earn $8 at the end of round, X2 Blind requirement |
-  | <b>Cupidon</b> | 6 | Uncommon | X0.75 Blind requirement |
+  | <b>Cupidon</b> | 6 | Common | X0.8 Blind requirement |
   | <b>Pizza</b> | 5 | Common | When selecting Blind, +4 hands, reduces by 1 every round |
   | <b>Treasure Chest</b> | 4 | Common | Gains $2 of sell value per consumable sold |
   | <b>Bullet Train</b> | 6 | Common | +150 Chips on your first hand if no discards were used this round |
@@ -51,6 +51,8 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   | <b>Jambo</b> | 6 | Common | Adds double the rank of a random discarded card to Mult |
   | <b>Water Slide</b> | 4 | Common | This Joker gains +8 Chipsif scored hand<br>contains a 9, 7 or 6 |
   | <b>Joker Voucher</b> | 8 | Rare | X0.5 Mult per redeemed Voucher |
+  | <b>Free Pass</b> | 5 | Common | If first hand or discard contains 1 card, gain +1 hand or discard respectively |
+  | <b>Legionary Joker</b> | 5 | Common | Each Diamond and Spade card held in hand gives +3 Mult |
   | <b>Archibald</b> | 20 | Legendary | Once per Ante, create a Negative copy of a random Joker<br>at the end of the shop<br>(Cannot copy Archibald) |
   | <b>SDM_0</b> | 20 | Legendary | +0 Joker Slot, +2 Joker Slots per removed 2 |
 </details>
