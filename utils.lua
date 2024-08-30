@@ -100,9 +100,9 @@ end
 
 --- Creates the most played hand planet card
 --[[
-function create_most_played_planet(card, context)
-    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+function create_most_played_planet(card, context, ignore_limit)
+    if ignore_limit or (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) then
+        G.GAME.consumeable_buffer = (ignore_limit and 0) or G.GAME.consumeable_buffer + 1
         G.E_MANAGER:add_event(Event({
             trigger = 'before',
             delay = 0.0,
@@ -142,7 +142,8 @@ function sum_incremental(n)
     return 0
 end
 
-function get_amount_vouchers()
+-- Get the amount of redeemed voucher in the game
+function redeemed_voucher_count()
     if G.GAME and G.GAME.used_vouchers then
         local used_voucher = 0
         for k, _ in pairs(G.GAME.used_vouchers) do
