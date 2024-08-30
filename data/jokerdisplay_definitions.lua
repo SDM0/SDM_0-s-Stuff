@@ -433,6 +433,45 @@ jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
         card.joker_display_values.x_mult = (has_voucher and 1 + used_voucher * card.ability.extra.Xmult_mod) or 1
     end
 }
+jd_def["j_sdm_free_pass"] = { -- Free Pass
+    text = {
+        { ref_table = "card.joker_display_values", ref_value = "extra", colour = G.C.FILTER},
+    },
+    calc_function = function(card)
+        local is_free_pass_act = #G.hand.highlighted == 1
+        card.joker_display_values.active = G.GAME and G.GAME.current_round.discards_used == 0 and
+            G.GAME.current_round.discards_left > 0
+        card.joker_display_values.extra = card.joker_display_values.active and
+            ("+" .. (is_free_pass_act and card.ability.extra and JokerDisplay.number_format(card.ability.extra) or 0)) or
+            "-"
+    end,
+    style_function = function(card, text, reminder_text, extra)
+        if text and text.children[1] then
+            text.children[1].config.colour = card.joker_display_values.active and G.C.FILTER or
+                G.C.UI.TEXT_INACTIVE
+        end
+        return false
+    end
+}
+jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" },
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local playing_hand = next(G.play.cards)
+        local mult = 0
+        for _, playing_card in ipairs(G.hand.cards) do
+            if playing_hand or not playing_card.highlighted then
+                if playing_card.facing and not (playing_card.facing == 'back') and not playing_card.debuff and (playing_card:is_suit("Diamonds", nil, true) or playing_card:is_suit("Spades", nil, true)) then
+                    mult = mult + card.ability.extra * JokerDisplay.calculate_card_triggers(playing_card, nil, true)
+                end
+            end
+        end
+        card.joker_display_values.mult = mult
+    end
+}
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
         { text = "(" },
