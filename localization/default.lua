@@ -371,6 +371,11 @@ return {
             a_joker_slot_minus = "-#1# Joker Slot",
             a_consumable_slot = "+#1# Cons. Slot",
             a_consumable_slot_minus = "-#1# Cons. Slot",
-        }
+        },
+        v_text = {
+            ch_c_no_shop_planets = {
+                "{C:planet}Planets{} no longer appear in the {C:attention}shop"
+            }
+        },
     },
 }

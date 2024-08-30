@@ -76,8 +76,6 @@ SMODS.load_file("data/challenges.lua")()
 SMODS.load_file("data/consumables.lua")()
 SMODS.load_file("data/decks.lua")()
 
-SMODS.load_file("localization.lua")()
-
 if JokerDisplay then
     SMODS.load_file("data/jokerdisplay_definitions.lua")()
 end

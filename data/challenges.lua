@@ -1,11 +1,5 @@
 --- Challenges ---
 
-local smods_current_mod_process_loc_textref = SDM_0s_Stuff_Mod.process_loc_text
-function SDM_0s_Stuff_Mod.process_loc_text()
-    smods_current_mod_process_loc_textref()
-    G.localization.misc.v_text.ch_c_no_shop_planets = {"{C:planet}Planets{} no longer appear in the {C:attention}shop"}
-end
-
 if sdm_config.sdm_jokers then
 
     --- Scientific Downfall ---
