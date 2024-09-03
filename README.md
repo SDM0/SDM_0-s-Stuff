@@ -96,8 +96,7 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
   1 scored card from winning poker hand is duplicated
 
   ### Hieroglyph Deck
-  Spectral cards may appear in the shop, start with an Ankh card, -1 Joker Slot
-
+  Spectral cards may appear in the shop, start with an Ankh card
   ### XXL Deck
   Start with double the deck size
 
