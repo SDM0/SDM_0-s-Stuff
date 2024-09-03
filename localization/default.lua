@@ -305,7 +305,7 @@ return {
                     "a {C:dark_edition}Negative{} copy of a",
                     "random {C:attention}Joker{} at the",
                     "end of the {C:attention}shop",
-                    "{s:0.8,C:inactive}(Cannot copy Archibald)",
+                    "{C:inactive}(Cannot copy Archibald)",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
@@ -317,6 +317,106 @@ return {
                     "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #3#)"
                 }
             },
+        },
+        Back = {
+            b_sdm_0_s = {
+                name = "SDM_0's Deck",
+                text = {
+                    "Start run with",
+                    "{C:attention}#1#{} random {C:eternal}Eternal non-{C:legendary}legendary",
+                    "{C:attention}SDM_0's Stuff{} jokers",
+                },
+            },
+            b_sdm_bazaar = {
+                name = "Bazaar Deck",
+                text = {
+                    "Start run with",
+                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
+                    "consumables",
+                },
+            },
+            b_sdm_sandbox = {
+                name = "Sandbox Sleeve",
+                text = {
+                    "{C:attention}#1#{} Joker Slots",
+                    "{C:red}+#2#{} Ante to win",
+                }
+            },
+            b_sdm_lucky_7 = {
+                name = "Lucky 7 Deck",
+                text = {
+                    "Start run with",
+                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
+                    "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                }
+            },
+            b_sdm_dna = {
+                name = "DNA Deck",
+                text = {
+                    "{C:attention}1{} playing card from",
+                    "{C:attention}winning poker hand{}",
+                    "is {C:blue}dupli{C:red}cated{}",
+                }
+            },
+            b_sdm_hieroglyph = {
+                name = "Hieroglyph Deck",
+                text = {
+                    "{C:spectral}Spectral{} cards may",
+                    "appear in the shop,",
+                    "start with an {C:spectral,T:c_ankh}Ankh{} card",
+                }
+            },
+            b_sdm_xxl = {
+                name = "XXL Deck",
+                text = {
+                    "Start with {C:attention}double{}",
+                    "the deck size",
+                }
+            },
+            b_sdm_hoarder = {
+                name = "Hoarder Deck",
+                text = {
+                    "At end of each Round:",
+                    "{C:money}$#1#{} per remaining {C:red}Discard",
+                    "Extra {C:blue}Hands{} no longer earn money",
+                    "Earn no {C:attention}Interest{} at end of round"
+                }
+            },
+            b_sdm_deck_of_stuff = {
+                name = "Deck of Stuff",
+                text = {
+                    "Combines every",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "deck effect"
+                }
+            },
+        },
+        Tarot = {
+            c_sdm_sphinx = {
+                name = "The Sphinx",
+                text = {
+                    "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
+                    "or {C:dark_edition}Polychrome{} edition to",
+                    "a random {C:attention}card{} in hand"
+                }
+            }
+        },
+        Spectral = {
+            c_sdm_sacrifice = {
+                name = "Sacrifice",
+                text = {
+                    "{C:attention}+#1#{} Joker Slot,",
+                    "{C:red}-#2#{} hand,",
+                    "{C:red}-#3#{} discard"
+                }
+            },
+            c_sdm_morph = {
+                name = "Morph",
+                text = {
+                    "Swap {C:attention}#1#{} #2#",
+                    "with another one"
+                }
+            }
         },
         Other = {
             space_jokers = {
@@ -355,7 +455,105 @@ return {
                     "joker slot, consumable slot"
                 }
             }
-        }
+        },
+        Sleeve = {
+            sleeve_sdm_0_s = {
+                name = "SDM_0's Sleeve",
+                text = {
+                    "Start run with",
+                    "{s:0.9,C:attention}#1#{s:0.9} random {s:0.9,C:eternal}Eternal non-{s:0.9,C:legendary}legendary",
+                    "{C:attention}SDM_0's Stuff{} jokers",
+                },
+            },
+            sleeve_sdm_bazaar = {
+                name = "Bazaar Sleeve",
+                text = {
+                    "Start run with",
+                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
+                    "consumables",
+                },
+            },
+            sleeve_sdm_sandbox = {
+                name = "Sandbox Sleeve",
+                text = {
+                    "{C:attention}#1#{} Joker Slots",
+                    "{C:red}+#2#{} Ante to win",
+                }
+            },
+            sleeve_sdm_lucky_7 = {
+                name = "Lucky 7 Sleeve",
+                text = {
+                    "Start run with",
+                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
+                    "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                }
+            },
+            sleeve_sdm_lucky_7_alt = {
+                name = "Lucky 7 Sleeve",
+                text = {
+                    "{C:attention,T:j_sdm_lucky_joker}Lucky Joker{} is {C:dark_edition}Negative{}",
+                    "Doubles all {C:attention}listed",
+                    "{C:green,E:1,S:1.1}probabilities",
+                }
+            },
+            sleeve_sdm_dna = {
+                name = "DNA Sleeve",
+                text = {
+                    "{C:attention}1{} playing card from",
+                    "{C:attention}winning poker hand{}",
+                    "is {C:blue}dupli{C:red}cated{}",
+                }
+            },
+            sleeve_sdm_hieroglyph = {
+                name = "Hieroglyph Sleeve",
+                text = {
+                    "{C:spectral}Spectral{} cards may",
+                    "appear in the shop,",
+                    "start with an {C:spectral,T:c_ankh}Ankh{} card",
+                }
+            },
+            sleeve_sdm_hieroglyph_ghost = {
+                name = "Hieroglyph Sleeve",
+                text = {
+                    "{C:spectral}Spectral{} cards appearance rate",
+                    "in the shop doubles",
+                    "Start with an {C:spectral,T:c_ankh}Ankh{} card",
+                }
+            },
+            sleeve_sdm_hieroglyph_alt = {
+                name = "Hieroglyph Sleeve",
+                text = {
+                    "{C:spectral}Spectral{} cards appearance rate",
+                    "in the shop doubles,",
+                    "{C:spectral}Spectral Packs{} have {C:attention}#1#{}",
+                    "extra options to choose from",
+                }
+            },
+            sleeve_sdm_xxl = {
+                name = "XXL Sleeve",
+                text = {
+                    "Start with {C:attention}double{}",
+                    "the deck size",
+                }
+            },
+            sleeve_sdm_hoarder = {
+                name = "Hoarder Sleeve",
+                text = {
+                    "At end of each Round:",
+                    "{C:money}$#1#{} per remaining {C:red}Discard",
+                    "{s:0.8}Extra {s:0.8,C:blue}Hands{s:0.8} no longer earn money",
+                    "{s:0.8}Earn no {s:0.8,C:attention}Interest{s:0.8} at end of round"
+                }
+            },
+            sleeve_sdm_hoarder_alt = {
+                name = "Hoarder Sleeve",
+                text = {
+                    "At end of each Round:",
+                    "{C:money}$#1#{} per remaining {C:red}Discard",
+                    "{s:0.8}Earn no {s:0.8,C:attention}Interest{s:0.8} at end of round"
+                }
+            }
+        },
     },
     misc = {
         dictionary = {

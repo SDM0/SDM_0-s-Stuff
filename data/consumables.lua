@@ -10,19 +10,11 @@ if sdm_config.sdm_consus then
     --- Sphinx ---
 
     SMODS.Consumable{
-        key = 'c_sphinx',
+        key = 'sphinx',
         set = 'Tarot',
         pos = {x = 0, y = 0},
         cost = 3,
         config = {extra = 2},
-        loc_txt = {
-            name = "The Sphinx",
-            text = {
-                "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
-                "or {C:dark_edition}Polychrome{} edition to",
-                "a random {C:attention}card{} in hand"
-            }
-        },
         loc_vars = function(self, info_queue, card)
             return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra}}
         end,
@@ -64,7 +56,7 @@ if sdm_config.sdm_consus then
     --- Sacrifice ---
 
     SMODS.Consumable{
-        key = 'c_sacrifice',
+        key = 'sacrifice',
         set = 'Spectral',
         pos = {x = 1, y = 0},
         cost = 4,
@@ -103,18 +95,11 @@ if sdm_config.sdm_consus then
     --- Morph ---
 
     SMODS.Consumable{
-        key = 'c_morph',
+        key = 'morph',
         set = 'Spectral',
         pos = {x = 2, y = 0},
         cost = 4,
         config = {extra = 1},
-        loc_txt = {
-            name = "Morph",
-            text = {
-                "Swap {C:attention}#1#{} #2#",
-                "with another one"
-            }
-        },
         loc_vars = function(self, info_queue, card)
             info_queue[#info_queue+1] = {key = "resources", set = "Other"}
             return {vars = {self.config.extra, (self.config.extra > 1 and "resources") or "resource"}}
