@@ -1393,7 +1393,7 @@ if sdm_config.sdm_jokers then
         blueprint_compat = true,
         pos = {x = 4, y = 5},
         cost = 5,
-        config = {extra = 3},
+        config = {extra = 4},
         loc_vars = function(self, info_queue, card)
             return {vars = {card.ability.extra}}
         end,
@@ -1441,7 +1441,7 @@ if sdm_config.sdm_jokers then
                 if card.ability.extra.can_copy and #G.jokers.cards > 0 then
                     local valid_cards = {}
                     for i = 1, #G.jokers.cards do
-                        if G.jokers.cards[i].ability.name ~= "Archibald" then
+                        if G.jokers.cards[i].ability.name ~= "j_sdm_archibald" then
                             table.insert(valid_cards, G.jokers.cards[i])
                         end
                     end
