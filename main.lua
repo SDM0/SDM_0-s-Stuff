@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.3a
+--- VERSION: 1.6.4a
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
 
 ----------------------------------------------
@@ -76,8 +76,12 @@ SMODS.load_file("data/challenges.lua")()
 SMODS.load_file("data/consumables.lua")()
 SMODS.load_file("data/decks.lua")()
 
-if JokerDisplay then
+if JokerDisplay and sdm_config.sdm_jokers then
     SMODS.load_file("data/jokerdisplay_definitions.lua")()
+end
+
+if CardSleeves then
+    SMODS.load_file("data/cardsleeves.lua")()
 end
 
 SMODS.Atlas{
