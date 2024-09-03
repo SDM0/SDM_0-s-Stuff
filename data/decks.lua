@@ -11,21 +11,16 @@ if sdm_config.sdm_decks then
 
     if sdm_config.sdm_jokers then
         SMODS.Back{
-            key = "b_sdm_0_s",
-            name = "SDM_0's Deck",
+            key = "sdm_0_s",
             pos = {x = 0, y = 0},
-            loc_txt = {
-                name = "SDM_0's Deck",
-                text = {
-                    "Start run with",
-                    "{C:attention}2{} random {C:eternal}Eternal non-{C:legendary}legendary",
-                    "{C:attention}SDM_0's Stuff{} jokers",
-                },
-            },
-            apply = function(back)
+            config = {extra = 2},
+            loc_vars = function(self)
+                return {vars = {self.config.extra}}
+            end,
+            apply = function(self)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
+                        rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
                         for i = 1, #rand_jokers do
                             add_joker2(rand_jokers[i], nil, true, true)
                         end
@@ -41,21 +36,16 @@ if sdm_config.sdm_decks then
 
     if sdm_config.sdm_consus then
         SMODS.Back{
-            key = "b_bazaar",
-            name = "Bazaar Deck",
+            key = "bazaar",
             pos = {x = 1, y = 0},
-            loc_txt = {
-                name = "Bazaar Deck",
-                text = {
-                    "Start run with",
-                    "{C:attention}2{} random {C:attention}SDM_0's Stuff{}",
-                    "consumables",
-                },
-            },
+            config = {extra = 2},
+            loc_vars = function(self)
+                return {vars = {self.config.extra}}
+            end,
             apply = function(back)
                 G.E_MANAGER:add_event(Event({
                     func = function()
-                        rand_cons = get_random_sdm_modded_card("c_", 2)
+                        rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                         for i = 1, #rand_cons do
                             local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
                             card:add_to_deck()
@@ -72,19 +62,15 @@ if sdm_config.sdm_decks then
     --- Sandbox Deck
 
     SMODS.Back{
-        key = "b_sandbox",
-        name = "Sandbox Deck",
+        key = "sandbox",
         pos = {x = 2, y = 0},
-        config = {joker_slot = 2},
-        loc_txt = {
-            name = "Sandbox Deck",
-            text = {
-                "{C:attention}+2{} Joker Slots",
-                "Win at Ante {C:attention}10",
-            }
-        },
-        apply = function(back)
-            G.GAME.win_ante = 10
+        config = {joker_slot = 2, extra_ante = 2},
+        loc_vars = function(self)
+            return {vars = {self.config.joker_slot, self.config.extra_ante}}
+        end,
+        apply = function(self)
+            G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + self.config.joker_slot
+            G.GAME.win_ante = G.GAME.win_ante + self.config.extra_ante
         end,
         atlas = "sdm_enhancers"
     }
@@ -93,18 +79,9 @@ if sdm_config.sdm_decks then
 
     if sdm_config.sdm_jokers then
         SMODS.Back{
-            key = "b_lucky_7",
-            name = "Lucky 7 Deck",
+            key = "lucky_7",
             pos = {x = 3, y = 0},
-            loc_txt = {
-                name = "Lucky 7 Deck",
-                text = {
-                    "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
-                    "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
-                }
-            },
-            apply = function(back)
+            apply = function(self)
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         for i = #G.playing_cards, 1, -1 do
@@ -124,17 +101,8 @@ if sdm_config.sdm_decks then
     --- DNA Deck
 
     SMODS.Back{
-        key = "b_dna",
-        name = "DNA Deck",
+        key = "dna",
         pos = {x = 1, y = 1},
-        loc_txt = {
-            name = "DNA Deck",
-            text = {
-                "{C:attention}1{} playing card from",
-                "{C:attention}winning poker hand{}",
-                "is {C:blue}dupli{C:red}cated{}",
-            }
-        },
         trigger_effect = function(self, args)
             if args.context == "final_scoring_step" then
                 if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
@@ -162,36 +130,18 @@ if sdm_config.sdm_decks then
     --- Hieroglyph Deck
 
     SMODS.Back{
-        key = "b_hieroglyph",
-        name = "Hieroglyph Deck",
+        key = "hieroglyph",
         pos = {x = 2, y = 1},
-        config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = -1},
-        loc_txt = {
-            name = "Hieroglyph Deck",
-            text = {
-                "{C:spectral}Spectral{} cards may",
-                "appear in the shop,",
-                "start with an {C:spectral,T:c_ankh}Ankh{} card",
-                "{C:red}-1{} Joker Slot",
-            }
-        },
+        config = {spectral_rate = 2, consumables = {'c_ankh'}},
         atlas = "sdm_enhancers"
     }
 
     --- XXL Deck
 
     SMODS.Back{
-        key = "b_xxl",
-        name = "XXL Deck",
+        key = "xxl",
         pos = {x = 3, y = 1},
-        loc_txt = {
-            name = "XXL Deck",
-            text = {
-                "Start with {C:attention}double{}",
-                "the deck size",
-            }
-        },
-        apply = function(back)
+        apply = function()
             local extra_cards = {}
             for k, _ in pairs(G.P_CARDS) do
                 if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
@@ -204,22 +154,28 @@ if sdm_config.sdm_decks then
         atlas = "sdm_enhancers"
     }
 
+    --- Hoarder Deck
+
+    SMODS.Back{
+        key = "hoarder",
+        pos = {x = 0, y = 2},
+        config = {extra_discard_bonus = 3, no_interest = true},
+        loc_vars = function(self)
+            return {vars = {self.config.extra_discard_bonus}}
+        end,
+        apply = function()
+            G.GAME.modifiers.no_extra_hand_money = true
+        end,
+        atlas = "sdm_enhancers"
+    }
+
     --- Deck Of Stuff
 
     SMODS.Back{
         key = "deck_of_stuff",
-        name = "Deck of Stuff",
         pos = {x = 0, y = 1},
-        config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 1},
-        loc_txt = {
-            name = "Deck of Stuff",
-            text = {
-                "Combines every",
-                "{C:attention}SDM_0's Stuff{}",
-                "deck effect"
-            }
-        },
-        apply = function(back)
+        config = {extra_discard_bonus = 2},
+        apply = function()
             local extra_cards = {}
             for k, _ in pairs(G.P_CARDS) do
                 if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
