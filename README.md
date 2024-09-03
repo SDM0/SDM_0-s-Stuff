@@ -1,8 +1,13 @@
 # SDM_0's Stuff
 
-A Balatro mod that adds (as of now) 37 Jokers, 3 Consumables, 8 Decks and 5 Challenges to the game, made by SDM_0 (duh)
+A Balatro mod that adds (as of now) 37 Jokers, 3 Consumables, 9 Decks and 5 Challenges to the game, made by SDM_0 (duh)
 
 Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
+
+## Extra mod content
+ - [CardSleeves](https://github.com/larswijn/CardSleeves): SDM_0's Stuff deck effect can be used as card sleeves
+ - [JokerDisplay](https://github.com/nh6574/JokerDisplay): SDM_0's Stuff jokers have JokerDisplay compatibility
+ - [Dimserenes' Modpack](https://github.com/Dimserene/Dimserenes-Modpack): Frontier Deck
 
 ## Installation
 - Requires [Steamodded](https://github.com/Steamopollys/Steamodded/) v1.0.0 (An installation guide is available there)
@@ -95,6 +100,9 @@ Huge thanks to Balatro Discord's modding community, this mod wouldn't have come 
 
   ### XXL Deck
   Start with double the deck size
+
+  ### Hoarder Deck
+  Earn $3 from extra discard, earn no money from extra hand and interest
 
   ### Deck of Stuff
   Combines every SDM_0's Stuff deck effect
