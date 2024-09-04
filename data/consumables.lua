@@ -51,7 +51,7 @@ if sdm_config.sdm_consus then
         atlas = "sdm_consumables"
     }
 
-    SDM_0s_Stuff_Mod.modded_objects.c_sphinx = "Sphinx"
+    SDM_0s_Stuff_Mod.modded_objects.c_sdm_sphinx = "Sphinx"
 
     --- Sacrifice ---
 
@@ -90,7 +90,7 @@ if sdm_config.sdm_consus then
         atlas = "sdm_consumables"
     }
 
-    SDM_0s_Stuff_Mod.modded_objects.c_sacrifice = "Sacrifice"
+    SDM_0s_Stuff_Mod.modded_objects.c_sdm_sacrifice = "Sacrifice"
 
     --- Morph ---
 
@@ -208,7 +208,7 @@ if sdm_config.sdm_consus then
         atlas = "sdm_consumables"
     }
 
-    SDM_0s_Stuff_Mod.modded_objects.c_morph = "Morph"
+    SDM_0s_Stuff_Mod.modded_objects.c_sdm_morph = "Morph"
 
 end
 
