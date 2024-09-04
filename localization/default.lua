@@ -336,7 +336,7 @@ return {
                 },
             },
             b_sdm_sandbox = {
-                name = "Sandbox Sleeve",
+                name = "Sandbox Deck",
                 text = {
                     "{C:attention}#1#{} Joker Slots",
                     "{C:red}+#2#{} Ante to win",
