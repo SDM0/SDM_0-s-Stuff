@@ -47,7 +47,7 @@ if sdm_config.sdm_decks then
                     func = function()
                         rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                         for i = 1, #rand_cons do
-                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                             card:add_to_deck()
                             G.consumeables:emplace(card)
                         end
@@ -174,7 +174,7 @@ if sdm_config.sdm_decks then
     SMODS.Back{
         key = "deck_of_stuff",
         pos = {x = 0, y = 1},
-        config = {extra_discard_bonus = 2},
+        config = {extra_discard_bonus = 3, no_interest = true},
         apply = function()
             local extra_cards = {}
             for k, _ in pairs(G.P_CARDS) do
@@ -185,6 +185,7 @@ if sdm_config.sdm_decks then
             end
             G.GAME.starting_params.extra_cards = extra_cards
             G.GAME.win_ante = 10
+            G.GAME.modifiers.no_extra_hand_money = true
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if sdm_config.sdm_jokers then
@@ -202,7 +203,7 @@ if sdm_config.sdm_decks then
                     if sdm_config.sdm_consus then
                         rand_cons = get_random_sdm_modded_card("c_", 2)
                         for i = 1, #rand_cons do
-                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                             card:add_to_deck()
                             G.consumeables:emplace(card)
                         end
