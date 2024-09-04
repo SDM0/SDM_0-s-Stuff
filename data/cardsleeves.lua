@@ -48,7 +48,7 @@ if sdm_config.sdm_consus then
                 func = function()
                     rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                     for i = 1, #rand_cons do
-                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, "c_sdm_" .. rand_cons[i], 'bzr')
+                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                         card:add_to_deck()
                         G.consumeables:emplace(card)
                     end
