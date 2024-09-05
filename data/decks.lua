@@ -144,7 +144,7 @@ if sdm_config.sdm_decks then
         apply = function()
             local extra_cards = {}
             for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
+                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
                     local s, r = k:match("^(.*)_(.-)$")
                     extra_cards[#extra_cards + 1] = {s = s, r = r}
                 end
@@ -174,11 +174,11 @@ if sdm_config.sdm_decks then
     SMODS.Back{
         key = "deck_of_stuff",
         pos = {x = 0, y = 1},
-        config = {extra_discard_bonus = 3, no_interest = true},
+        config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true},
         apply = function()
             local extra_cards = {}
             for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
+                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
                     local s, r = k:match("^(.*)_(.-)$")
                     extra_cards[#extra_cards + 1] = {s = s, r = r}
                 end
