@@ -85,7 +85,7 @@ if sdm_config.sdm_jokers then
         pos = { x = 3, y = 0 },
         unlocked = true,
         loc_vars = function(self)
-            if self.get_current_deck_name() == "b_sdm_lucky_7" then
+            if self.get_current_deck_name() == "b_sdm_lucky_7" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
                 return {key = self.key .. '_alt', vars = {}}
             end
         end,
@@ -97,7 +97,7 @@ if sdm_config.sdm_jokers then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    if self.get_current_deck_name() ~= "b_sdm_lucky_7" then
+                    if self.get_current_deck_name() ~= "b_sdm_lucky_7" and self.get_current_deck_name() ~= "b_sdm_deck_of_stuff" then
                         add_joker("j_sdm_lucky_joker", nil, true, true)
                     else
                         if G.jokers.cards and #G.jokers.cards > 0 then
@@ -158,7 +158,7 @@ CardSleeves.Sleeve {
             key = self.key .. "_ghost"
             self.config = { spectral_rate = 4, consumables = { 'c_ankh' } }
             vars[#vars+1] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Tarot'}
-        elseif self.get_current_deck_name() == "b_sdm_hieroglyph" then
+        elseif self.get_current_deck_name() == "b_sdm_hieroglyph" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
             self.config = { spectral_rate = 4, spectral_more_options = 2 }
             vars[#vars+1] = self.config.spectral_more_options
@@ -200,7 +200,7 @@ CardSleeves.Sleeve {
                     local s, r = k:match("^(.*)_(.-)$")
                     if not (G.GAME.starting_params.no_faces and (r == 'K' or r == 'Q' or r == 'J')) then
                         extra_cards[#extra_cards + 1] = {s = s, r = r}
-                        if self.get_current_deck_name() == "b_sdm_xxl" then
+                        if self.get_current_deck_name() == "b_sdm_xxl" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
                             extra_cards[#extra_cards + 1] = {s = s, r = r}
                         end
                     end
