@@ -188,7 +188,7 @@ CardSleeves.Sleeve {
         local extra_cards = {}
         if G.GAME.starting_params.erratic_suits_and_ranks then
             for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
+                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
                     _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic'))
                     local s, r = k:match("^(.*)_(.-)$")
                     extra_cards[#extra_cards+1] = {s = s, r = r}
@@ -196,7 +196,7 @@ CardSleeves.Sleeve {
             end
         else
             for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' then -- Avoid giving exotic cards from "Bunco"
+                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then
                     local s, r = k:match("^(.*)_(.-)$")
                     if not (G.GAME.starting_params.no_faces and (r == 'K' or r == 'Q' or r == 'J')) then
                         extra_cards[#extra_cards + 1] = {s = s, r = r}
