@@ -298,6 +298,15 @@ return {
                     "gives {C:mult}+#1#{} Mult",
                 },
             },
+            j_sdm_jack_a_dit = {
+                name = "Jack A Dit",
+                text = {
+                    "{X:red,C:white}X#1#{} Mult if scoring hand",
+                    "contains a {C:attention}Jack{}",
+                    "{X:red,C:white}X#2#{} Mult if played hand",
+                    "contains no {C:attention}Jack{}"
+                },
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
