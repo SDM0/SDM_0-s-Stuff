@@ -310,7 +310,7 @@ return {
             j_sdm_medusa_joker = {
                 name = "Medusa Joker",
                 text = {
-                    "All played {C:attention}2{}, {C:attention}3{} and {C:attention}4{}",
+                    "All played {C:attention}4{}, {C:attention}3{} and {C:attention}2{}",
                     "become {C:attention}Stone{} cards",
                     "when scored",
                 }
@@ -322,6 +322,23 @@ return {
                     "a random {C:attention}Tag{} if you",
                     "played your {C:attention}final hand{}",
                 }
+            },
+            j_sdm_astrology = {
+                name = "Astrology",
+                text = {
+                    "Creates a random {C:planet}Planet{} card",
+                    "when a {C:tarot}Tarot{} card is used",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
+            j_sdm_roulette = {
+                name = "Roulette",
+                text = {
+                    "When round begins, add",
+                    "a {C:dark_edition}Foil{}, {C:dark_edition}Holographic{} or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to a random {C:attention}card{}"
+                },
             },
             j_sdm_archibald = {
                 name = "Archibald",

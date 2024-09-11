@@ -1419,10 +1419,6 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_legionary_joker = "Legionary Joker"
 
--- TODO:
--- Jack à dit: Jack scores x2, x0.5 if no played Jack
--- ???: Level up scored hand of 3 cards(?)
-
 --- Jack A Dit ---
 
 SMODS.Joker{
@@ -1517,6 +1513,71 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_consolation_prize = "Consolation Prize"
+
+--- Astrology ---
+
+SMODS.Joker{
+    key = "astrology",
+    rarity = 2,
+    blueprint_compat = true,
+    pos = {x = 0, y = 0},
+    cost = 7,
+    calculate = function(self, card, context)
+        if context.using_consumeable then
+            sendDebugMessage(inspect(context.consumeable.ability))
+            sendDebugMessage("" .. #G.consumeables.cards + G.GAME.consumeable_buffer)
+            sendDebugMessage("" .. G.consumeables.config.card_limit)
+            if context.consumeable.ability.set == 'Tarot' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        local _card = create_card('Planet', G.consumeables, nil, nil, nil, nil, nil, 'ast')
+                        _card:add_to_deck()
+                        G.consumeables:emplace(_card)
+                        G.GAME.consumeable_buffer = 0
+                        return true
+                end)}))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_astrology = "Astrology"
+SDM_0s_Stuff_Mod.space_jokers.j_sdm_astrology = "Astrology"
+
+--- Roulette ---
+
+SMODS.Joker{
+    key = "roulette",
+    rarity = 3,
+    blueprint_compat = true,
+    pos = {x = 0, y = 0},
+    cost = 9,
+    calculate = function(self, card, context)
+        if context.first_hand_drawn and (G.hand and G.hand.cards) then
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                local valid_cards = {}
+                for i = 1, #G.hand.cards do
+                    if not G.hand.cards[i].edition then
+                        table.insert(valid_cards, G.hand.cards[i])
+                    end
+                end
+                local edition = poll_edition('roulette', nil, true, true)
+                local random_card = valid_cards[pseudorandom('roulette', 1, #valid_cards)]
+                random_card:set_edition(edition, true)
+                card:juice_up(0.3, 0.5)
+                return true
+            end }))
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_roulette = "Roulette"
 
 --- Archibald ---
 
