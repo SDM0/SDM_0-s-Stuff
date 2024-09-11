@@ -83,9 +83,11 @@ if sdm_config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
 end
 
-if CardSleeves or sdm_config.sdm_decks then
+if sdm_config.sdm_decks then
     SMODS.load_file("data/decks.lua")()
-    SMODS.load_file("data/cardsleeves.lua")()
+    if CardSleeves then
+        SMODS.load_file("data/cardsleeves.lua")()
+    end
 end
 
 SMODS.Atlas{

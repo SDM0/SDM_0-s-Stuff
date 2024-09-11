@@ -1431,9 +1431,9 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 0},
     cost = 6,
-    config = {extra = 2},
+    config = {extra = {plus = 2, minus = 0.5}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, math.floor(1 / card.ability.extra)}}
+        return {vars = {card.ability.extra.plus, card.ability.extra.minus}}
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_hand then
@@ -1444,7 +1444,7 @@ SMODS.Joker{
                     break
                 end
             end
-            local xmlt = (has_jack and card.ability.extra) or math.floor(1 / card.ability.extra)
+            local xmlt = (has_jack and card.ability.extra.plus) or card.ability.extra.minus
             return {
                 message = localize{type='variable',key='a_xmult',vars={xmlt}},
                 Xmult_mod = xmlt,
@@ -1465,22 +1465,31 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 2},
     loc_vars = function(self, info_queue, card)
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
+        return {vars = {card.ability.extra, ("cards" and card.ability.extra > 1) or "card"}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and (context.scoring_hand and #context.scoring_hand <= 3)
-        and pseudorandom(pseudoseed('abjkr')) < G.GAME.probabilities.normal/card.ability.extra then
-            return {
-                card = card,
-                level_up = true,
-                message = localize('k_level_up_ex')
-            }
+        if context.cardarea == G.jokers and context.before and context.scoring_hand then
+            local stone_count = 0
+            for i = 1, #context.scoring_hand do
+                _card = context.scoring_hand[i]
+                if _card.ability and _card.ability.effect and _card.ability.effect == "Stone Card" then
+                    stone_count = stone_count + 1
+                end
+            end
+            if stone_count >= card.ability.extra then
+                return {
+                    card = card,
+                    level_up = true,
+                    message = localize('k_level_up_ex')
+                }
+            end
         end
     end,
     atlas = "sdm_jokers"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_asteroid_belt = "Asteroid Belt"
+SDM_0s_Stuff_Mod.space_jokers.j_sdm_asteroid_belt = "Asteroid Belt"
 
 --- Archibald ---
 

@@ -307,6 +307,13 @@ return {
                     "contains no {C:attention}Jack{}"
                 },
             },
+            j_sdm_asteroid_belt = {
+                name = "Asteroid Belt",
+                text = {
+                    "Level up scoring hand if it contains",
+                    "at least {c:attention}#1#{} Stone #2#",
+                },
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
