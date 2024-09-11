@@ -301,18 +301,27 @@ return {
             j_sdm_jack_a_dit = {
                 name = "Jack A Dit",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult if scoring hand",
-                    "contains a {C:attention}Jack{}",
-                    "{X:red,C:white}X#2#{} Mult if played hand",
-                    "contains no {C:attention}Jack{}"
+                    "{X:red,C:white}X#1#{} Mult if scoring",
+                    "hand contains a {C:attention}Jack{},",
+                    "{X:red,C:white}X#2#{} Mult if played",
+                    "hand contains no {C:attention}Jack{}"
                 },
             },
-            j_sdm_asteroid_belt = {
-                name = "Asteroid Belt",
+            j_sdm_medusa_joker = {
+                name = "Medusa Joker",
                 text = {
-                    "Level up scoring hand if it contains",
-                    "at least {c:attention}#1#{} Stone #2#",
-                },
+                    "All played {C:attention}2{}, {C:attention}3{} and {C:attention}4{}",
+                    "become {C:attention}Stone{} cards",
+                    "when scored",
+                }
+            },
+            j_sdm_consolation_prize = {
+                name = "Consolation Prize",
+                text = {
+                    "At end of round, create",
+                    "a random {C:attention}Tag{} if you",
+                    "played your {C:attention}final hand{}",
+                }
             },
             j_sdm_archibald = {
                 name = "Archibald",
@@ -575,6 +584,8 @@ return {
         dictionary = {
             k_halved_ex = "Halved!",
             k_shared_ex = "Shared!",
+            k_stone = "Stone",
+            k_plus_tag = "+1 Tag",
         },
         v_dictionary = {
             a_hand = "+#1# Hand",

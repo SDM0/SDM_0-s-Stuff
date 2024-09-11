@@ -1456,31 +1456,37 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_jack_a_dit = "Jack A Dit"
 
---- Asteroid Belt ---
+--- Medusa Joker ---
 
 SMODS.Joker{
-    key = "asteroid_belt",
-    rarity = 3,
+    key = "medusa_joker",
+    rarity = 2,
     pos = {x = 0, y = 0},
-    cost = 8,
-    config = {extra = 2},
+    cost = 7,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, ("cards" and card.ability.extra > 1) or "card"}}
+        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and context.scoring_hand then
-            local stone_count = 0
-            for i = 1, #context.scoring_hand do
-                _card = context.scoring_hand[i]
-                if _card.ability and _card.ability.effect and _card.ability.effect == "Stone Card" then
-                    stone_count = stone_count + 1
+        if context.cardarea == G.jokers and context.before and context.scoring_hand and not context.blueprint then
+            local low_ranks = {}
+            for _, v in ipairs(context.scoring_hand) do
+                local c_id = v:get_id()
+                if c_id == 2 or c_id == 3 or c_id == 4 then 
+                    low_ranks[#low_ranks+1] = v
+                    v:set_ability(G.P_CENTERS.m_stone)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            v:juice_up()
+                            return true
+                        end
+                    })) 
                 end
             end
-            if stone_count >= card.ability.extra then
+            if #low_ranks > 0 then 
                 return {
-                    card = card,
-                    level_up = true,
-                    message = localize('k_level_up_ex')
+                    message = localize('k_stone'),
+                    colour = G.C.GREY,
+                    card = card
                 }
             end
         end
@@ -1488,8 +1494,29 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_asteroid_belt = "Asteroid Belt"
-SDM_0s_Stuff_Mod.space_jokers.j_sdm_asteroid_belt = "Asteroid Belt"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_medusa_joker = "Medusa Joker"
+
+--- Consolation Prize ---
+
+SMODS.Joker{
+    key = "consolation_prize",
+    rarity = 2,
+    blueprint_compat = true,
+    pos = {x = 0, y = 0},
+    cost = 8,
+    calculate = function(self, card, context)
+        if context.end_of_round and not (context.individual or context.repetition) and G.GAME.current_round.hands_left == 0 then
+            add_tag(pseudorandom_element(G.P_TAGS, pseudoseed('conso')))
+            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
+                message = localize('k_plus_tag'),
+                colour = G.C.FILTER,
+            })
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_consolation_prize = "Consolation Prize"
 
 --- Archibald ---
 
