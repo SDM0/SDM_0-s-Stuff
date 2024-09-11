@@ -19,13 +19,13 @@ SMODS.Consumable{
     can_use = function(self, card, area, copier)
         if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or area then
             if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
-                local valid_card = {}
+                local valid_cards = {}
                 for i = 1, #G.hand.cards do
                     if not G.hand.cards[i].edition then
-                        table.insert(valid_card, G.hand.cards[i])
+                        table.insert(valid_cards, G.hand.cards[i])
                     end
                 end
-                return G.hand and #G.hand.cards > 0 and #valid_card > 0
+                return G.hand and #G.hand.cards > 0 and #valid_cards > 0
             end
         end
         return false
@@ -33,14 +33,14 @@ SMODS.Consumable{
     use = function(self, card)
         local used_tarot = card or self
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            local valid_card = {}
+            local valid_cards = {}
             for i = 1, #G.hand.cards do
                 if not G.hand.cards[i].edition then
-                    table.insert(valid_card, G.hand.cards[i])
+                    table.insert(valid_cards, G.hand.cards[i])
                 end
             end
-            local edition = poll_edition('wheel_of_fortune', nil, true, true)
-            local random_card = valid_card[pseudorandom('sphinx', 1, #valid_card)]
+            local edition = poll_edition('sphinx', nil, true, true)
+            local random_card = valid_cards[pseudorandom('sphinx', 1, #valid_cards)]
             random_card:set_edition(edition, true)
             used_tarot:juice_up(0.3, 0.5)
             return true
