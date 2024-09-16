@@ -42,7 +42,7 @@ if sdm_config.sdm_decks then
             loc_vars = function(self)
                 return {vars = {self.config.extra}}
             end,
-            apply = function(back)
+            apply = function(self)
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
