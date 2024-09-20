@@ -33,3 +33,16 @@ elseif v.id == 'no_shop_planets' then
     self.GAME.planet_rate = 0
 """
 match_indent = true
+
+# Warehouse negative effect
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:can_sell_card(context)"
+position = "after"
+payload = """
+    if (SMODS and SMODS.find_card("j_sdm_warehouse", false)) then
+        return self.ability.name ~= "Warehouse"
+    end
+"""
+match_indent = true

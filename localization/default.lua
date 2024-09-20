@@ -1,15 +1,6 @@
 return {
     descriptions = {
         Joker = {
-            j_sdm_trance_the_devil = {
-                name = "Trance The Devil",
-                text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "this Joker {C:attention}destroys{} each",
-                    "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
-                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)" 
-                }
-            },
             j_sdm_burger = {
                 name = "Burger",
                 text = {
@@ -91,11 +82,9 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "Creates a copy of",
-                    "a used {C:planet}Planet{} card,",
-                    "once per {C:attention}round{}",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
+                    "When {C:attention}Blind{} is selected,",
+                    "upgrade the level of a",
+                    "{C:attention}random{} poker hand"
                 }
             },
             j_sdm_ouija_board = {
@@ -137,8 +126,8 @@ return {
                 name = "Warehouse",
                 text = {
                     "{C:attention}+#1#{} hand size,",
-                    "{C:red}-#2#{} consumable slot,",
-                    "lose {C:money}$#3#{} if sold"
+                    "other cards",
+                    "can't be sold",
                 }
             },
             j_sdm_zombie_joker = {
@@ -178,8 +167,9 @@ return {
             j_sdm_reach_the_stars = {
                 name = "Reach The Stars",
                 text = {
-                    "Scoring {C:attention}#1#{} and {C:attention}#2#{} cards",
-                    "creates a random {C:planet}Planet{} card",
+                    "Scoring a hand of {C:attention}#1#{} and",
+                    "{C:attention}#2#{} cards creates a",
+                    "random {C:planet}Planet{} card",
                     "{s:0.8}Changes at end of round",
                     "{C:inactive}(Must have room)",
                     "{C:inactive}(Currently {C:attention}#3#{C:inactive}#4# & {C:attention}#5#{C:inactive}#6#)"
@@ -220,8 +210,9 @@ return {
             j_sdm_cupidon = {
                 name = "Cupidon",
                 text = {
-                    "{X:attention,C:white}X#1#{} Blind",
-                    "requirement",
+                    "{C:blue}+#1#{} hand,",
+                    "{C:attention}+#2#{} hand size,",
+                    "{C:red}-#3#{} discards",
                 }
             },
             j_sdm_pizza = {
@@ -301,10 +292,11 @@ return {
             j_sdm_jack_a_dit = {
                 name = "Jack A Dit",
                 text = {
-                    "{X:red,C:white}X#1#{} Mult if scoring",
-                    "hand contains a {C:attention}Jack{},",
-                    "{X:red,C:white}X#2#{} Mult if played",
-                    "hand contains no {C:attention}Jack{}"
+                    "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
+                    "is a {C:attention}#2#{}",
+                    "and has a {C:attention}Jack{},",
+                    "poker hand changes",
+                    "at end of round"
                 },
             },
             j_sdm_medusa_joker = {
@@ -326,19 +318,55 @@ return {
             j_sdm_astrology = {
                 name = "Astrology",
                 text = {
-                    "Creates a random {C:planet}Planet{} card",
-                    "when a {C:tarot}Tarot{} card is used",
+                    "Creates a random {C:tarot}Tarot{} card",
+                    "when a {C:planet}Planet{} card is used",
                     "{C:inactive}(Must have room){}"
                 }
             },
             j_sdm_roulette = {
                 name = "Roulette",
                 text = {
-                    "When round begins, add",
+                    "When round begins,",
+                    "{C:green}#1# in #2#{} chance to add",
                     "a {C:dark_edition}Foil{}, {C:dark_edition}Holographic{} or",
-                    "{C:dark_edition}Polychrome{} edition",
-                    "to a random {C:attention}card{}"
+                    "{C:dark_edition}Polychrome{} edition to",
+                    "a random {C:attention}Joker{} or {C:attention}card{}",
                 },
+            },
+            j_sdm_carcinization = {
+                name = "Carcinization",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "turn Joker to the right",
+                    "into {C:attention}Carcinization{},",
+                    "{C:mult}+#1#{} Mult per {C:attention}Carcinization{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                }
+            },
+            j_sdm_foresight = {
+                name = "Foresight",
+                text = {
+                    "Scry the next {C:attention}#1#{} cards",
+                }
+            },
+            j_sdm_wormhole = {
+                name = "Wormhole",
+                text = {
+                    "Creates a copy of",
+                    "a used {C:planet}Planet{} card,",
+                    "once per {C:attention}round{}",
+                    "{s:0.8,C:inactive}(Must have room)",
+                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
+                }
+            },
+            j_sdm_jimbo_coin = {
+                name = "Jimbo Coin",
+                text = {
+                    "At end of round, gains between",
+                    "{C:money}$#1#{} and {C:money}$#2#{} of {C:attention}sell value{},",
+                    "{C:green}#3# in #4#{} to permanently set",
+                    "this card sell value to {C:red}$0{}",
+                }
             },
             j_sdm_archibald = {
                 name = "Archibald",
@@ -355,8 +383,18 @@ return {
                 name = "SDM_0",
                 text = {
                     "This Joker gains {C:dark_edition}+#1#{} Joker",
-                    "Slots per destroyed {C:attention}2{}s",
-                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #3#)"
+                    "Slot for every {C:attention}#3#{} {C:inactive}(#4#){}",
+                    "played unscored {C:attention}2{}s",
+                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #5#)"
+                }
+            },
+            j_sdm_trance_the_devil = {
+                name = "Trance The Devil",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "this Joker {C:attention}destroys{} each",
+                    "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
+                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)" 
                 }
             },
         },
@@ -365,7 +403,7 @@ return {
                 name = "SDM_0's Deck",
                 text = {
                     "Start run with",
-                    "{C:attention}#1#{} random {C:eternal}Eternal non-{C:legendary}legendary",
+                    "{C:attention}#1#{} random {C:eternal}Eternal{} non-{C:legendary}legendary",
                     "{C:attention}SDM_0's Stuff{} jokers",
                 },
             },
@@ -437,8 +475,9 @@ return {
             c_sdm_sphinx = {
                 name = "The Sphinx",
                 text = {
-                    "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
-                    "or {C:dark_edition}Polychrome{} edition to",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition to",
                     "a random {C:attention}card{} in hand"
                 }
             }
@@ -455,8 +494,15 @@ return {
             c_sdm_morph = {
                 name = "Morph",
                 text = {
-                    "Swap {C:attention}#1#{} #2#",
-                    "with another one"
+                    "Shuffle {C:blue}hands{}",
+                    "and {C:red}discards{}"
+                }
+            },
+            c_sdm_essence = {
+                name = "Essence",
+                text = {
+                    "Increases or decreases",
+                    "each card value by {C:money}$#1#{}"
                 }
             }
         },
@@ -490,13 +536,6 @@ return {
                     "{C:attention}#1#{} rounds"
                 }
             },
-            resources = {
-                name = "Resources",
-                text = {
-                    "Hand, discard, dollar, handsize,",
-                    "joker slot, consumable slot"
-                }
-            }
         },
         Sleeve = {
             sleeve_sdm_0_s = {
@@ -603,6 +642,7 @@ return {
             k_shared_ex = "Shared!",
             k_stone = "Stone",
             k_plus_tag = "+1 Tag",
+            k_crab_ex = "Crab!"
         },
         v_dictionary = {
             a_hand = "+#1# Hand",

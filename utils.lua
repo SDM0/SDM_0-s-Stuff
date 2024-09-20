@@ -66,6 +66,34 @@ function ouija_check(card, context)
     end
 end
 
+--- Counts how many Carcinization there is
+function get_crab_count()
+    local crab_count = 0
+    if G.jokers and G.jokers.cards then
+        if #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].ability.name == "Carcinization" and not G.jokers.cards[i].debuff then
+                    crab_count = crab_count + 1
+                end
+            end
+        end
+    end
+    return crab_count
+end
+
+--- Get the rank and suit of a card
+function get_scry_info(card)
+    if card.ability.name == 'Stone Card' then return "Stone Card" end
+    local rank = card.base.value
+    local suit = card.base.suit
+    local new_suit = string.match(suit, "_(.*)")
+    if new_suit then
+        new_suit = string.upper(string.sub(new_suit, 1, 1)) .. string.sub(new_suit, 2)
+        return rank .. " of " .. new_suit
+    end
+    return rank .. " of " .. suit
+end
+
 -- Get n cards from SDM_0's Stuff
 function get_random_sdm_modded_card(prefix, n)
     if G.GAME then
