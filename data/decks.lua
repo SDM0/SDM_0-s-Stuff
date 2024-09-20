@@ -40,7 +40,7 @@ if sdm_config.sdm_consus then
         loc_vars = function(self)
             return {vars = {self.config.extra}}
         end,
-        apply = function(back)
+        apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
                     rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
@@ -67,7 +67,6 @@ SMODS.Back{
         return {vars = {self.config.joker_slot, self.config.extra_ante}}
     end,
     apply = function(self)
-        G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + self.config.joker_slot
         G.GAME.win_ante = G.GAME.win_ante + self.config.extra_ante
     end,
     atlas = "sdm_enhancers"
