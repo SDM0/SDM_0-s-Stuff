@@ -71,7 +71,6 @@ CardSleeves.Sleeve {
     end,
     unlocked = true,
     apply = function(self)
-        G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + self.config.joker_slot
         G.GAME.win_ante = G.GAME.win_ante + self.config.extra_ante
     end,
 }

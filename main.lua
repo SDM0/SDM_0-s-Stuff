@@ -16,6 +16,7 @@ SDM_0s_Stuff_Mod = SMODS.current_mod
 sdm_config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
+SDM_0s_Stuff_Mod.meme_jokers = {}
 SDM_0s_Stuff_Mod.space_jokers = {   --- Space jokers from this mod are in when loaded
     --- Vanilla ---
     j_supernova = "Supernova",
@@ -75,7 +76,10 @@ if sdm_config.sdm_jokers then
     SMODS.load_file("data/jokers.lua")()
     SMODS.load_file("data/challenges.lua")()
     if JokerDisplay then
-        SMODS.load_file("data/jokerdisplay_definitions.lua")()
+        SMODS.load_file("extra/jokerdisplay_definitions.lua")()
+    end
+    if Cryptid then
+        SMODS.load_file("extra/cryptid.lua")()
     end
 end
 
@@ -86,7 +90,7 @@ end
 if sdm_config.sdm_decks then
     SMODS.load_file("data/decks.lua")()
     if CardSleeves then
-        SMODS.load_file("data/cardsleeves.lua")()
+        SMODS.load_file("extra/card_sleeves.lua")()
     end
 end
 

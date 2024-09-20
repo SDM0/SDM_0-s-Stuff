@@ -162,24 +162,8 @@ jd_def["j_sdm_tip_jar"] = { -- Tip Jar
         card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
     end
 }
-jd_def["j_sdm_wandering_star"] = { -- Wandering Star
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "active" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
-    end
+jd_def["j_sdm_wandering_star"] = {} -- Wandering Star
 
-}
 jd_def["j_sdm_ouija_board"] = { -- Ouija Board
     reminder_text = {
         { text = "(" },
@@ -363,17 +347,7 @@ jd_def["j_sdm_contract"] = { -- Contract
         },
     },
 }
-jd_def["j_sdm_cupidon"] = { -- Cupidon
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability", ref_value = "extra" }
-            },
-            border_colour = G.C.FILTER
-        }
-    },
-}
+jd_def["j_sdm_cupidon"] = {} -- Cupidon
 jd_def["j_sdm_pizza"] = { -- Pizza
     reminder_text = {
         { text = "(+" },
@@ -472,6 +446,10 @@ jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
         card.joker_display_values.mult = mult
     end
 }
+
+-- TODO: When doing "Wormhole" joker display definition,
+-- just copy the ones from "Wandeing Star" from the main repo
+
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
         { text = "(" },
