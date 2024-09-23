@@ -13,7 +13,7 @@ SMODS.Consumable{
     set = 'Tarot',
     pos = {x = 0, y = 0},
     cost = 3,
-    config = {extra = 3},
+    config = {extra = 2},
     loc_vars = function(self, info_queue, card)
         return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra}}
     end,
