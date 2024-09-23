@@ -13,8 +13,7 @@ return {
                 name = "Bounciest Ball",
                 text = {
                     "This Joker gains {C:chips}+#2#{} Chips when",
-                    "scoring most played {C:attention}poker hand{},",
-                    "halved on {C:attention}different hand{}",
+                    "scoring most played {C:attention}poker hand{}",
                     "{C:inactive}(Currently {C:attention}#3#{C:inactive}, {C:chips}+#1#{C:inactive} Chips)"
                 }
             },
@@ -158,7 +157,7 @@ return {
                 name = "Ninja Joker",
                 text = {
                     "Creates a {C:dark_edition}Negative{C:attention} Tag{} if",
-                    "a playing card is {C:attention}destroyed{},",
+                    "a playing card is {C:attention}removed{},",
                     "becomes inactive until a",
                     "{C:attention}playing card{} is added",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
@@ -219,7 +218,7 @@ return {
                 name = "Pizza",
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "gain {C:blue}+#1#{} #3#",
+                    "gain {C:blue}+#1#{} hands",
                     "{C:blue}-#2#{} per round played"
                 }
             },
@@ -337,7 +336,7 @@ return {
                 name = "Carcinization",
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "turn Joker to the right",
+                    "turn Joker to the left",
                     "into {C:attention}Carcinization{},",
                     "{C:mult}+#1#{} Mult per {C:attention}Carcinization{}",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
@@ -382,9 +381,9 @@ return {
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {
-                    "This Joker gains {C:dark_edition}+#1#{} Joker",
+                    "This Joker adds {C:dark_edition}+#1#{} Joker",
                     "Slot for every {C:attention}#3#{} {C:inactive}(#4#){}",
-                    "played unscored {C:attention}2{}s",
+                    "held in hand {C:attention}2{}s per hand",
                     "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #5#)"
                 }
             },
@@ -394,7 +393,7 @@ return {
                     "When {C:attention}Blind{} is selected,",
                     "this Joker {C:attention}destroys{} each",
                     "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
-                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)" 
+                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)"
                 }
             },
         },
@@ -462,6 +461,13 @@ return {
                     "Earn no {C:attention}Interest{} at end of round"
                 }
             },
+            b_sdm_modded = {
+                name = "Modded Deck",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear"
+                }
+            },
             b_sdm_deck_of_stuff = {
                 name = "Deck of Stuff",
                 text = {
@@ -498,13 +504,6 @@ return {
                     "and {C:red}discards{}"
                 }
             },
-            c_sdm_essence = {
-                name = "Essence",
-                text = {
-                    "Increases or decreases",
-                    "each card value by {C:money}$#1#{}"
-                }
-            }
         },
         Other = {
             space_jokers = {
@@ -633,7 +632,22 @@ return {
                     "{C:money}$#1#{} per remaining {C:red}Discard",
                     "{s:0.8}Earn no {s:0.8,C:attention}Interest{s:0.8} at end of round"
                 }
-            }
+            },
+            sleeve_sdm_modded = {
+                name = "Modded Sleeve",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear"
+                }
+            },
+            sleeve_sdm_modded_alt = {
+                name = "Modded Sleeve",
+                text = {
+                    "{C:attention}Vanilla{} cards",
+                    "and Vouchers",
+                    "can't appear"
+                }
+            },
         },
     },
     misc = {
