@@ -62,6 +62,7 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_burger = "Burger"
+SDM_0s_Stuff_Mod.food_jokers.j_sdm_burger = "Burger"
 
 --- Bounciest Ball ---
 
@@ -73,7 +74,7 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 2, y = 0},
     cost = 5,
-    config = {extra = {chips = 0, chip_mod = 15}},
+    config = {extra = {chips = 0, chip_mod = 10}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, get_most_played_better_hand() or "High Card"}}
     end,
@@ -85,12 +86,6 @@ SMODS.Joker{
                     message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
                     card = card
-                }
-            elseif card.ability.extra.chips > 2 then
-                card.ability.extra.chips = math.floor(card.ability.extra.chips / 2)
-                return {
-                    message = localize('k_halved_ex'),
-                    colour = G.C.RED,
                 }
             end
         elseif context.joker_main and card.ability.extra.chips > 0 then
@@ -1046,7 +1041,7 @@ SMODS.Joker{
     cost = 5,
     config = {extra = {hands = 4, hand_mod = 1}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod, (card.ability.extra.hands > 1 and "hands") or "hand"}}
+        return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod}}
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
@@ -1094,6 +1089,7 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_pizza = "Pizza"
+SDM_0s_Stuff_Mod.food_jokers.j_sdm_pizza = "Pizza"
 
 --- Treasure Chest ---
 
@@ -1307,7 +1303,7 @@ SMODS.Joker{
     name = "Free Pass",
     rarity = 1,
     pos = {x = 3, y = 5},
-    cost = 5,
+    cost = 4,
     config = {extra = 1},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
@@ -1396,7 +1392,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 0},
     cost = 5,
-    config = {extra = 15},
+    config = {extra = 20},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand, 'poker_hands')}}
     end,
@@ -1609,7 +1605,7 @@ SMODS.Joker{
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
             end
-            if my_pos and G.jokers.cards[my_pos+1] and G.jokers.cards[my_pos+1].ability.name ~= "Carcinization" and not G.jokers.cards[my_pos+1].ability.eternal and not G.jokers.cards[my_pos+1].getting_sliced then
+            if my_pos and G.jokers.cards[my_pos-1] and G.jokers.cards[my_pos-1].ability.name ~= "Carcinization" and not G.jokers.cards[my_pos-1].ability.eternal and not G.jokers.cards[my_pos-1].getting_sliced then
                 local carcinized_card = G.jokers.cards[my_pos+1]
                 G.E_MANAGER:add_event(Event({func = function()
                     -- "set_ability" doesn't change the card's sell cost
@@ -1644,7 +1640,7 @@ SMODS.Joker{
     name = "Foresight",
     rarity = 1,
     pos = {x = 0, y = 0},
-    cost = 5,
+    cost = 4,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
         local text = ""
@@ -1846,7 +1842,7 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 1, y = 3},
     cost = 20,
-    config = {extra = {jkr_slots = 0, extra_slots = 1, cond = 0, cond_total = 6}},
+    config = {extra = {jkr_slots = 0, extra_slots = 1, cond = 0, cond_total = 12}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.extra_slots, card.ability.extra.jkr_slots, card.ability.extra.cond_total, card.ability.extra.cond, (card.ability.extra.jkr_slots > 1 and "Slots") or "Slot"}}
     end,
@@ -1861,30 +1857,20 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.joker_main and not context.blueprint and context.scoring_hand and context.full_hand then
-            local two_played = 0
-            local two_scored = 0
-            for i = 1, #context.full_hand do
-                if context.full_hand[i]:get_id() == 2 then
-                    two_played = two_played + 1
-                end
+        if context.cardarea == G.hand and context.individual and not (context.end_of_round or context.blueprint) and context.other_card then
+            if context.other_card:get_id() == 2 and not context.other_card.debuff then
+                card.ability.extra.cond = card.ability.extra.cond + 1
             end
-            for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() == 2 then
-                    two_scored = two_scored + 1
-                end
-            end
-            if two_played - two_scored > 0 then
-                card.ability.extra.cond = card.ability.extra.cond + (two_played - two_scored)
-            end
-            if card.ability.extra.cond >= card.ability.extra.cond_total then
-                card.ability.extra.cond = 0
+        end
+        if context.joker_main and card.ability.extra.cond >= card.ability.extra.cond_total then
+            while card.ability.extra.cond >= card.ability.extra.cond_total do
                 card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
                 G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = localize('k_upgrade_ex'),
                     colour = G.C.DARK_EDITION,
                 })
+                card.ability.extra.cond = card.ability.extra.cond - card.ability.extra.cond_total
             end
         end
     end,
