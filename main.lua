@@ -16,8 +16,9 @@ SDM_0s_Stuff_Mod = SMODS.current_mod
 sdm_config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
+SDM_0s_Stuff_Mod.food_jokers = {}
 SDM_0s_Stuff_Mod.meme_jokers = {}
-SDM_0s_Stuff_Mod.space_jokers = {   --- Space jokers from this mod are in when loaded
+SDM_0s_Stuff_Mod.space_jokers = {
     --- Vanilla ---
     j_supernova = "Supernova",
     j_space = "Space Joker",
