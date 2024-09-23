@@ -166,6 +166,14 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
+--- Modded Deck
+
+SMODS.Back{
+    key = "modded",
+    pos = {x = 0, y = 2},
+    atlas = "sdm_enhancers"
+}
+
 --- Deck Of Stuff
 
 SMODS.Back{
@@ -230,6 +238,7 @@ SMODS.Back{
             end
         end
     end,
+    -- "Modded Deck" effect in lovely.toml
     atlas = "sdm_enhancers"
 }
 

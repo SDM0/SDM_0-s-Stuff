@@ -239,3 +239,20 @@ CardSleeves.Sleeve {
         end
     end,
 }
+
+--- Modded Sleeve
+
+CardSleeves.Sleeve {
+    key = "modded",
+    atlas = "sdm_sleeves",
+    pos = { x = 2, y = 1 },
+    unlocked = true,
+    loc_vars = function(self)
+        local key
+        if self.get_current_deck_name() == "b_sdm_modded" then
+            key = self.key .. "_alt"
+            return {key = key, vars = {}}
+        end
+        return {vars = {self.config.extra_discard_bonus}}
+    end,
+}
