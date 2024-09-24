@@ -240,19 +240,30 @@ CardSleeves.Sleeve {
     end,
 }
 
---- Modded Sleeve
+--- Modder's Sleeve
 
 CardSleeves.Sleeve {
-    key = "modded",
+    key = "modders",
     atlas = "sdm_sleeves",
     pos = { x = 2, y = 1 },
     unlocked = true,
     loc_vars = function(self)
         local key
-        if self.get_current_deck_name() == "b_sdm_modded" then
+        if self.get_current_deck_name() == "b_sdm_modders" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
             return {key = key, vars = {}}
         end
         return {vars = {self.config.extra_discard_bonus}}
+    end,
+    apply = function(self)
+        -- Vanilla pool changes applied in "lovely.toml"
+        if Cryptid and self.get_current_deck_name() == "cry-Equilibrium" or self.get_current_deck_name() == "cry-Antimatter" then
+            G.GAME.no_doe = G.GAME.no_doe or {}
+            for k, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+                if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
+                    v.no_doe = true
+                end
+            end
+        end
     end,
 }

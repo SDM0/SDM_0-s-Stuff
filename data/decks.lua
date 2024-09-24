@@ -166,31 +166,18 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
---- Modded Deck
+--- Modder's Deck
 
 SMODS.Back{
-    key = "modded",
+    key = "modders",
     pos = {x = 0, y = 2},
     apply = function ()
-        sendDebugMessage("DECK APPLY EFFECT")
-        local disable_cryptid = true
-        local disable_joker = true
-
-        disable_cryptid = true -- temp
-        disable_joker = true
-
-        if disable_cryptid then
-            sendDebugMessage("Disabling Cryptid effect")
-        else
-            sendDebugMessage("Not disabling Cryptid effect")
-        end
-
-        if disable_cryptid then
+        -- Vanilla pool changes applied in "lovely.toml"
+        if Cryptid then
             G.GAME.no_doe = G.GAME.no_doe or {}
             for k, v in pairs(G.P_CENTER_POOLS["Joker"]) do
-                sendDebugMessage(inspect(v))
-                if disable_joker and not v.mod then
-                    G.GAME.no_doe[k] = true
+                if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
+                    v.no_doe = true
                 end
             end
         end
@@ -262,7 +249,6 @@ SMODS.Back{
             end
         end
     end,
-    -- "Modded Deck" effect in lovely.toml
     atlas = "sdm_enhancers"
 }
 

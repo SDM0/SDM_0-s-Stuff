@@ -461,8 +461,8 @@ return {
                     "Earn no {C:attention}Interest{} at end of round"
                 }
             },
-            b_sdm_modded = {
-                name = "Modded Deck",
+            b_sdm_modders = {
+                name = "Modder's Deck",
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
                     "can't appear"
@@ -633,15 +633,15 @@ return {
                     "{s:0.8}Earn no {s:0.8,C:attention}Interest{s:0.8} at end of round"
                 }
             },
-            sleeve_sdm_modded = {
-                name = "Modded Sleeve",
+            sleeve_sdm_modders = {
+                name = "Modder's Sleeve",
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
                     "can't appear"
                 }
             },
-            sleeve_sdm_modded_alt = {
-                name = "Modded Sleeve",
+            sleeve_sdm_modders_alt = {
+                name = "Modder's Sleeve",
                 text = {
                     "{C:attention}Vanilla{} cards",
                     "and Vouchers",
