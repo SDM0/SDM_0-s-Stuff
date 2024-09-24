@@ -171,6 +171,30 @@ SMODS.Back{
 SMODS.Back{
     key = "modded",
     pos = {x = 0, y = 2},
+    apply = function ()
+        sendDebugMessage("DECK APPLY EFFECT")
+        local disable_cryptid = true
+        local disable_joker = true
+
+        disable_cryptid = true -- temp
+        disable_joker = true
+
+        if disable_cryptid then
+            sendDebugMessage("Disabling Cryptid effect")
+        else
+            sendDebugMessage("Not disabling Cryptid effect")
+        end
+
+        if disable_cryptid then
+            G.GAME.no_doe = G.GAME.no_doe or {}
+            for k, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+                sendDebugMessage(inspect(v))
+                if disable_joker and not v.mod then
+                    G.GAME.no_doe[k] = true
+                end
+            end
+        end
+    end,
     atlas = "sdm_enhancers"
 }
 
