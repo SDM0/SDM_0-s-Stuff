@@ -258,8 +258,7 @@ CardSleeves.Sleeve {
     apply = function(self)
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid and self.get_current_deck_name() == "cry-Equilibrium" or self.get_current_deck_name() == "cry-Antimatter" then
-            G.GAME.no_doe = G.GAME.no_doe or {}
-            for k, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
                 if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
                     v.no_doe = true
                 end

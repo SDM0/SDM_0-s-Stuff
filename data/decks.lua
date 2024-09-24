@@ -171,11 +171,10 @@ SMODS.Back{
 SMODS.Back{
     key = "modders",
     pos = {x = 0, y = 2},
-    apply = function ()
+    apply = function()
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid then
-            G.GAME.no_doe = G.GAME.no_doe or {}
-            for k, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
                 if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
                     v.no_doe = true
                 end
