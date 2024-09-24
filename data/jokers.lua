@@ -556,6 +556,7 @@ SMODS.Joker{
     remove_from_deck = function(self, card, from_debuff)
         G.hand:change_size(-card.ability.extra.h_size)
     end,
+    -- "Others cards can't be sold" effect in "lovely.toml"
     atlas = "sdm_jokers"
 }
 
