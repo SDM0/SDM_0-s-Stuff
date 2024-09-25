@@ -7,7 +7,7 @@ SMODS.Atlas{
 
 --- SDM_0's Sleeve
 
-if sdm_config.sdm_jokers then
+if SDM_0s_Stuff_Config.sdm_jokers then
     CardSleeves.Sleeve {
         key = "sdm_0_s",
         atlas = "sdm_sleeves",
@@ -20,7 +20,7 @@ if sdm_config.sdm_jokers then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
+                    local rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
                     for i = 1, #rand_jokers do
                         add_joker2(rand_jokers[i], nil, true, true)
                     end
@@ -33,7 +33,7 @@ end
 
 --- Bazaar Sleeve
 
-if sdm_config.sdm_consus then
+if SDM_0s_Stuff_Config.sdm_consus then
     CardSleeves.Sleeve {
         key = "bazaar",
         atlas = "sdm_sleeves",
@@ -46,7 +46,7 @@ if sdm_config.sdm_consus then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
+                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                     for i = 1, #rand_cons do
                         local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                         card:add_to_deck()
@@ -77,7 +77,7 @@ CardSleeves.Sleeve {
 
 --- Lucky 7 Sleeve
 
-if sdm_config.sdm_jokers then
+if SDM_0s_Stuff_Config.sdm_jokers then
     CardSleeves.Sleeve {
         key = "lucky_7",
         atlas = "sdm_sleeves",

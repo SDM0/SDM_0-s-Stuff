@@ -26,9 +26,9 @@ end
 
 --- Get the most and best played poker hand
 function get_most_played_better_hand()
-    hand = "High Card"
-    played_more_than = 0
-    order = 999
+    local hand = "High Card"
+    local played_more_than = 0
+    local order = 999
     if G.GAME.hands then
         for k, v in pairs(G.GAME.hands) do
             if (v.played > played_more_than) or (v.played == played_more_than and v.played > 0 and v.order < order) and v.visible then
@@ -114,8 +114,8 @@ function get_random_sdm_modded_card(prefix, n)
 
         if modded_elem and #modded_elem >= n then
             while n > 0 do
-                r_num = pseudorandom("deck_create", 1, #modded_elem)
-                r_elem = modded_elem[r_num]
+                local r_num = pseudorandom("deck_create", 1, #modded_elem)
+                local r_elem = modded_elem[r_num]
                 table.insert(random_elem, r_elem)
                 table.remove(modded_elem, r_num)
                 n = n - 1

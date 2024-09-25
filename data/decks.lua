@@ -7,7 +7,7 @@ SMODS.Atlas{
 
 --- SDM_0's Deck
 
-if sdm_config.sdm_jokers then
+if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.Back{
         key = "sdm_0_s",
         pos = {x = 0, y = 0},
@@ -18,7 +18,7 @@ if sdm_config.sdm_jokers then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
+                    local rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
                     for i = 1, #rand_jokers do
                         add_joker2(rand_jokers[i], nil, true, true)
                     end
@@ -32,7 +32,7 @@ end
 
 --- Bazaar Deck
 
-if sdm_config.sdm_consus then
+if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.Back{
         key = "bazaar",
         pos = {x = 1, y = 0},
@@ -43,7 +43,7 @@ if sdm_config.sdm_consus then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
+                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                     for i = 1, #rand_cons do
                         local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                         card:add_to_deck()
@@ -74,7 +74,7 @@ SMODS.Back{
 
 --- Lucky 7 Deck
 
-if sdm_config.sdm_jokers then
+if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.Back{
         key = "lucky_7",
         pos = {x = 3, y = 0},
@@ -170,7 +170,7 @@ SMODS.Back{
 
 SMODS.Back{
     key = "modders",
-    pos = {x = 0, y = 2},
+    pos = {x = 1, y = 2},
     apply = function()
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid then
@@ -203,20 +203,20 @@ SMODS.Back{
         G.GAME.modifiers.no_extra_hand_money = true
         G.E_MANAGER:add_event(Event({
             func = function()
-                if sdm_config.sdm_jokers then
+                if SDM_0s_Stuff_Config.sdm_jokers then
                     for i = #G.playing_cards, 1, -1 do
                         if G.playing_cards[i].base.id == 7 then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
                     add_joker2("j_sdm_lucky_joker", nil, true, true)
-                    rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
+                    local rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
                     for i = 1, #rand_jokers do
                         add_joker2(rand_jokers[i], nil, true, true)
                     end
                 end
-                if sdm_config.sdm_consus then
-                    rand_cons = get_random_sdm_modded_card("c_", 2)
+                if SDM_0s_Stuff_Config.sdm_consus then
+                    local rand_cons = get_random_sdm_modded_card("c_", 2)
                     for i = 1, #rand_cons do
                         local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                         card:add_to_deck()

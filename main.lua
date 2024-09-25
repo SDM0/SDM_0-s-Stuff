@@ -13,7 +13,7 @@
 ------------MOD CODE -------------------------
 
 SDM_0s_Stuff_Mod = SMODS.current_mod
-sdm_config = SDM_0s_Stuff_Mod.config
+SDM_0s_Stuff_Config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
 SDM_0s_Stuff_Mod.food_jokers = {}
@@ -28,6 +28,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_astronomer = "Astronomer",
 
     --- Modded ---
+    --- SDM_0's Stuff space jokers loaded in during their creation
     j_moon = "Moon Rabbit",
     j_big_bang = "Big Bang",
     j_dsix_planet_die = "Planet Die",
@@ -73,7 +74,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
 
 SMODS.load_file("utils.lua")()
 
-if sdm_config.sdm_jokers then
+if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.load_file("data/jokers.lua")()
     SMODS.load_file("data/challenges.lua")()
     if JokerDisplay then
@@ -84,11 +85,11 @@ if sdm_config.sdm_jokers then
     end
 end
 
-if sdm_config.sdm_consus then
+if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
 end
 
-if sdm_config.sdm_decks then
+if SDM_0s_Stuff_Config.sdm_decks then
     SMODS.load_file("data/decks.lua")()
     if CardSleeves then
         SMODS.load_file("extra/card_sleeves.lua")()
@@ -108,7 +109,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = sdm_config, ref_value = "sdm_jokers" },
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_jokers" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Jokers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
@@ -117,7 +118,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = sdm_config, ref_value = "sdm_consus" },
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_consus" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Consumables", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
@@ -126,7 +127,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = sdm_config, ref_value = "sdm_decks" },
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_decks" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Decks", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
@@ -135,7 +136,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = sdm_config, ref_value = "limit_moon_base" },
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "limit_moon_base" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Limit Moon Base", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
