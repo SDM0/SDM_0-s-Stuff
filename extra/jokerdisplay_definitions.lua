@@ -2,16 +2,6 @@
 
 local jd_def = JokerDisplay.Definitions
 
-jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability.extra", ref_value = "Xmult" }
-            }
-        }
-    }
-}
 jd_def["j_sdm_burger"] = { -- Burger
     text = {
         { text = "+",                       colour = G.C.CHIPS },
@@ -412,11 +402,12 @@ jd_def["j_sdm_free_pass"] = { -- Free Pass
         { ref_table = "card.joker_display_values", ref_value = "extra", colour = G.C.FILTER},
     },
     calc_function = function(card)
-        local is_free_pass_act = #G.hand.highlighted == 1
-        card.joker_display_values.active = G.GAME and G.GAME.current_round.discards_used == 0 and
-            G.GAME.current_round.discards_left > 0
+        local valid_pass = G.GAME and G.GAME.current_round.discards_used == 0 and
+        G.GAME.current_round.discards_left > 0 and G.GAME.current_round.hands_played == 0 and
+        G.GAME.current_round.hands_left > 0
+        card.joker_display_values.active = valid_pass
         card.joker_display_values.extra = card.joker_display_values.active and
-            ("+" .. (is_free_pass_act and card.ability.extra and JokerDisplay.number_format(card.ability.extra) or 0)) or
+            ("+" .. (valid_pass and card.ability.extra and JokerDisplay.number_format(card.ability.extra) or 0)) or
             "-"
     end,
     style_function = function(card, text, reminder_text, extra)
@@ -473,4 +464,14 @@ jd_def["j_sdm_0"] = { -- SDM_0
         { ref_table = "card.ability.extra", ref_value = "jkr_slots", colour = G.C.DARK_EDITION },
         { text = ")" },
     },
+}
+jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "Xmult" }
+            }
+        }
+    }
 }

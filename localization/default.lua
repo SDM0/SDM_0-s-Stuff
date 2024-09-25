@@ -274,10 +274,8 @@ return {
             j_sdm_free_pass = {
                 name = "Free Pass",
                 text = {
-                    "If {C:attention}first hand{} or {C:attention}discard{}",
-                    "of round has only {C:attention}1{} card,",
-                    "gain {C:attention}+#1#{} {C:blue}hand{} or {C:red}discard{}",
-                    "respectively",
+                    "First {C:blue}hand{} or {C:red}discard{}",
+                    "of round is {C:attention}free{}",
                 }
             },
             j_sdm_legionary_joker = {

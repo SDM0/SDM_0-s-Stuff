@@ -226,7 +226,7 @@ SMODS.Joker{
                     local space = {}
                     for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
                         if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil then
-                            if not sdm_config.limit_moon_base or (sdm_config.limit_moon_base and type(G.P_CENTERS[k].rarity) ~= "string" and G.P_CENTERS[k].rarity < 4) then
+                            if not SDM_0s_Stuff_Config.limit_moon_base or (SDM_0s_Stuff_Config.limit_moon_base and type(G.P_CENTERS[k].rarity) ~= "string" and G.P_CENTERS[k].rarity < 4) then
                                 table.insert(space, k)
                             end
                         end
@@ -261,7 +261,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.min, card.ability.extra.max}}
     end,
     calc_dollar_bonus = function(self, card)
-        rand_dollar = pseudorandom(pseudoseed('shareholder'), card.ability.extra.min, card.ability.extra.max)
+        local rand_dollar = pseudorandom(pseudoseed('shareholder'), card.ability.extra.min, card.ability.extra.max)
         return rand_dollar
     end,
     atlas = "sdm_jokers"
@@ -284,11 +284,11 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_hand then
-            cards_id = {}
+            local cards_id = {}
             for i = 1, #context.scoring_hand do
                 table.insert(cards_id, context.scoring_hand[i]:get_id())
             end
-            max_card = count_max_occurence(cards_id) or 0
+            local max_card = count_max_occurence(cards_id) or 0
             if G.GAME.current_round.hands_left + 1 == max_card then
                 return {
                     message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
@@ -439,7 +439,7 @@ SMODS.Joker{
             if context.before and context.scoring_name then
                 card.ability.hand = context.scoring_name
             elseif context.after and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
-                no_faces = true
+                local no_faces = true
                 for i = 1, #context.full_hand do
                     if context.full_hand[i]:is_face() then
                         no_faces = false
@@ -657,7 +657,7 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.joker_main then
-            no_faces_and_ace = true
+            local no_faces_and_ace = true
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:is_face() or context.scoring_hand[i]:get_id() == 14 then
                     no_faces_and_ace = false
@@ -861,7 +861,7 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.sdm_adding_card and not context.blueprint then
             if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
-                do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
+                local do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
                 if do_dupe == 1 then
                     if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
                         G.GAME.joker_buffer = G.GAME.joker_buffer + 1
@@ -1304,7 +1304,7 @@ SMODS.Joker{
     name = "Free Pass",
     rarity = 1,
     pos = {x = 3, y = 5},
-    cost = 4,
+    cost = 5,
     config = {extra = 1},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
@@ -1314,8 +1314,7 @@ SMODS.Joker{
             local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 end
             juice_card_until(card, eval, true)
         end
-        if context.cardarea == G.jokers and context.before and (context.full_hand and #context.full_hand == 1)
-        and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
+        if context.cardarea == G.jokers and context.before and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     ease_hands_played(card.ability.extra)
@@ -1327,8 +1326,7 @@ SMODS.Joker{
                     return true
                 end}))
             return
-        elseif context.discard and (context.full_hand and #context.full_hand == 1)
-        and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
+        elseif context.discard and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     ease_discard(card.ability.extra)
