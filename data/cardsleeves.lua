@@ -20,7 +20,7 @@ if sdm_config.sdm_jokers then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
+                    local rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
                     for i = 1, #rand_jokers do
                         add_joker2(rand_jokers[i], nil, true, true)
                     end
@@ -46,7 +46,7 @@ if sdm_config.sdm_consus then
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
+                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
                     for i = 1, #rand_cons do
                         local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
                         card:add_to_deck()
@@ -71,7 +71,6 @@ CardSleeves.Sleeve {
     end,
     unlocked = true,
     apply = function(self)
-        G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + self.config.joker_slot
         G.GAME.win_ante = G.GAME.win_ante + self.config.extra_ante
     end,
 }
@@ -85,7 +84,7 @@ if sdm_config.sdm_jokers then
         pos = { x = 3, y = 0 },
         unlocked = true,
         loc_vars = function(self)
-            if self.get_current_deck_name() == "b_sdm_lucky_7" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
+            if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
                 return {key = self.key .. '_alt', vars = {}}
             end
         end,
@@ -97,7 +96,7 @@ if sdm_config.sdm_jokers then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    if self.get_current_deck_name() ~= "b_sdm_lucky_7" and self.get_current_deck_name() ~= "b_sdm_deck_of_stuff" then
+                    if self.get_current_deck_key() ~= "b_sdm_lucky_7" and self.get_current_deck_key() ~= "b_sdm_deck_of_stuff" then
                         add_joker("j_sdm_lucky_joker", nil, true, true)
                     else
                         if G.jokers.cards and #G.jokers.cards > 0 then
@@ -154,11 +153,11 @@ CardSleeves.Sleeve {
     loc_vars = function(self)
         local key
         local vars = {}
-        if self.get_current_deck_name() == "Ghost Deck" then
+        if self.get_current_deck_key() == "b_ghost" then
             key = self.key .. "_ghost"
             self.config = { spectral_rate = 4, consumables = { 'c_ankh' } }
             vars[#vars+1] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Tarot'}
-        elseif self.get_current_deck_name() == "b_sdm_hieroglyph" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
+        elseif self.get_current_deck_key() == "b_sdm_hieroglyph" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
             self.config = { spectral_rate = 4, spectral_more_options = 2 }
             vars[#vars+1] = self.config.spectral_more_options
@@ -170,12 +169,9 @@ CardSleeves.Sleeve {
         return { key = key, vars = vars }
     end,
     trigger_effect = function(self, args)
-        if args.context.create_card and args.context.card then
-            local card = args.context.card
-            local is_spectral_pack = card.ability.set == "Booster" and card.ability.name:find("Spectral")
-            if is_spectral_pack and self.config.spectral_more_options then
-               card.ability.extra = card.ability.extra + self.config.spectral_more_options
-            end
+        local is_spectral_pack = args.context["card"] and args.context.card.ability.set == "Booster" and args.context.card.ability.name:find("Spectral")
+        if args.context["create_booster"] and is_spectral_pack and self.config.spectral_more_options then
+            args.context.card.ability.extra = args.context.card.ability.extra + self.config.spectral_more_options
         end
     end,
 }
@@ -203,7 +199,7 @@ CardSleeves.Sleeve {
                     local s, r = k:match("^(.*)_(.-)$")
                     if not (G.GAME.starting_params.no_faces and (r == 'K' or r == 'Q' or r == 'J')) then
                         extra_cards[#extra_cards + 1] = {s = s, r = r}
-                        if self.get_current_deck_name() == "b_sdm_xxl" or self.get_current_deck_name() == "b_sdm_deck_of_stuff" then
+                        if self.get_current_deck_key() == "b_sdm_xxl" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
                             extra_cards[#extra_cards + 1] = {s = s, r = r}
                         end
                     end
@@ -230,7 +226,7 @@ CardSleeves.Sleeve {
     unlocked = true,
     loc_vars = function(self)
         local key
-        if self.get_current_deck_name() == "Green Deck" then
+        if self.get_current_deck_key() == "b_green" then
             key = self.key .. "_alt"
             self.config = {extra_discard_bonus = 2, no_interest = true}
             return {key = key, vars = {self.config.extra_discard_bonus}}
@@ -238,7 +234,7 @@ CardSleeves.Sleeve {
         return {vars = {self.config.extra_discard_bonus}}
     end,
     apply = function(self)
-        if self.get_current_deck_name() ~= "Green Deck" then
+        if self.get_current_deck_key() ~= "b_green" then
             G.GAME.modifiers.no_extra_hand_money = true
         end
     end,
