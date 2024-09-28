@@ -83,7 +83,7 @@ end
 if SMODS.Mods.CardSleeves then
     local cs_version = SMODS.Mods.CardSleeves.version:gsub("%.", "")
     if tonumber(cs_version) >= 141 then
-        SMODS.load_file("data/card_sleeves.lua")()
+        SMODS.load_file("data/cardsleeves.lua")()
     else
         sendWarnMessage('Your version of CardSleeves is deprecated. Update the mod to play with this mod card sleeves')
     end
