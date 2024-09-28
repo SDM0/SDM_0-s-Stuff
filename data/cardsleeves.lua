@@ -235,6 +235,8 @@ CardSleeves.Sleeve {
         return {vars = {self.config.extra_discard_bonus}}
     end,
     apply = function(self)
+        G.GAME.modifiers.no_interest = true
+        G.GAME.modifiers.money_per_discard = self.config.extra_discard_bonus
         if self.get_current_deck_key() ~= "b_green" then
             G.GAME.modifiers.no_extra_hand_money = true
         end
