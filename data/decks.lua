@@ -69,7 +69,6 @@ if sdm_config.sdm_decks then
             return {vars = {self.config.joker_slot, self.config.extra_ante}}
         end,
         apply = function(self)
-            G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + self.config.joker_slot
             G.GAME.win_ante = G.GAME.win_ante + self.config.extra_ante
         end,
         atlas = "sdm_enhancers"
