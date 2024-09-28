@@ -8,6 +8,7 @@
 --- PREFIX: sdm
 --- VERSION: 1.6.4g
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
+--- CONFLICTS: [CardSleeves<=1.4.0]
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -80,13 +81,8 @@ if JokerDisplay and sdm_config.sdm_jokers then
     SMODS.load_file("data/jokerdisplay_definitions.lua")()
 end
 
-if SMODS.Mods.CardSleeves then
-    local cs_version = SMODS.Mods.CardSleeves.version:gsub("%.", "")
-    if tonumber(cs_version) >= 141 then
-        SMODS.load_file("data/cardsleeves.lua")()
-    else
-        sendWarnMessage('Your version of CardSleeves is deprecated. Update the mod to play with this mod card sleeves')
-    end
+if CardSleeves then
+    SMODS.load_file("data/cardsleeves.lua")()
 end
 
 SMODS.Atlas{
