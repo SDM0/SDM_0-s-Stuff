@@ -173,7 +173,10 @@ SMODS.Back{
     pos = {x = 1, y = 2},
     apply = function()
         -- Vanilla pool changes applied in "lovely.toml"
-        if Cryptid then
+        if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
+        or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
+        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
+        or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_antimatter_sleeve")) then
             for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
                 if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
                     v.no_doe = true

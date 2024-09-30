@@ -8,6 +8,7 @@
 --- PREFIX: sdm
 --- VERSION: 1.6.4e
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
+--- CONFLICTS: [CardSleeves<=1.4.0]
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
