@@ -1326,7 +1326,7 @@ SMODS.Joker{
                     return true
                 end}))
             return
-        elseif context.discard and context.full_hand and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
+        elseif context.pre_discard and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     ease_discard(card.ability.extra)
