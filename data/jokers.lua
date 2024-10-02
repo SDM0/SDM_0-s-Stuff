@@ -1719,56 +1719,29 @@ SMODS.Joker{
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_wormhole = "Wormhole"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_wormhole = "Wormhole"
 
---- Jimbo Coin ---
+--- Mimic Coin ---
 
 SMODS.Joker{
-    key = "jimbo_coin",
-    name = "Jimbo Coin",
+    key = "mimic_coin",
+    name = "Mimic Coin",
     rarity = 1,
     pos = {x = 0, y = 0},
-    cost = 4,
-    config = {extra = {min = 1, max = 5, odds = 4, fail = false}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.min, card.ability.extra.max, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
-    end,
-    calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) and not card.ability.extra.fail then
-            if pseudorandom(pseudoseed('jcoin')) < G.GAME.probabilities.normal/card.ability.extra.odds then
-                card.ability.extra.fail = true
-                G.E_MANAGER:add_event(Event({
-                    blockable = false,
-                    func = (function()
-                        card:juice_up(0.6, 0.1)
-                        play_sound('glass'..math.random(1, 6), math.random()*0.2 + 0.9,0.5)
-                        play_sound('generic1', math.random()*0.2 + 0.9,0.5)
-                    return true end)
-                }))
-                return {
-                    message = "$0",
-                    colour = G.C.RED
-                }
-            end
-            if card.set_cost then
-                local rand_value = pseudorandom(pseudoseed("jcoin"), card.ability.extra.min, card.ability.extra.max)
-                card.ability.extra_value = card.ability.extra_value + rand_value
-                card:set_cost()
-                return {
-                    message = "+$" .. rand_value,
-                    colour = G.C.MONEY
-                }
-            end
-        end
-    end,
+    cost = 1,
     update = function(self, card, dt)
-        if card.set_cost and card.ability.extra.fail then
-            card.ability.extra_value = 0 - math.max(1, math.floor(self.cost/2))
-            card:set_cost()
+        local sell_value = 0
+        if G.jokers and G.jokers.cards then
+            for k, v in pairs(G.jokers.cards) do
+                if v ~= card and (G.jokers.cards[i].area and G.jokers.cards[i].area == G.jokers) then
+                    sell_value = sell_value + G.jokers.cards[i].sell_cost
+                end
+            end
         end
+        card.sell_cost = sell_value
     end,
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_jimbo_coin = "Jimbo Coin"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_mimic_coin = "Mimic Coin"
 
 --- Archibald ---
 

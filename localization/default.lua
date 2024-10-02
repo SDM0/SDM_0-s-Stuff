@@ -356,8 +356,8 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
                 }
             },
-            j_sdm_jimbo_coin = {
-                name = "Jimbo Coin",
+            j_sdm_mimic_coin = {
+                name = "Mimic Coin",
                 text = {
                     "At end of round, gains between",
                     "{C:money}$#1#{} and {C:money}$#2#{} of {C:attention}sell value{},",
