@@ -359,10 +359,10 @@ return {
             j_sdm_mimic_coin = {
                 name = "Mimic Coin",
                 text = {
-                    "At end of round, gains between",
-                    "{C:money}$#1#{} and {C:money}$#2#{} of {C:attention}sell value{},",
-                    "{C:green}#3# in #4#{} to permanently set",
-                    "this card sell value to {C:red}$0{}",
+                    "Adds the sell value",
+                    "of all other owned",
+                    "{C:attention}Jokers{} to sell value",
+                    -- TODO: Correct it
                 }
             },
             j_sdm_archibald = {
