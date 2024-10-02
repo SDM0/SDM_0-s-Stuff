@@ -1492,11 +1492,18 @@ SMODS.Joker{
     cost = 6,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and G.GAME.current_round.hands_left == 0 then
-            add_tag(pseudorandom_element(G.P_TAGS, pseudoseed('conso')))
-            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
-                message = localize('k_plus_tag'),
-                colour = G.C.FILTER,
-            })
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                add_tag(Tag(get_next_tag_key("conso_prize")))
+                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
+                    message = localize('k_plus_tag'),
+                    colour = G.C.FILTER,
+                })
+                return true
+            end)
+        }))
         end
     end,
     atlas = "sdm_jokers"
@@ -1604,8 +1611,8 @@ SMODS.Joker{
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
             end
-            if my_pos and G.jokers.cards[my_pos-1] and G.jokers.cards[my_pos-1].ability.name ~= "Carcinization" and not G.jokers.cards[my_pos-1].ability.eternal and not G.jokers.cards[my_pos-1].getting_sliced then
-                local carcinized_card = G.jokers.cards[my_pos+1]
+            if my_pos and G.jokers.cards[my_pos-1] and G.jokers.cards[my_pos-1].ability.name ~= "Carcinization" and not G.jokers.cards[my_pos-1].ability.eternal then
+                local carcinized_card = G.jokers.cards[my_pos-1]
                 G.E_MANAGER:add_event(Event({func = function()
                     -- "set_ability" doesn't change the card's sell cost
                     carcinized_card.sell_cost = math.max(1, math.floor(G.jokers.cards[my_pos].cost/2)) + (carcinized_card.ability.extra_value or 0)
@@ -1730,9 +1737,9 @@ SMODS.Joker{
     update = function(self, card, dt)
         local sell_value = 0
         if G.jokers and G.jokers.cards then
-            for k, v in pairs(G.jokers.cards) do
-                if v ~= card and (G.jokers.cards[i].area and G.jokers.cards[i].area == G.jokers) then
-                    sell_value = sell_value + G.jokers.cards[i].sell_cost
+            for _, v in pairs(G.jokers.cards) do
+                if v ~= card and (v.area and v.area == G.jokers) then
+                    sell_value = sell_value + v.sell_cost
                 end
             end
         end

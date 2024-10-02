@@ -343,7 +343,8 @@ return {
             j_sdm_foresight = {
                 name = "Foresight",
                 text = {
-                    "Scry the next {C:attention}#1#{} cards",
+                    "On hover, scry",
+                    "the next {C:attention}#1#{} cards",
                 }
             },
             j_sdm_wormhole = {
@@ -359,10 +360,9 @@ return {
             j_sdm_mimic_coin = {
                 name = "Mimic Coin",
                 text = {
-                    "Adds the sell value",
-                    "of all other owned",
-                    "{C:attention}Jokers{} to sell value",
-                    -- TODO: Correct it
+                    "This Joker has the",
+                    "combined {C:attention}sell value{}",
+                    "of all owned {C:attention}Jokers{}",
                 }
             },
             j_sdm_archibald = {
