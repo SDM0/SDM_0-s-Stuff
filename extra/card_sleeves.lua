@@ -223,18 +223,20 @@ CardSleeves.Sleeve {
     key = "hoarder",
     atlas = "sdm_sleeves",
     pos = { x = 2, y = 1 },
-    config = {extra_discard_bonus = 3, no_interest = true},
+    config = {extra_discard_bonus = 3},
     unlocked = true,
     loc_vars = function(self)
         local key
         if self.get_current_deck_key() == "b_green" then
             key = self.key .. "_alt"
-            self.config = {extra_discard_bonus = 2, no_interest = true}
+            self.config = {extra_discard_bonus = 2}
             return {key = key, vars = {self.config.extra_discard_bonus}}
         end
         return {vars = {self.config.extra_discard_bonus}}
     end,
     apply = function(self)
+        G.GAME.modifiers.no_interest = true
+        G.GAME.modifiers.money_per_discard = (G.GAME.modifiers.money_per_discard or 0) + self.config.extra_discard_bonus
         if self.get_current_deck_key() ~= "b_green" then
             G.GAME.modifiers.no_extra_hand_money = true
         end
