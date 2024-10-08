@@ -1733,7 +1733,7 @@ SMODS.Joker{
     name = "Mimic Coin",
     rarity = 1,
     pos = {x = 0, y = 0},
-    cost = 1,
+    cost = 4,
     update = function(self, card, dt)
         local sell_value = 0
         if G.jokers and G.jokers.cards then
@@ -1749,6 +1749,62 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_mimic_coin = "Mimic Coin"
+
+--- Delusional Joker ---
+
+SMODS.Joker{
+    key = "delusional_joker",
+    name = "Delusional Joker",
+    rarity = 1,
+    blueprint_compat = true,
+    pos = {x = 3, y = 6},
+    cost = 3,
+    config = {extra = 8},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and context.full_hand then
+            if context.scoring_name == 'High Card' and #context.full_hand == 5 then
+                return {
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra}},
+                    mult_mod = card.ability.extra
+                }
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_delusional_joker = "Delusional Joker"
+
+--- Psychotic Joker ---
+
+SMODS.Joker{
+    key = "psychotic_joker",
+    name = "Psychotic Joker",
+    rarity = 1,
+    blueprint_compat = true,
+    pos = {x = 4, y = 6},
+    cost = 3,
+    config = {extra = 50},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and context.full_hand then
+            if context.scoring_name == 'High Card' and #context.full_hand == 5 then
+                return {
+                    message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
+                    chip_mod = card.ability.extra
+                }
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_psychotic_joker = "Psychotic Joker"
 
 --- Archibald ---
 

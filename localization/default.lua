@@ -365,6 +365,20 @@ return {
                     "of all owned {C:attention}Jokers{}",
                 }
             },
+            j_sdm_delusional_joker = {
+                name = "Delusional Joker",
+                text = {
+                    "{C:mult}+#1#{} Mult if played hand",
+                    "is a {C:attention}5{} cards {C:attention}High Card",
+                }
+            },
+            j_sdm_psychotic_joker = {
+                name = "Psychotic Joker",
+                text = {
+                    "{C:chips}+#1#{} Chips if played hand",
+                    "is a {C:attention}5{} cards {C:attention}High Card",
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
