@@ -331,17 +331,20 @@ SMODS.Joker{
     key = "wandering_star",
     name = "Wandering Star",
     rarity = 1,
-    blueprint_compat = true,
     pos = {x = 0, y = 1},
     cost = 5,
+    config = {extra = 3},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+    end,
     calculate = function(self, card, context)
-        if context.setting_blind then
+        if context.reroll_shop and not context.blueprint and pseudorandom(pseudoseed('wdrstr')) < G.GAME.probabilities.normal/card.ability.extra then
             local level_up_hands = {}
             for k, v in pairs(G.GAME.hands) do
                 if v.visible then level_up_hands[#level_up_hands+1] = k end
             end
             local selected_hand = pseudorandom_element(level_up_hands, pseudoseed('wandering'))
-            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(selected_hand, 'poker_hands'),chips = G.GAME.hands[selected_hand].chips, mult = G.GAME.hands[selected_hand].mult, level=G.GAME.hands[selected_hand].level})
             level_up_hand(card, selected_hand, nil, 1)
             update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
@@ -1440,11 +1443,11 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_jack_a_dit = "Jack A Dit"
 
---- Medusa Joker ---
+--- Lithification ---
 
 SMODS.Joker{
-    key = "medusa_joker",
-    name = "Medusa Joker",
+    key = "lithification",
+    name = "Lithification",
     rarity = 2,
     pos = {x = 0, y = 0},
     cost = 7,
@@ -1479,7 +1482,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_medusa_joker = "Medusa Joker"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_lithification = "Lithification"
 
 --- Consolation Prize ---
 
@@ -1650,7 +1653,7 @@ SMODS.Joker{
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
         local text = ""
-        if card.area and card.area.config.type == 'joker' then
+        if not card.debuff and card.area and card.area.config.type == 'joker' then
             if G.deck and G.deck.cards and #G.deck.cards > 0 then
                 local nodes = {}
                 for i = 1, math.min(card.ability.extra, #G.deck.cards) do

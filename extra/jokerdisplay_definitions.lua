@@ -152,7 +152,21 @@ jd_def["j_sdm_tip_jar"] = { -- Tip Jar
         card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
     end
 }
-jd_def["j_sdm_wandering_star"] = {} -- Wandering Star
+jd_def["j_sdm_wandering_star"] = { -- Wandering Star (TODO?)
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
+    end
+}
 
 jd_def["j_sdm_ouija_board"] = { -- Ouija Board
     reminder_text = {

@@ -81,9 +81,8 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "upgrade the level of a",
-                    "{C:attention}random{} poker hand"
+                    "{C:green}#1# in #2#{} chance to level up a",
+                    "random {C:attention}poker hand{} on {C:green}reroll{}"
                 }
             },
             j_sdm_ouija_board = {
@@ -290,14 +289,14 @@ return {
                 name = "Jack A Dit",
                 text = {
                     "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
-                    "is a {C:attention}#2#{}",
-                    "and has a {C:attention}Jack{},",
-                    "poker hand changes",
-                    "at end of round"
+                    "is a {C:attention}#2#{} and",
+                    "has a {C:attention}Jack{}, poker",
+                    "hand changes at",
+                    "end of round"
                 },
             },
-            j_sdm_medusa_joker = {
-                name = "Medusa Joker",
+            j_sdm_lithification = {
+                name = "Lithification",
                 text = {
                     "All played {C:attention}4{}, {C:attention}3{} and {C:attention}2{}",
                     "become {C:attention}Stone{} cards",
@@ -369,14 +368,14 @@ return {
                 name = "Delusional Joker",
                 text = {
                     "{C:mult}+#1#{} Mult if played hand",
-                    "is a {C:attention}5{} cards {C:attention}High Card",
+                    "is a 5 cards {C:attention}High Card",
                 }
             },
             j_sdm_psychotic_joker = {
                 name = "Psychotic Joker",
                 text = {
                     "{C:chips}+#1#{} Chips if played hand",
-                    "is a {C:attention}5{} cards {C:attention}High Card",
+                    "is a 5 cards {C:attention}High Card",
                 }
             },
             j_sdm_archibald = {

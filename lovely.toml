@@ -41,8 +41,8 @@ target = "card.lua"
 pattern = "function Card:can_sell_card(context)"
 position = "after"
 payload = """
-    if (SMODS and SMODS.find_card("j_sdm_warehouse", false)) then
-        return self.ability.name ~= "Warehouse"
+    if (SMODS and next(SMODS.find_card("j_sdm_warehouse"))) and self.ability.name ~= "Warehouse" then
+        return false
     end
 """
 match_indent = true
