@@ -84,13 +84,8 @@ end
 --- Get the rank and suit of a card
 function get_scry_info(card)
     if card.ability.name == 'Stone Card' then return "Stone Card" end
-    local rank = card.base.value
-    local suit = card.base.suit
-    local new_suit = string.match(suit, "_(.*)")
-    if new_suit then
-        new_suit = string.upper(string.sub(new_suit, 1, 1)) .. string.sub(new_suit, 2)
-        return rank .. " of " .. new_suit
-    end
+    local rank = SMODS.Ranks[card.base.value].key
+    local suit = SMODS.Suits[card.base.suit].key
     return rank .. " of " .. suit
 end
 
