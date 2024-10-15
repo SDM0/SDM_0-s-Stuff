@@ -189,11 +189,24 @@ SMODS.Back{
 
 --- Deck Of Stuff
 
+-- TODO: Make the DoS modular through config
+
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
     config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true},
     apply = function()
+        -- Vanilla pool changes applied in "lovely.toml"
+        if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
+        or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
+        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
+        or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_antimatter_sleeve")) then
+            for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+                if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
+                    v.no_doe = true
+                end
+            end
+        end
         local extra_cards = {}
         for k, _ in pairs(G.P_CARDS) do
             if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
