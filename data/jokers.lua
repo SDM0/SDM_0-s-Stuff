@@ -1384,11 +1384,11 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_legionary_joker = "Legionary Joker"
 
---- Jack A Dit ---
+--- Jack a Dit ---
 
 SMODS.Joker{
     key = "jack_a_dit",
-    name = "Jack A Dit",
+    name = "Jack a Dit",
     rarity = 1,
     blueprint_compat = true,
     pos = {x = 0, y = 0},

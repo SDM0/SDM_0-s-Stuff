@@ -285,7 +285,7 @@ return {
                 },
             },
             j_sdm_jack_a_dit = {
-                name = "Jack A Dit",
+                name = "Jack a Dit",
                 text = {
                     "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
                     "is a {C:attention}#2#{} and",
