@@ -256,9 +256,8 @@ return {
             j_sdm_water_slide = {
                 name = "Water Slide",
                 text = {
-                    "This Joker gains {C:chips}+#1#{}",
-                    "Chips if scored hand",
-                    "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
+                    "This Joker gains {C:chips}+#1#{} Chips",
+                    "per scored {C:attention}9{}, {C:attention}7{} or {C:attention}6",
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
@@ -392,10 +391,9 @@ return {
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {
-                    "This Joker adds {C:dark_edition}+#1#{} Joker",
-                    "Slot for every {C:attention}#3#{} {C:inactive}(#4#){}",
-                    "held in hand {C:attention}2{}s per hand",
-                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #5#)"
+                    "This Joker gives {C:dark_edition}+#1#{} Joker",
+                    "Slots per destroyed {C:attention}2{}s",
+                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker Slots)"
                 }
             },
             j_sdm_trance_the_devil = {

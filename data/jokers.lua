@@ -1245,11 +1245,10 @@ SMODS.Joker{
                 context.scoring_hand[i]:get_id() == 7 or
                 context.scoring_hand[i]:get_id() == 6 then
                     card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
-                    return {
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_upgrade_ex'),
                         colour = G.C.BLUE,
-                        card = card
-                    }
+                    })
                 end
             end
         end
@@ -1357,7 +1356,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 4, y = 5},
     cost = 5,
-    config = {extra = 4},
+    config = {extra = 5},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
@@ -1880,9 +1879,9 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 1, y = 3},
     cost = 20,
-    config = {extra = {jkr_slots = 0, extra_slots = 1, cond = 0, cond_total = 12}},
+    config = {extra = {jkr_slots = 0, extra_slots = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.extra_slots, card.ability.extra.jkr_slots, card.ability.extra.cond_total, card.ability.extra.cond, (card.ability.extra.jkr_slots > 1 and "Slots") or "Slot"}}
+        return {vars = {card.ability.extra.extra_slots, card.ability.extra.jkr_slots}}
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.jokers and not from_debuff then
@@ -1895,20 +1894,31 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.hand and context.individual and not (context.end_of_round or context.blueprint) and context.other_card then
-            if context.other_card:get_id() == 2 and not context.other_card.debuff then
-                card.ability.extra.cond = card.ability.extra.cond + 1
+        if context.cards_destroyed and not context.blueprint then
+            if #context.glass_shattered > 0 then
+                for _, v in ipairs(context.glass_shattered) do
+                    if v:get_id() == 2 then
+                        card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_upgrade_ex'),
+                            colour = G.C.DARK_EDITION,
+                        })
+                    end
+                end
             end
-        end
-        if context.joker_main and card.ability.extra.cond >= card.ability.extra.cond_total then
-            while card.ability.extra.cond >= card.ability.extra.cond_total do
-                card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
-                G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.DARK_EDITION,
-                })
-                card.ability.extra.cond = card.ability.extra.cond - card.ability.extra.cond_total
+        elseif context.remove_playing_cards and not context.blueprint then
+            if #context.removed > 0 then
+                for _, v in ipairs(context.removed) do
+                    if v:get_id() == 2 then
+                        card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_upgrade_ex'),
+                            colour = G.C.DARK_EDITION,
+                        })
+                    end
+                end
             end
         end
     end,
