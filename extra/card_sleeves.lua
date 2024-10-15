@@ -251,12 +251,10 @@ CardSleeves.Sleeve {
     pos = { x = 2, y = 1 },
     unlocked = true,
     loc_vars = function(self)
-        local key
         if self.get_current_deck_key() == "b_sdm_modders" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-            key = self.key .. "_alt"
+            local key = self.key .. "_alt"
             return {key = key, vars = {}}
         end
-        return {vars = {self.config.extra_discard_bonus}}
     end,
     apply = function(self)
         -- Vanilla pool changes applied in "lovely.toml"
