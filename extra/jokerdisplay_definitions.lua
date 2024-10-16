@@ -152,7 +152,7 @@ jd_def["j_sdm_tip_jar"] = { -- Tip Jar
         card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
     end
 }
-jd_def["j_sdm_wandering_star"] = { -- Wandering Star (TODO?)
+jd_def["j_sdm_wandering_star"] = { -- Wandering Star
     extra = {
         {
             { text = "(" },
@@ -452,8 +452,91 @@ jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
     end
 }
 
--- TODO: When doing "Wormhole" joker display definition,
--- just copy the ones from "Wandeing Star" from the main repo
+jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local has_jack = false
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        local is_jack_a_dit_poker_hand = text == card.ability.jack_poker_hand
+        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
+            for _, scoring_card in pairs(scoring_hand) do
+                if not scoring_card.debuff and scoring_card.base.value == "Jack" then
+                    has_jack = true
+                    break
+                end
+            end
+        end
+        card.joker_display_values.mult = has_jack and is_jack_a_dit_poker_hand and card.ability.extra or 0
+    end
+}
+
+jd_def["j_sdm_lithification"] = {   -- Lithification
+}
+
+jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
+}
+
+jd_def["j_sdm_astrology"] = { -- Consolation Prize
+}
+
+jd_def["j_sdm_roulette"] = { -- Roulette
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
+    end
+}
+
+jd_def["j_sdm_carcinization"] = { -- Carcinization
+    text = {
+        { text = "+" },
+        { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT }
+}
+
+jd_def["j_sdm_foresight"] = { -- Foresight TODO
+}
+
+jd_def["j_sdm_wormhole"] = { -- Wormhole
+    reminder_text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "active" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
+    end,
+    style_function = function(card, text, reminder_text, extra)
+        if reminder_text and reminder_text.children[2] then
+            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
+                G.C.UI.TEXT_INACTIVE
+        end
+        return false
+    end
+}
+
+jd_def["j_sdm_mimic_coin"] = { -- Mimic Coin
+    reminder_text = {
+        { text = "(" },
+        { text = "$",         colour = G.C.GOLD },
+        { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
+        { text = ")" },
+    },
+    reminder_text_config = { scale = 0.35 }
+}
 
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
