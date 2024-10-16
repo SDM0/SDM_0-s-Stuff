@@ -82,11 +82,11 @@ function get_crab_count()
 end
 
 --- Get the rank and suit of a card
-function get_scry_info(card)
-    if card.ability.name == 'Stone Card' then return "Stone Card" end
-    local rank = SMODS.Ranks[card.base.value].key
-    local suit = SMODS.Suits[card.base.suit].key
-    return rank .. " of " .. suit
+function get_scry_info(card, is_compact)
+    if card.ability.name == 'Stone Card' then return (is_compact and "SC") or "Stone Card" end
+    local rank = (is_compact and SMODS.Ranks[card.base.value].card_key) or SMODS.Ranks[card.base.value].key
+    local suit = (is_compact and SMODS.Suits[card.base.suit].card_key) or SMODS.Suits[card.base.suit].key
+    return (is_compact and rank .. suit) or rank .. " of " .. suit
 end
 
 -- Get n cards from SDM_0's Stuff

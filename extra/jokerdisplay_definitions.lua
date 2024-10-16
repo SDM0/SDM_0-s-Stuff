@@ -360,7 +360,13 @@ jd_def["j_sdm_pizza"] = { -- Pizza
     },
 }
 jd_def["j_sdm_treasure_chest"] = { -- Treasure Chest
-
+    reminder_text = {
+        { text = "(" },
+        { text = "$",         colour = G.C.GOLD },
+        { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
+        { text = ")" },
+    },
+    reminder_text_config = { scale = 0.35 }
 }
 jd_def["j_sdm_bullet_train"] = { -- Bullet Train
     text = {
@@ -474,7 +480,7 @@ jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
     end
 }
 
-jd_def["j_sdm_lithification"] = {   -- Lithification
+jd_def["j_sdm_set_in_stone"] = {   -- Set in Stone
 }
 
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
@@ -508,6 +514,24 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
 }
 
 jd_def["j_sdm_foresight"] = { -- Foresight TODO
+    reminder_text = {
+        { text = "(" },
+        { ref_table = "card.joker_display_values", ref_value = "card" },
+        { text = ")" },
+    },
+    calc_function = function(card)
+        local text = ""
+        if G.deck and G.deck.cards then
+            for i = 1, math.min(card.ability.extra, #G.deck.cards) do
+                local info = get_scry_info(G.deck.cards[#G.deck.cards-(i-1)], true)
+                if info ~= "" then
+                    text = text .. info .. ', '
+                end
+            end
+            text = text:sub(1, -3)
+        end
+        card.joker_display_values.card = text
+    end,
 }
 
 jd_def["j_sdm_wormhole"] = { -- Wormhole
