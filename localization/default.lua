@@ -294,8 +294,8 @@ return {
                     "end of round"
                 },
             },
-            j_sdm_lithification = {
-                name = "Lithification",
+            j_sdm_set_in_stone = {
+                name = "Set in Stone",
                 text = {
                     "All played {C:attention}4{}, {C:attention}3{} and {C:attention}2{}",
                     "become {C:attention}Stone{} cards",

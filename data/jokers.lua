@@ -1442,11 +1442,11 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_jack_a_dit = "Jack A Dit"
 
---- Lithification ---
+--- Set in Stone ---
 
 SMODS.Joker{
-    key = "lithification",
-    name = "Lithification",
+    key = "set_in_stone",
+    name = "Set in Stone",
     rarity = 2,
     pos = {x = 0, y = 0},
     cost = 7,
@@ -1481,7 +1481,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_lithification = "Lithification"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_set_in_stone = "Set in Stone"
 
 --- Consolation Prize ---
 
