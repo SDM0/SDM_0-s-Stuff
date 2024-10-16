@@ -189,8 +189,6 @@ SMODS.Back{
 
 --- Deck Of Stuff
 
--- TODO: Make the DoS modular through config
-
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
