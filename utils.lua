@@ -85,6 +85,7 @@ end
 function get_scry_info(card, is_compact)
     if card.ability.name == 'Stone Card' then return (is_compact and "SC") or "Stone Card" end
     local rank = (is_compact and SMODS.Ranks[card.base.value].card_key) or SMODS.Ranks[card.base.value].key
+    if rank == "T" then rank = "10" end
     local suit = (is_compact and SMODS.Suits[card.base.suit].card_key) or SMODS.Suits[card.base.suit].key
     return (is_compact and rank .. suit) or rank .. " of " .. suit
 end
