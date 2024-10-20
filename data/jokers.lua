@@ -749,11 +749,11 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_ninja_joker = "Ninja Joker"
 
---- Reach The Stars ---
+--- Reach the Stars ---
 
 SMODS.Joker{
     key = "reach_the_stars",
-    name = "Reach The Stars",
+    name = "Reach the Stars",
     rarity = 1,
     blueprint_compat = true,
     pos = {x = 0, y = 2},
@@ -1727,30 +1727,6 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_wormhole = "Wormhole"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_wormhole = "Wormhole"
-
---- Mimic Coin ---
-
-SMODS.Joker{
-    key = "mimic_coin",
-    name = "Mimic Coin",
-    rarity = 1,
-    pos = {x = 0, y = 0},
-    cost = 4,
-    update = function(self, card, dt)
-        local sell_value = 0
-        if G.jokers and G.jokers.cards then
-            for _, v in pairs(G.jokers.cards) do
-                if v ~= card and (v.area and v.area == G.jokers) then
-                    sell_value = sell_value + v.sell_cost
-                end
-            end
-        end
-        card.sell_cost = sell_value
-    end,
-    atlas = "sdm_jokers"
-}
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_mimic_coin = "Mimic Coin"
 
 --- Archibald ---
 
