@@ -60,3 +60,29 @@ if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") or curr
 if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") and curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix..'_'..v.original_key == v.key)) then add = nil end
 '''
 match_indent = true
+
+# SDM_0's Deck and Sleeve effect (code from Ceres "Ceres Joker")
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "_pool[#_pool + 1] = v.key"
+position = "before"
+payload = '''
+if (curr_deck and curr_deck == "b_sdm_0_s") then
+    if string.sub(v.key, 1, 6) == "j_sdm_" then
+        for i = 1, 4 do
+            _pool[#_pool + 1] = v.key
+            _pool_size = _pool_size + 1
+        end
+    end
+end
+if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
+    if string.sub(v.key, 1, 6) == "j_sdm_" then
+        for i = 1, 4 do
+            _pool[#_pool + 1] = v.key
+            _pool_size = _pool_size + 1
+        end
+    end
+end
+'''
+match_indent = true

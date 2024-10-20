@@ -410,17 +410,19 @@ return {
             b_sdm_0_s = {
                 name = "SDM_0's Deck",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:eternal}Eternal{} non-{C:legendary}legendary",
-                    "{C:attention}SDM_0's Stuff{} jokers",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "Joker cards",
+                    "appear {C:attention}5{} times",
+                    "more often"
                 },
             },
             b_sdm_bazaar = {
                 name = "Bazaar Deck",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
-                    "consumables",
+                    "After Boss Blind,",
+                    "create {C:attention}#1#{} random",
+                    "{C:attention}SDM_0's Stuff{} consumable",
+                    "{C:inactive}(Must have room)"
                 },
             },
             b_sdm_sandbox = {
@@ -549,17 +551,19 @@ return {
             sleeve_sdm_0_s = {
                 name = "SDM_0's Sleeve",
                 text = {
-                    "Start run with",
-                    "{s:0.9,C:attention}#1#{s:0.9} random {s:0.9,C:eternal}Eternal non-{s:0.9,C:legendary}legendary",
-                    "{C:attention}SDM_0's Stuff{} jokers",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "Joker cards",
+                    "appear {C:attention}5{} times",
+                    "more often"
                 },
             },
             sleeve_sdm_bazaar = {
                 name = "Bazaar Sleeve",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
-                    "consumables",
+                    "After Boss Blind,",
+                    "create {C:attention}#1#{} random",
+                    "{C:attention}SDM_0's Stuff{} consumable",
+                    "{C:inactive}(Must have room)"
                 },
             },
             sleeve_sdm_sandbox = {

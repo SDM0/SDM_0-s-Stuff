@@ -17,17 +17,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
             return {vars = {self.config.extra}}
         end,
         unlocked = true,
-        apply = function(self)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    local rand_jokers = get_random_sdm_modded_card("j_sdm", self.config.extra)
-                    for i = 1, #rand_jokers do
-                        add_joker2(rand_jokers[i], nil, true, true)
-                    end
-                    return true
-                end
-            }))
-        end,
+        -- Sleeve effect in "lovely.toml"
     }
 end
 
@@ -38,23 +28,25 @@ if SDM_0s_Stuff_Config.sdm_consus then
         key = "bazaar",
         atlas = "sdm_sleeves",
         pos = { x = 1, y = 0 },
-        config = {extra = 2},
+        config = {extra = 1},
         loc_vars = function(self)
             return {vars = {self.config.extra}}
         end,
         unlocked = true,
-        apply = function(self)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
-                    for i = 1, #rand_cons do
-                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
-                        card:add_to_deck()
-                        G.consumeables:emplace(card)
+        trigger_effect = function(self, args)
+            if args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
+                        for i = 1, #rand_cons do
+                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                        end
+                        return true
                     end
-                    return true
-                end
-            }))
+                }))
+            end
         end,
     }
 end
