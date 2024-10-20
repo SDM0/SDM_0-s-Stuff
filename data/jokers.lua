@@ -1585,7 +1585,26 @@ SMODS.Joker{
                     return true
                 end }))
             else
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_nope_ex'), colour = G.C.SECONDARY_SET.Tarot})
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    attention_text({
+                        text = localize('k_nope_ex'),
+                        scale = 1,
+                        hold = 0.65*1.25-0.2,
+                        major = card,
+                        backdrop_colour = G.C.SECONDARY_SET.Tarot,
+                        align = 'bm',
+                        offset = {x = 0, y = 0.05*card.T.h},
+                        silent = true
+                        })
+                    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                        play_sound('tarot2', 0.76, 0.4);
+                        return true
+                    end}))
+                    play_sound('tarot2', 1, 0.4)
+                    card:juice_up(0.6, 0.1)
+                    G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+                    return true
+                end}))
             end
         end
     end,
