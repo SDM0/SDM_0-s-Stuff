@@ -163,7 +163,7 @@ return {
                 }
             },
             j_sdm_reach_the_stars = {
-                name = "Reach The Stars",
+                name = "Reach the Stars",
                 text = {
                     "Scoring a hand of {C:attention}#1#{} and",
                     "{C:attention}#2#{} cards creates a",
@@ -256,9 +256,9 @@ return {
             j_sdm_water_slide = {
                 name = "Water Slide",
                 text = {
-                    "This Joker gains {C:chips}+#1#{} Chips",
-                    "per scored {C:attention}9{}, {C:attention}7{} or {C:attention}6",
-                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+                    "This Joker gains {C:chips}+#1#{}",
+                    "Chips if scored hand",
+                    "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
                 }
             },
             j_sdm_joker_voucher = {
@@ -353,28 +353,6 @@ return {
                     "once per {C:attention}round{}",
                     "{s:0.8,C:inactive}(Must have room)",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
-                }
-            },
-            j_sdm_mimic_coin = {
-                name = "Mimic Coin",
-                text = {
-                    "This Joker has the",
-                    "combined {C:attention}sell value{}",
-                    "of all owned {C:attention}Jokers{}",
-                }
-            },
-            j_sdm_delusional_joker = {
-                name = "Delusional Joker",
-                text = {
-                    "{C:mult}+#1#{} Mult if played hand",
-                    "is a 5 cards {C:attention}High Card",
-                }
-            },
-            j_sdm_psychotic_joker = {
-                name = "Psychotic Joker",
-                text = {
-                    "{C:chips}+#1#{} Chips if played hand",
-                    "is a 5 cards {C:attention}High Card",
                 }
             },
             j_sdm_archibald = {
