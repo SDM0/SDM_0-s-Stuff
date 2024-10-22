@@ -78,7 +78,7 @@ if (curr_deck and curr_deck == "b_sdm_0_s") then
 end
 if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
-        for i = 1, 4 do
+        for i = 1, (curr_deck and curr_deck == "b_sdm_0_s" and 5) or 4 do
             _pool[#_pool + 1] = v.key
             _pool_size = _pool_size + 1
         end
