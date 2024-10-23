@@ -1618,11 +1618,11 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_roulette = "Roulette"
 SMODS.Joker{
     key = "carcinization",
     name = "Carcinization",
-    rarity = 1,
+    rarity = 2,
     blueprint_compat = true,
     pos = {x = 0, y = 0},
-    cost = 5,
-    config = {extra = {mult_mod = 2, mult = 0}},
+    cost = 7,
+    config = {extra = {mult_mod = 3, mult = 0}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult_mod, card.ability.extra.mult}}
     end,
