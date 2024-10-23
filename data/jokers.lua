@@ -15,7 +15,7 @@ SMODS.Joker{
     eternal_compat = false,
     pos = {x = 1, y = 0},
     cost = 6,
-    config = {extra = {Xmult = 1.25, mult = 15, chips = 30, remaining = 5}},
+    config = {extra = {Xmult = 1.25, mult = 15, chips = 30, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}}
     end,
