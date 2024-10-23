@@ -69,6 +69,47 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sphinx = "Sphinx"
 
+--- Mother ---
+
+SMODS.Consumable{
+    key = 'mother',
+    name = 'Mother',
+    set = 'Tarot',
+    pos = {x = 0, y = 0},
+    cost = 3,
+    config = {extra = {max_highlighted = 2, chip_mod = 10}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {self.config.extra.max_highlighted, self.config.extra.chip_mod}}
+    end,
+    can_use = function(self, card, area, copier)
+        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
+            if self.config.extra.max_highlighted then
+                if self.config.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1 then
+                    return true
+                end
+            end
+        end
+        return false
+    end,
+    use = function(self, card)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                local _card = G.hand.highlighted[i]
+                _card.ability.perma_bonus = _card.ability.perma_bonus or 0
+                _card.ability.perma_bonus = _card.ability.perma_bonus + self.config.extra.chip_mod
+                card_eval_status_text(_card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_chips', vars = {self.config.extra.chip_mod}}, colour = G.C.CHIPS})
+            return true end }))
+            local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        G.hand:unhighlight_all()
+        delay(0.5)
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_mother = "Mother"
+
 --- Sacrifice ---
 
 SMODS.Consumable{
@@ -110,7 +151,7 @@ SMODS.Consumable{
     pos = {x = 2, y = 0},
     cost = 4,
     can_use = function(self, card, area, copier)
-        return G.GAME.round_resets.hands > 0 and G.GAME.round_resets.discards > 0
+        return G.GAME.round_resets.hands > 1 and G.GAME.round_resets.discards > 1
     end,
     use = function(self, card)
         local used_tarot = card or self
@@ -121,11 +162,13 @@ SMODS.Consumable{
             local prev_discards = G.GAME.round_resets.discards
             local total = prev_hands + prev_discards
 
-            G.GAME.round_resets.hands = pseudorandom(pseudoseed("morph"), 1, total - 1)
-            G.GAME.round_resets.discards = total - G.GAME.round_resets.hands
+            repeat
+                G.GAME.round_resets.hands = pseudorandom(pseudoseed("morph"), 1, total - 1)
+                G.GAME.round_resets.discards = total - G.GAME.round_resets.hands
+            until G.GAME.round_resets.hands ~= prev_hands and G.GAME.round_resets.discards ~= prev_discards
 
-            ease_hands_played(prev_hands - G.GAME.round_resets.hands)
-            ease_discard(prev_discards - G.GAME.round_resets.discards)
+            ease_hands_played(G.GAME.round_resets.hands - prev_hands)
+            ease_discard(G.GAME.round_resets.discards - prev_discards)
         return true end }))
     end,
     atlas = "sdm_consumables"

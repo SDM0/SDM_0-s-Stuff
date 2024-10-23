@@ -475,6 +475,14 @@ return {
                     "{C:dark_edition}Polychrome{} edition to",
                     "a random {C:attention}card{} in hand"
                 }
+            },
+            c_sdm_mother = {
+                name = "The Mother",
+                text = {
+                    "Permanently upgrades",
+                    "up to {C:attention}#1#{} selected",
+                    "cards with {C:chips}+#2#{} Chips"
+                }
             }
         },
         Spectral = {
