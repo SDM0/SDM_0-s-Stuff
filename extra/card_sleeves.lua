@@ -240,7 +240,7 @@ CardSleeves.Sleeve {
 CardSleeves.Sleeve {
     key = "modders",
     atlas = "sdm_sleeves",
-    pos = { x = 2, y = 1 },
+    pos = { x = 3, y = 1 },
     unlocked = true,
     loc_vars = function(self)
         if self.get_current_deck_key() == "b_sdm_modders" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
