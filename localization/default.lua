@@ -501,6 +501,14 @@ return {
                     "and {C:red}discards{}"
                 }
             },
+            c_sdm_bind = {
+                name = "Bind",
+                text = {
+                    "Apply {C:purple}Eternal{} to",
+                    "a selected Joker",
+                    "{C:inactive}(Must be compatible){}"
+                }
+            },
         },
         Other = {
             space_jokers = {

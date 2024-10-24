@@ -83,11 +83,7 @@ SMODS.Consumable{
     end,
     can_use = function(self, card, area, copier)
         if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
-            if self.config.extra.max_highlighted then
-                if self.config.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1 then
-                    return true
-                end
-            end
+            return self.config.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1
         end
         return false
     end,
@@ -175,5 +171,46 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_morph = "Morph"
+
+--- Bind ---
+
+SMODS.Consumable{
+    key = 'bind',
+    name = 'Bind',
+    set = 'Spectral',
+    pos = {x = 0, y = 1},
+    cost = 4,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'}
+    end,
+    can_use = function(self, card, area, copier)
+        if #G.jokers.highlighted >= 1 then
+            local joker = G.jokers.highlighted[1]
+            return joker.config.center.eternal_compat and not joker.ability.perishable
+        end
+        return false
+    end,
+    use = function(self, card)
+        local used_tarot = card or self
+        local joker = G.jokers.highlighted[1]
+        G.E_MANAGER:add_event(Event({func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end
+        }))
+
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+            joker:set_eternal(true)
+            joker:juice_up(0.3, 0.3)
+            return true end
+        }))
+
+        delay(0.5)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.jokers:unhighlight_all(); return true end }))
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_bind = "Bind"
 
 return
