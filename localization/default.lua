@@ -415,7 +415,7 @@ return {
                 name = "Lucky 7 Deck",
                 text = {
                     "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
+                    "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
                 }
             },
@@ -572,7 +572,7 @@ return {
                 name = "Lucky 7 Sleeve",
                 text = {
                     "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
+                    "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
                 }
             },
