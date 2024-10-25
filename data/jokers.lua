@@ -1405,12 +1405,12 @@ SMODS.Joker{
         if context.joker_main and context.scoring_hand then
             local has_jack = false
             for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() == 12 then
+                if context.scoring_hand[i]:get_id() == 11 then
                     has_jack = true
                     break
                 end
             end
-            if has_jack and context.scoring_hand == card.ability.jack_poker_hand then
+            if has_jack and (context.scoring_name and context.scoring_name == card.ability.jack_poker_hand) then
                 return {
                     message = localize{type='variable',key='a_mult',vars={card.ability.extra}},
                     mult_mod = card.ability.extra,
@@ -1422,7 +1422,7 @@ SMODS.Joker{
             for k, v in pairs(G.GAME.hands) do
                 if v.visible and k ~= card.ability.jack_poker_hand then _poker_hands[#_poker_hands+1] = k end
             end
-            card.ability.jack_poker_hand = pseudorandom_element(_poker_hands, pseudoseed('to_do'))
+            card.ability.jack_poker_hand = pseudorandom_element(_poker_hands, pseudoseed('jad'))
             return {
                 message = localize('k_reset')
             }
