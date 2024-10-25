@@ -225,12 +225,13 @@ SMODS.Joker{
                 func = function() 
                     local space = {}
                     for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
-                        if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil then
+                        if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil and not next(SMODS.find_card(k, true)) then
                             if not SDM_0s_Stuff_Config.limit_moon_base or (SDM_0s_Stuff_Config.limit_moon_base and type(G.P_CENTERS[k].rarity) ~= "string" and G.P_CENTERS[k].rarity < 4) then
                                 table.insert(space, k)
                             end
                         end
                     end
+                    if #space == 0 then table.insert(space, "j_space") end -- fallback
                     local chosen_space = space[pseudorandom(pseudoseed('mnb'), 1, #space)]
                     local card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_space, 'mnb')
                     card:add_to_deck()
@@ -772,13 +773,8 @@ SMODS.Joker{
         local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
         table.remove(valid_nums, c1)
         local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-        if c1 > c2 then
-            card.ability.extra.num_card1 = c2
-            card.ability.extra.num_card2 = c1
-        elseif c1 < c2 then
-            card.ability.extra.num_card1 = c1
-            card.ability.extra.num_card2 = c2
-        end
+        card.ability.extra.num_card1 = (c1 > c2 and c2) or c1
+        card.ability.extra.num_card2 = (c1 > c2 and c1) or c2
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and not (context.before or context.after) then
@@ -835,13 +831,8 @@ SMODS.Joker{
             local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
             table.remove(valid_nums, c1)
             local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-            if c1 > c2 then
-                card.ability.extra.num_card1 = c2
-                card.ability.extra.num_card2 = c1
-            elseif c1 < c2 then
-                card.ability.extra.num_card1 = c1
-                card.ability.extra.num_card2 = c2
-            end
+            card.ability.extra.num_card1 = (c1 > c2 and c2) or c1
+            card.ability.extra.num_card2 = (c1 > c2 and c1) or c2
             return {
                 message = localize('k_reset')
             }
