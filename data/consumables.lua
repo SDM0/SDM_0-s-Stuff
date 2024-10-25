@@ -75,7 +75,7 @@ SMODS.Consumable{
     key = 'mother',
     name = 'Mother',
     set = 'Tarot',
-    pos = {x = 0, y = 0},
+    pos = {x = 3, y = 0},
     cost = 3,
     config = {extra = {max_highlighted = 2, chip_mod = 10}},
     loc_vars = function(self, info_queue, card)
@@ -88,17 +88,27 @@ SMODS.Consumable{
         return false
     end,
     use = function(self, card)
+        local used_tarot = card or self
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end
+        }))
         for i=1, #G.hand.highlighted do
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+            local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        delay(0.05)
+        for i=1, #G.hand.highlighted do
+            card_eval_status_text(G.hand.highlighted[i], 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_chips', vars = {self.config.extra.chip_mod}}, colour = G.C.CHIPS})
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function()
                 local _card = G.hand.highlighted[i]
                 _card.ability.perma_bonus = _card.ability.perma_bonus or 0
                 _card.ability.perma_bonus = _card.ability.perma_bonus + self.config.extra.chip_mod
-                card_eval_status_text(_card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_chips', vars = {self.config.extra.chip_mod}}, colour = G.C.CHIPS})
-            return true end }))
-            local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+                return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
         end
-        G.hand:unhighlight_all()
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
     end,
     atlas = "sdm_consumables"
