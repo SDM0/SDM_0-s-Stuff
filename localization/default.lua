@@ -259,6 +259,7 @@ return {
                     "This Joker gains {C:chips}+#1#{}",
                     "Chips if scored hand",
                     "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
                 }
             },
             j_sdm_joker_voucher = {
