@@ -1689,6 +1689,7 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_foresight = "Foresight"
+SDM_0s_Stuff_Mod.meme_jokers.j_sdm_foresight = "Foresight"
 
 --- Wormhole ---
 
