@@ -511,6 +511,22 @@ return {
                 }
             },
         },
+        Voucher = {
+            v_sdm_shadow = {
+                name = "Shadow",
+                text = {
+                    "Add {C:dark_edition}Negative{} to",
+                    "a random {C:attention}Joker",
+                }
+            },
+            v_sdm_eclipse = {
+                name = "Eclipse",
+                text = {
+                    "Add {C:dark_edition}Negative{} to",
+                    "a random {C:attention}Joker"
+                }
+            },
+        },
         Other = {
             space_jokers = {
                 name = "Space Jokers",
