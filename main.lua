@@ -81,9 +81,6 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     if JokerDisplay then
         SMODS.load_file("extra/jokerdisplay_definitions.lua")()
     end
-    if Cryptid then
-        SMODS.load_file("extra/cryptid.lua")()
-    end
 end
 
 if SDM_0s_Stuff_Config.sdm_consus then
@@ -99,6 +96,10 @@ if SDM_0s_Stuff_Config.sdm_decks then
     if CardSleeves then
         SMODS.load_file("extra/card_sleeves.lua")()
     end
+end
+
+if Cryptid then
+    SMODS.load_file("extra/cryptid.lua")()
 end
 
 SMODS.Atlas{

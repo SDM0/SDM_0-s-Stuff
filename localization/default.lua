@@ -523,7 +523,15 @@ return {
                 name = "Eclipse",
                 text = {
                     "Add {C:dark_edition}Negative{} to",
-                    "a random {C:attention}Joker"
+                    "a random {C:attention}Joker",
+                }
+            },
+            v_sdm_oblivion = {
+                name = "Oblivion",
+                text = {
+                    "Add {C:dark_edition}Negative{}",
+                    "to each {C:attention}Joker",
+                    '{C:inactive}(Overrides editions){}'
                 }
             },
         },
