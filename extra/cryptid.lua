@@ -21,11 +21,16 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
         requires = {"v_sdm_eclipse"},
         redeem = function(self)
             G.E_MANAGER:add_event(Event({func = function()
+                local negative_made = false
                 if #G.jokers.cards > 0 then
                     for k, v in pairs(G.jokers.cards) do
-                        v:set_edition({negative = true}, true)
+                        if not (v.edition and v.edition.negative) then
+                            v:set_edition({negative = true}, true)
+                            negative_made = true
+                        end
                     end
-                else
+                end
+                if not negative_made then
                     for i = 1, 5 do
                         local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'obv')
                         card:set_edition({negative = true}, true)
