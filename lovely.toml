@@ -114,3 +114,19 @@ payload = """
         end
     end
 """
+
+# "Eclipse" negative shader
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if (self.edition and self.edition.negative) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then"
+position = "before"
+payload = '''
+if self.ability.name == 'Eclipse' and (self.config.center.discovered or self.bypass_discovery_center) then
+    self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
+    if self.children.front and self.ability.effect ~= 'Stone Card' then
+        self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
+    end
+end
+'''
+match_indent = true
