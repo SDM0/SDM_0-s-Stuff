@@ -86,14 +86,3 @@ if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
 end
 '''
 match_indent = true
-
-# "Eclipse" negative shader
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "self.ability.name == 'Antimatter'"
-position = "at"
-payload = '''
-self.ability.name == 'Antimatter' or self.ability.name == 'Eclipse'
-'''
-match_indent = true
