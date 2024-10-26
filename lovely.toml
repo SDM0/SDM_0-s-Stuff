@@ -87,46 +87,13 @@ end
 '''
 match_indent = true
 
-# "Can_redeem" function edit for "Shadow" and "Eclipse" voucher
-[[patches]]
-[patches.regex]
-target = "functions/button_callbacks.lua"
-pattern = '''G\.FUNCS\.can_redeem\s*=\s*function\(e\)([\s\S]*?)end'''
-position = "after"
-payload = """
-
-    if e.config.ref_table.label == "Shadow" or e.config.ref_table.label == "Eclipse" then
-        local no_edition = false
-        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
-            for i = 1, #G.jokers.cards do
-                if not G.jokers.cards[i].edition then
-                    no_edition = true
-                    break
-                end
-            end
-        end
-        if not no_edition or e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at then
-            e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-            e.config.button = nil
-        else
-            e.config.colour = G.C.GREEN
-            e.config.button = 'use_card'
-        end
-    end
-"""
-
 # "Eclipse" negative shader
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = "if (self.edition and self.edition.negative) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then"
-position = "before"
+pattern = "self.ability.name == 'Antimatter'"
+position = "at"
 payload = '''
-if self.ability.name == 'Eclipse' and (self.config.center.discovered or self.bypass_discovery_center) then
-    self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
-    if self.children.front and self.ability.effect ~= 'Stone Card' then
-        self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
-    end
-end
+self.ability.name == 'Antimatter' or self.ability.name == 'Eclipse'
 '''
 match_indent = true

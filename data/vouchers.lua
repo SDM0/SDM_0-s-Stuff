@@ -11,22 +11,26 @@ SMODS.Voucher{
     key = 'shadow',
     name = 'Shadow',
     pos = {x = 0, y = 0},
-    config = {extra = {jkr_slots = 1}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {self.config.extra.jkr_slots}}
-    end,
     redeem = function(self)
-        local eligible_jokers = {}
-        for k, v in pairs(G.jokers.cards) do
-            if v.ability.set == 'Joker' and not v.edition then
-                table.insert(eligible_jokers, v)
+        G.E_MANAGER:add_event(Event({func = function()
+            local eligible_jokers = {}
+            for k, v in pairs(G.jokers.cards) do
+                if v.ability.set == 'Joker' and not v.edition then
+                    table.insert(eligible_jokers, v)
+                end
             end
-        end
-        if #eligible_jokers > 0 then
-            local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
-            chosen_joker:set_edition({negative = true}, true)
-        end
-        return true
+            if #eligible_jokers > 0 then
+                local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
+                chosen_joker:set_edition({negative = true}, true)
+            else
+                local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'elp')
+                card:set_edition({negative = true}, true)
+                card:add_to_deck()
+                G.jokers:emplace(card)
+                card:start_materialize()
+            end
+            return true
+        end}))
     end,
     atlas = "sdm_vouchers"
 }
@@ -39,23 +43,27 @@ SMODS.Voucher{
     key = 'eclipse',
     name = 'Eclipse',
     pos = {x = 0, y = 1},
-    requires = {"v_sdm_Shadow"},
-    config = {extra = {jkr_slots = 1}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {self.config.extra.jkr_slots}}
-    end,
+    requires = {"v_sdm_shadow"},
     redeem = function(self)
-        local eligible_jokers = {}
-        for k, v in pairs(G.jokers.cards) do
-            if v.ability.set == 'Joker' and not v.edition then
-                table.insert(eligible_jokers, v)
+        G.E_MANAGER:add_event(Event({func = function()
+            local eligible_jokers = {}
+            for k, v in pairs(G.jokers.cards) do
+                if v.ability.set == 'Joker' and not v.edition then
+                    table.insert(eligible_jokers, v)
+                end
             end
-        end
-        if #eligible_jokers > 0 then
-            local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
-            chosen_joker:set_edition({negative = true}, true)
-        end
-        return true
+            if #eligible_jokers > 0 then
+                local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
+                chosen_joker:set_edition({negative = true}, true)
+            else
+                local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'elp')
+                card:set_edition({negative = true}, true)
+                card:add_to_deck()
+                G.jokers:emplace(card)
+                card:start_materialize()
+            end
+            return true
+        end}))
     end,
     atlas = "sdm_vouchers"
 }
