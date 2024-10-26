@@ -83,7 +83,7 @@ SMODS.Consumable{
     end,
     can_use = function(self, card, area, copier)
         if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
-            return self.config.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1
+            return card.ability.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1
         end
         return false
     end,
@@ -104,7 +104,7 @@ SMODS.Consumable{
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function()
                 local _card = G.hand.highlighted[i]
                 _card.ability.perma_bonus = _card.ability.perma_bonus or 0
-                _card.ability.perma_bonus = _card.ability.perma_bonus + self.config.extra.chip_mod
+                _card.ability.perma_bonus = _card.ability.perma_bonus + card.ability.extra.chip_mod
                 return true end }))
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
         end
