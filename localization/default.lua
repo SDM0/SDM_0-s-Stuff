@@ -516,22 +516,49 @@ return {
                 name = "Shadow",
                 text = {
                     "Add {C:dark_edition}Negative{} to",
-                    "a random {C:attention}Joker",
+                    "a random {C:attention}Joker{},",
+                    "otherwise create",
+                    'a {C:dark_edition}Negative{} "{C:attention}Joker{}"'
                 }
             },
             v_sdm_eclipse = {
                 name = "Eclipse",
                 text = {
                     "Add {C:dark_edition}Negative{} to",
-                    "a random {C:attention}Joker",
+                    "a random {C:attention}Joker{},",
+                    "otherwise create",
+                    'a {C:dark_edition}Negative{} "{C:attention}Joker{}"'
                 }
             },
             v_sdm_oblivion = {
                 name = "Oblivion",
                 text = {
                     "Add {C:dark_edition}Negative{}",
-                    "to each {C:attention}Joker",
+                    "to each {C:attention}Joker{},",
+                    "otherwise create",
+                    '{C:attention}#1#{} {C:dark_edition}Negative{} "{C:attention}Joker{}"',
                     '{C:inactive}(Overrides editions){}'
+                }
+            },
+            v_sdm_duality = {
+                name = "Duality",
+                text = {
+                    "Doubles reward from",
+                    "skipping a blind"
+                }
+            },
+            v_sdm_trinity = {
+                name = "Trinity",
+                text = {
+                    "Triples reward from",
+                    "skipping a blind"
+                }
+            },
+            v_sdm_quinary = {
+                name = "Quinary",
+                text = {
+                    "Quintuples reward from",
+                    "skipping a blind"
                 }
             },
         },

@@ -18,22 +18,26 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
         key = 'oblivion',
         name = 'Oblivion',
         pos = {x = 0, y = 2},
+        config = {extra = 5},
         requires = {"v_sdm_eclipse"},
+        loc_vars = function(self, info_queue, card)
+            return {vars = {math.max(1, self.config.extra)}}
+        end,
         redeem = function(self)
             G.E_MANAGER:add_event(Event({func = function()
                 local negative_made = false
                 if #G.jokers.cards > 0 then
                     for k, v in pairs(G.jokers.cards) do
                         if not (v.edition and v.edition.negative) then
-                            v:set_edition({negative = true}, true)
+                            v:set_edition("e_negative", true)
                             negative_made = true
                         end
                     end
                 end
                 if not negative_made then
-                    for i = 1, 5 do
+                    for i = 1, math.max(1, self.config.extra) do
                         local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'obv')
-                        card:set_edition({negative = true}, true)
+                        card:set_edition("e_negative", true)
                         card:add_to_deck()
                         G.jokers:emplace(card)
                         card:start_materialize()
@@ -46,6 +50,19 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
     }
 
     SDM_0s_Stuff_Mod.modded_objects.v_sdm_oblivion = "Oblivion"
-
     Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_oblivion"
+
+    -- Quinary
+
+    SMODS.Voucher{
+        key = 'quinary',
+        name = 'quinary',
+        pos = {x = 0, y = 0},
+        requires = {"v_sdm_trinity"},
+        -- Effect in "lovely.toml"
+        atlas = "sdm_vouchers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.v_sdm_quinary = "Quinary"
+    Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_quinary"
 end

@@ -86,3 +86,23 @@ if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
 end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if _tag then"
+position = "after"
+payload = '''
+    if G.GAME.used_vouchers.v_sdm_quinary then
+        add_tag(Tag('tag_double'))
+        add_tag(Tag('tag_double'))
+        add_tag(Tag('tag_double'))
+        add_tag(Tag('tag_double'))
+    elseif G.GAME.used_vouchers.v_sdm_trinity then
+        add_tag(Tag('tag_double'))
+        add_tag(Tag('tag_double'))
+    elseif G.GAME.used_vouchers.v_sdm_duality then
+        add_tag(Tag('tag_double'))
+    end
+'''
+match_indent = true
