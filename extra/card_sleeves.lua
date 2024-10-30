@@ -93,7 +93,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                         add_joker("j_sdm_lucky_joker", nil, true, true)
                     else
                         if G.jokers.cards and #G.jokers.cards > 0 then
-                            G.jokers.cards[1]:set_edition({["negative"] = true}, true, true)
+                            G.jokers.cards[1]:set_edition("e_negative", true, true)
                         end
                         for k, v in pairs(G.GAME.probabilities) do 
                             G.GAME.probabilities[k] = v*2
