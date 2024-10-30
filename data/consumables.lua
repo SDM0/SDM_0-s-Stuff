@@ -5,11 +5,11 @@ SMODS.Atlas{
     py = 95
 }
 
---- Sphinx ---
+--- The Sphinx ---
 
 SMODS.Consumable{
     key = 'sphinx',
-    name = 'Sphinx',
+    name = 'The Sphinx',
     set = 'Tarot',
     pos = {x = 0, y = 0},
     cost = 3,
@@ -44,7 +44,7 @@ SMODS.Consumable{
                 random_card:set_edition(edition, true)
                 used_tarot:juice_up(0.3, 0.5)
                 return true
-            end }))
+            end}))
         else
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 attention_text({
@@ -61,7 +61,7 @@ SMODS.Consumable{
                         play_sound('tarot2', 0.76, 0.4);return true end}))
                     play_sound('tarot2', 1, 0.4)
                     used_tarot:juice_up(0.3, 0.5)
-            return true end }))
+            return true end}))
         end
     end,
     atlas = "sdm_consumables"
@@ -69,11 +69,11 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sphinx = "Sphinx"
 
---- Mother ---
+--- The Mother ---
 
 SMODS.Consumable{
     key = 'mother',
-    name = 'Mother',
+    name = 'The Mother',
     set = 'Tarot',
     pos = {x = 3, y = 0},
     cost = 3,
