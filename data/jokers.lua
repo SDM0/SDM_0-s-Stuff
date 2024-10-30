@@ -1240,6 +1240,7 @@ SMODS.Joker{
                         message = localize('k_upgrade_ex'),
                         colour = G.C.BLUE,
                     })
+                    break
                 end
             end
         end
@@ -1769,7 +1770,7 @@ SMODS.Joker{
                         func = function()
                             local rand_card = pseudorandom_element(valid_cards, pseudoseed('archi'))
                             local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, nil)
-                            new_card:set_edition({negative = true}, true)
+                            new_card:set_edition("e_negative", true)
                             new_card:add_to_deck()
                             G.jokers:emplace(new_card)
                             new_card:start_materialize()
