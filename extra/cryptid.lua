@@ -57,7 +57,7 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
     SMODS.Voucher{
         key = 'quinary',
         name = 'quinary',
-        pos = {x = 0, y = 0},
+        pos = {x = 1, y = 2},
         requires = {"v_sdm_trinity"},
         -- Effect in "lovely.toml"
         atlas = "sdm_vouchers"

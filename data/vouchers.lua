@@ -81,7 +81,7 @@ SDM_0s_Stuff_Mod.modded_objects.v_sdm_eclipse = "Eclipse"
 SMODS.Voucher{
     key = 'duality',
     name = 'Duality',
-    pos = {x = 0, y = 0},
+    pos = {x = 1, y = 0},
     -- Effect in "lovely.toml"
     atlas = "sdm_vouchers"
 }
@@ -93,7 +93,7 @@ SDM_0s_Stuff_Mod.modded_objects.v_sdm_duality = "Duality"
 SMODS.Voucher{
     key = 'trinity',
     name = 'Trinity',
-    pos = {x = 0, y = 0},
+    pos = {x = 1, y = 1},
     requires = {"v_sdm_duality"},
     -- Effect in "lovely.toml"
     atlas = "sdm_vouchers"
