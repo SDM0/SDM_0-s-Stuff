@@ -51,18 +51,4 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
     SDM_0s_Stuff_Mod.modded_objects.v_sdm_oblivion = "Oblivion"
     Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_oblivion"
-
-    -- Quinary
-
-    SMODS.Voucher{
-        key = 'quinary',
-        name = 'quinary',
-        pos = {x = 1, y = 2},
-        requires = {"v_sdm_trinity"},
-        -- Effect in "lovely.toml"
-        atlas = "sdm_vouchers"
-    }
-
-    SDM_0s_Stuff_Mod.modded_objects.v_sdm_quinary = "Quinary"
-    Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_quinary"
 end
