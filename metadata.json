@@ -1,0 +1,24 @@
+{
+	"id": "sdm0sstuff",
+	"name": "SDM_0's Stuff",
+	"display_name": "SDM_0's Stuff",
+	"author": ["SDM_0"],
+	"description": "Content mod that adds new jokers, consumables, vouchers, decks and challenges.",
+	"prefix": "sdm",
+	"main_file": "main.lua",
+	"priority": 0,
+	"badge_colour": "c20000",
+	"version": "1.7.0a",
+	"dependencies": [
+		{
+			"id": "Steamodded",
+			"min_version": "1.0.0~ALPHA-1030e"
+		}
+	],
+    "conflicts": [
+		{
+			"id": "CardSleeves",
+			"max_version": "1.4.0"
+		}
+	]
+}

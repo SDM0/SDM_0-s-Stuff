@@ -1,18 +1,3 @@
---- STEAMODDED HEADER
---- MOD_NAME: SDM_0's Stuff
---- MOD_ID: sdm0sstuff
---- MOD_AUTHOR: [SDM_0]
---- MOD_DESCRIPTION: Content mod that adds new jokers, consumables, decks and challenges.
---- BADGE_COLOUR: c20000
---- DISPLAY_NAME: SDM_0's Stuff
---- PREFIX: sdm
---- VERSION: 1.6.4e
---- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
---- CONFLICTS: [CardSleeves<=1.4.0]
-
-----------------------------------------------
-------------MOD CODE -------------------------
-
 SDM_0s_Stuff_Mod = SMODS.current_mod
 SDM_0s_Stuff_Config = SDM_0s_Stuff_Mod.config
 
@@ -164,6 +149,3 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
     }}
 end
-
-----------------------------------------------
-------------MOD CODE END----------------------
