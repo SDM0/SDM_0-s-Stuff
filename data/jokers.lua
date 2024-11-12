@@ -1652,45 +1652,52 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_carcinization = "Carcinization"
 
---- Foresight ---
+--- Shadow Work ---
 
 SMODS.Joker{
-    key = "foresight",
-    name = "Foresight",
-    rarity = 1,
+    key = "shadow_work",
+    name = "Shadow Work",
+    rarity = 3,
+    blueprint_compat = true,
     pos = {x = 0, y = 0},
-    cost = 4,
-    config = {extra = 3},
+    cost = 8,
+    config = {extra = {repetition = true}},
     loc_vars = function(self, info_queue, card)
-        local text = ""
-        if not card.debuff and card.area and card.area.config.type == 'joker' then
-            if G.deck and G.deck.cards and #G.deck.cards > 0 then
-                local nodes = {}
-                for i = 1, math.min(card.ability.extra, #G.deck.cards) do
-                    local info = get_scry_info(G.deck.cards[#G.deck.cards-(i-1)])
-                    if info ~= "" then
-                        text = text .. info .. ', '
-                    end
-                    if i % 3 == 0 then
-                        text = text:sub(1, -3)
-                        nodes[#nodes+1] = {n=G.UIT.R, config={align = "bm"}, nodes={
-                            {n=G.UIT.C, config={ref_table = card, align = "m"}, nodes={
-                                {n=G.UIT.T, config={text = text, colour = HEX("4F6367"), scale = 0.3}},
-                            }},
-                        }}
-                        text = ""
-                    end
-                end
-                return {vars = {card.ability.extra}, main_end = nodes}
+        local last_tarot = G.GAME.last_tarot and G.P_CENTERS[G.GAME.last_tarot] or nil
+        local tarot_loc = last_tarot and localize{type = 'name_text', key = last_tarot.key, set = last_tarot.set} or nil
+        return {vars = {tarot_loc or "", (not tarot_loc and localize('k_none')) or "", (card.ability.extra.repetition and "Active") or "", (not card.ability.extra.repetition and "Inactive") or ""}}
+    end,
+    calculate = function(self, card, context)
+        if context.using_consumeable and G.GAME.last_tarot and card.ability.extra.repetition then
+            if context.consumeable.ability.set == "Tarot" and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                card.ability.extra.repetition = false
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                local _card = create_card('Tarot_Planet', G.consumeables, nil, nil, nil, nil, G.GAME.last_tarot, 'timetravel')
+                                _card:add_to_deck()
+                                G.consumeables:emplace(_card)
+                                G.GAME.consumeable_buffer = 0
+                                return true
+                            end}))   
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
+                    return true
+                end)}))
             end
         end
-        return {vars = {card.ability.extra}}
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint)
+        and not card.ability.extra.repetition then
+            card.ability.extra.repetition = true
+            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                message = localize('k_active_ex'),
+                colour = G.C.FILTER,
+            })
+        end
     end,
     atlas = "sdm_jokers"
 }
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_foresight = "Foresight"
-SDM_0s_Stuff_Mod.meme_jokers.j_sdm_foresight = "Foresight"
 
 --- Wormhole ---
 

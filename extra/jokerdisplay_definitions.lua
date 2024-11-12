@@ -513,25 +513,33 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
     text_config = { colour = G.C.MULT }
 }
 
-jd_def["j_sdm_foresight"] = { -- Foresight TODO
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "card" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        local text = ""
-        if G.deck and G.deck.cards then
-            for i = 1, math.min(card.ability.extra, #G.deck.cards) do
-                local info = get_scry_info(G.deck.cards[#G.deck.cards-(i-1)], true)
-                if info ~= "" then
-                    text = text .. info .. ', '
-                end
-            end
-            text = text:sub(1, -3)
+jd_def["j_sdm_shadow_work"] = { -- Shadow Work
+reminder_text = {
+    { text = "(" },
+    { ref_table = "card.joker_display_values", ref_value = "tarot" },
+    { text = ", " },
+    { ref_table = "card.joker_display_values", ref_value = "active" },
+    { text = ")" },
+},
+calc_function = function(card)
+    local last_tarot = G.GAME.last_tarot and G.P_CENTERS[G.GAME.last_tarot] or nil
+    local tarot_loc = last_tarot and localize{type = 'name_text', key = last_tarot.key, set = last_tarot.set} or localize('k_none')
+    card.joker_display_values.tarot = tarot_loc or "None"
+    card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
+end,
+style_function = function(card, text, reminder_text, extra)
+    if reminder_text then
+        if reminder_text.children[2] then
+            reminder_text.children[2].config.colour = card.joker_display_values.tarot ~= "None" and G.C.PURPLE or
+            G.C.UI.TEXT_INACTIVE
         end
-        card.joker_display_values.card = text
-    end,
+        if reminder_text.children[4] then
+            reminder_text.children[4].config.colour = card.ability.extra.repetition and G.C.ORANGE or
+            G.C.UI.TEXT_INACTIVE
+        end
+    end
+    return false
+end
 }
 
 jd_def["j_sdm_wormhole"] = { -- Wormhole

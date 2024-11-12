@@ -86,3 +86,28 @@ if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
 end
 '''
 match_indent = true
+
+# G.GAME.last_tarot
+[[patches]]
+[patches.regex]
+target = "functions/button_callbacks.lua"
+pattern = '''for\s+i\s*=\s*1,\s*#G\.jokers\.cards\s+do\s*G\.jokers\.cards\[\s*i\s*\]:calculate_joker\(\{using_consumeable\s*=\s*true,\s*consumeable\s*=\s*card\}\)\s*end'''
+position = "after"
+payload = '''
+
+sendDebugMessage(G.GAME.last_tarot or "No last tarot")
+G.E_MANAGER:add_event(Event({
+  trigger = 'immediate',
+  func = function()
+    G.E_MANAGER:add_event(Event({
+      trigger = 'immediate',
+      func = function()
+        G.GAME.last_tarot = card.config.center_key
+          return true
+      end
+    }))
+      return true
+  end
+}))
+'''
+line_prepend = '$indent'

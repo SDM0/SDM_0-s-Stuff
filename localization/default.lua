@@ -339,11 +339,14 @@ return {
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 }
             },
-            j_sdm_foresight = {
-                name = "Foresight",
+            j_sdm_shadow_work = {
+                name = "Shadow Work",
                 text = {
-                    "On hover, scry",
-                    "the next {C:attention}#1#{} cards",
+                    "Create a copy of a",
+                    "previously used",
+                    "{C:tarot}Tarot{} card,",
+                    "once per {C:attention}round{}",
+                    "{C:inactive}(Currently {C:tarot}#1#{C:inactive}#2#, {C:attention}#3#{C:inactive}#4#)"
                 }
             },
             j_sdm_wormhole = {
