@@ -295,12 +295,12 @@ return {
                     "end of round"
                 },
             },
-            j_sdm_set_in_stone = {
-                name = "Set in Stone",
+            j_sdm_chain_reaction = {
+                name = "Chain Reaction",
                 text = {
-                    "All played {C:attention}4{}, {C:attention}3{} and {C:attention}2{}",
-                    "become {C:attention}Stone{} cards",
-                    "when scored",
+                    "This Joker gains {C:mult}+X{} Mult",
+                    "when scoring a {C:attention}X of a Kind{}",
+                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
                 }
             },
             j_sdm_consolation_prize = {
@@ -342,10 +342,11 @@ return {
             j_sdm_shadow_work = {
                 name = "Shadow Work",
                 text = {
-                    "Create a copy of a",
-                    "previously used",
-                    "{C:tarot}Tarot{} card,",
+                    "When using a {C:tarot}Tarot{} card,",
+                    "creates a copy of the",
+                    "previous {C:tarot}Tarot{} card,",
                     "once per {C:attention}round{}",
+                    "{s:0.8,C:inactive}(Must have room)",
                     "{C:inactive}(Currently {C:tarot}#1#{C:inactive}#2#, {C:attention}#3#{C:inactive}#4#)"
                 }
             },
@@ -420,6 +421,7 @@ return {
                     "Start run with",
                     "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{C:red}X#1#{} base Blind size"
                 }
             },
             b_sdm_dna = {
@@ -628,6 +630,7 @@ return {
                     "Start run with",
                     "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{C:red}X#1#{} base Blind size"
                 }
             },
             sleeve_sdm_lucky_7_alt = {

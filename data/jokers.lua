@@ -1100,12 +1100,13 @@ SMODS.Joker{
         return {vars = {card.ability.extra}}
     end,
     set_ability = function(self, card, initial, delay_sprites)
-        local W, H = card.T.w, card.T.h
-        local scale = 1
-        card.children.center.scale.y = card.children.center.scale.x
-        H = W
-        card.T.h = H*scale
-        card.T.w = W*scale
+        if G.P_CENTERS[self.key].discovered or card.bypass_discovery_center then
+            local W, H = card.T.w, card.T.h
+            card.children.center.scale.y = card.children.center.scale.x
+            H = W
+            card.T.h = H
+            card.T.w = W
+        end
     end,
     calculate = function(self, card, context)
         if context.selling_card and not context.blueprint then
@@ -1434,38 +1435,30 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_jack_a_dit = "Jack A Dit"
 
---- Set in Stone ---
+--- Chain Reaction ---
 
 SMODS.Joker{
-    key = "set_in_stone",
-    name = "Set in Stone",
+    key = "chain_reaction",
+    name = "Chain Reaction",
     rarity = 2,
+    blueprint_compat = true,
     pos = {x = 0, y = 0},
-    cost = 7,
+    cost = 8,
+    config = {extra = {mult = 0}},
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+        return {vars = {card.ability.extra.mult}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and context.scoring_hand and not context.blueprint then
-            local low_ranks = {}
-            for _, v in ipairs(context.scoring_hand) do
-                local c_id = v:get_id()
-                if c_id == 2 or c_id == 3 or c_id == 4 then 
-                    low_ranks[#low_ranks+1] = v
-                    v:set_ability(G.P_CENTERS.m_stone)
-                    G.E_MANAGER:add_event(Event({
-                        func = function()
-                            v:juice_up()
-                            return true
-                        end
-                    })) 
-                end
-            end
-            if #low_ranks > 0 then 
+        if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and not context.blueprint then
+            -- TODO: finish Chain Reaction calculate function
+            local hand_type = string.lower(context.scoring_name)
+            local number = hand_type:match("^(%w+).*%s+kind$")
+            sendDebugMessage(hand_type .. ', ' .. (number and tonumber(number) or "no number"))
+            if number and tonumber(number) then
+                card.ability.extra.mult = card.ability.extra.mult + tonumber(number)
                 return {
-                    message = localize('k_stone'),
-                    colour = G.C.GREY,
-                    card = card
+                    card = card,
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}
                 }
             end
         end
@@ -1473,7 +1466,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_set_in_stone = "Set in Stone"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_chain_reaction = "Chain Reaction"
 
 --- Consolation Prize ---
 
@@ -1657,10 +1650,10 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_carcinization = "Carcinization"
 SMODS.Joker{
     key = "shadow_work",
     name = "Shadow Work",
-    rarity = 3,
+    rarity = 2,
     blueprint_compat = true,
     pos = {x = 0, y = 0},
-    cost = 8,
+    cost = 6,
     config = {extra = {repetition = true}},
     loc_vars = function(self, info_queue, card)
         local last_tarot = G.GAME.last_tarot and G.P_CENTERS[G.GAME.last_tarot] or nil
@@ -1698,6 +1691,8 @@ SMODS.Joker{
     end,
     atlas = "sdm_jokers"
 }
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_shadow_work = "Shadow Work"
 
 --- Wormhole ---
 
