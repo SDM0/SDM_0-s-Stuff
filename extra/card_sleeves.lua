@@ -75,10 +75,13 @@ if SDM_0s_Stuff_Config.sdm_jokers then
         key = "lucky_7",
         atlas = "sdm_sleeves",
         pos = { x = 3, y = 0 },
+        config = {ante_scaling = 1.5},
         unlocked = true,
         loc_vars = function(self)
             if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
                 return {key = self.key .. '_alt', vars = {}}
+            else
+                return {vars = {self.config.ante_scaling}}
             end
         end,
         apply = function(self)
@@ -90,6 +93,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                         end
                     end
                     if self.get_current_deck_key() ~= "b_sdm_lucky_7" and self.get_current_deck_key() ~= "b_sdm_deck_of_stuff" then
+                        G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
                         add_joker("j_sdm_lucky_joker", nil, true, true)
                     else
                         if G.jokers.cards and #G.jokers.cards > 0 then

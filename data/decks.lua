@@ -67,6 +67,10 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.Back{
         key = "lucky_7",
         pos = {x = 3, y = 0},
+        config = {ante_scaling = 1.5},
+        loc_vars = function(self)
+            return {vars = {self.config.ante_scaling}}
+        end,
         apply = function(self)
             G.E_MANAGER:add_event(Event({
                 func = function()
