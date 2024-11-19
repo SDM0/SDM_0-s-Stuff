@@ -87,27 +87,20 @@ end
 '''
 match_indent = true
 
-# G.GAME.last_tarot
+# Ouija Board secret poker hand list (code from Ortalab)
+#Inject for start up
 [[patches]]
-[patches.regex]
-target = "functions/button_callbacks.lua"
-pattern = '''for\s+i\s*=\s*1,\s*#G\.jokers\.cards\s+do\s*G\.jokers\.cards\[\s*i\s*\]:calculate_joker\(\{using_consumeable\s*=\s*true,\s*consumeable\s*=\s*card\}\)\s*end'''
+[patches.pattern]
+target = "game.lua"
+pattern = '''boot_timer('splash prep', 'end',1)'''
 position = "after"
 payload = '''
-
-sendDebugMessage(G.GAME.last_tarot or "No last tarot")
-G.E_MANAGER:add_event(Event({
-  trigger = 'immediate',
-  func = function()
-    G.E_MANAGER:add_event(Event({
-      trigger = 'immediate',
-      func = function()
-        G.GAME.last_tarot = card.config.center_key
-          return true
-      end
-    }))
-      return true
-  end
-}))
+if (SMODS.Mods['sdm0sstuff'] or {}).can_load then
+    for k, v in pairs(G.GAME.hands) do
+        if v.visible == false then
+            G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands[#G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands+1] = k
+        end
+    end
+end
 '''
-line_prepend = '$indent'
+match_indent = true

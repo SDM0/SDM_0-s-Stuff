@@ -366,7 +366,7 @@ SMODS.Joker{
     eternal_compat = false,
     pos = {x = 1, y = 1},
     cost = 8,
-    config = {extra = {remaining = 0, rounds = 3, sold_rare = false, scored_secret = false, used_spectral = false}},
+    config = {extra = {remaining = 0, rounds = 3, secret_poker_hands = {}, sold_rare = false, scored_secret = false, used_spectral = false}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_soul
         return {vars = {card.ability.extra.remaining, card.ability.extra.rounds,
@@ -394,8 +394,15 @@ SMODS.Joker{
             end
         end
         if context.joker_main and not context.blueprint then
-            if context.scoring_name and context.scoring_name == 'Five of a Kind' or context.scoring_name == 'Flush House' or context.scoring_name == 'Flush Five' then
-                if not card.ability.extra.scored_secret then
+            if context.scoring_name then
+                local valid_secret_hand = false
+                for _, hand in ipairs(card.ability.extra.secret_poker_hands) do
+                    if context.scoring_name == hand then
+                        valid_secret_hand = true
+                        break
+                    end
+                end
+                if valid_secret_hand and not card.ability.extra.scored_secret then
                     card.ability.extra.scored_secret = true
                     card.ability.extra.remaining = card.ability.extra.remaining + 1
                     ouija_check(card, context)
@@ -865,7 +872,7 @@ SMODS.Joker{
                         })
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                new_card = copy_card(context.card, nil, nil, nil, nil)
+                                local new_card = copy_card(context.card, nil, nil, nil, nil)
                                 new_card:add_to_deck2()
                                 G.jokers:emplace(new_card)
                                 new_card:start_materialize()
@@ -1450,7 +1457,6 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and not context.blueprint then
-            -- TODO: finish Chain Reaction calculate function
             local hand_type = string.lower(context.scoring_name)
             local number = hand_type:match("^(%w+).*%s+kind$")
             sendDebugMessage(hand_type .. ', ' .. (number and tonumber(number) or "no number"))
@@ -1691,8 +1697,6 @@ SMODS.Joker{
     end,
     atlas = "sdm_jokers"
 }
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_shadow_work = "Shadow Work"
 
 --- Wormhole ---
 
