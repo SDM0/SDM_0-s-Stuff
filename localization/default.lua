@@ -299,8 +299,8 @@ return {
                 name = "Chain Reaction",
                 text = {
                     "This Joker gains {C:mult}+X{} Mult",
-                    "when scoring a {C:attention}X of a Kind{}",
-                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)"
+                    "when scoring an {C:attention}X of a Kind{}",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
                 }
             },
             j_sdm_consolation_prize = {
@@ -339,15 +339,12 @@ return {
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 }
             },
-            j_sdm_shadow_work = {
-                name = "Shadow Work",
+            j_sdm_safe_hands = {
+                name = "Safe Hands",
                 text = {
-                    "When using a {C:tarot}Tarot{} card,",
-                    "creates a copy of the",
-                    "previous {C:tarot}Tarot{} card,",
-                    "once per {C:attention}round{}",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Currently {C:tarot}#1#{C:inactive}#2#, {C:attention}#3#{C:inactive}#4#)"
+                    "Earn {C:money}$1{} per {C:attention}played{}",
+                    "{C:attention}hand{} this round",
+                    "at end of round"
                 }
             },
             j_sdm_wormhole = {
@@ -460,7 +457,7 @@ return {
                 name = "Modder's Deck",
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
-                    "can't appear"
+                    "can't appear in shop"
                 }
             },
             b_sdm_deck_of_stuff = {
@@ -702,7 +699,7 @@ return {
                 name = "Modder's Sleeve",
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
-                    "can't appear"
+                    "can't appear in shop"
                 }
             },
             sleeve_sdm_modders_alt = {
@@ -710,7 +707,7 @@ return {
                 text = {
                     "{C:attention}Vanilla{} cards",
                     "and Vouchers",
-                    "can't appear"
+                    "can't appear in shop"
                 }
             },
         },

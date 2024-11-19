@@ -1457,16 +1457,19 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and not context.blueprint then
-            local hand_type = string.lower(context.scoring_name)
-            local number = hand_type:match("^(%w+).*%s+kind$")
-            sendDebugMessage(hand_type .. ', ' .. (number and tonumber(number) or "no number"))
-            if number and tonumber(number) then
-                card.ability.extra.mult = card.ability.extra.mult + tonumber(number)
+            if string.match(string.lower(context.scoring_name), "%f[%w]kind%f[%W]$") then
+                card.ability.extra.mult = card.ability.extra.mult + #context.scoring_hand
                 return {
                     card = card,
                     message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}
                 }
             end
+        end
+        if context.joker_main then
+            return {
+                message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                mult_mod = card.ability.extra.mult
+            }
         end
     end,
     atlas = "sdm_jokers"
@@ -1651,52 +1654,26 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_carcinization = "Carcinization"
 
---- Shadow Work ---
+--- Safe Hands --
 
 SMODS.Joker{
-    key = "shadow_work",
-    name = "Shadow Work",
-    rarity = 2,
-    blueprint_compat = true,
+    key = "safe_hands",
+    name = "Safe Hands",
+    rarity = 1,
     pos = {x = 0, y = 0},
-    cost = 6,
-    config = {extra = {repetition = true}},
+    config = {extra = 1},
     loc_vars = function(self, info_queue, card)
-        local last_tarot = G.GAME.last_tarot and G.P_CENTERS[G.GAME.last_tarot] or nil
-        local tarot_loc = last_tarot and localize{type = 'name_text', key = last_tarot.key, set = last_tarot.set} or nil
-        return {vars = {tarot_loc or "", (not tarot_loc and localize('k_none')) or "", (card.ability.extra.repetition and "Active") or "", (not card.ability.extra.repetition and "Inactive") or ""}}
+        return {vars = {card.ability.extra}}
     end,
-    calculate = function(self, card, context)
-        if context.using_consumeable and G.GAME.last_tarot and card.ability.extra.repetition then
-            if context.consumeable.ability.set == "Tarot" and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                card.ability.extra.repetition = false
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                local _card = create_card('Tarot_Planet', G.consumeables, nil, nil, nil, nil, G.GAME.last_tarot, 'timetravel')
-                                _card:add_to_deck()
-                                G.consumeables:emplace(_card)
-                                G.GAME.consumeable_buffer = 0
-                                return true
-                            end}))   
-                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.SECONDARY_SET.Tarot})
-                    return true
-                end)}))
-            end
-        end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint)
-        and not card.ability.extra.repetition then
-            card.ability.extra.repetition = true
-            card_eval_status_text(card, 'extra', nil, nil, nil, {
-                message = localize('k_active_ex'),
-                colour = G.C.FILTER,
-            })
-        end
+    cost = 6,
+    calc_dollar_bonus = function(self, card)
+        local dollar = (G.GAME.round_resets.hands - G.GAME.current_round.hands_left) * card.ability.extra
+        if dollar > 0 then return dollar end
     end,
     atlas = "sdm_jokers"
 }
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_safe_hands = "Safe Hands"
 
 --- Wormhole ---
 
