@@ -43,11 +43,13 @@ SMODS.Joker{
                     colour = G.C.FILTER
                 }
             else
-                card.ability.extra.remaining = card.ability.extra.remaining - 1
-                return {
-                    message = card.ability.extra.remaining..'',
-                    colour = G.C.FILTER
-                }
+                if not context.retrigger_joker then
+                    card.ability.extra.remaining = card.ability.extra.remaining - 1
+                    return {
+                        message = card.ability.extra.remaining..'',
+                        colour = G.C.FILTER
+                    }
+                end
             end
         elseif context.joker_main then
             SMODS.eval_this(context.blueprint_card or card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
@@ -79,7 +81,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, get_most_played_better_hand() or "High Card"}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and not context.blueprint then
+        if context.cardarea == G.jokers and context.before and not (context.blueprint or context.retrigger_joker) then
             if context.scoring_name == get_most_played_better_hand() then
                 card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
                 return {
@@ -309,7 +311,6 @@ SMODS.Joker{
     key = "tip_jar",
     name = "Tip Jar",
     rarity = 2,
-    blueprint_compat = false,
     pos = {x = 9, y = 0},
     cost = 6,
     calc_dollar_bonus = function(self, card)
@@ -339,7 +340,7 @@ SMODS.Joker{
         return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
     end,
     calculate = function(self, card, context)
-        if context.reroll_shop and not context.blueprint and pseudorandom(pseudoseed('wdrstr')) < G.GAME.probabilities.normal/card.ability.extra then
+        if context.reroll_shop and not (context.blueprint or context.retrigger_joker) and pseudorandom(pseudoseed('wdrstr')) < G.GAME.probabilities.normal/card.ability.extra then
             local level_up_hands = {}
             for k, v in pairs(G.GAME.hands) do
                 if v.visible then level_up_hands[#level_up_hands+1] = k end
@@ -375,7 +376,7 @@ SMODS.Joker{
         (card.ability.extra.used_spectral and "Spectral") or "", (not card.ability.extra.used_spectral and "Spectral") or ""}}
     end,
     calculate = function(self, card, context)
-        if context.selling_card and not context.blueprint and context.card.ability.set == 'Joker' then
+        if context.selling_card and not (context.blueprint or context.retrigger_joker) and context.card.ability.set == 'Joker' then
             if context.card.config.center.rarity == 3 then
                 if not card.ability.extra.sold_rare then
                     card.ability.extra.sold_rare = true
@@ -384,7 +385,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.using_consumeable and not context.blueprint then
+        if context.using_consumeable and not (context.blueprint or context.retrigger_joker) then
             if context.consumeable.ability.set == "Spectral" then
                 if not card.ability.extra.used_spectral then
                     card.ability.extra.used_spectral = true
@@ -393,7 +394,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.joker_main and not context.blueprint then
+        if context.joker_main and not (context.blueprint or context.retrigger_joker) then
             if context.scoring_name then
                 local valid_secret_hand = false
                 for _, hand in ipairs(card.ability.extra.secret_poker_hands) do
@@ -409,7 +410,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.selling_self and not context.blueprint then
+        if context.selling_self and not not (context.blueprint or context.retrigger_joker) then
             if card.ability.extra.sold_rare and card.ability.extra.used_spectral and card.ability.extra.scored_secret then
                 if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -417,13 +418,13 @@ SMODS.Joker{
                         func = (function()
                             G.E_MANAGER:add_event(Event({
                                 func = function() 
-                                    local new_card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
+                                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
                                     new_card:add_to_deck()
                                     G.consumeables:emplace(new_card)
                                     G.GAME.consumeable_buffer = 0
                                     return true
                                 end}))   
-                            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
                         return true
                     end)}))
                 end
@@ -486,7 +487,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}}
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint then
+        if context.setting_blind and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
             if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = "-"  .. localize('$') .. card.ability.extra.dollars,
@@ -596,7 +597,7 @@ SMODS.Joker{
         return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
-        if context.selling_card and not context.blueprint then
+        if context.selling_card and not (context.blueprint or context.retrigger_joker) then
             if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
                 context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
@@ -705,7 +706,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.active, card.ability.extra.inactive}}
     end,
     calculate = function(self, card, context)
-        if context.playing_card_added  and not card.getting_sliced and not context.blueprint then
+        if context.playing_card_added  and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
             if not card.ability.extra.can_dupe then
                 card.ability.extra.active = "Active"
                 card.ability.extra.inactive = ""
@@ -718,7 +719,7 @@ SMODS.Joker{
         end
         if context.cards_destroyed and card.ability.extra.can_dupe then
             if #context.glass_shattered > 0 then
-                if not context.blueprint then
+                if not (context.blueprint or context.retrigger_joker) then
                     card.ability.extra.active = ""
                     card.ability.extra.inactive = "Inactive"
                     card.ability.extra.can_dupe = false
@@ -735,7 +736,7 @@ SMODS.Joker{
             end
         elseif context.remove_playing_cards and card.ability.extra.can_dupe then
             if #context.removed > 0 then
-                if not context.blueprint then
+                if not (context.blueprint or context.retrigger_joker) then
                     card.ability.extra.active = ""
                     card.ability.extra.inactive = "Inactive"
                     card.ability.extra.can_dupe = false
@@ -787,7 +788,7 @@ SMODS.Joker{
         if context.cardarea == G.jokers and not (context.before or context.after) then
             if context.scoring_hand then 
                 if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
-                    if not context.blueprint then 
+                    if not (context.blueprint or context.retrigger_joker) then 
                         card.ability.extra.c1_scored = true
                         card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -796,7 +797,7 @@ SMODS.Joker{
                         })
                     end
                 elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
-                    if not context.blueprint then 
+                    if not (context.blueprint or context.retrigger_joker) then 
                         card.ability.extra.c2_scored = true
                         card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -860,7 +861,7 @@ SMODS.Joker{
     pos = {x = 1, y = 2},
     cost = 1,
     calculate = function(self, card, context)
-        if context.sdm_adding_card and not context.blueprint then
+        if context.sdm_adding_card and not (context.blueprint or context.retrigger_joker) then
             if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
                 local do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
                 if do_dupe == 1 then
@@ -915,7 +916,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod}}
     end,
     calculate = function(self, card, context)
-        if context.pre_discard and not context.blueprint then
+        if context.pre_discard and not (context.blueprint or context.retrigger_joker) then
             local eval = evaluate_poker_hand(G.hand.highlighted)
             if eval["Full House"] and eval["Full House"][1] then
                 card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
@@ -976,7 +977,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.money, card.ability.extra.blind_req}}
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint then
+        if context.setting_blind and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                 G.GAME.blind.chips = math.floor(G.GAME.blind.chips * card.ability.extra.blind_req)
                 G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
@@ -1116,19 +1117,17 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.selling_card and not context.blueprint then
-            if context.card.ability.set ~= 'Joker' then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                    card.ability.extra_value = card.ability.extra_value + card.ability.extra
-                    card:set_cost()
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_val_up'),
-                        colour = G.C.MONEY
-                    })
-                    return true
-                end}))
-            end
+        if context.selling_card and not (context.blueprint or context.retrigger_joker) then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                card.ability.extra_value = card.ability.extra_value + card.ability.extra
+                card:set_cost()
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_val_up'),
+                    colour = G.C.MONEY
+                })
+                return true
+            end}))
         end
     end,
     atlas = "sdm_jokers"
@@ -1238,7 +1237,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and context.scoring_hand and not context.blueprint then
+        if context.cardarea == G.jokers and context.before and context.scoring_hand and not (context.blueprint or context.retrigger_joker) then
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
@@ -1312,7 +1311,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra}}
     end,
     calculate = function(self, card, context)
-        if context.first_hand_drawn and not context.blueprint then
+        if context.first_hand_drawn and not (context.blueprint or context.retrigger_joker) then
             local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 end
             juice_card_until(card, eval, true)
         end
@@ -1456,7 +1455,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.mult}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and not context.blueprint then
+        if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and not (context.blueprint or context.retrigger_joker) then
             if string.match(string.lower(context.scoring_name), "%f[%w]kind%f[%W]$") then
                 card.ability.extra.mult = card.ability.extra.mult + #context.scoring_hand
                 return {
@@ -1621,7 +1620,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.mult_mod, card.ability.extra.mult}}
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced and not context.blueprint then
+        if context.setting_blind and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
             local my_pos = nil
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
@@ -1757,7 +1756,7 @@ SMODS.Joker{
                             new_card:add_to_deck()
                             G.jokers:emplace(new_card)
                             new_card:start_materialize()
-                            if not context.blueprint then
+                            if not (context.blueprint or context.retrigger_joker) then
                                 card.ability.extra.can_copy = false
                             end
                             return true
@@ -1809,7 +1808,7 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.cards_destroyed and not context.blueprint then
+        if context.cards_destroyed and not (context.blueprint or context.retrigger_joker) then
             if #context.glass_shattered > 0 then
                 for _, v in ipairs(context.glass_shattered) do
                     if v:get_id() == 2 then
@@ -1822,7 +1821,7 @@ SMODS.Joker{
                     end
                 end
             end
-        elseif context.remove_playing_cards and not context.blueprint then
+        elseif context.remove_playing_cards and not (context.blueprint or context.retrigger_joker) then
             if #context.removed > 0 then
                 for _, v in ipairs(context.removed) do
                     if v:get_id() == 2 then
@@ -1858,7 +1857,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}}
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not (context.blueprint_card or card).getting_sliced and not context.blueprint then
+        if context.setting_blind and not (context.blueprint_card or card).getting_sliced and not (context.blueprint or context.retrigger_joker) then
             if G.consumeables and #G.consumeables.cards > 0 then
                 local destructable_consus = {}
                 for i = 1, #G.consumeables.cards do
