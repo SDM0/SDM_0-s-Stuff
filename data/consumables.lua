@@ -49,7 +49,7 @@ SMODS.Consumable{
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 attention_text({
                     text = localize('k_nope_ex'),
-                    scale = 1.3, 
+                    scale = 1.3,
                     hold = 1.4,
                     major = used_tarot,
                     backdrop_colour = G.C.SECONDARY_SET.Tarot,
@@ -222,5 +222,3 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_bind = "Bind"
-
-return

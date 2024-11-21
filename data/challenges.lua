@@ -138,5 +138,3 @@ SMODS.Challenge{
         banned_other = {}
     }
 }
-
-return

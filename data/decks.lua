@@ -257,5 +257,3 @@ SMODS.Back{
     end,
     atlas = "sdm_enhancers"
 }
-
-return
