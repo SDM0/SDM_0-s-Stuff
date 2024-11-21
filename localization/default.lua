@@ -383,10 +383,21 @@ return {
                 text = {
                     "When {C:attention}Blind{} is selected,",
                     "this Joker {C:attention}destroys{} each",
-                    "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
-                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)"
+                    "{C:attention}consumable{} for {X:mult,C:white}X#1#{} Mult",
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             },
+            -- Joker Evolutions
+            j_sdm_mishmash = {
+                name = "Mishmash",
+                text = {
+                    "{C:attention}Mult'N'Chips{} effect,",
+                    "Held {C:attention}Gold{} cards",
+                    "give {X:mult,C:white}X#1#{} Mult and",
+                    "held {C:attention}Steel{} cards",
+                    "give {C:money}$#2#{} at end of round",
+                }
+            }
         },
         Back = {
             b_sdm_0_s = {
@@ -596,6 +607,14 @@ return {
                     "{C:attention}#1#{} rounds"
                 }
             },
+            je_j_sdm_mult_n_chips = {
+                name = "Evolution",
+                text = {
+                    "Score {C:attention}#2#{} {C:attention}Bonus{}",
+                    "or {C:attention}Mult{} cards",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            }
         },
         Sleeve = {
             sleeve_sdm_0_s = {

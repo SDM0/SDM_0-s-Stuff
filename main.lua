@@ -63,6 +63,9 @@ SMODS.load_file("utils.lua")()
 if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.load_file("data/jokers.lua")()
     SMODS.load_file("data/challenges.lua")()
+    if JokerEvolution then
+        SMODS.load_file("extra/joker_evolution.lua")()
+    end
     if JokerDisplay then
         SMODS.load_file("extra/jokerdisplay_definitions.lua")()
     end
