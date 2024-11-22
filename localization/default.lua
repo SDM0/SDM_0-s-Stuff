@@ -391,11 +391,10 @@ return {
             j_sdm_mishmash = {
                 name = "Mishmash",
                 text = {
-                    "{C:attention}Mult'N'Chips{} effect,",
-                    "Held {C:attention}Gold{} cards",
-                    "give {X:mult,C:white}X#1#{} Mult and",
-                    "held {C:attention}Steel{} cards",
-                    "give {C:money}$#2#{} at end of round",
+                    "Scored {C:attention}Bonus{} cards give {C:mult}+#1#{} Mult,",
+                    "scored {C:attention}Mult{} cards give {C:chips}+#2#{} Chips,",
+                    "held {C:attention}Gold{} cards give {X:mult,C:white}X#3#{} Mult and",
+                    "held {C:attention}Steel{} cards give {C:money}$#4#{} at end of round",
                 }
             }
         },
@@ -610,8 +609,8 @@ return {
             je_j_sdm_mult_n_chips = {
                 name = "Evolution",
                 text = {
-                    "Score {C:attention}#2#{} {C:attention}Bonus{}",
-                    "or {C:attention}Mult{} cards",
+                    "Score {C:attention}#2# {C:attention}Mult{}",
+                    "and {C:attention}Bonus{} cards",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
             }

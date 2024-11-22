@@ -5,18 +5,28 @@ SMODS.Joker{
 	blueprint_compat = true,
 	pos = {x = 0, y = 0},
 	cost = 10,
-	config = {extra = {Xmult = 1.5, dollars = 3}},
+	config = {extra = {chips = 30, mult = 4, Xmult = 1.5, dollars = 3}},
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {
-            set = "Joker",
-            key = "j_sdm_mult_n_chips",
-            specific_vars = {G.P_CENTERS.j_sdm_mult_n_chips.config.extra.mult, G.P_CENTERS.j_sdm_mult_n_chips.config.extra.chips},
-        }
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
+        info_queue[#info_queue+1] = G.P_CENTERS.m_mult
         info_queue[#info_queue+1] = G.P_CENTERS.m_gold
         info_queue[#info_queue+1] = G.P_CENTERS.m_steel
-        return {vars = {card.ability.extra.Xmult,card.ability.extra.dollars}}
+        return {vars = {card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.Xmult, card.ability.extra.dollars}}
     end,
 	calculate = function(self, card, context)
+        if not context.end_of_round and context.individual and context.cardarea == G.play then
+            if context.other_card.ability.effect == "Bonus Card" then
+                return {
+                    mult = card.ability.extra.mult,
+                    card = card
+                }
+            elseif context.other_card.ability.effect == "Mult Card" then
+                return {
+                    chips = card.ability.extra.chips,
+                    card = card
+                }
+            end
+        end
 		if context.cardarea == G.hand and context.individual then
 			if not context.end_of_round and context.other_card.ability.effect == "Gold Card" then
                 return {
