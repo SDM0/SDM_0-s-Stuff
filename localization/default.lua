@@ -396,6 +396,16 @@ return {
                     "held {C:attention}Gold{} cards give {X:mult,C:white}X#3#{} Mult and",
                     "held {C:attention}Steel{} cards give {C:money}$#4#{} at end of round",
                 }
+            },
+            j_sdm_ceo_joker = {
+                name = "CEO Joker",
+                text = {
+                    "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
+                    "at end of round,",
+                    "{C:money}+$#3#{} for each",
+                    "{C:blue}Common {C:attention}Joker{} card",
+                    "{C:inactive}(Currently {C:money}$#4#{C:inactive} - {C:money}$#5#{C:inactive})"
+                }
             }
         },
         Back = {
@@ -609,8 +619,17 @@ return {
             je_j_sdm_mult_n_chips = {
                 name = "Evolution",
                 text = {
-                    "Score {C:attention}#2# {C:attention}Mult{}",
+                    "Score {C:attention}#2# Mult",
                     "and {C:attention}Bonus{} cards",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_shareholder_joker = {
+                name = "Evolution",
+                text = {
+                    "Sell {C:attention}#2# {C:red}Rare",
+                    "or higher",
+                    "{C:attention}Joker{} cards",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
             }
