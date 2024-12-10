@@ -66,39 +66,23 @@ SMODS.Joker{
 	rarity = "evo",
     pos = {x = 0, y = 0},
 	cost = 10,
-    config = {extra = {min = 1, max = 8, dollar = 0, dollar_mod = 2}},
+    config = {extra = {min = 5, max = 10}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.min, card.ability.extra.max, card.ability.extra.dollar_mod, card.ability.extra.min + card.ability.extra.dollar, card.ability.extra.max + card.ability.extra.dollar}}
+        return {vars = {card.ability.extra.min, card.ability.extra.max}}
     end,
     calc_dollar_bonus = function(self, card)
-        local rand_dollar = pseudorandom(pseudoseed('ceo'), card.ability.extra.min + card.ability.extra.dollar, card.ability.extra.max + card.ability.extra.dollar)
+        local rand_dollar = pseudorandom(pseudoseed('ceo'), card.ability.extra.min, card.ability.extra.max)
         return rand_dollar
     end,
 	calculate_evo = function(self, card, context)
 		if context.selling_card then
             if context.card.ability.set == 'Joker' then
                 local rarity = context.card.config.center.rarity
-                if type(rarity) == "number" and rarity >= 3 or type(rarity) ~= "number" then
-                    card:decrement_evo_condition()
-                end
+                if rarity == 1 then card:decrement_evo_condition() end
             end
 		end
 	end,
-    update = function(self, card, dt)
-        local rare_jokers = 0
-        if G.jokers and G.jokers.cards then
-            if #G.jokers.cards > 0 then
-                for i = 1, #G.jokers.cards do
-                    local rarity = G.jokers.cards[i].config.center.rarity
-                    if (type(rarity) == "number" and rarity == 1) then
-                        rare_jokers = rare_jokers + 1
-                    end
-                end
-            end
-        end
-        card.ability.extra.dollar = rare_jokers * card.ability.extra.dollar_mod
-    end,
     atlas = "sdm_jokers"
 }
 
-JokerEvolution.evolutions:add_evolution("j_sdm_shareholder_joker", "j_sdm_ceo_joker", 3)
+JokerEvolution.evolutions:add_evolution("j_sdm_shareholder_joker", "j_sdm_ceo_joker", 10)

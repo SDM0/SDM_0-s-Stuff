@@ -402,9 +402,6 @@ return {
                 text = {
                     "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
                     "at end of round,",
-                    "{C:money}+$#3#{} for each",
-                    "{C:blue}Common {C:attention}Joker{} card",
-                    "{C:inactive}(Currently {C:money}$#4#{C:inactive} - {C:money}$#5#{C:inactive})"
                 }
             }
         },
@@ -627,8 +624,7 @@ return {
             je_j_sdm_shareholder_joker = {
                 name = "Evolution",
                 text = {
-                    "Sell {C:attention}#2# {C:red}Rare",
-                    "or higher",
+                    "Sell {C:attention}#2# {C:blue}Common",
                     "{C:attention}Joker{} cards",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
