@@ -445,26 +445,26 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 2, y = 1},
     cost = 8,
-    config = {hand = "High Card"},
+    config = {extra = {hand = "High Card", no_faces = true}},
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers then
+        if context.cardarea == G.jokers and not (context.blueprint or context.retrigger_joker) then
             if context.before and context.scoring_name then
-                card.ability.hand = context.scoring_name
-            elseif context.after and G.GAME.chips + hand_chips * mult > G.GAME.blind.chips then
-                local no_faces = true
+                card.ability.extra.hand = context.scoring_name
+            elseif context.after then
+                card.ability.extra.no_faces = true
                 for i = 1, #context.full_hand do
                     if context.full_hand[i]:is_face() then
-                        no_faces = false
+                        card.ability.extra.no_faces = false
                         break
                     end
                 end
-                if no_faces then
-                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-                    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.hand].chips, mult = G.GAME.hands[card.ability.hand].mult, level=G.GAME.hands[card.ability.hand].level})
-                    level_up_hand(context.blueprint_card or card, card.ability.hand, nil, 1)
-                    update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
-                end
             end
+        end
+        if context.end_of_round and not (context.individual or context.repetition) and card.ability.extra.no_faces then
+            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.extra.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.extra.hand].chips, mult = G.GAME.hands[card.ability.extra.hand].mult, level=G.GAME.hands[card.ability.extra.hand].level})
+            level_up_hand(context.blueprint_card or card, card.ability.extra.hand, nil, 1)
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         end
     end,
     atlas = "sdm_jokers"
@@ -706,7 +706,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.active, card.ability.extra.inactive}}
     end,
     calculate = function(self, card, context)
-        if context.playing_card_added  and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
+        if context.playing_card_added and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
             if not card.ability.extra.can_dupe then
                 card.ability.extra.active = "Active"
                 card.ability.extra.inactive = ""
@@ -831,7 +831,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
             card.ability.extra.rts_scored = 0
             card.ability.extra.c1_scored = false
             card.ability.extra.c2_scored = false
@@ -882,7 +882,7 @@ SMODS.Joker{
                             end
                         }))
                     end
-                elseif not context.card.ability.eternal then
+                elseif not (context.card.ability.eternal or context.card.getting_sliced) then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_nope_ex'),
                         colour = G.C.RED,
@@ -1047,7 +1047,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
             card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
             if card.ability.extra.hands > 0 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -1425,7 +1425,7 @@ SMODS.Joker{
                 }
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
             local _poker_hands = {}
             for k, v in pairs(G.GAME.hands) do
                 if v.visible and k ~= card.ability.jack_poker_hand then _poker_hands[#_poker_hands+1] = k end
@@ -1707,7 +1707,7 @@ SMODS.Joker{
                 end)}))
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint)
+        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker)
         and not card.ability.extra.repetition then
             card.ability.extra.repetition = true
             card_eval_status_text(card, 'extra', nil, nil, nil, {
