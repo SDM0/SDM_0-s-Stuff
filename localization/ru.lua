@@ -2,36 +2,36 @@ return{
     descriptions={
         Joker={
             j_sdm_trance_the_devil={
-                name="Транс Дьявола",
+                name="Дьявол Транс",
                 text={
                     "При выборе {C:attention}блайнда{},",
-                    "этот джокер {C:attention}уничтожает{} каждый",
-                    "{C:attention}расходник{} за {X:red,C:white}X#1#{} множ.",
+                    "этот джокер {C:attention}уничтожает{} каждую карту",
+                    "в {C:attention}расходуемой{} области ради {X:red,C:white}X#1#{} множ.",
                     "{C:inactive}(сейчас {X:red,C:white}X#2#{C:inactive} множ.)"
                 }
             },
             j_sdm_burger={
                 name="Бургер",
                 text={
-                    "{C:chips}+#3#{} фишек, {C:mult}+#2#{} множ.",
+                    "{C:chips}+#3#{} шт. фишек, {C:mult}+#2#{} множ.",
                     "и {X:mult,C:white}X#1#{} множ. на",
-                    "следующие {C:attention}#4#{} раунда"
+                    "следующие {C:attention}#4#{} раундов"
                 }
             },
             j_sdm_bounciest_ball={
                 name="Самый прыгучий мяч",
                 text={
-                    "Этот джокер получает {C:chips}+#2#{} фишек при",
-                    "подсчёте наиболее часто играемой {C:attention}покерной комбинации{},",
-                    "вдвое меньше при {C:attention}другой комбинации{}",
-                    "{C:inactive}(сейчас {C:attention}#3#{C:inactive}, {C:chips}+#1#{C:inactive} фишек)"
+                    "Этот джокер получает {C:chips}+#2#{} шт. фишек при",
+                    "подсчёте самой частой {C:attention}покерной руки{}",
+                    "Теряет половину накопленных фишек, при розыгрыше {C:attention}другой комбинации{}",
+                    "{C:inactive}(сейчас {C:attention}#3#{C:inactive}, {C:chips}+#1#{C:inactive} шт. фишек)"
                 }
             },
             j_sdm_lucky_joker={
                 name="Счастливый джокер",
                 text={
-                    "Повторно активирует",
-                    "каждую сыгранную {C:attention}7-ку{}",
+                    "Перезапуск каждой",
+                    "сыгранной {C:attention}7{}",
                     "{C:attention}#1#{} дополнительных раза"
                 }
             },
@@ -47,10 +47,10 @@ return{
             j_sdm_mult_n_chips={
                 name="Множ. и фишки",
                 text={
-                    "Подсчитанные карты {C:attention}с бонусом{}",
+                    "Подсчитанные {C:attention}бонусные{} карты",
                     "дают {C:mult}+#1#{} множ., а",
-                    "подсчитанные карты {C:attention}с множителем{}",
-                    "дают {C:chips}+#2#{} фишек"
+                    "подсчитанные карты {C:attention}множ.{}",
+                    "дают {C:chips}+#2#{} шт. фишек"
                 }
             },
             j_sdm_moon_base={
@@ -60,7 +60,7 @@ return{
                     "создаёт случайного",
                     "{C:attention}Космического{} джокера",
                     "{s:0.8,C:inactive}(нельзя создать Лунную базу)",
-                    "{C:inactive}(должно быть место)"
+                    "{C:inactive}(Должно быть место)"
                 }
             },
             j_sdm_shareholder_joker={
@@ -73,18 +73,18 @@ return{
             j_sdm_magic_hands={
                 name="Волшебные руки",
                 text={
-                    "{X:mult,C:white}X#1#{} множ., если подсчитанная {C:attention}покерная комбинация{} имеет",
-                    "ровно {C:blue}#2#{} {C:inactive,s:0.8}(= рук осталось до игры){}",
+                    "{X:mult,C:white}X#1#{} множ., если подсчитанная {C:attention}покерная рука{} имеет",
+                    "ровно {C:blue}#2#{} {C:inactive,s:0.8}(= рук, остававшихся до розыгрыша){}",
                     "наиболее часто встречающегося достоинства",
-                    "{C:inactive}(пример: {C:attention}K K K Q Q{C:inactive} с {C:blue}3{C:inactive} руками осталось)"
+                    "{C:inactive}(пример: {C:attention}K K K Q Q{C:inactive} с {C:blue}3{C:inactive} оставшимися руками)"
                 }
             },
             j_sdm_tip_jar={
-                name="Банка для чаевых",
+                name="Баночка чаевых",
                 text={
-                    "Приносит {C:attention}старший разряд{}",
-                    "ваших денег",
-                    "в конце раунда",
+                    "Получите {C:attention}наибольшее число{}",
+                    "в сумме ваших денег",
+                    "как {C:attention}${} бонус в конце раунда",
                     "{C:inactive}(пример: {C:money}$24{C:inactive} -> {C:money}$4{C:inactive})"
                 }
             },
@@ -92,21 +92,21 @@ return{
                 name="Блуждающая звезда",
                 text={
                     "Создаёт копию",
-                    "использованной карты {C:planet}планеты{},",
+                    "использованной карты {C:planet}Планеты{},",
                     "один раз за {C:attention}раунд{}",
-                    "{s:0.8,C:inactive}(должно быть место)",
+                    "{s:0.8,C:inactive}(Должно быть место)",
                     "{C:inactive}(сейчас {C:attention}#1#{C:inactive}#2#)"
                 }
             },
             j_sdm_ouija_board={
-                name="Доска уиджа",
+                name="Доска уиджи",
                 text={
                     "После продажи {C:red}Редкого {C:attention}джокера{},",
-                    "подсчёта {C:attention}секретной покерной комбинации{}",
+                    "подсчёта {C:attention}секретной покерной руки{}",
                     "и использования {C:spectral}Спектральной{} карты,",
                     "продайте этого джокера, чтобы создать карту {C:spectral}Душа{}",
-                    "{s:0.8,C:inactive}(должно быть место)",
-                    "{C:inactive}(осталось {C:attention}#3#{C:inactive}#4#/{C:attention}#5#{C:inactive}#6#/{C:attention}#7#{C:inactive}#8#)"
+                    "{s:0.8,C:inactive}(Должно быть место)",
+                    "{C:inactive}(Осталось: {C:attention}#3#{C:inactive}#4#/{C:attention}#5#{C:inactive}#6#/{C:attention}#7#{C:inactive}#8#)"
                 }
             },
             j_sdm_la_revolution={
@@ -120,7 +120,7 @@ return{
                 name="Банк клоуна",
                 text={
                     "При выборе {C:attention}блайнда{}, потратьте {C:money}$#3#{},",
-                    "чтобы дать этому джокеру {X:mult,C:white}X#2#{} множ.",
+                    "чтобы дать этому джокеру {X:mult,C:white}X#2#{} к множ.",
                     "и увеличить требования на {C:money}$#4#{}",
                     "{C:inactive}(сейчас {X:mult,C:white}X#1#{C:inactive} множ.)"
                 }
@@ -130,31 +130,31 @@ return{
                 text={
                     "В начале раунда",
                     "добавляет случайную {C:attention}Золотую{} или",
-                    "{C:attention}Стальную{} игральную карту"
+                    "{C:attention}Стальную{} игральную карту в колоду"
                 }
             },
             j_sdm_warehouse={
                 name="Склад",
                 text={
                     "{C:attention}+#1#{} к размеру руки,",
-                    "{C:red}-#2#{} слот расходников,",
-                    "теряет {C:money}$#3#{} при продаже"
+                    "{C:red}-#2#{} слот расходуемого",
+                    "Отнимает {C:money}$#3#{} при продаже"
                 }
             },
             j_sdm_zombie_joker={
-                name="Джокер-зомби",
+                name="Зомби джокер",
                 text={
-                    "Шанс {C:green}#1# к #2#{}, что создаст карту",
+                    "Шанс {C:green}#1# из #2#{} создать карту",
                     "{C:tarot}Смерть{} при {C:attention}продаже{}",
                     "карты, отличной от {C:tarot}Смерти{}",
-                    "{C:inactive}(должно быть место)"
+                    "{C:inactive}(Должно быть место)"
                 }
             },
             j_sdm_mystery_joker={
                 name="Загадочный джокер",
                 text={
-                    "Создаёт {C:red}Редкий {C:attention}жетон{} при",
-                    "победе над {C:attention}Босс-блайндом{}"
+                    "Создаёт {C:red}Редкий {C:attention}тэг{} после",
+                    "победы над {C:attention}Босс-блайндом{}"
                 }
             },
             j_sdm_infinite_staircase={
@@ -166,47 +166,47 @@ return{
                 }
             },
             j_sdm_ninja_joker={
-                name="Джокер-ниндзя",
+                name="Джокер ниндзя",
                 text={
-                    "Создаёт {C:dark_edition}Негативный {C:attention}жетон{}, если",
-                    "игральная карта {C:attention}уничтожена{},",
-                    "становится неактивным до тех пор, пока",
-                    "{C:attention}игральная карта{} не будет добавлена",
+                    "Создаёт {C:dark_edition}негативный {C:attention}тэг{}, когда",
+                    "{C:attention}уничтожаеьтся{}игральная карта",
+                    "Становится неактивным до тех пор, пока",
+                    "{C:attention}игральная карта{} вновь не будет добавлена в колоду",
                     "{C:inactive}(сейчас {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
             j_sdm_reach_the_stars={
-                name="Достичь звёзд",
+                name="Дотянуться до звёзд",
                 text={
-                    "Подсчёт карт {C:attention}#1#{} и {C:attention}#2#{}",
-                    "создаёт случайную карту {C:planet}планеты{}",
-                    "{s:0.8}Меняется в конце раунда",
-                    "{C:inactive}(должно быть место)",
-                    "{C:inactive}(сейчас {C:attention}#3#{C:inactive}#4# & {C:attention}#5#{C:inactive}#6#)"
+                    "При подсчёте {C:attention}#1#{} и {C:attention}#2#{}",
+                    "создаёт случайную карту {C:planet}Планеты{}",
+                    "{s:0.8}Достоинства меняются в конце раунда",
+                    "{C:inactive}(Должно быть место)",
+                    "{C:inactive}(сейчас {C:attention}#3#{C:inactive}#4# и {C:attention}#5#{C:inactive}#6#)"
                 }
             },
             j_sdm_crooked_joker={
-                name="Кривой джокер",
+                name="Скрученный джокер",
                 text={
-                    "{C:attention}Удваивает{} или {C:red}уничтожает{}",
+                    "{C:attention}Копирует{} или {C:red}уничтожает{}",
                     "каждого добавленного {C:attention}джокера{}",
-                    "{C:inactive}(должно быть место)"
+                    "{C:inactive}(Должно быть место)"
                 }
             },
             j_sdm_property_damage={
-                name="Ущерб имуществу",
+                name="Ущерб собственности",
                 text={
-                    "Этот джокер получает {X:mult,C:white}X#2#{} множ.",
-                    "когда сброшенная рука",
+                    "Этот джокер получает {X:mult,C:white}X#2#{} к множ.,",
+                    "если сброшенная рука",
                     "содержит {C:attention}Фулл-хаус{}",
                     "{C:inactive}(сейчас {X:mult,C:white}X#1#{} {C:inactive}множ.)"
                 }
             },
             j_sdm_rock_n_roll={
-                name="Рок-н-ролл",
+                name="Рок-н-Ролл",
                 text={
-                    "Повторно активирует все сыгранные",
-                    "{C:attention}улучшенные{} карты"
+                    "Перезапуск всех сыгранных",
+                    "{C:attention}улучшенных{} карт"
                 }
             },
             j_sdm_contract={
@@ -228,31 +228,31 @@ return{
                 name="Пицца",
                 text={
                     "При выборе {C:attention}блайнда{},",
-                    "получает {C:blue}+#1#{} #3#",
+                    "получите {C:blue}+#1#{} руки",
                     "{C:blue}-#2#{} за каждый сыгранный раунд"
                 }
             },
             j_sdm_treasure_chest={
-                name="Сундук с сокровищами",
+                name="Сундук сокровищ",
                 text={
                     "Получает {C:money}$#1#{} к {C:attention}стоимости продажи{}",
-                    "за каждый проданный {C:attention}расходник{}"
+                    "за каждую проданную {C:attention}расходуемую{} карту"
                 }
             },
             j_sdm_bullet_train={
                 name="Скоростной поезд",
                 text={
-                    "{C:chips}+#1#{} фишек на вашу",
-                    "{C:attention}первую руку{}, если в этом раунде",
-                    "не было использовано сбросов"
+                    "{C:chips}+#1#{} шт. фишек на",
+                    "{C:attention}первой руке{} раунда, если в этом раунде",
+                    "не были использованы сбросы"
                 }
             },
             j_sdm_chaos_theory={
-                name="Теория хаоса",
+                name="Теория Хаоса",
                 text={
                     "Добавляет {C:attention}удвоенное{} значение всех",
                     "{C:attention}чисел на экране{} к фишкам",
-                    "{C:inactive}(сейчас {C:chips}+#2#{C:inactive} фишек)"
+                    "{C:inactive}(сейчас {C:chips}+#2#{C:inactive} шт. фишек)"
                 }
             },
             j_sdm_jambo={
@@ -268,30 +268,30 @@ return{
                 name="Водная горка",
                 text={
                     "Этот джокер получает {C:chips}+#1#{}",
-                    "фишек, если подсчитанная рука",
-                    "содержит {C:attention}9-ку{}, {C:attention}7-ку{} или {C:attention}6-ку{}",
-                    "{C:inactive}(сейчас {C:chips}+#2#{C:inactive} фишек)"
+                    "шт. фишек, если подсчитанная рука",
+                    "содержит {C:attention}9{}, {C:attention}7{} или {C:attention}6{}",
+                    "{C:inactive}(сейчас {C:chips}+#2#{C:inactive} шт. фишек)"
                 }
             },
             j_sdm_joker_voucher={
-                name="Джокер-купон",
+                name="Джокер-ваучер",
                 text={
                     "{X:mult,C:white}X#1#{} множ. за каждый выкупленный",
-                    "{C:attention}купон{} в этой партии",
+                    "{C:attention}ваучер{} в этой партии",
                     "{C:inactive}(сейчас {X:mult,C:white}X#2#{C:inactive} множ.)"
                 }
             },
             j_sdm_free_pass={
                 name="Пропуск",
                 text={
-                    "Если {C:attention}первая рука{} или {C:attention}сброс{}",
-                    "раунда содержит только {C:attention}1{} карту,",
-                    "получает {C:attention}+#1#{} {C:blue}руку{} или {C:red}сброс{}",
+                    "Если {C:attention}первая рука{} или {C:attention}первый сброс{}",
+                    "раунда содержат только {C:attention}1{} карту,",
+                    "получите {C:attention}+#1#{} {C:blue}руку{} или {C:red}сброс{}",
                     "соответственно"
                 }
             },
             j_sdm_legionary_joker={
-                name="Джокер-легионер",
+                name="Джокер легионер",
                 text={
                     "Каждая карта {C:spades}Пики{} или {C:diamonds}Бубны{},",
                     "удерживаемая в руке,",
@@ -302,7 +302,7 @@ return{
                 name="Арчибальд",
                 text={
                     "После {C:attention}Босс-блайнда{} создаёт",
-                    "{C:dark_edition}Негативную{} копию случайного",
+                    "{C:dark_edition}негативную{} копию случайного",
                     "{C:attention}джокера{} в конце {C:attention}магазина{}",
                     "{C:inactive}(нельзя скопировать Арчибальда)",
                     "{C:inactive}(сейчас {C:attention}#1#{C:inactive}#2#{C:inactive})"
@@ -312,7 +312,7 @@ return{
                 name="SDM_0",
                 text={
                     "Этот джокер получает {C:dark_edition}+#1#{} слот джокера",
-                    "за каждую уничтоженную {C:attention}2-ку{}",
+                    "за каждую уничтоженную {C:attention}2{}",
                     "{C:inactive}(сейчас {C:dark_edition}+#2# {C:inactive}слот джокера)"
                 }
             }
@@ -321,53 +321,53 @@ return{
             b_sdm_0_s={
                 name="Колода SDM_0",
                 text={
-                    "Начинает партию с",
-                    "{C:attention}#1#{} случайными {C:eternal}Вечными не-{C:legendary}Легендарными{}",
+                    "Начинаете партию со",
+                    "{C:attention}#1#{} случайными {C:eternal}Вечными не {C:legendary}Легендарными{}",
                     "{C:attention}джокерами SDM_0{}"
                 }
             },
             b_sdm_bazaar={
-                name="Колода базара",
+                name="Базарная колода",
                 text={
-                    "Начинает партию с",
-                    "{C:attention}#1#{} случайными {C:attention}расходниками SDM_0{}"
+                    "Начинаете партию со",
+                    "{C:attention}#1#{} случайными {C:attention}расходуемыми картами SDM_0{}"
                 }
             },
             b_sdm_sandbox={
-                name="Песочница",
+                name="Колода песочница",
                 text={
-                    "{C:attention}+#1#{} слот джокера",
+                    "{C:attention}+#1#{} слота джокера",
                     "{C:red}+#2#{} Анте для победы"
                 }
             },
             b_sdm_lucky_7={
                 name="Колода счастливой 7-ки",
                 text={
-                    "Начинает партию с",
-                    "{C:eternal}Вечным{} {C:attention,T:j_sdm_lucky_joker}Счастливым джокером{}",
-                    "Каждая {C:attention}7-ка{} — это карта {C:attention,T:m_lucky}с шансом{}"
+                    "Начинаете партию с",
+                    "{C:eternal}Вечным{} {C:attention,T:j_sdm_lucky_joker}Счастливым Джокером{}",
+                    "Каждая {C:attention}7{} это {C:attention,T:m_lucky}счастливая{} карта"
                 }
             },
             b_sdm_dna={
                 name="Колода ДНК",
                 text={
                     "{C:attention}1{} игральная карта из",
-                    "{C:attention}выигрышной покерной комбинации{}",
-                    "{C:blue}дублируется{}"
+                    "{C:attention}выигрышной покерной руки{}",
+                    "{C:blue}дубли{C:red}руется{}"
                 }
             },
             b_sdm_hieroglyph={
-                name="Колода иероглифов",
+                name="Колода иероглиф",
                 text={
                     "{C:spectral}Спектральные{} карты могут",
-                    "появляться в магазине,",
-                    "начинает с картой {C:spectral,T:c_ankh}Анх{}"
+                    "появляться в магазине",
+                    "Начинаете с картой {C:spectral,T:c_ankh}Анкх{}"
                 }
             },
             b_sdm_xxl={
                 name="Колода XXL",
                 text={
-                    "Начинает с {C:attention}удвоенным{}",
+                    "Начинаете с {C:attention}удвоенным{}",
                     "размером колоды"
                 }
             },
@@ -376,8 +376,8 @@ return{
                 text={
                     "В конце каждого раунда:",
                     "{C:money}$#1#{} за каждый оставшийся {C:red}сброс{}",
-                    "Доп. {C:blue}руки{} больше не приносят деньги",
-                    "Не получает денежные {C:attention}бонусы{} в конце раунда"
+                    "Осставшиеся {C:blue}руки{} больше не приносят деньги",
+                    "Без бонуса {C:attention}процентов{} в конце раунда"
                 }
             },
             b_sdm_deck_of_stuff={
@@ -392,8 +392,8 @@ return{
             c_sdm_sphinx={
                 name="Сфинкс",
                 text={
-                    "Добавляет {C:dark_edition}Фольгированное{}, {C:dark_edition}Голографическое{}",
-                    "или {C:dark_edition}Полихромное{} издание",
+                    "Добавляет {C:dark_edition}фольгированный{}, {C:dark_edition}голографический{}",
+                    "или {C:dark_edition}полихромный{} выпуск",
                     "случайной {C:attention}карте{} в руке"
                 }
             }
@@ -410,8 +410,8 @@ return{
             c_sdm_morph={
                 name="Превращение",
                 text={
-                    "Меняет {C:attention}#1#{} #2#",
-                    "с другим"
+                    "Меняет {C:attention}#1#{} {C:attention}ресурс{}",
+                    "на другой"
                 }
             }
         },
@@ -428,13 +428,13 @@ return{
                 name="Улучшено",
                 text={
                     "Улучшение, печать,",
-                    "издание"
+                    "выпуск"
                 }
             },
             chaos_exceptions={
                 name="Исключения",
                 text={
-                    "Очки за раунд, целевой счёт,",
+                    "Очки за раунд, цель блайнда,",
                     "уровень руки и описания"
                 }
             },
@@ -456,16 +456,16 @@ return{
             sleeve_sdm_0_s={
                 name="Рубашка SDM_0",
                 text={
-                    "Начинает партию с",
-                    "{s:0.9,C:attention}#1#{s:0.9} случайными {s:0.9,C:eternal}Вечными не-{s:0.9,C:legendary}Легендарными{}",
+                    "Начинает партию со",
+                    "{s:0.9,C:attention}#1#{s:0.9} случайными {s:0.9,C:eternal}Вечными не {s:0.9,C:legendary}Легендарными{}",
                     "{C:attention}джокерами SDM_0{}"
                 }
             },
             sleeve_sdm_bazaar={
                 name="Рубашка базара",
                 text={
-                    "Начинает партию с",
-                    "{C:attention}#1#{} случайными {C:attention}расходниками SDM_0{}"
+                    "Начинаете партию со",
+                    "{C:attention}#1#{} случайными {C:attention}расходуемыми картами SDM_0{}"
                 }
             },
             sleeve_sdm_sandbox={
@@ -478,15 +478,15 @@ return{
             sleeve_sdm_lucky_7={
                 name="Рубашка счастливой 7-ки",
                 text={
-                    "Начинает партию с",
-                    "{C:eternal}Вечным{} {C:attention,T:j_sdm_lucky_joker}Счастливым джокером{}",
-                    "Каждая {C:attention}7-ка{} — это карта {C:attention,T:m_lucky}с шансом{}"
+                    "Начинаете партию с",
+                    "{C:eternal}Вечным{} {C:attention,T:j_sdm_lucky_joker}Счастливым Джокером{}",
+                    "Каждая {C:attention}7{} это {C:attention,T:m_lucky}счастливая{} карта"
                 }
             },
             sleeve_sdm_lucky_7_alt={
                 name="Рубашка счастливой 7-ки",
                 text={
-                    "{C:attention,T:j_sdm_lucky_joker}Счастливый джокер{} {C:dark_edition}Негативный{}",
+                    "{C:attention,T:j_sdm_lucky_joker}Счастливый Джокер{} {C:dark_edition}Негативный{}",
                     "Удваивает все {C:attention}указанные",
                     "{C:green,E:1,S:1.1}вероятности{}"
                 }
@@ -495,39 +495,39 @@ return{
                 name="Рубашка ДНК",
                 text={
                     "{C:attention}1{} игральная карта из",
-                    "{C:attention}выигрышной покерной комбинации{}",
-                    "{C:blue}дублируется{}"
+                    "{C:attention}выигрышной покерной руки{}",
+                    "{C:blue}дубли{C:red}руется{}"
                 }
             },
             sleeve_sdm_hieroglyph={
-                name="Рубашка иероглифов",
+                name="Рубашка иероглиф",
                 text={
                     "{C:spectral}Спектральные{} карты могут",
                     "появляться в магазине,",
-                    "начинает с картой {C:spectral,T:c_ankh}Анх{}"
+                    "начинаете с картой {C:spectral,T:c_ankh}Анкх{}"
                 }
             },
             sleeve_sdm_hieroglyph_ghost={
-                name="Рубашка иероглифов",
+                name="Рубашка иероглиф",
                 text={
                     "Вероятность появления {C:spectral}Спектральных{} карт",
                     "в магазине удваивается",
-                    "Начинает с картой {C:spectral,T:c_ankh}Анх{}"
+                    "Начинаете с картой {C:spectral,T:c_ankh}Анкх{}"
                 }
             },
             sleeve_sdm_hieroglyph_alt={
-                name="Рубашка иероглифов",
+                name="Рубашка иероглиф",
                 text={
                     "Вероятность появления {C:spectral}Спектральных{} карт",
-                    "в магазине удваивается,",
-                    "в {C:spectral}Спектральных наборах{} на {C:attention}#1#{}",
+                    "в магазине удваивается",
+                    "В {C:spectral}Спектральных наборах{} на {C:attention}#1#{}",
                     "больше вариантов на выбор"
                 }
             },
             sleeve_sdm_xxl={
                 name="Рубашка XXL",
                 text={
-                    "Начинает с {C:attention}удвоенным{}",
+                    "Начинаете с {C:attention}удвоенным{}",
                     "размером колоды"
                 }
             },
@@ -536,8 +536,8 @@ return{
                 text={
                     "В конце каждого раунда:",
                     "{C:money}$#1#{} за каждый оставшийся {C:red}сброс{}",
-                    "{s:0.8}Доп. {s:0.8,C:blue}руки{s:0.8} больше не приносят деньги",
-                    "{s:0.8}Не получает денежные {s:0.8,C:attention}бонусы{s:0.8} в конце раунда"
+                    "{s:0.8}Оставшиеся {s:0.8,C:blue}руки{s:0.8} больше не приносят деньги",
+                    "{s:0.8}Без бонуса {s:0.8,C:attention}процентов{s:0.8} в конце раунда"
                 }
             },
             sleeve_sdm_hoarder_alt={
@@ -545,7 +545,7 @@ return{
                 text={
                     "В конце каждого раунда:",
                     "{C:money}$#1#{} за каждый оставшийся {C:red}сброс{}",
-                    "{s:0.8}Не получает денежные {s:0.8,C:attention}бонусы{s:0.8} в конце раунда"
+                    "{s:0.8}Без бонуса {s:0.8,C:attention}процентов{s:0.8} в конце раунда"
                 }
             }
         }
@@ -562,12 +562,12 @@ return{
             a_discard_minus="-#1# сброс",
             a_joker_slot="+#1# слот джокера",
             a_joker_slot_minus="-#1# слот джокера",
-            a_consumable_slot="+#1# слот расходников",
-            a_consumable_slot_minus="-#1# слот расходников"
+            a_consumable_slot="+#1# слот расходуемого",
+            a_consumable_slot_minus="-#1# слот расходуемого"
         },
         v_text={
             ch_c_no_shop_planets={
-                "{C:planet}Планеты{} больше не появляются в {C:attention}магазине{}"
+                "карты {C:planet}Планет{} больше не появляются в {C:attention}магазине{}"
             }
         }
     }
