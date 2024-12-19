@@ -2,7 +2,13 @@
 
 A Balatro mod that adds (as of now) 37 Jokers, 3 Consumables, 9 Decks and 5 Challenges to the game, made by SDM_0 (duh)
 
-Huge thanks to Balatro Discord's modding community, this mod wouldn't have come to life without their help!
+Huge thanks to:
+- RattlingSnow for the spectral cards art
+- Dimserene for the space jokers list and for featuring my mod in his modpack
+- N' (Larswijn) for the JokerDisplay mod and his help with it
+- Darthalex2014 and PainKiller for the russian translation
+- The Balatro discord modding community, this mod wouldn't have come to life without their help!
+- The Cryptid + Jen's Almanac mod community (except Jevonn) for considering my mod as a great complimentary mod
 
 ## Installation
 - Requires [Steamodded](https://github.com/Steamopollys/Steamodded/) v1.0.0 (An installation guide is available there)
