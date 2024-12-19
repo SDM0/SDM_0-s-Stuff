@@ -604,3 +604,46 @@ jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
         }
     }
 }
+jd_def["j_sdm_mishmash"] = { -- Mult'N'Chips
+    text = {
+        { text = "+",                              colour = G.C.CHIPS },
+        { ref_table = "card.joker_display_values", ref_value = "chips", colour = G.C.CHIPS },
+        { text = " +",                             colour = G.C.MULT },
+        { ref_table = "card.joker_display_values", ref_value = "mult",  colour = G.C.MULT },
+    },
+    calc_function = function(card)
+        local chips = 0
+        local mult = 0
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= "Unknown" then
+            for _, scoring_card in pairs(scoring_hand) do
+                if scoring_card.ability.effect and scoring_card.ability.effect == "Bonus Card" then
+                    mult = mult + card.ability.extra.mult *
+                        JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                elseif scoring_card.ability.effect and scoring_card.ability.effect == "Mult Card" then
+                    chips = chips + card.ability.extra.chips *
+                        JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                end
+            end
+        end
+        card.joker_display_values.chips = chips
+        card.joker_display_values.mult = mult
+    end
+}
+jd_def["j_sdm_ceo_joker"] = { -- CEO Joker
+    text = {
+        { text = "+$" },
+        { ref_table = "card.joker_display_values", ref_value = "min" },
+        { text = "-" },
+        { ref_table = "card.joker_display_values", ref_value = "max" },
+    },
+    text_config = { colour = G.C.GOLD },
+    reminder_text = {
+        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.min = "" .. card.ability.extra.min + card.ability.extra.dollar
+        card.joker_display_values.max = "" .. card.ability.extra.max + card.ability.extra.dollar
+        card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+    end
+}
