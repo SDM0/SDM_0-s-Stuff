@@ -5,7 +5,8 @@ A Balatro mod that adds (as of now) 37 Jokers, 3 Consumables, 9 Decks and 5 Chal
 Huge thanks to:
 - RattlingSnow for the spectral cards art
 - Dimserene for the space jokers list and for featuring my mod in his modpack
-- N' (Larswijn) for the JokerDisplay mod and his help with it
+- N' for the JokerDisplay mod and his help with it
+- Larswijn for the CardSleeves mod and help with the implementations and updates
 - Darthalex2014 and PainKiller for the russian translation
 - The Balatro discord modding community, this mod wouldn't have come to life without their help!
 - The Cryptid + Jen's Almanac mod community (except Jevonn) for considering my mod as a great complimentary mod
