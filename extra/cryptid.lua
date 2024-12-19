@@ -28,7 +28,7 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
                 local negative_made = false
                 if #G.jokers.cards > 0 then
                     for k, v in pairs(G.jokers.cards) do
-                        if not (v.edition and v.edition.negative) then
+                        if not v.edition then
                             v:set_edition("e_negative", true)
                             negative_made = true
                         end
