@@ -1,7 +1,7 @@
 SMODS.Atlas{
     key = "sdm_sleeves",
     path = "sdm_sleeves.png",
-    px = 71,
+    px = 73,
     py = 95
 }
 
@@ -103,7 +103,7 @@ if sdm_config.sdm_jokers then
                         if G.jokers.cards and #G.jokers.cards > 0 then
                             G.jokers.cards[1]:set_edition({["negative"] = true}, true, true)
                         end
-                        for k, v in pairs(G.GAME.probabilities) do 
+                        for k, v in pairs(G.GAME.probabilities) do
                             G.GAME.probabilities[k] = v*2
                         end
                     end
