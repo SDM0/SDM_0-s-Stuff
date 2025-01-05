@@ -121,7 +121,7 @@ if sdm_config.sdm_jokers then
         cost = 5,
         config = {extra = {chips = 0, chip_mod = 15}},
         loc_vars = function(self, info_queue, card)
-            return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, get_most_played_better_hand() or "High Card"}}
+            return {vars = {card.ability.extra.chips, card.ability.extra.chip_mod, localize(get_most_played_better_hand() or "High Card", "poker_hands")}}
         end,
         calculate = function(self, card, context)
             if context.cardarea == G.jokers and context.before and not context.blueprint then
