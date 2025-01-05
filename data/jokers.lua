@@ -68,7 +68,7 @@ if sdm_config.sdm_jokers then
         end,
         calculate = function(self, card, context)
             if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                if card.ability.extra.remaining - 1 <= 0 then 
+                if card.ability.extra.remaining - 1 <= 0 then
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             play_sound('tarot1')
@@ -81,10 +81,10 @@ if sdm_config.sdm_jokers then
                                         G.jokers:remove_card(card)
                                         card:remove()
                                         card = nil
-                                    return true; end})) 
+                                    return true; end}))
                             return true
                         end
-                    })) 
+                    }))
                     return {
                         message = localize('k_eaten_ex'),
                         colour = G.C.FILTER
@@ -268,7 +268,7 @@ if sdm_config.sdm_jokers then
             if context.setting_blind and not card.getting_sliced and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
                 G.GAME.joker_buffer = G.GAME.joker_buffer + 1
                 G.E_MANAGER:add_event(Event({
-                    func = function() 
+                    func = function()
                         local space = {}
                         for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
                             if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil then
@@ -284,8 +284,8 @@ if sdm_config.sdm_jokers then
                         card:start_materialize()
                         G.GAME.joker_buffer = 0
                         return true
-                    end}))   
-                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_joker'), colour = G.C.BLUE}) 
+                    end}))
+                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_joker'), colour = G.C.BLUE})
             end
         end,
         atlas = "sdm_jokers"
@@ -338,7 +338,7 @@ if sdm_config.sdm_jokers then
                     return {
                         message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
                         Xmult_mod = card.ability.extra
-                    } 
+                    }
                 end
             end
         end,
@@ -395,7 +395,7 @@ if sdm_config.sdm_jokers then
                                     G.consumeables:emplace(_card)
                                     G.GAME.consumeable_buffer = 0
                                     return true
-                                end}))   
+                                end}))
                             card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
                         return true
                     end)}))
@@ -467,14 +467,14 @@ if sdm_config.sdm_jokers then
                         G.E_MANAGER:add_event(Event({
                             func = (function()
                                 G.E_MANAGER:add_event(Event({
-                                    func = function() 
+                                    func = function()
                                         local new_card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
                                         new_card:add_to_deck()
                                         G.consumeables:emplace(new_card)
                                         G.GAME.consumeable_buffer = 0
                                         return true
-                                    end}))   
-                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})                
+                                    end}))
+                                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
                             return true
                         end)}))
                     end
@@ -576,9 +576,9 @@ if sdm_config.sdm_jokers then
         calculate = function(self, card, context)
             if context.first_hand_drawn then
                 G.E_MANAGER:add_event(Event({
-                    func = function() 
+                    func = function()
                         local _card = create_playing_card({
-                            front = pseudorandom_element(G.P_CARDS, pseudoseed('furn_fr')), 
+                            front = pseudorandom_element(G.P_CARDS, pseudoseed('furn_fr')),
                             center = G.P_CENTERS.c_base}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
                         local enhance_type = pseudorandom(pseudoseed('furned'))
                         if enhance_type > 0.5 then _card:set_ability(G.P_CENTERS.m_gold)
@@ -617,7 +617,7 @@ if sdm_config.sdm_jokers then
             G.consumeables:change_size(card.ability.extra.c_size)
         end,
         update = function(self, card, dt)
-            if card.set_cost and card.ability.extra_value ~= card.ability.extra.dollars - math.floor(card.cost / 2) then 
+            if card.set_cost and card.ability.extra_value ~= card.ability.extra.dollars - math.floor(card.cost / 2) then
                 card.ability.extra_value = card.ability.extra.dollars - math.floor(card.cost / 2)
                 card:set_cost()
             end
@@ -838,9 +838,9 @@ if sdm_config.sdm_jokers then
         end,
         calculate = function(self, card, context)
             if context.cardarea == G.jokers and not (context.before or context.after) then
-                if context.scoring_hand then 
+                if context.scoring_hand then
                     if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
-                        if not context.blueprint then 
+                        if not context.blueprint then
                             card.ability.extra.c1_scored = true
                             card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                             card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -849,7 +849,7 @@ if sdm_config.sdm_jokers then
                             })
                         end
                     elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
-                        if not context.blueprint then 
+                        if not context.blueprint then
                             card.ability.extra.c2_scored = true
                             card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                             card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -1035,7 +1035,7 @@ if sdm_config.sdm_jokers then
 
                     local chips_UI = G.hand_text_area.blind_chips
                     G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-                    G.HUD_blind:recalculate() 
+                    G.HUD_blind:recalculate()
                     chips_UI:juice_up()
 
                     if not silent then play_sound('chips2') end
@@ -1069,7 +1069,7 @@ if sdm_config.sdm_jokers then
 
                     local chips_UI = G.hand_text_area.blind_chips
                     G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-                    G.HUD_blind:recalculate() 
+                    G.HUD_blind:recalculate()
                     chips_UI:juice_up()
 
                     if not silent then play_sound('chips2') end
@@ -1102,7 +1102,7 @@ if sdm_config.sdm_jokers then
                         message = card.ability.extra.hands .. '',
                         colour = G.C.CHIPS
                     })
-                else    
+                else
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             play_sound('tarot1')
@@ -1115,10 +1115,10 @@ if sdm_config.sdm_jokers then
                                     G.jokers:remove_card(card)
                                     card:remove()
                                     card = nil
-                                return true; end})) 
+                                return true; end}))
                             return true
                         end
-                    })) 
+                    }))
                     return {
                         message = localize('k_shared_ex'),
                         colour = G.C.FILTER
@@ -1501,7 +1501,7 @@ if sdm_config.sdm_jokers then
             end
         end,
         remove_from_deck = function(self, card, from_debuff)
-            if G.jokers and not from_debuff then 
+            if G.jokers and not from_debuff then
                 G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.jkr_slots
             end
         end,
@@ -1540,5 +1540,3 @@ if sdm_config.sdm_jokers then
 
     SDM_0s_Stuff_Mod.modded_objects.j_sdm_sdm_0 = "SDM_0"
 end
-
-return
