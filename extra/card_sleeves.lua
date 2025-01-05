@@ -1,7 +1,7 @@
 SMODS.Atlas{
     key = "sdm_sleeves",
     path = "sdm_sleeves.png",
-    px = 71,
+    px = 73,
     py = 95
 }
 
