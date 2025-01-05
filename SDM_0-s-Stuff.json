@@ -8,15 +8,9 @@
 	"badge_colour": "c20000",
 	"version": "1.7.0a",
 	"dependencies": [
-		{
-			"id": "Steamodded",
-			"min_version": "1.0.0~ALPHA-1030e"
-		}
+		"Steamodded (>=1.0.0~ALPHA-1304a)"
 	],
-    "conflicts": [
-		{
-			"id": "CardSleeves",
-			"max_version": "1.4.0"
-		}
+	"conflicts": [
+		"CardSleeves (<<1.5.0)"
 	]
 }
