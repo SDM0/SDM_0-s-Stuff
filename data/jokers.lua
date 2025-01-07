@@ -113,7 +113,7 @@ SMODS.Joker{
     cost = 5,
     config = {extra = {repetition = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card and card.ability.extra.repetition or 2}} -- Made this way to avoid Lucky Deck crashing on Lucky Joker hover
+        return {vars = {card and card.ability.extra.repetition or 2}} -- Made this way to avoid Lucky 7 Deck crashing on Lucky Joker hover
     end,
     calculate = function(self, card, context)
         if context.repetition and not context.individual and context.cardarea == G.play then
@@ -861,8 +861,8 @@ SMODS.Joker{
     pos = {x = 1, y = 2},
     cost = 1,
     calculate = function(self, card, context)
-        if context.sdm_adding_card and not (context.blueprint or context.retrigger_joker) then
-            if context.card and context.card ~= card and context.card.ability.set == 'Joker' then
+        if context.sdm_adding_card and context.card and not (context.blueprint or context.retrigger_joker) then
+            if context.card ~= card and context.card.ability.set == 'Joker' and not context.card.not_crooked then
                 local do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
                 if do_dupe == 1 then
                     if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
