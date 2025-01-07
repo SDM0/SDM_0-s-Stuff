@@ -187,7 +187,7 @@ SMODS.Back{
     pos = {x = 0, y = 1},
     config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true},
     apply = function()
-        -- Vanilla pool changes applied in "lovely.toml"
+        -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
         or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
@@ -216,26 +216,27 @@ SMODS.Back{
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    add_joker2("j_sdm_lucky_joker", nil, true, true)
-                    local rand_jokers = get_random_sdm_modded_card("j_sdm", 2)
-                    for i = 1, #rand_jokers do
-                        add_joker2(rand_jokers[i], nil, true, true)
-                    end
-                end
-                if SDM_0s_Stuff_Config.sdm_consus then
-                    local rand_cons = get_random_sdm_modded_card("c_", 2)
-                    for i = 1, #rand_cons do
-                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
-                        card:add_to_deck()
-                        G.consumeables:emplace(card)
-                    end
+                    add_joker("j_sdm_lucky_joker", nil, true, true)
                 end
                 return true
             end
         }))
     end,
     trigger_effect = function(self, args)
-        if args.context == "final_scoring_step" then
+        if args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
+                    for i = 1, #rand_cons do
+                        play_sound('timpani')
+                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                    end
+                    return true
+                end
+            }))
+        elseif args.context == "final_scoring_step" then
             if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1

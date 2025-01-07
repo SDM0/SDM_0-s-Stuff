@@ -68,7 +68,7 @@ target = "functions/common_events.lua"
 pattern = "_pool[#_pool + 1] = v.key"
 position = "before"
 payload = '''
-if (curr_deck and curr_deck == "b_sdm_0_s") then
+if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_deck_of_stuff") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
         for i = 1, 4 do
             _pool[#_pool + 1] = v.key
@@ -76,9 +76,9 @@ if (curr_deck and curr_deck == "b_sdm_0_s") then
         end
     end
 end
-if (curr_sleeve and curr_slleeve == "sleeve_sdm_0_s") then
+if (curr_sleeve and curr_sleeve == "sleeve_sdm_0_s") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
-        for i = 1, (curr_deck and curr_deck == "b_sdm_0_s" and 5) or 4 do
+        for i = 1, (curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_deck_of_stuff" and 5)) or 4 do
             _pool[#_pool + 1] = v.key
             _pool_size = _pool_size + 1
         end
