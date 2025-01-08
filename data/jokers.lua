@@ -376,22 +376,18 @@ SMODS.Joker{
         (card.ability.extra.used_spectral and "Spectral") or "", (not card.ability.extra.used_spectral and "Spectral") or ""}}
     end,
     calculate = function(self, card, context)
-        if context.selling_card and not (context.blueprint or context.retrigger_joker) and context.card.ability.set == 'Joker' then
-            if context.card.config.center.rarity == 3 then
-                if not card.ability.extra.sold_rare then
-                    card.ability.extra.sold_rare = true
-                    card.ability.extra.remaining = card.ability.extra.remaining + 1
-                    ouija_check(card, context)
-                end
+        if context.selling_card and not (context.blueprint or context.retrigger_joker) then
+            if context.card.ability.set == 'Joker' and context.card.config.center.rarity == 3 and not card.ability.extra.sold_rare then
+                card.ability.extra.sold_rare = true
+                card.ability.extra.remaining = card.ability.extra.remaining + 1
+                ouija_check(card, context)
             end
         end
         if context.using_consumeable and not (context.blueprint or context.retrigger_joker) then
-            if context.consumeable.ability.set == "Spectral" then
-                if not card.ability.extra.used_spectral then
-                    card.ability.extra.used_spectral = true
-                    card.ability.extra.remaining = card.ability.extra.remaining + 1
-                    ouija_check(card, context)
-                end
+            if context.consumeable.ability.set == "Spectral" and not card.ability.extra.used_spectral then
+                card.ability.extra.used_spectral = true
+                card.ability.extra.remaining = card.ability.extra.remaining + 1
+                ouija_check(card, context)
             end
         end
         if context.joker_main and not (context.blueprint or context.retrigger_joker) then
