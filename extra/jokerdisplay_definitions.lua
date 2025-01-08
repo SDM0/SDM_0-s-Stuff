@@ -513,35 +513,6 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
     text_config = { colour = G.C.MULT }
 }
 
-jd_def["j_sdm_shadow_work"] = { -- Shadow Work
-reminder_text = {
-    { text = "(" },
-    { ref_table = "card.joker_display_values", ref_value = "tarot" },
-    { text = ", " },
-    { ref_table = "card.joker_display_values", ref_value = "active" },
-    { text = ")" },
-},
-calc_function = function(card)
-    local last_tarot = G.GAME.last_tarot and G.P_CENTERS[G.GAME.last_tarot] or nil
-    local tarot_loc = last_tarot and localize{type = 'name_text', key = last_tarot.key, set = last_tarot.set} or localize('k_none')
-    card.joker_display_values.tarot = tarot_loc or "None"
-    card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
-end,
-style_function = function(card, text, reminder_text, extra)
-    if reminder_text then
-        if reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.joker_display_values.tarot ~= "None" and G.C.PURPLE or
-            G.C.UI.TEXT_INACTIVE
-        end
-        if reminder_text.children[4] then
-            reminder_text.children[4].config.colour = card.ability.extra.repetition and G.C.ORANGE or
-            G.C.UI.TEXT_INACTIVE
-        end
-    end
-    return false
-end
-}
-
 jd_def["j_sdm_wormhole"] = { -- Wormhole
     reminder_text = {
         { text = "(" },
@@ -604,7 +575,7 @@ jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
         }
     }
 }
-jd_def["j_sdm_mishmash"] = { -- Mult'N'Chips
+jd_def["j_sdm_mishmash"] = { -- Mishmash
     text = {
         { text = "+",                              colour = G.C.CHIPS },
         { ref_table = "card.joker_display_values", ref_value = "chips", colour = G.C.CHIPS },
@@ -633,17 +604,26 @@ jd_def["j_sdm_mishmash"] = { -- Mult'N'Chips
 jd_def["j_sdm_ceo_joker"] = { -- CEO Joker
     text = {
         { text = "+$" },
-        { ref_table = "card.joker_display_values", ref_value = "min" },
+        { ref_table = "card.ability.extra", ref_value = "min" },
         { text = "-" },
-        { ref_table = "card.joker_display_values", ref_value = "max" },
+        { ref_table = "card.ability.extra", ref_value = "max" },
     },
     text_config = { colour = G.C.GOLD },
     reminder_text = {
         { ref_table = "card.joker_display_values", ref_value = "localized_text" },
     },
     calc_function = function(card)
-        card.joker_display_values.min = "" .. card.ability.extra.min + card.ability.extra.dollar
-        card.joker_display_values.max = "" .. card.ability.extra.max + card.ability.extra.dollar
         card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+    end
+}
+jd_def["j_sdm_maglev_train"] = { -- Maglev Train
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult" },
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        card.joker_display_values.mult = G.GAME.current_round.hands_played == 0 and
+            G.GAME.current_round.discards_used == 0 and card.ability.extra or 0
     end
 }

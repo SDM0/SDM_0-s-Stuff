@@ -403,6 +403,20 @@ return {
                     "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
                     "at end of round,",
                 }
+            },
+            j_sdm_maglev_train = {
+                name = "Maglev Train",
+                text = {
+                    "{C:mult}+#1#{} Mult on your",
+                    "{C:attention}first hand{} if no discards",
+                    "were used this round",
+                }
+            },
+            j_sdm_joker_voucher_voucher = {
+                name = "Joker Voucher Voucher",
+                text = {
+                    "Goodbye!",
+                }
             }
         },
         Back = {
@@ -626,6 +640,22 @@ return {
                 text = {
                     "Sell {C:attention}#2# {C:blue}Common",
                     "{C:attention}Joker{} cards",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_bullet_train = {
+                name = "Evolution",
+                text = {
+                    "Win {C:attention}#2# rounds",
+                    "with {C:attention}1{} hand",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_joker_voucher = {
+                name = "Evolution",
+                text = {
+                    "Purchase {C:attention}#1#{} vouchers",
+                    "while owning this Joker",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
             }

@@ -1,3 +1,5 @@
+--- Mishmash ---
+
 SMODS.Joker{
 	key = "mishmash",
 	name = "Mishmash",
@@ -60,6 +62,8 @@ SMODS.Joker{
 
 JokerEvolution.evolutions:add_evolution("j_sdm_mult_n_chips", "j_sdm_mishmash", 10)
 
+--- CEO Joker ---
+
 SMODS.Joker{
 	key = "ceo_joker",
 	name = "CEO Joker",
@@ -86,3 +90,61 @@ SMODS.Joker{
 }
 
 JokerEvolution.evolutions:add_evolution("j_sdm_shareholder_joker", "j_sdm_ceo_joker", 10)
+
+--- Maglev Train ---
+
+SMODS.Joker{
+	key = "maglev_train",
+	name = "Maglev Train",
+	rarity = "evo",
+    pos = {x = 0, y = 0},
+	cost = 12,
+    config = {extra = 30},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
+            return {
+                message = localize{type='variable',key='a_mult',vars={card.ability.extra}},
+                mult_mod = card.ability.extra
+            }
+        end
+    end,
+    calculate_evo = function(self, card, context)
+		if context.end_of_round and not (context.individual or context.repetition) then
+            if G.GAME.current_round.hands_played == 1 then
+                card:decrement_evo_condition()
+            end
+		end
+	end,
+    atlas = "sdm_jokers"
+}
+
+JokerEvolution.evolutions:add_evolution("j_sdm_bullet_train", "j_sdm_maglev_train", 5)
+
+--- Joker Voucher Voucher ---
+
+SMODS.Joker{
+	key = "joker_voucher_voucher",
+	name = "Joker Voucher Voucher",
+	rarity = "evo",
+    pos = {x = 0, y = 0},
+	cost = 16,
+    calculate_evo = function(self, card, context)
+		if context.buying_card then
+            if context.card and context.card.ability.set == 'Voucher' then
+                card:decrement_evo_condition()
+            end
+        end
+	end,
+    atlas = "sdm_jokers"
+}
+
+JokerEvolution.evolutions:add_evolution("j_sdm_joker_voucher", "j_sdm_joker_voucher_voucher", 3)
+
+-- TODO:
+-- Joker Voucher evolution: After it evolved, destroy said Joker, pop up "Redeemed" message, redeem voucher "Joker Voucher" (same effect)
+-- (V) JV = the voucher; (J) JV = the joker
+-- (V) JV must not appear in the shop voucher slot at all,
+-- (J) JV must not be in the joker pool anymore if (V) JV is redeemed
