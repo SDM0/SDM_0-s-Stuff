@@ -170,8 +170,8 @@ CardSleeves.Sleeve {
         return { key = key, vars = vars }
     end,
     trigger_effect = function(self, args)
-        local is_spectral_pack = args.context["card"] and args.context.card.ability.set == "Booster" and args.context.card.ability.name:find("Spectral")
-        if args.context["create_booster"] and is_spectral_pack and self.config.spectral_more_options then
+        local is_spectral_pack = args.context and args.context["card"] and args.context.card.ability.set == "Booster" and args.context.card.ability.name:find("Spectral")
+        if args.context and args.context["create_booster"] and is_spectral_pack and self.config.spectral_more_options then
             args.context.card.ability.extra = args.context.card.ability.extra + self.config.spectral_more_options
         end
     end,
