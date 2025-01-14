@@ -5,6 +5,21 @@ SMODS.Atlas{
     py = 95
 }
 
+--- Joker Voucher
+
+SMODS.Voucher{
+    key = 'joker_voucher',
+    name = 'Joker Voucher',
+    pos = {x = 0, y = 0},
+    in_pool = function()
+        return false
+    end,
+    no_collection = true,
+    atlas = "sdm_vouchers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.v_sdm_joker_voucher = "Joker Voucher"
+
 -- Shadow
 
 SMODS.Voucher{
