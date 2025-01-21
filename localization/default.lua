@@ -370,6 +370,21 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
+            j_sdm_fool = {
+                name = "Fool",
+                text = {
+                    "Creates a {C:dark_edition}Negative",
+                    "{C:tarot}The Fool{} at the",
+                    "end of {C:attention}shop"
+                }
+            },
+            j_sdm_patch = {
+                name = "Patch",
+                text = {
+                    "Cards cannot",
+                    "be {C:attention}debuffed"
+                }
+            },
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {

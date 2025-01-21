@@ -88,7 +88,6 @@ end
 match_indent = true
 
 # Ouija Board secret poker hand list (code from Ortalab)
-#Inject for start up
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -101,6 +100,33 @@ if (SMODS.Mods['sdm0sstuff'] or {}).can_load then
             G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands[#G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands+1] = k
         end
     end
+end
+'''
+match_indent = true
+
+# "Patch" effect
+#TODO: Check why a one-liner doesn't work
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''function Card:set_debuff(should_debuff)'''
+position = "after"
+payload = '''
+    if G.GAME and G.GAME.patch_disable then
+        return
+    end
+'''
+match_indent = true
+
+# Prevent "Disabled" message with "Patch"
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_disabled_ex'),colour = G.C.FILTER, delay = 0.45})'''
+position = "at"
+payload = '''
+if G.GAME and not G.GAME.patch_disable then
+    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_disabled_ex'),colour = G.C.FILTER, delay = 0.45})
 end
 '''
 match_indent = true
