@@ -370,14 +370,6 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
-            j_sdm_fool = {
-                name = "Fool",
-                text = {
-                    "Creates a {C:dark_edition}Negative",
-                    "{C:tarot}The Fool{} at the",
-                    "end of {C:attention}shop"
-                }
-            },
             j_sdm_patch = {
                 name = "Patch",
                 text = {
@@ -669,7 +661,7 @@ return {
             je_j_sdm_joker_voucher = {
                 name = "Evolution",
                 text = {
-                    "Purchase {C:attention}#1#{} vouchers",
+                    "Purchase {C:attention}#2#{} vouchers",
                     "while owning this Joker",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
