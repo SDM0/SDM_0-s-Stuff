@@ -52,11 +52,17 @@ SMODS.Joker{
                 end
             end
         elseif context.joker_main then
-            SMODS.eval_this(context.blueprint_card or card, {chip_mod = card.ability.extra.chips, message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}})
-            SMODS.eval_this(context.blueprint_card or card, {mult_mod = card.ability.extra.mult, message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}})
             return {
-                message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
-                Xmult_mod = card.ability.extra.Xmult
+                message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
+                chip_mod = card.ability.extra.chips,
+                extra = {
+                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult,
+                    extra = {
+                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                        Xmult_mod = card.ability.extra.Xmult
+                    }
+                }
             }
         end
     end,
@@ -1780,39 +1786,7 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_archibald = "Archibald"
 
---- Fool ---
-
-SMODS.Joker{
-    key = "fool",
-    name = "Fool",
-    rarity = 4,
-    blueprint_compat = true,
-    pos = {x = 0, y = 3},
-    cost = 20,
-    loc_vars = function(self, info_queue, card)
-        if not card.edition or (card.edition and not card.edition.negative) then
-            info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-        end
-        info_queue[#info_queue+1] = G.P_CENTERS.c_fool
-    end,
-    calculate = function(self, card, context)
-        if context.ending_shop then
-            G.E_MANAGER:add_event(Event({
-                func = function() 
-                    local new_card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_fool', 'fol')
-                    new_card:set_edition('e_negative', true)
-                    new_card:add_to_deck()
-                    G.consumeables:emplace(card)
-                    return true
-                end}))
-            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
-        end
-    end,
-    atlas = "sdm_jokers",
-    soul_pos = {x = 0, y = 4}
-}
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_fool = "Fool"
+--- Patch ---
 
 SMODS.Joker{
     key = "patch",
@@ -1940,3 +1914,5 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_trance_the_devil = "Trance The Devil"
+
+--TODO: Transition "create_card" and "add_card" to SMODS utils
