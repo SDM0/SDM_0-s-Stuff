@@ -105,7 +105,7 @@ if sdm_config.sdm_consus then
             return {vars = {self.config.extra, (self.config.extra > 1 and "resources") or "resource"}}
         end,
         can_use = function(self, card, area, copier)
-            return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or G.GAME.dollars > 0
+            return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or to_big(G.GAME.dollars) > to_big(0)
             or G.hand.config.card_limit > card.ability.extra or G.jokers.config.card_limit > 0 or G.consumeables.config.card_limit > 0
         end,
         use = function(self, card)
@@ -117,7 +117,7 @@ if sdm_config.sdm_consus then
             if G.GAME.round_resets.discards > 0 then
                 table.insert(taken, "discard")
             end
-            if G.GAME.dollars > 0 then
+            if to_big(G.GAME.dollars) > to_big(0) then
                 table.insert(taken, "dollar")
             end
             if G.hand.config.card_limit > card.ability.extra then

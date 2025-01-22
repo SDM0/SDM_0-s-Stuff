@@ -56,7 +56,7 @@ function ouija_check(card, context)
                     colour = G.C.FILTER
                 })
                 G.E_MANAGER:add_event(Event({
-                    func = function() 
+                    func = function()
                         local eval = function(card) return not card.REMOVED end
                         juice_card_until(card, eval, true)
                         return true
@@ -167,19 +167,19 @@ function Card:add_to_deck2(from_debuff)
     end
     if not self.added_to_deck then
         self.added_to_deck = true
-        if self.ability.set == 'Enhanced' or self.ability.set == 'Default' then 
-            if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
+        if self.ability.set == 'Enhanced' or self.ability.set == 'Default' then
+            if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then
                 check_for_unlock({type = 'double_gold'})
             end
-            return 
+            return
         end
 
         if self.edition then
-            if not G.P_CENTERS['e_'..(self.edition.type)].discovered then 
+            if not G.P_CENTERS['e_'..(self.edition.type)].discovered then
                 discover_card(G.P_CENTERS['e_'..(self.edition.type)])
             end
         else
-            if not G.P_CENTERS['e_base'].discovered then 
+            if not G.P_CENTERS['e_base'].discovered then
                 discover_card(G.P_CENTERS['e_base'])
             end
         end
@@ -206,14 +206,14 @@ function Card:add_to_deck2(from_debuff)
             G.hand:change_size(self.ability.extra.h_size)
         end
         if self.ability.name == 'Oops! All 6s' then
-            for k, v in pairs(G.GAME.probabilities) do 
+            for k, v in pairs(G.GAME.probabilities) do
                 G.GAME.probabilities[k] = v*2
             end
         end
         if self.ability.name == 'To the Moon' then
             G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
         end
-        if self.ability.name == 'Astronomer' then 
+        if self.ability.name == 'Astronomer' then
             G.E_MANAGER:add_event(Event({func = function()
                 for k, v in pairs(G.I.CARD) do
                     if v.set_cost then v:set_cost() end
@@ -228,8 +228,8 @@ function Card:add_to_deck2(from_debuff)
         if self.ability.name == 'Stuntman' then
             G.hand:change_size(-self.ability.extra.h_size)
         end
-        if self.edition and self.edition.negative then 
-            if from_debuff then 
+        if self.edition and self.edition.negative then
+            if from_debuff then
                 self.ability.queue_negative_removal = nil
             else
                 if self.ability.consumeable then
@@ -256,6 +256,11 @@ function add_joker2(joker, edition, silent, eternal)
     elseif G.consumeables then G.consumeables:emplace(card) end
     card.created_on_pause = nil
     return card
+end
+
+--- Talisman compat
+to_big = to_big or function(num)
+    return num
 end
 
 return
