@@ -167,12 +167,10 @@ SMODS.Consumable{
             local prev_hands = G.GAME.round_resets.hands
             local prev_discards = G.GAME.round_resets.discards
             local total = prev_hands + prev_discards
-
             repeat
                 G.GAME.round_resets.hands = pseudorandom(pseudoseed("morph"), 1, total - 1)
                 G.GAME.round_resets.discards = total - G.GAME.round_resets.hands
             until G.GAME.round_resets.hands ~= prev_hands and G.GAME.round_resets.discards ~= prev_discards
-
             ease_hands_played(G.GAME.round_resets.hands - prev_hands)
             ease_discard(G.GAME.round_resets.discards - prev_discards)
         return true end }))
@@ -208,13 +206,11 @@ SMODS.Consumable{
             used_tarot:juice_up(0.3, 0.5)
             return true end
         }))
-
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             joker:set_eternal(true)
             joker:juice_up(0.3, 0.3)
             return true end
         }))
-
         delay(0.5)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.jokers:unhighlight_all(); return true end }))
     end,

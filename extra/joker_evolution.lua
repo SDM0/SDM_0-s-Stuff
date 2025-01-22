@@ -39,8 +39,9 @@ SMODS.Joker{
             elseif context.end_of_round and context.other_card.ability.effect == "Steel Card" then
                 G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.dollars
                 G.E_MANAGER:add_event(Event({func = (function()
-                    G.GAME.dollar_buffer = 0; return true
-                end) }))
+                    G.GAME.dollar_buffer = 0;
+                    return true
+                end)}))
                 return {
                     dollars = card.ability.extra.dollars,
                     card = card
