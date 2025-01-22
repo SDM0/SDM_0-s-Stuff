@@ -241,9 +241,7 @@ SMODS.Joker{
                     end
                     if #space == 0 then table.insert(space, "j_space") end -- fallback
                     local chosen_space = space[pseudorandom(pseudoseed('mnb'), 1, #space)]
-                    local card = create_card('Joker', G.jokers, nil, nil, nil, nil, chosen_space, 'mnb')
-                    card:add_to_deck()
-                    G.jokers:emplace(card)
+                    SMODS.add_card({key = chosen_space, key_append = 'mnb'})
                     card:start_materialize()
                     G.GAME.joker_buffer = 0
                     return true
@@ -420,9 +418,7 @@ SMODS.Joker{
                         func = (function()
                             G.E_MANAGER:add_event(Event({
                                 func = function()
-                                    local new_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, 'c_soul', 'rtl')
-                                    new_card:add_to_deck()
-                                    G.consumeables:emplace(new_card)
+                                    SMODS.add_card({key = 'c_soul', key_append = 'rtl'})
                                     G.GAME.consumeable_buffer = 0
                                     return true
                                 end}))
@@ -608,9 +604,7 @@ SMODS.Joker{
                         trigger = 'before',
                         delay = 0.0,
                         func = (function()
-                                local new_card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, 'c_death', 'zmb')
-                                new_card:add_to_deck()
-                                G.consumeables:emplace(new_card)
+                                SMODS.add_card({key = 'c_death', key_append = 'zmb'})
                                 G.GAME.consumeable_buffer = 0
                             return true
                         end)}))
@@ -821,6 +815,7 @@ SMODS.Joker{
                                 local new_card = create_card('Planet', G.consumeables, nil, nil, nil, nil, nil, 'rts')
                                 new_card:add_to_deck()
                                 G.consumeables:emplace(new_card)
+                                SMODS.add_card({set = 'Planet', key_append = 'rts'})
                                 G.GAME.consumeable_buffer = 0
                                 return true
                             end)}))
@@ -1104,10 +1099,13 @@ SMODS.Joker{
     rarity = 1,
     eternal_compat = false,
     pos = {x = 7, y = 2},
-    cost = 4,
-    config = {extra = 2},
+    cost = 0,
+    config = {extra = 10},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        card.sell_cost = card.ability.extra
     end,
     set_ability = function(self, card, initial, delay_sprites)
         if G.P_CENTERS[self.key].discovered or card.bypass_discovery_center then
@@ -1118,19 +1116,10 @@ SMODS.Joker{
             card.T.w = W
         end
     end,
-    calculate = function(self, card, context)
-        if context.selling_card and not (context.blueprint or context.retrigger_joker) then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                card.ability.extra_value = card.ability.extra_value + card.ability.extra
-                card:set_cost()
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_val_up'),
-                    colour = G.C.MONEY
-                })
-                return true
-            end}))
-        end
+    update = function(self, card, dt)
+        card.cost = 0
+        --TODO: Better way to force the cost to 0, maybe patch into `set_cost`
+        -- Test with an edition in shop using Cryptid edition deck
     end,
     atlas = "sdm_jokers"
 }
@@ -1527,9 +1516,7 @@ SMODS.Joker{
                         trigger = 'before',
                         delay = 0.0,
                         func = (function()
-                            local _card = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'ast')
-                            _card:add_to_deck()
-                            G.consumeables:emplace(_card)
+                            SMODS.add_card({set = 'Tarot', key_append = 'ast'})
                             G.GAME.consumeable_buffer = 0
                             return true
                     end)}))
@@ -1698,9 +1685,7 @@ SMODS.Joker{
                     func = (function()
                         G.E_MANAGER:add_event(Event({
                             func = function()
-                                local _card = create_card('Planet', G.consumeables, nil, nil, nil, nil, context.consumeable.config.center.key, 'wds')
-                                _card:add_to_deck()
-                                G.consumeables:emplace(_card)
+                                SMODS.add_card({key = context.consumeable.config.center.key, key_append = 'wds'})
                                 G.GAME.consumeable_buffer = 0
                                 return true
                             end}))
@@ -1753,7 +1738,8 @@ SMODS.Joker{
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             local rand_card = pseudorandom_element(valid_cards, pseudoseed('archi'))
-                            local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, nil)
+                            --- TODO: Check how this code can be improved using SMODS utils
+                            local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, 'ach')
                             new_card:set_edition("e_negative", true)
                             new_card:add_to_deck()
                             G.jokers:emplace(new_card)
@@ -1794,13 +1780,32 @@ SMODS.Joker{
     rarity = 4,
     pos = {x = 0, y = 3},
     cost = 20,
-    -- TODO: Undebuff each existing card when added
     add_to_deck = function(self, card, from_debuff)
         if G.GAME then G.GAME.patch_disable = true end
+        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].debuff then G.jokers.cards[i].debuff = false end
+            end
+        end
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if v.debuff then v.debuff = false end
+            end
+        end
     end,
     remove_from_deck = function (self, card, from_debuff)
         if G.GAME and G.GAME.patch_disable then
             G.GAME.patch_disable = nil
+        end
+        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                SMODS.recalc_debuff(G.jokers.cards[i])
+            end
+        end
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                SMODS.recalc_debuff(v)
+            end
         end
     end,
     atlas = "sdm_jokers",
@@ -1915,4 +1920,4 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_trance_the_devil = "Trance The Devil"
 
---TODO: Transition "create_card" and "add_card" to SMODS utils
+--TODO: Make a fifth legendary joker

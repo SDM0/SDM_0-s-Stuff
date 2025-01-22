@@ -224,11 +224,9 @@ return {
             j_sdm_treasure_chest = {
                 name = "Treasure Chest",
                 text = {
-                    "Gains {C:money}$#1#{} of {C:attention}sell value{}",
-                    "per {C:attention}card{} sold",
+                    "Sell this card",
+                    "to gain {C:money}$#1#",
                 }
-                --TODO: Find a better effect to not copy "Piggy Bank" from Cheesy Jokers
-                --maybe an "on sell" effect after reaching a certain sell value
             },
             j_sdm_bullet_train = {
                 name = "Bullet Train",
