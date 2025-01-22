@@ -180,8 +180,14 @@ function redeemed_voucher_count()
     return 0
 end
 
+--- "Crooked Joker" failsafe
 local atd = Card.add_to_deck
 function Card:add_to_deck2(debuff)
     self.not_crooked = true
     return atd(self, debuff)
+end
+
+--- Talisman compat
+to_big = to_big or function(num)
+    return num
 end

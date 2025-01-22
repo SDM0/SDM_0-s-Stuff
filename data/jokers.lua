@@ -486,7 +486,7 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and not (context.blueprint or context.retrigger_joker) then
-            if G.GAME.dollars - card.ability.extra.dollars >= G.GAME.bankrupt_at then
+            if to_big(G.GAME.dollars) - card.ability.extra.dollars >= to_big(G.GAME.bankrupt_at) then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = "-"  .. localize('$') .. card.ability.extra.dollars,
                     colour = G.C.RED
