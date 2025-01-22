@@ -105,16 +105,13 @@ end
 match_indent = true
 
 # "Patch" effect
-#TODO: Check why a one-liner doesn't work
 [[patches]]
 [patches.pattern]
 target = "card.lua"
 pattern = '''function Card:set_debuff(should_debuff)'''
 position = "after"
 payload = '''
-    if G.GAME and G.GAME.patch_disable then
-        return
-    end
+    if G.GAME and G.GAME.patch_disable then return end
 '''
 match_indent = true
 
