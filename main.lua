@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.4j
+--- VERSION: 1.6.4k
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
 --- CONFLICTS: [CardSleeves<=1.4.9]
 
@@ -18,7 +18,7 @@ sdm_config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
 SDM_0s_Stuff_Mod.space_jokers = {
-    
+
     --- Vanilla ---
     j_supernova = "Supernova",
     j_space = "Space Joker",
@@ -52,7 +52,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_cry_universe = "Universe",
     j_cry_universum = "Universum",
     j_cry_stella_mortis = "Stella Mortis",
-    
+
     --- Jank Jonklers ---
     j_jank_sentai = "Sentai Joker",
     j_jank_ternary_system = "Ternary System",
@@ -78,7 +78,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     --- Paperback ---
     j_paperback_solar_system = "Solar System",
     j_paperback_triple_moon_goddess = "Triple Moon Goddess",
-    
+
     --- SpicyJokers ---
     j_ssj_void = "Sagittarius A*",
 
