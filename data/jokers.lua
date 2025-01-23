@@ -1345,7 +1345,7 @@ SMODS.Joker{
                     return {
                         message = localize('k_debuffed'),
                         colour = G.C.RED,
-                        card = self,
+                        card = card,
                     }
                 else
                     return {
