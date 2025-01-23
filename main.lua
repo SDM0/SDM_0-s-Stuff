@@ -18,6 +18,7 @@ sdm_config = SDM_0s_Stuff_Mod.config
 
 SDM_0s_Stuff_Mod.modded_objects = {}
 SDM_0s_Stuff_Mod.space_jokers = {
+    
     --- Vanilla ---
     j_supernova = "Supernova",
     j_space = "Space Joker",
@@ -26,33 +27,65 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_satellite = "Satellite",
     j_astronomer = "Astronomer",
 
-    --- Modded ---
+    --- Pampa ---
     j_moon = "Moon Rabbit",
+
+    --- Fusion Jokers / Defused ---
     j_big_bang = "Big Bang",
+
+    --- D6 Jokers ---
     j_dsix_planet_die = "Planet Die",
     j_dsix_planet_plus_die = "Planet Die+",
     j_dsix_interstellar_die = "Interstellar Die",
     j_dsix_interstellar_plus_die = "Interstellar Die+",
+
+    --- Cheesy Jokers ---
     j_cj_extraterrestrial = "Extraterrestrial",
+
+    --- Cryptid ---
     j_cry_spaceglobe = "Celestial Globe",
     j_cry_meteor = "Meteor Shower",
     j_cry_exoplanet = "Exoplanet",
     j_cry_stardust = "Stardust",
     j_cry_virgo = "Virgo",
+    j_cry_night = "Night",
+    j_cry_universe = "Universe",
     j_cry_universum = "Universum",
+    j_cry_stella_mortis = "Stella Mortis",
+    
+    --- Jank Jonklers ---
     j_jank_sentai = "Sentai Joker",
     j_jank_ternary_system = "Ternary System",
+
+    --- KCVanilla ---
     j_kcva_collapse = "Cosmic Collapse",
+
+    --- Lobotomy Corporation ---
     j_lobc_child_galaxy = "O-01-55",
+
+    --- Mika's Mod Collection ---
     j_mmc_aurora_borealis = "Aurora Borealis",
     j_mmc_blue_moon = "Blue Moon",
     j_mmc_nebula = "Nebula",
-    j_olab_bowling_ball_solar_system = "Bowling Ball Solar System",
-    j_olab_fuel_tank = "Afterburner",
-    j_olab_evil_eye = "Evil Eye",
-    j_pape_solar_system = "Solar System",
+
+    --- 
+    j_ortalab_afterburner = "Afterburner",
+    j_ortalab_protostar = "Protostar",
+    j_ortalab_stargazing = "Stargazing",
+    j_ortalab_sun_sign = "Sun Sign",
+    j_ortalab_astrologist = "Astrologist",
+
+    --- Paperback ---
+    j_paperback_solar_system = "Solar System",
+    j_paperback_triple_moon_goddess = "Triple Moon Goddess",
+    
+    --- SpicyJokers ---
     j_ssj_void = "Sagittarius A*",
+
+    --- TWEWJ ---
     j_twewy_lightningMoon = "Lightning Moon",
+
+    --- Themed Jokers ---
     ["j_Themed_C-Aries"] = "Cosmic - Aries",
     ["j_Themed_C-Taurus"] = "Cosmic - Taurus",
     ["j_Themed_C-Gemini"] = "Cosmic - Gemini",
@@ -66,8 +99,55 @@ SDM_0s_Stuff_Mod.space_jokers = {
     ["j_Themed_C-Aquarius"] = "Cosmic - Aquarius",
     ["j_Themed_C-Pisces"] = "Cosmic - Pisces",
     ["j_Themed_C-Ophiuchus"] = "Cosmic - Ophiuchus",
+
+    --- Balatro Jokers Plus ---
     j_PlusJokers_thelemnisc8 = "The Lemnisc 8",
-    j_PlusJokers_interstellar = "Interstellar"
+    j_PlusJokers_interstellar = "Interstellar",
+
+    --- Balatro 451 ---
+    j_bala_eclipse = "Eclipse Joker",
+
+    --- Celeste Card Collection ---
+    j_ccc_eventhorizon = "Event Horizon",
+
+    --- Emporium ---
+    j_emp_wishing_star = "Wishing Star",
+
+    --- TOGA's Stuff ---
+    j_toga_asterism = "Asterism",
+    j_toga_spacecadetpinball = "Space Cadet",
+
+    --- Warp Zone! ---
+    j_Wzon_votv = "Voices of the Void",
+
+    --- Art Of The Deal ---
+    j_deal_atrax = "Atraxia",
+    j_deal_hyper = "Hypergiant",
+
+    --- 7th beat cards ---
+    j_sbc_NHH = "No hints here",
+
+    --- Maximus ---
+    j_mxms_space_race = "Space Race",
+
+    --- No Laughing Matter ---
+    j_mini_astrology = "Astrology",
+
+    --- Printer Jokers ---
+    j_crv_celestialprinter = "Celestial Printer",
+
+    --- Extra Credit ---
+    j_ExtraCredit_eclipse = "Eclipse",
+    j_ExtraCredit_accretiondisk = "Accretion Disk",
+
+    --- Familiar ---
+    j_fam_astrophysicist = "Astrophysicist",
+
+    --- Unstable ---
+    j_unstb_lunar_calendar = "Lunar Calendar",
+
+    --- Strange Pencil ---
+    j_pencil_eclipse = "Solar Eclipse",
 }
 
 SMODS.load_file("utils.lua")()
