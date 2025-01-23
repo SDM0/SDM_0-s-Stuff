@@ -180,6 +180,17 @@ function redeemed_voucher_count()
     return 0
 end
 
+-- Initialization of the random "Reach the Stars" condition values
+function rts_init()
+    local valid_nums = {1, 2, 3, 4, 5}
+    local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+    table.remove(valid_nums, c1)
+    local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+    local num_card1 = (c1 > c2 and c2) or c1
+    local num_card2 = (c1 > c2 and c1) or c2
+    return num_card1, num_card2
+end
+
 --- "Crooked Joker" failsafe
 local atd = Card.add_to_deck
 function Card:add_to_deck2(debuff)

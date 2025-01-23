@@ -763,7 +763,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 2},
     cost = 5,
-    config = {extra = {num_card1 = 1, num_card2 = 5, rts_scored = 0, remaining = 2, c1_scored = false, c2_scored = false}},
+    config = {extra = {num_card1 = 1, num_card2 = 5, c1_scored = false, c2_scored = false}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.num_card1, card.ability.extra.num_card2,
         (card.ability.extra.c1_scored and card.ability.extra.num_card1) or "",
@@ -773,37 +773,31 @@ SMODS.Joker{
     }}
     end,
     set_ability = function(self, card, initial, delay_sprites)
-        local valid_nums = {1, 2, 3, 4, 5}
-        local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-        table.remove(valid_nums, c1)
-        local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-        card.ability.extra.num_card1 = (c1 > c2 and c2) or c1
-        card.ability.extra.num_card2 = (c1 > c2 and c1) or c2
+        local num_card1, num_card2 = rts_init()
+        card.ability.extra.num_card1 = num_card1
+        card.ability.extra.num_card2 = num_card2
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and not (context.before or context.after) then
+        if context.cardarea == G.jokers and context.final_scoring_step and not (context.before or context.after) then
             if context.scoring_hand then
                 if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
                     if not (context.blueprint or context.retrigger_joker) then
                         card.ability.extra.c1_scored = true
-                        card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
+                            message = ((card.ability.extra.c2_scored and "2/") or "1/") .. 2,
                             colour = G.C.FILTER,
                         })
                     end
                 elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
                     if not (context.blueprint or context.retrigger_joker) then
                         card.ability.extra.c2_scored = true
-                        card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
+                            message = ((card.ability.extra.c1_scored and "2/") or "1/") ..  2,
                             colour = G.C.FILTER,
                         })
                     end
                 end
                 if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
-                    card.ability.extra.rts_scored = 0
                     card.ability.extra.c1_scored = false
                     card.ability.extra.c2_scored = false
                     if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -812,9 +806,6 @@ SMODS.Joker{
                             trigger = 'before',
                             delay = 0.0,
                             func = (function()
-                                local new_card = create_card('Planet', G.consumeables, nil, nil, nil, nil, nil, 'rts')
-                                new_card:add_to_deck()
-                                G.consumeables:emplace(new_card)
                                 SMODS.add_card({set = 'Planet', key_append = 'rts'})
                                 G.GAME.consumeable_buffer = 0
                                 return true
@@ -829,15 +820,11 @@ SMODS.Joker{
             end
         end
         if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
-            card.ability.extra.rts_scored = 0
             card.ability.extra.c1_scored = false
             card.ability.extra.c2_scored = false
-            local valid_nums = {1, 2, 3, 4, 5}
-            local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-            table.remove(valid_nums, c1)
-            local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-            card.ability.extra.num_card1 = (c1 > c2 and c2) or c1
-            card.ability.extra.num_card2 = (c1 > c2 and c1) or c2
+            local num_card1, num_card2 = rts_init()
+            card.ability.extra.num_card1 = num_card1
+            card.ability.extra.num_card2 = num_card2
             return {
                 message = localize('k_reset')
             }
