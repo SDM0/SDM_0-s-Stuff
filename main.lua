@@ -68,7 +68,7 @@ SDM_0s_Stuff_Mod.space_jokers = {
     j_mmc_blue_moon = "Blue Moon",
     j_mmc_nebula = "Nebula",
 
-    --- 
+    --- Ortalab ---
     j_ortalab_afterburner = "Afterburner",
     j_ortalab_protostar = "Protostar",
     j_ortalab_stargazing = "Stargazing",
