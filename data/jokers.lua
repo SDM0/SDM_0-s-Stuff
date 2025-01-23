@@ -1405,7 +1405,7 @@ if sdm_config.sdm_jokers then
                         return {
                             message = localize('k_debuffed'),
                             colour = G.C.RED,
-                            card = self,
+                            card = card,
                         }
                     else
                         return {
