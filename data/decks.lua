@@ -26,8 +26,8 @@ if SDM_0s_Stuff_Config.sdm_consus then
         loc_vars = function(self)
             return {vars = {self.config.extra}}
         end,
-        trigger_effect = function(self, args)
-            if args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+        calculate = function(self, back, context)
+            if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
@@ -93,9 +93,9 @@ end
 SMODS.Back{
     key = "dna",
     pos = {x = 1, y = 1},
-    trigger_effect = function(self, args)
-        if args.context == "final_scoring_step" then
-            if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
+    calculate = function(self, back, context)
+        if context.context == "final_scoring_step" then
+            if G.GAME.chips + context.chips * context.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                     local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dna_deck'))
@@ -222,8 +222,8 @@ SMODS.Back{
             end
         }))
     end,
-    trigger_effect = function(self, args)
-        if args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+    calculate = function(self, back, context)
+        if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
             G.E_MANAGER:add_event(Event({
                 func = function()
                     local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
@@ -236,8 +236,8 @@ SMODS.Back{
                     return true
                 end
             }))
-        elseif args.context == "final_scoring_step" then
-            if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
+        elseif context.context == "final_scoring_step" then
+            if G.GAME.chips + context.chips * context.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                     local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dos_deck'))
