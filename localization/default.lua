@@ -572,7 +572,7 @@ return {
                 name = "Bread",
                 text = {
                     "{C:chips}+30{} Chips for",
-                    "the next hand"
+                    "the next {C:attention}#2#{} hands"
                 }
             }
         },
