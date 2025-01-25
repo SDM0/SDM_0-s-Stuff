@@ -14,16 +14,6 @@ function count_max_occurence(table)
     return max_card
 end
 
---- Get a value's index in a table
-function index_elem(table, value)
-    for k, v in ipairs(table) do
-        if v == value then
-            return k
-        end
-    end
-    return nil
-end
-
 --- Get the most and best played poker hand
 function get_most_played_better_hand()
     local hand = "High Card"
@@ -189,6 +179,12 @@ function rts_init()
     local num_card1 = (c1 > c2 and c2) or c1
     local num_card2 = (c1 > c2 and c1) or c2
     return num_card1, num_card2
+end
+
+-- Faster way to write non-BP/retrigger check
+function no_bp_retrigger(context)
+    if not context then return false end
+    return not (context.blueprint or context.retrigger_joker)
 end
 
 --- "Crooked Joker" failsafe

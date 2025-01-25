@@ -357,6 +357,22 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
                 }
             },
+            j_sdm_child = {
+                name = "Child",
+                text = {
+                    "{X:attention,C:white}X#1#{} Blind",
+                    "requirement",
+                }
+            },
+            j_sdm_yo_yo = {
+                name = "Yo-Yo",
+                text = {
+                    "Swaps between {X:mult,C:white}X#1#",
+                    "and {X:mult,C:white}X#2#{} Mult each",
+                    "{C:attention}played hand",
+                    "{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)"
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
