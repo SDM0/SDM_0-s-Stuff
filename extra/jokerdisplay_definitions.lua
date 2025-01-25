@@ -457,7 +457,6 @@ jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
         card.joker_display_values.mult = mult
     end
 }
-
 jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
     text = {
         { text = "+" },
@@ -479,13 +478,10 @@ jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
         card.joker_display_values.mult = has_jack and is_jack_a_dit_poker_hand and card.ability.extra or 0
     end
 }
-
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
 }
-
-jd_def["j_sdm_astrology"] = { -- Consolation Prize
+jd_def["j_sdm_astrology"] = { -- Astrology
 }
-
 jd_def["j_sdm_roulette"] = { -- Roulette
     extra = {
         {
@@ -501,7 +497,6 @@ jd_def["j_sdm_roulette"] = { -- Roulette
         card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
     end
 }
-
 jd_def["j_sdm_carcinization"] = { -- Carcinization
     text = {
         { text = "+" },
@@ -509,7 +504,6 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
     },
     text_config = { colour = G.C.MULT }
 }
-
 jd_def["j_sdm_wormhole"] = { -- Wormhole
     reminder_text = {
         { text = "(" },
@@ -527,9 +521,22 @@ jd_def["j_sdm_wormhole"] = { -- Wormhole
         return false
     end
 }
-
---TODO: Add "Child", "Yo-yo" and "Patch" (if it needs one?) jokerdisplay
-
+-- TODO: Add "Child", "Yo-yo" and "Patch" (if it needs one?) jokerdisplay
+jd_def["j_sdm_child"] = {
+}
+jd_def["j_sdm_yo_yo"] = {
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.joker_display_values", ref_value = "Xmult" },
+            }
+        }
+    },
+    calc_function = function(card)
+        card.joker_display_values.Xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
+    end,
+}
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
         { text = "(" },
@@ -546,6 +553,8 @@ jd_def["j_sdm_archibald"] = { -- Archibald
         end
         return false
     end
+}
+jd_def["j_sdm_patch"] = {
 }
 jd_def["j_sdm_0"] = { -- SDM_0
     reminder_text = {
