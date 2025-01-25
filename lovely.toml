@@ -127,3 +127,39 @@ if G.GAME and not G.GAME.patch_disable then
 end
 '''
 match_indent = true
+
+# Bread eval
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''local nu_chip, nu_mult = G.GAME.selected_back:trigger_effect{context = 'final_scoring_step', chips = hand_chips, mult = mult}'''
+position = "before"
+payload = '''
+-- SDM_0's Stuff bakery consumable evaluation
+sendDebugMessage("reached function bakery")
+if G.GAME and G.GAME.bakery then
+    local bkr_chips, bkr_mult, bkr_xmult = 0, 0, 0
+    if G.GAME.bakery and #G.GAME.bakery > 0 then
+        for i = #G.GAME.bakery, 1, -1 do
+            if G.GAME.bakery[i].type == "chips" then
+                bkr_chips = bkr_chips + G.GAME.bakery[i].amount
+            elseif G.GAME.bakery[i].type == "mult" then
+                bkr_mult = bkr_mult + G.GAME.bakery[i].amount
+            elseif G.GAME.bakery[i].type == "xmult" then
+                bkr_xmult = bkr_xmult + G.GAME.bakery[i].amount
+            end
+            G.GAME.bakery[i].triggers = G.GAME.bakery[i].triggers - 1
+            if G.GAME.bakery[i].triggers < 1 then
+                table.remove(G.GAME.bakery, i)
+            end
+        end
+        bkr_xmult = bkr_xmult or 1
+        mult = mod_mult(mult+bkr_mult*bkr_xmult)
+        hand_chips = mod_chips(hand_chips+bkr_chips)
+        update_hand_text({delay = 0}, {chips = hand_chips, mult = mult})
+        -- TODO: Figure out how to better animate bread bonus
+    end
+end
+
+'''
+match_indent = true

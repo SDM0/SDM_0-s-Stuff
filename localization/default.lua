@@ -567,6 +567,15 @@ return {
                 }
             },
         },
+        Bakery = {
+            c_sdm_bread = {
+                name = "Bread",
+                text = {
+                    "{C:chips}+30{} Chips for",
+                    "the next hand"
+                }
+            }
+        },
         Voucher = {
             v_sdm_shadow = {
                 name = "Shadow",
