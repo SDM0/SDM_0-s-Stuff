@@ -480,9 +480,6 @@ jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
     end
 }
 
-jd_def["j_sdm_set_in_stone"] = {   -- Set in Stone
-}
-
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
 }
 
@@ -531,15 +528,7 @@ jd_def["j_sdm_wormhole"] = { -- Wormhole
     end
 }
 
-jd_def["j_sdm_mimic_coin"] = { -- Mimic Coin
-    reminder_text = {
-        { text = "(" },
-        { text = "$",         colour = G.C.GOLD },
-        { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
-        { text = ")" },
-    },
-    reminder_text_config = { scale = 0.35 }
-}
+--TODO: Add "Child", "Yo-yo" and "Patch" (if it needs one?) jokerdisplay
 
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
