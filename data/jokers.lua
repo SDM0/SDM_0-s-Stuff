@@ -1105,7 +1105,7 @@ SMODS.Joker{
     end,
     update = function(self, card, dt)
         card.cost = 0
-        --TODO: Better way to force the cost to 0, maybe patch into `set_cost`
+        -- TODO: Better way to force the cost to 0, maybe patch into `set_cost`
         -- Test with an edition in shop using Cryptid edition deck
     end,
     atlas = "sdm_jokers"
@@ -1726,7 +1726,7 @@ SMODS.Joker{
             return true end }))
         end
     end,
-    --TODO: Add proper resize, similar to "Square Joker"
+    -- TODO: Add proper resize, similar to "Square Joker"
     atlas = "sdm_jokers"
 }
 
@@ -1748,6 +1748,9 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.joker_main then
             local curr_xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
+            if no_bp_retrigger(context) then
+                card.ability.extra.low = not card.ability.extra.low
+            end
             if curr_xmult ~= 1 then
                 return {
                     message = localize{type='variable',key='a_xmult',vars={curr_xmult}},
@@ -1756,7 +1759,6 @@ SMODS.Joker{
             end
         end
         if context.after and no_bp_retrigger(context) then
-            card.ability.extra.low = not card.ability.extra.low
             local curr_xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
             card_eval_status_text(card, 'extra', nil, nil, nil, {
                 message = localize{type='variable',key='a_xmult',vars={curr_xmult}},
@@ -1798,7 +1800,7 @@ SMODS.Joker{
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             local rand_card = pseudorandom_element(valid_cards, pseudoseed('archi'))
-                            --- TODO: Check how this code can be improved using SMODS utils
+                            -- TODO: Check how this code can be improved using SMODS utils
                             local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, 'ach')
                             new_card:set_edition("e_negative", true)
                             new_card:add_to_deck()
@@ -1980,4 +1982,4 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_trance_the_devil = "Trance The Devil"
 
---TODO: Make a fifth legendary joker
+-- TODO: Make a fifth legendary joker
