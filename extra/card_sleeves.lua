@@ -92,13 +92,9 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    if self.get_current_deck_key() ~= "b_sdm_lucky_7" and self.get_current_deck_key() ~= "b_sdm_deck_of_stuff" then
-                        G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
-                        add_joker("j_sdm_lucky_joker", nil, true, true)
-                    else
-                        if G.jokers.cards and #G.jokers.cards > 0 then
-                            G.jokers.cards[1]:set_edition("e_negative", true, true)
-                        end
+                    G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
+                    add_joker("j_sdm_lucky_joker", nil, true, true)
+                    if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
                         for k, v in pairs(G.GAME.probabilities) do
                             G.GAME.probabilities[k] = v*2
                         end

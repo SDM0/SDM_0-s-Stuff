@@ -742,7 +742,6 @@ return {
             sleeve_sdm_lucky_7_alt = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "{C:attention,T:j_sdm_lucky_joker}Lucky Joker{} is {C:dark_edition}Negative{}",
                     "Doubles all {C:attention}listed",
                     "{C:green,E:1,S:1.1}probabilities",
                 }
