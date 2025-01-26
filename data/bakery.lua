@@ -41,7 +41,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {chips = 30, remaining = 3}},
+    config = {extra = {chips = 30, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips, card.ability.extra.remaining}}
     end,
@@ -69,7 +69,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {mult = 4, remaining = 3}},
+    config = {extra = {mult = 10, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
     end,
@@ -97,7 +97,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {X_mult = 1.5, remaining = 3}},
+    config = {extra = {X_mult = 1.5, remaining = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
     end,
