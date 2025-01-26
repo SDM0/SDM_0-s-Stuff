@@ -26,7 +26,12 @@ function decrease_remaining_food(G, card)
                 card.children.center.pinch.x = true
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                     func = function()
-                            G.consumeables:remove_card(card)
+                            -- This function is only used by jokers and bakery goods so I ignore other areas
+                            if card.ability.set == "Joker" then
+                                G.jokers:remove_card(card)
+                            else
+                                G.consumeables:remove_card(card)
+                            end
                             card:remove()
                             card = nil
                         return true; end}))
