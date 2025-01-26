@@ -2,11 +2,11 @@
 	"id": "sdm0sstuff",
 	"name": "SDM_0's Stuff",
 	"author": ["SDM_0"],
-	"description": "Content mod that adds new jokers, consumables, vouchers, decks and challenges.",
+	"description": "Content mod that adds new jokers, consumables, vouchers, decks, challenges and bakery goods.",
 	"prefix": "sdm",
 	"main_file": "main.lua",
 	"badge_colour": "c20000",
-	"version": "1.7.0~BETA-0125c",
+	"version": "1.7.0~BETA-0126a",
 	"dependencies": [
 		"Steamodded (>=1.0.0~ALPHA-1304a)"
 	],
