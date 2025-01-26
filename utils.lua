@@ -14,6 +14,38 @@ function count_max_occurence(table)
     return max_card
 end
 
+-- Faster way to decrease food/bakery consumables remaining counter
+function decrease_remaining_food(G, card)
+    if card.ability.extra.remaining - 1 <= 0 then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                play_sound('tarot1')
+                card.T.r = -0.2
+                card:juice_up(0.3, 0.4)
+                card.states.drag.is = true
+                card.children.center.pinch.x = true
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                    func = function()
+                            G.consumeables:remove_card(card)
+                            card:remove()
+                            card = nil
+                        return true; end}))
+                return true
+            end
+        }))
+        return {
+            message = localize('k_eaten_ex'),
+            colour = G.C.FILTER
+        }
+    else
+        card.ability.extra.remaining = card.ability.extra.remaining - 1
+        return {
+            message = card.ability.extra.remaining..'',
+            colour = G.C.FILTER
+        }
+    end
+end
+
 --- Get the most and best played poker hand
 function get_most_played_better_hand()
     local hand = "High Card"
@@ -152,20 +184,6 @@ function sum_incremental(n)
         return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
         + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
         #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
-    end
-    return 0
-end
-
--- Get the amount of redeemed voucher in the game
-function redeemed_voucher_count()
-    if G.GAME and G.GAME.used_vouchers then
-        local used_voucher = 0
-        for k, _ in pairs(G.GAME.used_vouchers) do
-            used_voucher = used_voucher + 1
-        end
-        if used_voucher > 0 then
-            return used_voucher
-        end
     end
     return 0
 end

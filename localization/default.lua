@@ -568,11 +568,25 @@ return {
             },
         },
         Bakery = {
-            c_sdm_bread = {
-                name = "Bread",
+            c_sdm_pita = {
+                name = "Pita",
                 text = {
-                    "{C:chips}+30{} Chips for",
-                    "the next {C:attention}#2#{} hands"
+                    "{C:chips}+#1#{} Chips for the",
+                    "next {C:attention}#2#{} hands",
+                }
+            },
+            c_sdm_sourdough = {
+                name = "Sourdough",
+                text = {
+                    "{C:mult}+#1#{} Mult for the",
+                    "next {C:attention}#2#{} hands",
+                }
+            },
+            c_sdm_baguette = {
+                name = "Baguette",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult for the",
+                    "next {C:attention}#2#{} hands",
                 }
             }
         },
