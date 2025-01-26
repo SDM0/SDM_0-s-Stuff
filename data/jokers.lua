@@ -20,37 +20,8 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-            if card.ability.extra.remaining - 1 <= 0 then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        card.T.r = -0.2
-                        card:juice_up(0.3, 0.4)
-                        card.states.drag.is = true
-                        card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                    G.jokers:remove_card(card)
-                                    card:remove()
-                                    card = nil
-                                return true; end}))
-                        return true
-                    end
-                }))
-                return {
-                    message = localize('k_eaten_ex'),
-                    colour = G.C.FILTER
-                }
-            else
-                if not context.retrigger_joker then
-                    card.ability.extra.remaining = card.ability.extra.remaining - 1
-                    return {
-                        message = card.ability.extra.remaining..'',
-                        colour = G.C.FILTER
-                    }
-                end
-            end
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            return decrease_remaining_food(G, card)
         elseif context.joker_main then
             return {
                 message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
@@ -1252,17 +1223,17 @@ SMODS.Joker{
     cost = 8,
     config = {extra = {Xmult_mod = 0.5}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult_mod, 1 + redeemed_voucher_count() * card.ability.extra.Xmult_mod}}
+        return {vars = {card.ability.extra.Xmult_mod, 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
     end,
     calculate = function(self, card, context)
         if context.buying_card and context.card.ability.set == "Voucher" then
             G.E_MANAGER:add_event(Event({
-                func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={1 + redeemed_voucher_count() * card.ability.extra.Xmult_mod}}}); return true
+                func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}}); return true
                 end}))
             return
         end
         if context.joker_main then
-            local xmlt = 1 + redeemed_voucher_count() * card.ability.extra.Xmult_mod
+            local xmlt = 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod
             if xmlt > 1 then
                 return {
                     message = localize{type='variable',key='a_xmult',vars={xmlt}},
