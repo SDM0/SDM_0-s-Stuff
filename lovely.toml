@@ -56,8 +56,8 @@ position = "before"
 payload = '''
 local curr_deck = (G.GAME.viewed_back and G.GAME.viewed_back.name) or (G.GAME.selected_back and G.GAME.selected_back.name) or "Red Deck"
 local curr_sleeve = (CardSleeves and G.GAME.selected_sleeve) or "sleeve_casl_none"
-if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") or curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix..'_'..v.original_key == v.key)) and v.set == "Joker" then add = nil end
-if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") and curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix..'_'..v.original_key == v.key)) then add = nil end
+if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") or curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) and v.set == "Joker" then add = nil end
+if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") and curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) then add = nil end
 '''
 match_indent = true
 
