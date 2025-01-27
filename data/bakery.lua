@@ -10,7 +10,12 @@ SMODS.ConsumableType {
     collection_rows = { 5, 6 },
     primary_colour = HEX('e69138'),
     secondary_colour = HEX('ff7f00'),
-    default = "c_sdm_bread",
+    default = "c_sdm_pita",
+    rarities = {
+        { key = "Common" },
+        { key = "Uncommon" },
+        { key = "Rare" },
+    },
     loc_txt = {
         name = 'Bakery',
  		collection = 'Bakery Goods',
@@ -38,6 +43,7 @@ SMODS.UndiscoveredSprite {
 SMODS.Consumable{
     key = 'pita',
     name = 'Pita',
+    rarity = 1,
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
@@ -58,6 +64,9 @@ SMODS.Consumable{
             }
         end
     end,
+    in_pool = function(self)
+        return true, {allow_duplicates = true}
+    end,
     atlas = "sdm_bakery"
 }
 
@@ -66,6 +75,7 @@ SMODS.Consumable{
 SMODS.Consumable{
     key = 'sourdough',
     name = 'Sourdough',
+    rarity = 1,
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
@@ -86,6 +96,9 @@ SMODS.Consumable{
             }
         end
     end,
+    in_pool = function(self)
+        return true, {allow_duplicates = true}
+    end,
     atlas = "sdm_bakery"
 }
 
@@ -94,6 +107,7 @@ SMODS.Consumable{
 SMODS.Consumable{
     key = 'baguette',
     name = 'Baguette',
+    rarity = 1,
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
@@ -113,6 +127,9 @@ SMODS.Consumable{
                 x_mult = card.ability.extra.X_mult,
             }
         end
+    end,
+    in_pool = function(self)
+        return true, {allow_duplicates = true}
     end,
     atlas = "sdm_bakery"
 }
