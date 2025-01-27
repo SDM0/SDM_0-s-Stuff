@@ -540,6 +540,14 @@ return {
                     "up to {C:attention}#1#{} selected",
                     "cards with {C:chips}+#2#{} Chips"
                 }
+            },
+            c_sdm_baker = {
+                name = "The Baker",
+                text = {
+                    "Creates {C:attention}#1#{} random",
+                    "{C:bakery}Bakery{} card",
+                    "{C:inactive}(Must have room)"
+                }
             }
         },
         Spectral = {

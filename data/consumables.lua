@@ -116,6 +116,38 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_mother = "Mother"
 
+--- The Baker ---
+
+SMODS.Consumable{
+    key = 'baker',
+    name = 'The Baker',
+    set = 'Tarot',
+    pos = {x = 3, y = 0},
+    cost = 3,
+    config = {extra = 1},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {self.config.extra}}
+    end,
+    can_use = function(self, card, area, copier)
+        return #G.consumeables.cards < G.consumeables.config.card_limit or card.area == G.consumeables
+    end,
+    use = function(self, card)
+        local used_tarot = card or self
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            if G.consumeables.config.card_limit > #G.consumeables.cards then
+                play_sound('timpani')
+                local _card = create_card('Bakery', G.consumeables, nil, nil, nil, nil, nil, bkr)
+                _card:add_to_deck()
+                G.consumeables:emplace(_card)
+                used_tarot:juice_up(0.3, 0.5)
+            end
+        return true end }))
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
+
 --- Sacrifice ---
 
 SMODS.Consumable{
