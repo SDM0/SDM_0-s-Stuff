@@ -562,7 +562,8 @@ jd_def["j_sdm_0"] = { -- SDM_0
         { text = ")" },
     },
 }
--- TODO: Do "Skelton" jokerdisplay
+jd_def["j_sdm_skelton"] = {
+}
 jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
     text = {
         {
