@@ -1771,7 +1771,6 @@ SMODS.Joker{
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             local rand_card = pseudorandom_element(valid_cards, pseudoseed('archi'))
-                            -- TODO: Check how this code can be improved using SMODS utils
                             local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, 'ach')
                             new_card:set_edition("e_negative", true)
                             new_card:add_to_deck()
@@ -1904,6 +1903,24 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_0 = "SDM_0"
+
+--- Skelton ---
+
+SMODS.Joker{
+    key = "skelton",
+    name = "Skelton",
+    rarity = 4,
+    pos = {x = 0, y = 3},
+    cost = 20,
+    calculate = function(self, card, context)
+        -- TODO: Code "If scoring hand contains a Jack, destroy each unscored card"
+        -- Do localization
+    end,
+    atlas = "sdm_jokers",
+    soul_pos = {x = 1, y = 4}
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_skelton = "Skelton"
 
 --- Trance The Devil ---
 
