@@ -521,7 +521,6 @@ jd_def["j_sdm_wormhole"] = { -- Wormhole
         return false
     end
 }
--- TODO: Add "Child", "Yo-yo" and "Patch" (if it needs one?) jokerdisplay
 jd_def["j_sdm_child"] = {
 }
 jd_def["j_sdm_yo_yo"] = {
@@ -563,6 +562,7 @@ jd_def["j_sdm_0"] = { -- SDM_0
         { text = ")" },
     },
 }
+-- TODO: Do "Skelton" jokerdisplay
 jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
     text = {
         {
