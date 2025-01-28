@@ -127,3 +127,29 @@ if G.GAME and not G.GAME.patch_disable then
 end
 '''
 match_indent = true
+
+# Prevent crash during Joker Voucher evolution
+[[patches]]
+[patches.pattern]
+target = '=[SMODS joker_evolution "functions.lua"]'
+pattern = '''self.area:remove_from_highlighted(self)'''
+position = "at"
+payload = '''
+if self.config.center_key ~= "j_sdm_joker_voucher_voucher" then
+    self.area:remove_from_highlighted(self)
+end
+'''
+match_indent = true
+
+# Prevent Joker Evolution "Evolved!" message for Joker Voucher evolution
+[[patches]]
+[patches.pattern]
+target = '=[SMODS joker_evolution "functions.lua"]'
+pattern = '''card_eval_status_text(self, 'extra', nil, nil, nil, {message = "Evolved!", colour = G.C.MONEY})'''
+position = "at"
+payload = '''
+if self.config.center_key ~= "j_sdm_joker_voucher_voucher" then
+    card_eval_status_text(self, 'extra', nil, nil, nil, {message = "Evolved!", colour = G.C.MONEY})
+end
+'''
+match_indent = true

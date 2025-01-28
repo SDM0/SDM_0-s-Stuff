@@ -134,6 +134,29 @@ SMODS.Joker{
     rarity = "evo",
     pos = {x = 0, y = 0},
     cost = 16,
+    add_to_deck = function(self, card, from_debuff)
+        G.jokers:remove_card(card)
+        card:remove()
+        card = nil
+        G.E_MANAGER:add_event(Event({
+            trigger = "after",
+            delay = 0.4,
+            func = function()
+                local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
+                _card.cost = 0 --Prevent losing money from _card:redeem()
+                _card:redeem()
+                G.E_MANAGER:add_event(Event({
+                    trigger = "after",
+                    delay = 0.4,
+                    func = function()
+                        if _card then _card:start_dissolve() end
+                        return true
+                    end,
+                }))
+            return true
+        end}))
+    end,
+    -- TODO: Figure out no_doe and stuff like that for Cryptid "Antimatter Deck"
     calculate_evo = function(self, card, context)
         if context.buying_card then
             if context.card and context.card.ability.set == 'Voucher' then
@@ -145,9 +168,3 @@ SMODS.Joker{
 }
 
 JokerEvolution.evolutions:add_evolution("j_sdm_joker_voucher", "j_sdm_joker_voucher_voucher", 3)
-
--- TODO:
--- Joker Voucher evolution: After it evolved, destroy said Joker, pop up "Redeemed" message, redeem voucher "Joker Voucher" (same effect)
--- (V) JV = the voucher; (J) JV = the joker
--- (V) JV must not appear in the shop voucher slot at all,
--- (J) JV must not be in the joker pool anymore if (V) JV is redeemed
