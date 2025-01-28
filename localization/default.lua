@@ -399,6 +399,15 @@ return {
                     "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker Slots)"
                 }
             },
+            j_sdm_skelton = {
+                name = "Skelton",
+                text = {
+                    "If scored hand",
+                    "contains a {C:attention}Jack{},",
+                    "destroy each",
+                    "unscored cards"
+                }
+            },
             j_sdm_trance_the_devil = {
                 name = "Trance The Devil",
                 text = {
@@ -436,7 +445,8 @@ return {
             j_sdm_joker_voucher_voucher = {
                 name = "Joker Voucher Voucher",
                 text = {
-                    "Goodbye!",
+                    "You're not supposed",
+                    "to read this..."
                 }
             }
         },
@@ -648,6 +658,14 @@ return {
                     "skipping a blind"
                 }
             },
+            v_sdm_joker_voucher = {
+                name = "Joker Voucher",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult per redeemed",
+                    "{C:attention}Voucher{} this run",
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
+                }
+            }
         },
         Other = {
             space_jokers = {
