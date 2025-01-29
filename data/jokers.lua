@@ -1074,11 +1074,6 @@ SMODS.Joker{
             card.T.w = W
         end
     end,
-    update = function(self, card, dt)
-        card.cost = 0
-        -- TODO: Better way to force the cost to 0, maybe patch into `set_cost`
-        -- Test with an edition in shop using Cryptid edition deck
-    end,
     atlas = "sdm_jokers"
 }
 
@@ -1913,23 +1908,15 @@ SMODS.Joker{
     pos = {x = 0, y = 3},
     cost = 20,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.after and no_bp_retrigger(context) then
+        if context.destroying_card and no_bp_retrigger(context) then
             if context.full_hand and context.scoring_hand and #context.scoring_hand < #context.full_hand then
-                local destroyed_card = difference(context.full_hand, context.scoring_hand)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.2,
-                    func = function()
-                    for i = 1, #destroyed_card do
-                        local _card = destroyed_card[i]
-                        if _card.ability.name == 'Glass Card' then
-                            _card:shatter()
-                        else
-                            _card:start_dissolve(nil, (i == #destroyed_card and #destroyed_card > 1))
-                        end
+                for i = #context.full_hand, 1, -1 do
+                    if context.full_hand[i]:get_id() == 11 and not context.scoring_hand[context.full_hand[i]] then
+                        return {
+                            remove = true
+                        }
                     end
-                    card:juice_up(0.3, 0.5)
-                return true end }))
+                end
             end
 		end
     end,
