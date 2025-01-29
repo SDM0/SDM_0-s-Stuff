@@ -5,34 +5,6 @@ SMODS.Atlas{
     py = 95
 }
 
---- Joker Voucher
-
-SMODS.Voucher{
-    key = 'joker_voucher',
-    name = 'Joker Voucher',
-    pos = {x = 2, y = 0},
-    config = {extra = {Xmult_mod = 0.5}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult_mod, 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            local xmlt = 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod
-            if xmlt > 1 then
-                return {
-                    message = localize{type='variable',key='a_xmult',vars={xmlt}},
-                    Xmult_mod = xmlt,
-                }
-            end
-        end
-    end,
-    in_pool = function()
-        return false
-    end,
-    no_collection = true,
-    atlas = "sdm_vouchers"
-}
-
 SDM_0s_Stuff_Mod.modded_objects.v_sdm_joker_voucher = "Joker Voucher"
 
 -- Shadow
@@ -42,28 +14,17 @@ SMODS.Voucher{
     name = 'Shadow',
     pos = {x = 0, y = 0},
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.j_joker
+        info_queue[#info_queue+1] = G.P_TAGS.tag_negative
     end,
     redeem = function(self)
-        G.E_MANAGER:add_event(Event({func = function()
-            local eligible_jokers = {}
-            for k, v in pairs(G.jokers.cards) do
-                if v.ability.set == 'Joker' and not v.edition then
-                    table.insert(eligible_jokers, v)
-                end
-            end
-            if #eligible_jokers > 0 then
-                local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
-                chosen_joker:set_edition("e_negative", true)
-            else
-                local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'elp')
-                card:set_edition("e_negative", true)
-                card:add_to_deck()
-                G.jokers:emplace(card)
-                card:start_materialize()
-            end
-            return true
-        end}))
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+                add_tag(Tag('tag_negative'))
+                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                return true
+            end)
+        }))
     end,
     atlas = "sdm_vouchers"
 }
@@ -78,30 +39,55 @@ SMODS.Voucher{
     pos = {x = 0, y = 1},
     requires = {"v_sdm_shadow"},
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.j_joker
+        info_queue[#info_queue+1] = G.P_TAGS.tag_negative
     end,
-    redeem = function(self)
-        G.E_MANAGER:add_event(Event({func = function()
-            local eligible_jokers = {}
-            for k, v in pairs(G.jokers.cards) do
-                if v.ability.set == 'Joker' and not v.edition then
-                    table.insert(eligible_jokers, v)
-                end
+    calculate = function(self, card, context)
+        if context.end_of_round and not (context.individual or context.repetition) then
+            if G.GAME.blind.boss then
+                G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        add_tag(Tag('tag_negative'))
+                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                        return true
+                    end)
+                }))
             end
-            if #eligible_jokers > 0 then
-                local chosen_joker = pseudorandom_element(eligible_jokers, pseudoseed('sdw'))
-                chosen_joker:set_edition("e_negative", true)
-            else
-                local card = create_card('Joker', G.jokers, nil, nil, nil, nil, "j_joker", 'elp')
-                card:set_edition("e_negative", true)
-                card:add_to_deck()
-                G.jokers:emplace(card)
-                card:start_materialize()
-            end
-            return true
-        end}))
+        end
     end,
     atlas = "sdm_vouchers"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.v_sdm_eclipse = "Eclipse"
+
+if JokerEvolution then
+
+    --- Joker Voucher
+
+    SMODS.Voucher{
+        key = 'joker_voucher',
+        name = 'Joker Voucher',
+        pos = {x = 2, y = 0},
+        config = {extra = {Xmult_mod = 0.5}},
+        loc_vars = function(self, info_queue, card)
+            return {vars = {card.ability.extra.Xmult_mod, 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
+        end,
+        calculate = function(self, card, context)
+            if context.joker_main then
+                local xmlt = 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod
+                if xmlt > 1 then
+                    return {
+                        message = localize{type='variable',key='a_xmult',vars={xmlt}},
+                        Xmult_mod = xmlt,
+                    }
+                end
+            end
+        end,
+        in_pool = function()
+            return false
+        end,
+        atlas = "sdm_vouchers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.v_sdm_joker_voucher = "Joker Voucher"
+end
