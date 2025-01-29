@@ -14,24 +14,6 @@ function count_max_occurence(table)
     return max_card
 end
 
--- Find which subset element isn't in the table
-function difference(main, sub)
-    local result = {}
-    local subset = {}
-
-    for _, v in ipairs(sub) do
-        subset[v] = true
-    end
-
-    for _, v in ipairs(main) do
-        if not subset[v] then
-            table.insert(result, v)
-        end
-    end
-
-    return result
-end
-
 -- Faster way to decrease food/bakery consumables remaining counter
 function decrease_remaining_food(G, card)
     if card.ability.extra.remaining - 1 <= 0 then
