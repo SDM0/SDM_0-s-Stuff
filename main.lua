@@ -165,7 +165,9 @@ if SDM_0s_Stuff_Config.sdm_decks then
     end
 end
 
-SMODS.load_file("data/bakery.lua")()
+if SDM_0s_Stuff_Config.sdm_bakery then
+    SMODS.load_file("data/bakery/main.lua")()
+end
 
 if Cryptid then
     SMODS.load_file("extra/cryptid.lua")()
@@ -215,6 +217,15 @@ SDM_0s_Stuff_Mod.config_tab = function()
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Decks", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
+
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_bakery" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Enable Bakery Goods", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 

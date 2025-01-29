@@ -5,32 +5,6 @@ SMODS.Atlas{
     py = 95
 }
 
-SMODS.ConsumableType {
-    key = 'Bakery',
-    collection_rows = { 5, 6 },
-    primary_colour = HEX('e69138'),
-    secondary_colour = HEX('ff7f00'),
-    default = "c_sdm_pita",
-    rarities = {
-        { key = "Common" },
-        { key = "Uncommon" },
-        { key = "Rare" },
-    },
-    loc_txt = {
-        name = 'Bakery',
- 		collection = 'Bakery Goods',
-        undiscovered = {
-            name = 'Not Discovered',
-            text = {
-                "Purchase or use",
-                "this card in an",
-                "unseeded run to",
-                "learn what it does"
-            },
-        },
-    },
-}
-
 SMODS.UndiscoveredSprite {
     key = 'Bakery',
     atlas = 'Tarot',
@@ -64,11 +38,10 @@ SMODS.Consumable{
             }
         end
     end,
-    in_pool = function(self)
-        return true, {allow_duplicates = true}
-    end,
     atlas = "sdm_bakery"
 }
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_pita = "Pita"
 
 -- Sourdough --
 
@@ -79,7 +52,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {mult = 10, remaining = 3}},
+    config = {extra = {mult = 15, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
     end,
@@ -96,11 +69,10 @@ SMODS.Consumable{
             }
         end
     end,
-    in_pool = function(self)
-        return true, {allow_duplicates = true}
-    end,
     atlas = "sdm_bakery"
 }
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
 
 -- Baguette --
 
@@ -128,11 +100,7 @@ SMODS.Consumable{
             }
         end
     end,
-    in_pool = function(self)
-        return true, {allow_duplicates = true}
-    end,
     atlas = "sdm_bakery"
 }
 
--- TODO: Figure out a rarity system, make a booster pack, add config for bakery (and bakery booster pack?)
--- Hide greyed "Use" button
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_baguette = "Baguette"
