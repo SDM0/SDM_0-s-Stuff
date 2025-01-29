@@ -132,18 +132,23 @@ SMODS.Joker{
     key = "joker_voucher_voucher",
     name = "Joker Voucher Voucher",
     rarity = "evo",
-    pos = {x = 0, y = 0},
+    pos = {x = 2, y = 5},
     cost = 16,
-    add_to_deck = function(self, card, from_debuff)
-        G.jokers:remove_card(card)
-        card:remove()
-        card = nil
-        local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
-        G.play:emplace(_card)
-        _card.cost = 0
-        G.FUNCS.use_card({config = {ref_table = _card}})
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.v_sdm_joker_voucher
     end,
-    -- TODO: Figure out no_doe and stuff like that for Cryptid "Antimatter Deck"
+    add_to_deck = function(self, card, from_debuff)
+        G.E_MANAGER:add_event(Event({func = (function()
+            G.jokers:remove_card(card)
+            card:remove()
+            card = nil
+            local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
+            G.play:emplace(_card)
+            _card.cost = 0
+            G.FUNCS.use_card({config = {ref_table = _card}})
+            return true end
+        )}))
+    end,
     calculate_evo = function(self, card, context)
         if context.buying_card then
             if context.card and context.card.ability.set == 'Voucher' then
