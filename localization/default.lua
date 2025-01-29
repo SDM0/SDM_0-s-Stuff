@@ -402,10 +402,9 @@ return {
             j_sdm_skelton = {
                 name = "Skelton",
                 text = {
-                    "If scored hand",
-                    "contains a {C:attention}Jack{},",
-                    "destroy each",
-                    "unscored cards"
+                    "If played hand contains",
+                    "an unscored {C:attention}Jack{}, destroy",
+                    "each scored cards"
                 }
             },
             j_sdm_trance_the_devil = {
@@ -445,8 +444,8 @@ return {
             j_sdm_joker_voucher_voucher = {
                 name = "Joker Voucher Voucher",
                 text = {
-                    "You're not supposed",
-                    "to read this..."
+                    "This card is destroyed to redeem",
+                    "a {C:attention}Joker Voucher Voucher{}"
                 }
             }
         },
@@ -612,50 +611,21 @@ return {
             v_sdm_shadow = {
                 name = "Shadow",
                 text = {
-                    "Add {C:dark_edition}Negative{} to",
-                    "a random {C:attention}Joker{},",
-                    "otherwise create",
-                    'a {C:dark_edition}Negative{} "{C:attention}Joker{}"'
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
                 }
             },
             v_sdm_eclipse = {
                 name = "Eclipse",
                 text = {
-                    "Add {C:dark_edition}Negative{} to",
-                    "a random {C:attention}Joker{},",
-                    "otherwise create",
-                    'a {C:dark_edition}Negative{} "{C:attention}Joker{}"'
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
+                    "when {C:attention}Boss Blind{} is defeated"
                 }
             },
             v_sdm_oblivion = {
                 name = "Oblivion",
                 text = {
-                    "Add {C:dark_edition}Negative{}",
-                    "to each {C:attention}Joker{},",
-                    "otherwise create",
-                    '{C:attention}#1#{} {C:dark_edition}Negative{} "{C:attention}Joker{}"',
-                    '{C:inactive}(Overrides editions){}'
-                }
-            },
-            v_sdm_duality = {
-                name = "Duality",
-                text = {
-                    "Doubles reward from",
-                    "skipping a blind"
-                }
-            },
-            v_sdm_trinity = {
-                name = "Trinity",
-                text = {
-                    "Triples reward from",
-                    "skipping a blind"
-                }
-            },
-            v_sdm_quinary = {
-                name = "Quinary",
-                text = {
-                    "Quintuples reward from",
-                    "skipping a blind"
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
+                    "when {C:attention}Blind{} is defeated"
                 }
             },
             v_sdm_joker_voucher = {
@@ -668,6 +638,38 @@ return {
             }
         },
         Other = {
+            p_sdm_bakery_normal_1 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_normal_2 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_jumbo_1 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_mega_1 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "be taken immediately"
+                }
+            },
             space_jokers = {
                 name = "Space Jokers",
                 text = {
@@ -852,7 +854,8 @@ return {
             k_shared_ex = "Shared!",
             k_stone = "Stone",
             k_plus_tag = "+1 Tag",
-            k_crab_ex = "Crab!"
+            k_crab_ex = "Crab!",
+            k_bakery_pack = "Bakery Pack",
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
