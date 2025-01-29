@@ -138,23 +138,10 @@ SMODS.Joker{
         G.jokers:remove_card(card)
         card:remove()
         card = nil
-        G.E_MANAGER:add_event(Event({
-            trigger = "after",
-            delay = 0.4,
-            func = function()
-                local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
-                _card.cost = 0 --Prevent losing money from _card:redeem()
-                _card:redeem()
-                G.E_MANAGER:add_event(Event({
-                    trigger = "after",
-                    delay = 0.4,
-                    func = function()
-                        if _card then _card:start_dissolve() end
-                        return true
-                    end,
-                }))
-            return true
-        end}))
+        local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
+        G.play:emplace(_card)
+        _card.cost = 0
+        G.FUNCS.use_card({config = {ref_table = _card}})
     end,
     -- TODO: Figure out no_doe and stuff like that for Cryptid "Antimatter Deck"
     calculate_evo = function(self, card, context)

@@ -128,28 +128,24 @@ end
 '''
 match_indent = true
 
-# Prevent crash during Joker Voucher evolution
+# "Joker Voucher" special case evolution
 [[patches]]
 [patches.pattern]
 target = '=[SMODS joker_evolution "functions.lua"]'
-pattern = '''self.area:remove_from_highlighted(self)'''
-position = "at"
+pattern = '''function Card:evolve_card()'''
+position = "after"
 payload = '''
-if self.config.center_key ~= "j_sdm_joker_voucher_voucher" then
-    self.area:remove_from_highlighted(self)
-end
-'''
-match_indent = true
-
-# Prevent Joker Evolution "Evolved!" message for Joker Voucher evolution
-[[patches]]
-[patches.pattern]
-target = '=[SMODS joker_evolution "functions.lua"]'
-pattern = '''card_eval_status_text(self, 'extra', nil, nil, nil, {message = "Evolved!", colour = G.C.MONEY})'''
-position = "at"
-payload = '''
-if self.config.center_key ~= "j_sdm_joker_voucher_voucher" then
-    card_eval_status_text(self, 'extra', nil, nil, nil, {message = "Evolved!", colour = G.C.MONEY})
-end
+    if self.config.center_key == "j_sdm_joker_voucher" then
+        G.GAME.evolution_total = (G.GAME.evolution_total and G.GAME.evolution_total + 1) or 1
+        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                G.jokers.cards[i]:calculate_joker({evolution = true})
+            end
+        end
+        delay(0.2)
+        self:set_ability(G.P_CENTERS["j_sdm_joker_voucher_voucher"], true)
+        delay(0.1)
+        return true
+    end
 '''
 match_indent = true
