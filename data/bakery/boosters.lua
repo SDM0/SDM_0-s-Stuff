@@ -15,6 +15,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
+    weight = 0.5,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -29,6 +30,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
+    weight = 0.5,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -43,6 +45,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
+    weight = 0.5,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -57,8 +60,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
+    weight = 0.125,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
-
---TODO: Figure out a way replace "Use" on Bakery Goods (look into "Reserve" like in Betmma)
