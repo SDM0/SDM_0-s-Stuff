@@ -585,27 +585,80 @@ return {
             },
         },
         Bakery = {
+            c_sdm_dough = {
+                name = "Dough",
+                text = {
+                    "Earn {C:money}$#1#{} for the",
+                    "next {C:attention}#2#{} rounds",
+                }
+            },
             c_sdm_pita = {
                 name = "Pita",
                 text = {
                     "{C:chips}+#1#{} Chips for the",
-                    "next {C:attention}#2#{} hands",
+                    "next {C:attention}#2#{} rounds",
                 }
             },
             c_sdm_sourdough = {
                 name = "Sourdough",
                 text = {
                     "{C:mult}+#1#{} Mult for the",
-                    "next {C:attention}#2#{} hands",
+                    "next {C:attention}#2#{} rounds",
                 }
             },
             c_sdm_baguette = {
                 name = "Baguette",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult for the",
-                    "next {C:attention}#2#{} hands",
+                    "next {C:attention}#2#{} rounds",
                 }
-            }
+            },
+            c_sdm_banana_bread = {
+                name = "Banana Bread",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "{C:green}#2# in #3#{} chance this",
+                    "bread is destroyed",
+                    "at end of round"
+                }
+            },
+            c_sdm_breadsticks = {
+                name = "Breadsticks",
+                text = {
+                    "{C:blue}+#1#{} hands for the",
+                    "next {C:attention}#2#{} rounds",
+                }
+            },
+            c_sdm_croissant = {
+                name = "Croissant",
+                text = {
+                    "{C:red}+#1#{} discards for the",
+                    "next {C:attention}#2#{} rounds",
+                }
+            },
+            c_sdm_bread_loaf = {
+                name = "Bread Loaf",
+                text = {
+                    "{C:attention}+#1#{} handsize for the",
+                    "next {C:attention}#2#{} rounds",
+                }
+            },
+            c_sdm_fortune_cookie = {
+                name = "Fortune Cookie",
+                text = {
+                    "Create a {C:tarot}Tarot{} card",
+                    "at the end of round for",
+                    "the next {C:attention}#1#{} rounds",
+                }
+            },
+            c_sdm_moon_cake = {
+                name = "Moon Cake",
+                text = {
+                    "Create a {C:planet}Planet{} card",
+                    "at the end of round for",
+                    "the next {C:attention}#1#{} rounds",
+                }
+            },
         },
         Voucher = {
             v_sdm_shadow = {
