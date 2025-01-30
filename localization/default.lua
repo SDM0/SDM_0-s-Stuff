@@ -589,7 +589,7 @@ return {
                 name = "Dough",
                 text = {
                     "Earn {C:money}$#1#{} for the",
-                    "next {C:attention}#2#{} rounds",
+                    "next {C:attention}#2#{} shops",
                 }
             },
             c_sdm_pita = {
@@ -649,6 +649,7 @@ return {
                     "Create a {C:tarot}Tarot{} card",
                     "at the end of round for",
                     "the next {C:attention}#1#{} rounds",
+                    "{C:inactive}(Must have room)"
                 }
             },
             c_sdm_moon_cake = {
@@ -657,6 +658,7 @@ return {
                     "Create a {C:planet}Planet{} card",
                     "at the end of round for",
                     "the next {C:attention}#1#{} rounds",
+                    "{C:inactive}(Must have room)"
                 }
             },
         },
