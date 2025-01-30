@@ -588,29 +588,29 @@ return {
             c_sdm_dough = {
                 name = "Dough",
                 text = {
-                    "Earn {C:money}$#1#{} for the",
-                    "next {C:attention}#2#{} shops",
+                    "Earn {C:money}$#1#{},",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_pita = {
                 name = "Pita",
                 text = {
-                    "{C:chips}+#1#{} Chips for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{C:chips}+#1#{} Chips,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_sourdough = {
                 name = "Sourdough",
                 text = {
-                    "{C:mult}+#1#{} Mult for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{C:mult}+#1#{} Mult,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_baguette = {
                 name = "Baguette",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_banana_bread = {
@@ -625,30 +625,30 @@ return {
             c_sdm_breadsticks = {
                 name = "Breadsticks",
                 text = {
-                    "{C:blue}+#1#{} hands for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{C:blue}+#1#{} hand,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_croissant = {
                 name = "Croissant",
                 text = {
-                    "{C:red}+#1#{} discards for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{C:red}+#1#{} discard,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_bread_loaf = {
                 name = "Bread Loaf",
                 text = {
-                    "{C:attention}+#1#{} handsize for the",
-                    "next {C:attention}#2#{} rounds",
+                    "{C:attention}+#1#{} handsize,",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_fortune_cookie = {
                 name = "Fortune Cookie",
                 text = {
                     "Create a {C:tarot}Tarot{} card",
-                    "at the end of round for",
-                    "the next {C:attention}#1#{} rounds",
+                    "at the end of round,",
+                    "lasts {C:attention}#1#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -656,9 +656,17 @@ return {
                 name = "Moon Cake",
                 text = {
                     "Create a {C:planet}Planet{} card",
-                    "at the end of round for",
-                    "the next {C:attention}#1#{} rounds",
+                    "at the end of round,",
+                    "lasts {C:attention}#1#{} round(s)",
                     "{C:inactive}(Must have room)"
+                }
+            },
+            c_sdm_paczek = {
+                name = "Pączek",
+                text = {
+                    "Doubles all {C:attention}listed",
+                    "{C:green,E:1,S:1.1}probabilities{},",
+                    "lasts {C:attention}#1#{} round(s)",
                 }
             },
         },

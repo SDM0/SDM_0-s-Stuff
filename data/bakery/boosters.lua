@@ -15,7 +15,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
-    weight = 0.5,
+    weight = 0.3,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -30,7 +30,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
-    weight = 0.5,
+    weight = 0.3,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -45,7 +45,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
-    weight = 0.5,
+    weight = 0.3,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
@@ -60,7 +60,7 @@ SMODS.Booster{
     create_card = function(self, card, i)
         return {set = "Bakery", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "bkr"}
     end,
-    weight = 0.125,
+    weight = 0.07,
     kind = 'Bakery',
     atlas = "sdm_bakery_boosters"
 }
