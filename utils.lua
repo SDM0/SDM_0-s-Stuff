@@ -38,16 +38,16 @@ function decrease_remaining_food(G, card)
                 return true
             end
         }))
-        return {
+        card_eval_status_text(card, 'extra', nil, nil, nil, {
             message = localize('k_eaten_ex'),
             colour = G.C.FILTER
-        }
+        })
     else
         card.ability.extra.remaining = card.ability.extra.remaining - 1
-        return {
+        card_eval_status_text(card, 'extra', nil, nil, nil, {
             message = card.ability.extra.remaining..'',
             colour = G.C.FILTER
-        }
+        })
     end
 end
 

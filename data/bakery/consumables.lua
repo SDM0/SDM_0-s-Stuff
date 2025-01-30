@@ -12,8 +12,6 @@ SMODS.UndiscoveredSprite {
     pos = {x = 5, y = 2}
 }
 
---TODO: Fix bakery goods not lowering their remaining counter in context.end_of_round
-
 -- Dough --
 
 SMODS.Consumable{
@@ -22,7 +20,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {dollars = 4, remaining = 3}},
+    config = {extra = {dollars = 4, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.dollars, card.ability.extra.remaining}}
     end,
@@ -33,8 +31,8 @@ SMODS.Consumable{
         return card.ability.extra.dollars
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.ending_shop and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
@@ -50,7 +48,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {chips = 30, remaining = 4}},
+    config = {extra = {chips = 50, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips, card.ability.extra.remaining}}
     end,
@@ -58,8 +56,8 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
         if context.joker_main then
             return {
@@ -80,7 +78,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {mult = 15, remaining = 3}},
+    config = {extra = {mult = 10, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
     end,
@@ -88,8 +86,8 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
         if context.joker_main then
             return {
@@ -110,7 +108,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 6,
-    config = {extra = {X_mult = 2, remaining = 2}},
+    config = {extra = {X_mult = 1.5, remaining = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
     end,
@@ -118,8 +116,8 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
         if context.joker_main then
             return {
@@ -148,7 +146,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
             if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.odds then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -194,7 +192,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 6,
-    config = {extra = {hands = 2, remaining = 3}},
+    config = {extra = {hands = 1, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.hands, card.ability.extra.remaining}}
     end,
@@ -203,8 +201,8 @@ SMODS.Consumable{
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            ease_hands_played(card.ability.extra.hand)
             G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
+            ease_hands_played(card.ability.extra.hand)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -213,8 +211,8 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
@@ -230,7 +228,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 6,
-    config = {extra = {discards = 2, remaining = 3}},
+    config = {extra = {discards = 1, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.discards, card.ability.extra.remaining}}
     end,
@@ -239,8 +237,8 @@ SMODS.Consumable{
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            ease_discard(-card.ability.extra.discards)
             G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discards
+            ease_discard(-card.ability.extra.discards)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -249,8 +247,8 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
@@ -266,7 +264,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 6,
-    config = {extra = {handsize = 2, remaining = 3}},
+    config = {extra = {handsize = 1, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.handsize, card.ability.extra.remaining}}
     end,
@@ -284,8 +282,8 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
-            return decrease_remaining_food(G, card)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
@@ -309,7 +307,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -325,7 +323,7 @@ SMODS.Consumable{
                     colour = G.C.SECONDARY_SET.Tarot,
                 })
             end
-            return decrease_remaining_food(G, card)
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
@@ -349,7 +347,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or no_bp_retrigger(context)) then
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -366,7 +364,7 @@ SMODS.Consumable{
                     colour = G.C.SECONDARY_SET.Planet,
                 })
             end
-            return decrease_remaining_food(G, card)
+            decrease_remaining_food(G, card)
         end
     end,
     atlas = "sdm_bakery"
