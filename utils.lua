@@ -26,28 +26,31 @@ function decrease_remaining_food(G, card)
                 card.children.center.pinch.x = true
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
                     func = function()
-                            -- This function is only used by jokers and bakery goods so I ignore other areas
-                            if card.ability.set == "Joker" then
-                                G.jokers:remove_card(card)
-                            else
-                                G.consumeables:remove_card(card)
-                            end
-                            card:remove()
-                            card = nil
-                        return true; end}))
-                return true
-            end
-        }))
+                        -- This function is only used by jokers and bakery goods so I ignore other areas
+                        if card.ability.set == "Joker" then
+                            G.jokers:remove_card(card)
+                        else
+                            G.consumeables:remove_card(card)
+                        end
+                        card:remove()
+                        card = nil
+                    return true; end}))
+            return true
+        end}))
         card_eval_status_text(card, 'extra', nil, nil, nil, {
             message = localize('k_eaten_ex'),
             colour = G.C.FILTER
         })
     else
         card.ability.extra.remaining = card.ability.extra.remaining - 1
-        card_eval_status_text(card, 'extra', nil, nil, nil, {
-            message = card.ability.extra.remaining..'',
-            colour = G.C.FILTER
-        })
+        G.E_MANAGER:add_event(Event({
+            func = function()
+            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                message = card.ability.extra.remaining..'',
+                colour = G.C.FILTER
+            })
+            return true
+        end}))
     end
 end
 
