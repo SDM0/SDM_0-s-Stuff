@@ -165,6 +165,7 @@ if SDM_0s_Stuff_Config.sdm_decks then
     end
 end
 
+-- TODO: Make configurable bakery goods rate using the same kind of menu as the speed option
 if SDM_0s_Stuff_Config.sdm_bakery then
     SMODS.load_file("data/bakery/main.lua")()
 end
