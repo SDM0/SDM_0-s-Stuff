@@ -70,7 +70,7 @@ if JokerEvolution then
         pos = {x = 2, y = 0},
         config = {extra = {Xmult_mod = 0.5}},
         loc_vars = function(self, info_queue, card)
-            return {vars = {card.ability.extra.Xmult_mod, 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
+            return {vars = {card.ability.extra.Xmult_mod, 1 + (G.vouchers and #G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
         end,
         calculate = function(self, card, context)
             if context.joker_main then
@@ -86,6 +86,7 @@ if JokerEvolution then
         in_pool = function()
             return false
         end,
+        no_collection = true,
         atlas = "sdm_vouchers"
     }
 
