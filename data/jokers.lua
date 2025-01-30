@@ -21,7 +21,7 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            return decrease_remaining_food(G, card)
+            decrease_remaining_food(G, card)
         elseif context.joker_main then
             return {
                 message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
@@ -969,10 +969,10 @@ SMODS.Joker{
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             G.hand:change_size(card.ability.extra.handsize)
-            ease_hands_played(card.ability.extra.hand)
             G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hand
-            ease_discard(-card.ability.extra.discard)
+            ease_hands_played(card.ability.extra.hand)
             G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discard
+            ease_discard(-card.ability.extra.discard)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
