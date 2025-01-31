@@ -31,6 +31,7 @@ SMODS.Voucher{
     key = 'bakery_tycoon',
     name = 'Bakery Tycoon',
     pos = {x = 0, y = 1},
+    requires = {"v_sdm_bakery_merchant"},
     config = {extra = 32 / 4, extra_disp = 4},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra_disp}}

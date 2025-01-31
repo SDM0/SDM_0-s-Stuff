@@ -49,8 +49,8 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             key = 'bakery_acclimator',
             name = 'Bakery Acclimator',
             pos = {x = 0, y = 2},
+            requires = {"v_sdm_bakery_tycoon"},
             config = {extra = 56 / 4, extra_disp = 6},
-            requires = {"v_sdm_eclipse"},
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra_disp}}
             end,
