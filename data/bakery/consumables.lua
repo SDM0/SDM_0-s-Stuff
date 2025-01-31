@@ -1,6 +1,6 @@
 SMODS.Atlas{
-    key = "sdm_bakery",
-    path = "sdm_bakery.png",
+    key = "sdm_bakery_consumables",
+    path = "bakery/sdm_bakery_consumables.png",
     px = 71,
     py = 95
 }
@@ -27,10 +27,20 @@ SMODS.Consumable{
     can_use = function(self, card, area, copier)
         return false
     end,
-    calc_dollar_bonus = function(self, card)
-        local dollars = card.ability.extra.dollars
-        decrease_remaining_food(G, card)
-        return dollars
+    --calc_dollar_bonus = function(self, card)
+    --    local dollars = card.ability.extra.dollars
+    --    decrease_remaining_food(G, card)
+    --    return dollars
+    --end,
+    calculate = function(self, card, context)
+        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+            decrease_remaining_food(G, card)
+        end
+        if context.joker_main then
+            return {
+                dollars = card.ability.extra.dollars,
+            }
+        end
     end,
     atlas = "sdm_bakery"
 }
@@ -104,7 +114,7 @@ SMODS.Consumable{
     name = 'Baguette',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {X_mult = 1.5, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
@@ -134,7 +144,7 @@ SMODS.Consumable{
     name = 'Banana Bread',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {X_mult = 3, odds = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
@@ -188,7 +198,7 @@ SMODS.Consumable{
     name = 'Breadsticks',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {hands = 1, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.hands, card.ability.extra.remaining}}
@@ -224,7 +234,7 @@ SMODS.Consumable{
     name = 'Croissant',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {discards = 1, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.discards, card.ability.extra.remaining}}
@@ -260,7 +270,7 @@ SMODS.Consumable{
     name = 'Bread Loaf',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {handsize = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.handsize, card.ability.extra.remaining}}
@@ -295,7 +305,7 @@ SMODS.Consumable{
     name = 'Fortune Cookie',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
@@ -335,7 +345,7 @@ SMODS.Consumable{
     name = 'Moon Cake',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
@@ -376,7 +386,7 @@ SMODS.Consumable{
     name = 'Pączek',
     set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 6,
+    cost = 4,
     config = {extra = {remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
