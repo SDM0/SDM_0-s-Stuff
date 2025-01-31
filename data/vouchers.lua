@@ -5,8 +5,6 @@ SMODS.Atlas{
     py = 95
 }
 
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_joker_voucher = "Joker Voucher"
-
 -- Shadow
 
 SMODS.Voucher{
