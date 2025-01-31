@@ -42,7 +42,7 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
@@ -72,7 +72,7 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_pita = "Pita"
@@ -102,7 +102,7 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
@@ -132,7 +132,7 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baguette = "Baguette"
@@ -186,7 +186,7 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
@@ -222,7 +222,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
@@ -258,7 +258,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
@@ -293,7 +293,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_cake = "Cake"
@@ -333,7 +333,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_fortune_cookie = "Fortune Cookie"
@@ -374,7 +374,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_moon_cake = "Moon Cake"
@@ -413,7 +413,7 @@ SMODS.Consumable{
             decrease_remaining_food(G, card)
         end
     end,
-    atlas = "sdm_bakery"
+    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_paczek = "Pączek"
