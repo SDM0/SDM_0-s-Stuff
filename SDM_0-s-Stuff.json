@@ -8,7 +8,7 @@
 	"badge_colour": "c20000",
 	"version": "1.7.0~BETA-0131a",
 	"dependencies": [
-		"Steamodded (>=1.0.0~ALPHA-1304a)"
+		"Steamodded (>=1.0.0~ALPHA-1304b)"
 	],
 	"conflicts": [
 		"CardSleeves (<<1.5.0)"
