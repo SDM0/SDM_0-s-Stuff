@@ -1,6 +1,6 @@
 SMODS.Atlas{
     key = "sdm_bakery_boosters",
-    path = "sdm_bakery_boosters.png",
+    path = "bakery/sdm_bakery_boosters.png",
     px = 71,
     py = 95
 }
