@@ -12,7 +12,7 @@ end
 
 if SDM_0s_Stuff_Config.sdm_vouchers then
 
-    -- Oblivion
+    -- Oblivion --
 
     SMODS.Voucher{
         key = 'oblivion',
@@ -40,4 +40,29 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
     SDM_0s_Stuff_Mod.modded_objects.v_sdm_oblivion = "Oblivion"
     Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_oblivion"
+
+    if SDM_0s_Stuff_Config.sdm_bakery then
+
+        -- Bakery Acclimator --
+
+        SMODS.Voucher{
+            key = 'bakery_acclimator',
+            name = 'Bakery Acclimator',
+            pos = {x = 0, y = 2},
+            config = {extra = 56 / 4, extra_disp = 6},
+            requires = {"v_sdm_eclipse"},
+            loc_vars = function(self, info_queue, card)
+                return {vars = {card.ability.extra_disp}}
+            end,
+            redeem = function(self, card)
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.bakery_rate = 4 * card.ability.extra
+                return true end}))
+            end,
+            atlas = "sdm_bakery_vouchers"
+        }
+
+        SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_acclimator = "Bakery Acclimator"
+        Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_bakery_acclimator"
+    end
 end

@@ -691,6 +691,32 @@ return {
                     "when {C:attention}Blind{} is defeated"
                 }
             },
+            v_sdm_bakery_merchant = {
+                name = "Bakery Merchant",
+                text = {
+                    "{C:bakery}Bakery{} goods appear",
+                    "{C:attention}#1#X{} more frequently",
+                    "in the shop"
+                }
+            },
+            v_sdm_bakery_tycoon = {
+                name = "Bakery Tycoon",
+                text = {
+                    "{C:bakery}Bakery{} goods appear",
+                    "{C:attention}#1#X{} more frequently",
+                    "in the shop"
+                },
+            },
+            v_sdm_bakery_acclimator = {
+                name = "Bakery Acclimator",
+                text = {
+                    "{C:bakery}Bakery{} goods appear",
+                    "{C:attention}X#1#{} more frequently",
+                    "in the shop",
+                    "All future {C:bakery}Bakery{}",
+                    "goods are {C:green}free{}",
+                },
+            },
             v_sdm_joker_voucher = {
                 name = "Joker Voucher",
                 text = {
@@ -699,6 +725,15 @@ return {
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             }
+        },
+        Tag = {
+            tag_sdm_flour = {
+                name = "Flour Tag",
+                text = {
+                    "Gives a free",
+                    "{C:bakery}Jumbo Bakery Pack"
+                }
+            },
         },
         Other = {
             p_sdm_bakery_normal_1 = {
