@@ -25,9 +25,6 @@ SMODS.load_file("data/bakery/boosters.lua")()
 SMODS.load_file("data/bakery/tags.lua")()
 SMODS.load_file("data/bakery/vouchers.lua")()
 
--- TODO: Make a tag for Mega Bakery Booster
--- Make a voucher line to increase Bakery Goods spawning rate (with a Cryptid T3)
-
 --Code from Betmma's Vouchers
 G.FUNCS.can_pick_card = function(e)
     if #G.consumeables.cards < G.consumeables.config.card_limit then
