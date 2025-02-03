@@ -256,10 +256,8 @@ return {
             j_sdm_water_slide = {
                 name = "Water Slide",
                 text = {
-                    "This Joker gains {C:chips}+#1#{}",
-                    "Chips if scored hand",
-                    "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
-                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+                    "{C:chips}+#1#{} Chips per {C:attention}9{}, {C:attention}7{}",
+                    "or {C:attention}6{} in scoring hand",
                 }
             },
             j_sdm_joker_voucher = {
@@ -521,6 +519,14 @@ return {
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
                     "can't appear in shop"
+                }
+            },
+            b_sdm_baked = {
+                name = "Baked Deck",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_merchant}#1#{} voucher",
+                    "{C:attention}+#2#{} consumable slots",
                 }
             },
             b_sdm_deck_of_stuff = {
@@ -942,6 +948,21 @@ return {
                     "{C:attention}Vanilla{} cards",
                     "and Vouchers",
                     "can't appear in shop"
+                }
+            },
+            sleeve_sdm_baked = {
+                name = "Baked Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_merchant}#1#{} voucher",
+                    "{C:attention}+#2#{} consumable slots",
+                }
+            },
+            sleeve_sdm_baked_alt = {
+                name = "Baked Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_tycoon}#1#{} voucher",
                 }
             },
         },
