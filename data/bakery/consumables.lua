@@ -27,20 +27,10 @@ SMODS.Consumable{
     can_use = function(self, card, area, copier)
         return false
     end,
-    --calc_dollar_bonus = function(self, card)
-    --    local dollars = card.ability.extra.dollars
-    --    decrease_remaining_food(G, card)
-    --    return dollars
-    --end,
-    calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
-        end
-        if context.joker_main then
-            return {
-                dollars = card.ability.extra.dollars,
-            }
-        end
+    calc_dollar_bonus = function(self, card)
+        local dollars = card.ability.extra.dollars
+        decrease_remaining_food(G, card)
+        return dollars
     end,
     atlas = "sdm_bakery_consumables"
 }
