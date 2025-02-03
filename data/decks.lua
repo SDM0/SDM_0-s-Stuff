@@ -180,6 +180,18 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
+--- Baked Deck
+
+SMODS.Back{
+    key = "baked",
+    pos = {x = 2, y = 2},
+    config = {voucher = 'v_sdm_bakery_merchant', consumable_slot = 1},
+    loc_vars = function(self)
+        return {vars = {localize{type = 'name_text', key = 'v_sdm_bakery_merchant', set = 'Voucher'}, self.config.consumable_slot}}
+    end,
+    atlas = "sdm_enhancers"
+}
+
 --- Deck Of Stuff
 
 SMODS.Back{
