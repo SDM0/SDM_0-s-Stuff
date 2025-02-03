@@ -1176,29 +1176,24 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 1, y = 5},
     cost = 4,
-    config = {extra = {chips = 0, chip_mod = 8}},
+    config = {extra = {chips = 30, ranks = 0}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
+        return {vars = {card.ability.extra.chips}}
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and no_bp_retrigger(context) then
+            card.ability.extra.ranks = 0
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
                 context.scoring_hand[i]:get_id() == 6 then
-                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_upgrade_ex'),
-                        colour = G.C.BLUE,
-                    })
-                    break
+                    card.ability.extra.ranks = card.ability.extra.ranks + 1
                 end
             end
         end
-        if context.joker_main and card.ability.extra.chips > 0 then
+        if context.joker_main and card.ability.extra.ranks > 0 then
             return {
-                message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
-                chip_mod = card.ability.extra.chips,
+                chips = card.ability.extra.chips * card.ability.extra.ranks,
             }
         end
     end,
@@ -1452,7 +1447,7 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_consolation_prize = "Consolation Prize"
 
 --- Astrology ---
 
--- TODO: FInd a new name for Astrology as it was already taken by NLM
+-- TODO: Find a new name for Astrology as it was already taken by NLM
 -- Do more playtest with this joker see if it's too broken
 
 SMODS.Joker{

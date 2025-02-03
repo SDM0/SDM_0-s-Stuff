@@ -392,9 +392,25 @@ jd_def["j_sdm_jambo"] = { -- Jambo
 jd_def["j_sdm_water_slide"] = { -- Water Slide
     text = {
         { text = "+" },
-        { ref_table = "card.ability.extra", ref_value = "chips" }
+        { ref_table = "card.joker_display_values", ref_value = "chips"}
     },
     text_config = { colour = G.C.CHIPS },
+    reminder_text = {
+        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+    },
+    calc_function = function(card)
+        local chips = 0
+        local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= 'Unknown' then
+            for _, scoring_card in pairs(scoring_hand) do
+                if scoring_card:get_id() and scoring_card:get_id() == 9 or scoring_card:get_id() == 7 or scoring_card:get_id() == 6 then
+                    chips = chips + card.ability.extra.chips
+                end
+            end
+        end
+        card.joker_display_values.chips = chips
+        card.joker_display_values.localized_text = "(6,7,9)"
+    end
 }
 jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
     text = {
