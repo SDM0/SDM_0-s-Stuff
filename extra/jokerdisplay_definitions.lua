@@ -392,25 +392,9 @@ jd_def["j_sdm_jambo"] = { -- Jambo
 jd_def["j_sdm_water_slide"] = { -- Water Slide
     text = {
         { text = "+" },
-        { ref_table = "card.joker_display_values", ref_value = "chips"}
+        { ref_table = "card.ability.extra", ref_value = "chips" }
     },
     text_config = { colour = G.C.CHIPS },
-    reminder_text = {
-        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
-    },
-    calc_function = function(card)
-        local chips = 0
-        local text, _, scoring_hand = JokerDisplay.evaluate_hand()
-        if text ~= 'Unknown' then
-            for _, scoring_card in pairs(scoring_hand) do
-                if scoring_card:get_id() and scoring_card:get_id() == 9 or scoring_card:get_id() == 7 or scoring_card:get_id() == 6 then
-                    chips = chips + card.ability.extra.chips
-                end
-            end
-        end
-        card.joker_display_values.chips = chips
-        card.joker_display_values.localized_text = "(6,7,9)"
-    end
 }
 jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
     text = {
@@ -495,8 +479,10 @@ jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
     end
 }
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
+
 }
 jd_def["j_sdm_astrology"] = { -- Astrology
+
 }
 jd_def["j_sdm_roulette"] = { -- Roulette
     extra = {
@@ -538,6 +524,7 @@ jd_def["j_sdm_wormhole"] = { -- Wormhole
     end
 }
 jd_def["j_sdm_child"] = {
+
 }
 jd_def["j_sdm_yo_yo"] = {
     text = {
@@ -569,7 +556,8 @@ jd_def["j_sdm_archibald"] = { -- Archibald
         return false
     end
 }
-jd_def["j_sdm_patch"] = {
+jd_def["j_sdm_patch"] = { -- Patch
+
 }
 jd_def["j_sdm_0"] = { -- SDM_0
     reminder_text = {
@@ -578,7 +566,8 @@ jd_def["j_sdm_0"] = { -- SDM_0
         { text = ")" },
     },
 }
-jd_def["j_sdm_skelton"] = {
+jd_def["j_sdm_skelton"] = { -- Skelton
+
 }
 jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
     text = {
