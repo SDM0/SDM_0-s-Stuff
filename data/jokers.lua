@@ -24,14 +24,11 @@ SMODS.Joker{
             decrease_remaining_food(G, card)
         elseif context.joker_main then
             return {
-                message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
-                chip_mod = card.ability.extra.chips,
+                chips = card.ability.extra.chips,
                 extra = {
-                    message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
-                    mult_mod = card.ability.extra.mult,
+                    mult = card.ability.extra.mult,
                     extra = {
-                        message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
-                        Xmult_mod = card.ability.extra.Xmult
+                        Xmult = card.ability.extra.Xmult
                     }
                 }
             }
@@ -69,8 +66,7 @@ SMODS.Joker{
             end
         elseif context.joker_main and card.ability.extra.chips > 0 then
             return {
-                message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
-                chip_mod = card.ability.extra.chips
+                chips = card.ability.extra.chips
             }
         end
     end,
@@ -96,7 +92,6 @@ SMODS.Joker{
         if context.repetition and not context.individual and context.cardarea == G.play then
             if context.other_card:get_id() == 7 then
                 return {
-                    message = localize('k_again_ex'),
                     repetitions = card.ability.extra.repetition,
                     card = card
                 }
@@ -125,9 +120,7 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.joker_main and card.ability.extra.mult > 0 then
             return {
-                message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
-                mult_mod = card.ability.extra.mult,
-                colour = G.C.MULT
+                mult = card.ability.extra.mult,
             }
         end
     end,
@@ -269,8 +262,7 @@ SMODS.Joker{
             local max_card = count_max_occurence(cards_id) or 0
             if G.GAME.current_round.hands_left + 1 == max_card then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
-                    Xmult_mod = card.ability.extra
+                    Xmult = card.ability.extra
                 }
             end
         end
@@ -472,8 +464,7 @@ SMODS.Joker{
             end
         elseif context.joker_main and card.ability.extra.Xmult > 1 then
             return {
-                message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
-                Xmult_mod = card.ability.extra.Xmult
+                Xmult = card.ability.extra.Xmult
             }
         end
     end,
@@ -882,8 +873,7 @@ SMODS.Joker{
             end
         elseif context.joker_main and card.ability.extra.Xmult > 1 then
             return {
-                message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
-                Xmult_mod = card.ability.extra.Xmult
+                Xmult = card.ability.extra.Xmult
             }
         end
     end,
@@ -907,7 +897,6 @@ SMODS.Joker{
         if context.repetition and not context.individual and context.cardarea == G.play then
             if context.other_card.ability.effect ~= "Base" then
                 return {
-                    message = localize('k_again_ex'),
                     repetitions = card.ability.extra,
                     card = card
                 }
@@ -1095,8 +1084,7 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.joker_main and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
             return {
-                message = localize{type='variable',key='a_chips',vars={card.ability.extra}},
-                chip_mod = card.ability.extra
+                chips = card.ability.extra
             }
         end
     end,
@@ -1122,8 +1110,7 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}},
-                chip_mod = card.ability.extra.chips
+                chips = card.ability.extra.chips
             }
         end
     end,
@@ -1155,8 +1142,7 @@ SMODS.Joker{
             local mlt = _card.base.nominal * 2
             if mlt > 0 then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={mlt}},
-                    mult_mod = mlt
+                    mult = mlt
                 }
             end
         end
@@ -1176,24 +1162,29 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 1, y = 5},
     cost = 4,
-    config = {extra = {chips = 30, ranks = 0}},
+    config = {extra = {chips = 0, chip_mod = 8}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips}}
+        return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and no_bp_retrigger(context) then
-            card.ability.extra.ranks = 0
+
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
                 context.scoring_hand[i]:get_id() == 6 then
-                    card.ability.extra.ranks = card.ability.extra.ranks + 1
+                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.BLUE,
+                    })
+                    break
                 end
             end
         end
-        if context.joker_main and card.ability.extra.ranks > 0 then
+        if context.joker_main and card.ability.extra.chips > 0 then
             return {
-                chips = card.ability.extra.chips * card.ability.extra.ranks,
+                chips = card.ability.extra.chips,
             }
         end
     end,
@@ -1226,8 +1217,7 @@ SMODS.Joker{
             local xmlt = 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod
             if xmlt > 1 then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={xmlt}},
-                    Xmult_mod = xmlt,
+                    Xmult = xmlt
                 }
             end
         end
@@ -1359,8 +1349,7 @@ SMODS.Joker{
             end
             if has_jack and (context.scoring_name and context.scoring_name == card.ability.jack_poker_hand) then
                 return {
-                    message = localize{type='variable',key='a_mult',vars={card.ability.extra}},
-                    mult_mod = card.ability.extra,
+                    mult = card.ability.extra,
                 }
             end
         end
@@ -1405,8 +1394,7 @@ SMODS.Joker{
         end
         if context.joker_main and card.ability.extra.mult > 0 then
             return {
-                message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
-                mult_mod = card.ability.extra.mult
+                mult = card.ability.extra.mult
             }
         end
     end,
@@ -1580,8 +1568,7 @@ SMODS.Joker{
         end
         if context.joker_main then
             return {
-                message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}},
-                mult_mod = card.ability.extra.mult
+                mult = card.ability.extra.mult
             }
         end
     end,
@@ -1714,8 +1701,7 @@ SMODS.Joker{
             end
             if curr_xmult ~= 1 then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={curr_xmult}},
-                    Xmult_mod = curr_xmult
+                    Xmult = curr_xmult
                 }
             end
         end
@@ -1958,8 +1944,7 @@ SMODS.Joker{
             end
         elseif context.joker_main and card.ability.extra.Xmult > 1 then
             return {
-                message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
-                Xmult_mod = card.ability.extra.Xmult
+                Xmult = card.ability.extra.Xmult
             }
         end
     end,
