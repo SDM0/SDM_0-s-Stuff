@@ -17,7 +17,6 @@ SMODS.Voucher{
     end,
     redeem = function(self, card)
         -- TODO: Replace tempfix when SMODS.Voucher redeem is fixed
-        local card = card or self
         G.E_MANAGER:add_event(Event({func = function()
             G.GAME.bakery_rate = 4 * (card and card.ability and card.ability.extra or self.config.extra)
         return true end}))
