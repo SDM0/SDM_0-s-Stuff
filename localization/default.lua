@@ -289,8 +289,8 @@ return {
                 name = "Jack a Dit",
                 text = {
                     "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
-                    "is a {C:attention}#2#{} and",
-                    "has a {C:attention}Jack{}, poker",
+                    "is a {C:attention}#2#{} or {C:attention}#3#{}",
+                    "and has a {C:attention}Jack{}, poker",
                     "hand changes at",
                     "end of round"
                 },
@@ -311,11 +311,12 @@ return {
                     "played your {C:attention}final hand{}",
                 }
             },
-            j_sdm_astrology = {
-                name = "Astrology",
+            j_sdm_horoscopy = {
+                name = "Horoscopy",
                 text = {
-                    "Creates a random {C:tarot}Tarot{} card",
-                    "when a {C:planet}Planet{} card is used",
+                    "{C:green}#1# in #2#{} chance to create a",
+                    "random {C:tarot}Tarot{} card when",
+                    "a {C:planet}Planet{} card is used",
                     "{C:inactive}(Must have room){}"
                 }
             },

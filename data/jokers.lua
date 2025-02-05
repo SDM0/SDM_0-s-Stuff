@@ -61,7 +61,6 @@ SMODS.Joker{
                 return {
                     message = localize('k_upgrade_ex'),
                     colour = G.C.CHIPS,
-                    card = card
                 }
             end
         elseif context.joker_main and card.ability.extra.chips > 0 then
@@ -93,7 +92,6 @@ SMODS.Joker{
             if context.other_card:get_id() == 7 then
                 return {
                     repetitions = card.ability.extra.repetition,
-                    card = card
                 }
             end
         end
@@ -163,12 +161,10 @@ SMODS.Joker{
             if context.other_card.ability.effect == "Bonus Card" then
                 return {
                     mult = card.ability.extra.mult,
-                    card = card
                 }
             elseif context.other_card.ability.effect == "Mult Card" then
                 return {
                     chips = card.ability.extra.chips,
-                    card = card
                 }
             end
         end
@@ -775,7 +771,6 @@ SMODS.Joker{
                         return {
                             message = localize('k_plus_planet'),
                             colour = G.C.SECONDARY_SET.Planet,
-                            card = card
                         }
                     end
                 end
@@ -898,7 +893,6 @@ SMODS.Joker{
             if context.other_card.ability.effect ~= "Base" then
                 return {
                     repetitions = card.ability.extra,
-                    card = card
                 }
             end
         end
@@ -1204,7 +1198,7 @@ SMODS.Joker{
     cost = 8,
     config = {extra = {Xmult_mod = 0.5}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult_mod, 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod}}
+        return {vars = {card.ability.extra.Xmult_mod, 1 + ((G.vouchers and #G.vouchers.cards) or 0) * card.ability.extra.Xmult_mod}}
     end,
     calculate = function(self, card, context)
         if context.buying_card and context.card.ability.set == "Voucher" then
@@ -1296,12 +1290,10 @@ SMODS.Joker{
                     return {
                         message = localize('k_debuffed'),
                         colour = G.C.RED,
-                        card = card,
                     }
                 else
                     return {
                         h_mult = card.ability.extra,
-                        card = card
                     }
                 end
             end
@@ -1323,20 +1315,23 @@ SMODS.Joker{
     cost = 5,
     config = {extra = 20},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand, 'poker_hands')}}
+        return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
     end,
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
         for k, v in pairs(G.GAME.hands) do
             if v.visible then _poker_hands[#_poker_hands+1] = k end
         end
-        local old_hand = card.ability.jack_poker_hand
-        card.ability.jack_poker_hand = nil
+        local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
+        card.ability.jack_poker_hand1 = nil
+        card.ability.jack_poker_hand2 = nil
 
-        while not card.ability.jack_poker_hand do
-            card.ability.jack_poker_hand = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do' or 'to_do'))
-            if card.ability.jack_poker_hand == old_hand then card.ability.jack_poker_hand = nil end
-        end
+        repeat
+            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do1' or 'to_do1'))
+            if card.ability.jack_poker_hand1 == old_hand1 then card.ability.jack_poker_hand1 = nil end
+            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do2' or 'to_do2'))
+            if card.ability.jack_poker_hand2 == old_hand2 then card.ability.jack_poker_hand2 = nil end
+        until card.ability.jack_poker_hand1 and card.ability.jack_poker_hand2 and card.ability.jack_poker_hand1 ~= card.ability.jack_poker_hand2
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_hand then
@@ -1347,7 +1342,7 @@ SMODS.Joker{
                     break
                 end
             end
-            if has_jack and (context.scoring_name and context.scoring_name == card.ability.jack_poker_hand) then
+            if has_jack and (context.scoring_name and (context.scoring_name == card.ability.jack_poker_hand1 or context.scoring_name == card.ability.jack_poker_hand2)) then
                 return {
                     mult = card.ability.extra,
                 }
@@ -1356,9 +1351,11 @@ SMODS.Joker{
         if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
             local _poker_hands = {}
             for k, v in pairs(G.GAME.hands) do
-                if v.visible and k ~= card.ability.jack_poker_hand then _poker_hands[#_poker_hands+1] = k end
+                if v.visible and k ~= card.ability.jack_poker_hand1 and k ~= card.ability.jack_poker_hand2 then _poker_hands[#_poker_hands+1] = k end
             end
-            card.ability.jack_poker_hand = pseudorandom_element(_poker_hands, pseudoseed('jad'))
+            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jad1'))
+            _poker_hands[card.ability.jack_poker_hand1] = nil
+            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jad2'))
             return {
                 message = localize('k_reset')
             }
@@ -1387,7 +1384,6 @@ SMODS.Joker{
             if string.match(string.lower(context.scoring_name), "%f[%w]kind%f[%W]$") then
                 card.ability.extra.mult = card.ability.extra.mult + #context.scoring_hand
                 return {
-                    card = card,
                     message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}
                 }
             end
@@ -1433,20 +1429,21 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_consolation_prize = "Consolation Prize"
 
---- Astrology ---
-
--- TODO: Find a new name for Astrology as it was already taken by NLM
--- Do more playtest with this joker see if it's too broken
+--- Horoscopy ---
 
 SMODS.Joker{
-    key = "astrology",
-    name = "Astrology",
+    key = "horoscopy",
+    name = "Horoscopy",
     rarity = 3,
     blueprint_compat = true,
     pos = {x = 0, y = 0},
     cost = 8,
+    config = {extra = 2},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+    end,
     calculate = function(self, card, context)
-        if context.using_consumeable then
+        if context.using_consumeable and pseudorandom('horoscopy') < G.GAME.probabilities.normal/card.ability.extra then
             G.E_MANAGER:add_event(Event({
                 func = (function()
                 if context.consumeable.ability.set == 'Planet' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -1468,8 +1465,8 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_astrology = "Astrology"
-SDM_0s_Stuff_Mod.space_jokers.j_sdm_astrology = "Astrology"
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_horoscopy = "Horoscopy"
+SDM_0s_Stuff_Mod.space_jokers.j_sdm_horoscopy = "Horoscopy"
 
 --- Roulette ---
 
