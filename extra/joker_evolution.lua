@@ -149,6 +149,7 @@ SMODS.Joker{
             return true end
         )}))
     end,
+    -- TODO: Expand JokerEvo's API to include add_to_deck, remove_from_deck and update
     calculate_evo = function(self, card, context)
         if context.buying_card then
             if context.card and context.card.ability.set == 'Voucher' then
