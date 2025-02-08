@@ -53,9 +53,8 @@ SMODS.Joker{
         if context.joker_main and context.scoring_hand then
             for i = 1, #context.scoring_hand do
                 local _card = context.scoring_hand[i]
-                if not _card.debuff and _card.ability.effect == "Bonus Card" or
-                    _card.ability.effect == "Mult Card" then
-                    card:decrement_evo_condition()
+                if not _card.debuff and _card.ability.effect == "Bonus Card" or _card.ability.effect == "Mult Card" then
+                    card:increment_evo_condition()
                 end
             end
         end
@@ -85,7 +84,7 @@ SMODS.Joker{
         if context.selling_card then
             if context.card.ability.set == 'Joker' then
                 local rarity = context.card.config.center.rarity
-                if rarity == 1 then card:decrement_evo_condition() end
+                if rarity == 1 then card:increment_evo_condition() end
             end
         end
     end,
@@ -117,7 +116,7 @@ SMODS.Joker{
     calculate_evo = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) then
             if G.GAME.current_round.hands_played == 1 then
-                card:decrement_evo_condition()
+                card:increment_evo_condition()
             end
         end
     end,
@@ -149,15 +148,17 @@ SMODS.Joker{
             return true end
         )}))
     end,
-    -- TODO: Expand JokerEvo's API to include add_to_deck, remove_from_deck and update
+    add_to_deck_evo = function(self, card, context)
+        card:set_evo_condition(((G.vouchers and #G.vouchers.cards) or 0))
+    end,
     calculate_evo = function(self, card, context)
         if context.buying_card then
             if context.card and context.card.ability.set == 'Voucher' then
-                card:decrement_evo_condition()
+                card:increment_evo_condition()
             end
         end
     end,
     atlas = "sdm_jokers"
 }
 
-JokerEvolution.evolutions:add_evolution("j_sdm_joker_voucher", "j_sdm_joker_voucher_voucher", 3)
+JokerEvolution.evolutions:add_evolution("j_sdm_joker_voucher", "j_sdm_joker_voucher_voucher", 4)
