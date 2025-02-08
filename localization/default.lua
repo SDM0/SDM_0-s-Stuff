@@ -291,7 +291,7 @@ return {
                     "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
                     "is a {C:attention}#2#{} or {C:attention}#3#{}",
                     "and has a {C:attention}Jack{}, poker",
-                    "hand changes at",
+                    "hands changes at",
                     "end of round"
                 },
             },
@@ -834,7 +834,7 @@ return {
                 name = "Evolution",
                 text = {
                     "Purchase {C:attention}#2#{} vouchers",
-                    "while owning this Joker",
+                    "this run",
                     "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
             }
