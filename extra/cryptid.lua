@@ -57,7 +57,7 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             end,
             redeem = function(self, card)
                 G.E_MANAGER:add_event(Event({func = function()
-                    G.GAME.bakery_rate = 4 * (card and card.ability and card.ability.extra or self.config.extra)
+                    G.GAME.bakery_rate = 4 * card.ability.extra
                 return true end}))
             end,
             atlas = "sdm_bakery_vouchers"

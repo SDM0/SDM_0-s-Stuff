@@ -16,9 +16,8 @@ SMODS.Voucher{
         return {vars = {card.ability.extra_disp}}
     end,
     redeem = function(self, card)
-        -- TODO: Replace tempfix when SMODS.Voucher redeem is fixed
         G.E_MANAGER:add_event(Event({func = function()
-            G.GAME.bakery_rate = 4 * (card and card.ability and card.ability.extra or self.config.extra)
+            G.GAME.bakery_rate = 4 * card.ability.extra
         return true end}))
     end,
     atlas = "sdm_bakery_vouchers"
@@ -38,9 +37,8 @@ SMODS.Voucher{
         return {vars = {card.ability.extra_disp}}
     end,
     redeem = function(self, card)
-        -- TODO: Replace tempfix when SMODS.Voucher redeem is fixed
         G.E_MANAGER:add_event(Event({func = function()
-            G.GAME.bakery_rate = 4 * (card and card.ability and card.ability.extra or self.config.extra)
+            G.GAME.bakery_rate = 4 * card.ability.extra
         return true end}))
     end,
     atlas = "sdm_bakery_vouchers"
