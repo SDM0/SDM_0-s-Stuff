@@ -4,6 +4,7 @@ SDM_0s_Stuff_Config = SDM_0s_Stuff_Mod.config
 SDM_0s_Stuff_Mod.modded_objects = {}
 SDM_0s_Stuff_Mod.food_jokers = {}
 SDM_0s_Stuff_Mod.meme_jokers = {}
+SDM_0s_Stuff_Mod.tier3_vouchers = {}
 SDM_0s_Stuff_Mod.space_jokers = {   --- SDM_0's Stuff space jokers loaded in during their creation
 
     --- Vanilla ---

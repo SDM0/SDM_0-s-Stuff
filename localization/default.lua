@@ -722,8 +722,8 @@ return {
                     "{C:bakery}Bakery{} goods appear",
                     "{C:attention}X#1#{} more frequently",
                     "in the shop",
-                    "All future {C:bakery}Bakery{}",
-                    "goods are {C:green}free{}",
+                    "{C:bakery}Bakery{} goods",
+                    "lasts forever",
                 },
             },
             v_sdm_joker_voucher = {

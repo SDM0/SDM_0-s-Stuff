@@ -150,7 +150,7 @@ payload = '''
 '''
 match_indent = true
 
-# Fixed "Treasure Chest" and Bakery Goods + "Bakery Acclimator" cost
+# Fixed "Treasure Chest" cost
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -158,9 +158,6 @@ pattern = '''self.sell_cost_label = self.facing == 'back' and '?' or self.sell_c
 position = "after"
 payload = '''
 if self.config.center_key == "j_sdm_treasure_chest" then
-    self.cost = 0
-end
-if self.ability.set == "Bakery" and G.GAME.used_vouchers.v_sdm_bakery_acclimator then
     self.cost = 0
 end
 '''

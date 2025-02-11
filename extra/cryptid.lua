@@ -1,12 +1,16 @@
 if SDM_0s_Stuff_Config.sdm_jokers then
     -- Loading meme jokers into Cryptid's "Meme packs"
-    for k, _ in pairs(SDM_0s_Stuff_Mod.meme_jokers) do
-        Cryptid.memepack[#Cryptid.memepack+1] = k
+    if SMODS.ObjectTypes["Meme"] then
+        for k, _ in pairs(SDM_0s_Stuff_Mod.meme_jokers) do
+            SMODS.ObjectTypes["Meme"]:inject_card(k)
+        end
     end
 
     -- Loading food jokers into Cryptid's "://SPAGHETTI" pool
-    for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
-        Cryptid.food[#Cryptid.food+1] = k
+    if SMODS.ObjectTypes["Food"] then
+        for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
+            SMODS.ObjectTypes["Food"]:inject_card(k)
+        end
     end
 end
 
@@ -39,13 +43,12 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
     }
 
     SDM_0s_Stuff_Mod.modded_objects.v_sdm_oblivion = "Oblivion"
-    Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_oblivion"
+    SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_oblivion = "Oblivion"
 
     if SDM_0s_Stuff_Config.sdm_bakery then
 
         -- Bakery Acclimator --
 
-        -- TODO: Update voucher to fit with the other Cryptud "acclimator" voucher theme
         SMODS.Voucher{
             key = 'bakery_acclimator',
             name = 'Bakery Acclimator',
@@ -64,6 +67,12 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
         }
 
         SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_acclimator = "Bakery Acclimator"
-        Cryptid.Megavouchers[#Cryptid.Megavouchers + 1] = "v_sdm_bakery_acclimator"
+        SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_bakery_acclimator = "Bakery Acclimator"
+    end
+
+    if SMODS.ObjectTypes["Tier3"] then
+        for k, _ in pairs(SDM_0s_Stuff_Mod.tier3_vouchers) do
+            SMODS.ObjectTypes["Tier3"]:inject_card(k)
+        end
     end
 end
