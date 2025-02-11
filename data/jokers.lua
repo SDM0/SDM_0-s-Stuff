@@ -255,7 +255,7 @@ SMODS.Joker{
             for i = 1, #context.scoring_hand do
                 table.insert(cards_id, context.scoring_hand[i]:get_id())
             end
-            local max_card = count_max_occurence(cards_id) or 0
+            local max_card = count_max_occurence(cards_id)
             if G.GAME.current_round.hands_left + 1 == max_card then
                 return {
                     Xmult = card.ability.extra

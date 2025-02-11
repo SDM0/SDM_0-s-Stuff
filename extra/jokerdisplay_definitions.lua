@@ -128,7 +128,7 @@ jd_def["j_sdm_magic_hands"] = { -- Magic Hands
             for _, scoring_card in pairs(scoring_hand) do
                 table.insert(cards_id, scoring_card:get_id())
             end
-            local max_card = count_max_occurence(cards_id) or 0
+            local max_card = count_max_occurence(cards_id)
             is_magic_hands_hand = (G.GAME.current_round.hands_left + (next(G.play.cards) and 1 or 0)) == max_card
         end
         card.joker_display_values.x_mult = is_magic_hands_hand and card.ability.extra or 1
