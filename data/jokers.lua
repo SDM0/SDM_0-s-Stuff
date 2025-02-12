@@ -1594,7 +1594,6 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_safe_hands = "Safe Hands"
 
 --- Wormhole ---
 
---TODO: Add new "Active" localization
 SMODS.Joker{
     key = "wormhole",
     name = "Wormhole",
@@ -1604,7 +1603,7 @@ SMODS.Joker{
     cost = 6,
     config = {extra = {repetition = true}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {(card.ability.extra.repetition and "Active") or "", (not card.ability.extra.repetition and "Inactive") or ""}}
+        return {vars = {(card.ability.extra.repetition and localize("k_sdm_active")) or "", (not card.ability.extra.repetition and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
         if context.using_consumeable and card.ability.extra.repetition then
