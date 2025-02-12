@@ -972,22 +972,17 @@ return {
     },
     misc = {
         dictionary = {
+            k_active = "Active",
+            k_inactive = "Inactive",
             k_halved_ex = "Halved!",
             k_shared_ex = "Shared!",
-            k_stone = "Stone",
             k_plus_tag = "+1 Tag",
             k_crab_ex = "Crab!",
             k_bakery_pack = "Bakery Pack",
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
-            a_hand_minus = "-#1# Hand",
             a_discard = "+#1# Discard",
-            a_discard_minus = "-#1# Discard",
-            a_joker_slot = "+#1# Joker Slot",
-            a_joker_slot_minus = "-#1# Joker Slot",
-            a_consumable_slot = "+#1# Cons. Slot",
-            a_consumable_slot_minus = "-#1# Cons. Slot",
         },
         v_text = {
             ch_c_no_shop_planets = {

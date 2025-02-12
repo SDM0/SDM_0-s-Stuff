@@ -652,18 +652,16 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 9, y = 1},
     cost = 8,
-    config = {extra = {can_dupe = true, active = "Active", inactive = ""}},
+    config = {extra = {can_dupe = true}},
     loc_vars = function(self, info_queue, card)
         if not card.edition or (card.edition and not card.edition.negative) then
             info_queue[#info_queue+1] = G.P_TAGS.tag_negative
         end
-        return {vars = {card.ability.extra.active, card.ability.extra.inactive}}
+        return {vars = {(card.ability.extra.can_dupe and localize("k_active")) or "", (not card.ability.extra.can_dupe and localize("k_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
         if context.playing_card_added and not card.getting_sliced and no_bp_retrigger(context) then
             if not card.ability.extra.can_dupe then
-                card.ability.extra.active = "Active"
-                card.ability.extra.inactive = ""
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
                     message = localize('k_active_ex'),
                     colour = G.C.FILTER,
@@ -674,8 +672,6 @@ SMODS.Joker{
         if context.cards_destroyed and card.ability.extra.can_dupe then
             if #context.glass_shattered > 0 then
                 if no_bp_retrigger(context) then
-                    card.ability.extra.active = ""
-                    card.ability.extra.inactive = "Inactive"
                     card.ability.extra.can_dupe = false
                 end
                 G.E_MANAGER:add_event(Event({
@@ -691,8 +687,6 @@ SMODS.Joker{
         elseif context.remove_playing_cards and card.ability.extra.can_dupe then
             if #context.removed > 0 then
                 if no_bp_retrigger(context) then
-                    card.ability.extra.active = ""
-                    card.ability.extra.inactive = "Inactive"
                     card.ability.extra.can_dupe = false
                 end
                 G.E_MANAGER:add_event(Event({
@@ -1722,14 +1716,14 @@ SMODS.Joker{
     name = "Archibald",
     rarity = 4,
     blueprint_compat = true,
-    config = {extra = {can_copy = true, active = "Active", inactive = ""}},
+    config = {extra = {can_copy = true}},
     pos = {x = 0, y = 3},
     cost = 20,
     loc_vars = function(self, info_queue, card)
         if not card.edition or (card.edition and not card.edition.negative) then
             info_queue[#info_queue+1] = G.P_CENTERS.e_negative
         end
-        return {vars = {(card.ability.extra.can_copy and "Active") or "", (not card.ability.extra.can_copy and "Inactive") or ""}}
+        return {vars = {(card.ability.extra.can_copy and localize("k_active")) or "", (not card.ability.extra.can_copy and localize("k_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
         if context.ending_shop then
