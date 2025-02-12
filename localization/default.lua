@@ -972,8 +972,8 @@ return {
     },
     misc = {
         dictionary = {
-            k_active = "Active",
-            k_inactive = "Inactive",
+            k_sdm_active = "Active",
+            k_sdm_inactive = "Inactive",
             k_halved_ex = "Halved!",
             k_shared_ex = "Shared!",
             k_plus_tag = "+1 Tag",

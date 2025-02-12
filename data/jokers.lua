@@ -657,7 +657,7 @@ SMODS.Joker{
         if not card.edition or (card.edition and not card.edition.negative) then
             info_queue[#info_queue+1] = G.P_TAGS.tag_negative
         end
-        return {vars = {(card.ability.extra.can_dupe and localize("k_active")) or "", (not card.ability.extra.can_dupe and localize("k_inactive")) or ""}}
+        return {vars = {(card.ability.extra.can_dupe and localize("k_sdm_active")) or "", (not card.ability.extra.can_dupe and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
         if context.playing_card_added and not card.getting_sliced and no_bp_retrigger(context) then
@@ -1594,6 +1594,7 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_safe_hands = "Safe Hands"
 
 --- Wormhole ---
 
+--TODO: Add new "Active" localization
 SMODS.Joker{
     key = "wormhole",
     name = "Wormhole",
@@ -1723,7 +1724,7 @@ SMODS.Joker{
         if not card.edition or (card.edition and not card.edition.negative) then
             info_queue[#info_queue+1] = G.P_CENTERS.e_negative
         end
-        return {vars = {(card.ability.extra.can_copy and localize("k_active")) or "", (not card.ability.extra.can_copy and localize("k_inactive")) or ""}}
+        return {vars = {(card.ability.extra.can_copy and localize("k_sdm_active")) or "", (not card.ability.extra.can_copy and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
         if context.ending_shop then
