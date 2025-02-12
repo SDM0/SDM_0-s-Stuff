@@ -592,6 +592,13 @@ return {
                     "{C:inactive}(Must be compatible){}"
                 }
             },
+            c_sdm_doppelganger = {
+                name = "Doppelgänger",
+                text = {
+                    "Replaces each {C:attention}Joker{}",
+                    "by a random Joker",
+                }
+            },
         },
         Bakery = {
             c_sdm_dough = {

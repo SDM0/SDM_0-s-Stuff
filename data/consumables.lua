@@ -250,3 +250,46 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_bind = "Bind"
+
+--- Doppelgänger ---
+
+SMODS.Consumable{
+    key = 'doppelganger',
+    name = 'Doppelgänger',
+    set = 'Spectral',
+    pos = {x = 1, y = 1},
+    cost = 4,
+    can_use = function(self, card, area, copier)
+        return (G.jokers and G.jokers.cards and #G.jokers.cards > 1)
+    end,
+    use = function(self, card)
+        local deletable_jokers = {}
+        for _, v in pairs(G.jokers.cards) do
+            if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
+        end
+        local amount_to_copy = (#deletable_jokers or 1) - 1
+        local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('dpg_choice'))
+        local _first_dissolve = nil
+        G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.75, func = function()
+            for _, v in pairs(deletable_jokers) do
+                if v ~= chosen_joker then
+                    v:start_dissolve(nil, _first_dissolve)
+                    _first_dissolve = true
+                end
+            end
+        return true end }))
+        G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.4, func = function()
+            for _ = 1, amount_to_copy do
+                if #G.jokers.cards < G.jokers.config.card_limit then
+                    local _card = copy_card(chosen_joker)
+                    _card:start_materialize()
+                    _card:add_to_deck()
+                    G.jokers:emplace(_card)
+                end
+            end
+            return true end }))
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_doppelganger = "Doppelgänger"
