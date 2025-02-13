@@ -21,7 +21,7 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         elseif context.joker_main then
             return {
                 chips = card.ability.extra.chips,

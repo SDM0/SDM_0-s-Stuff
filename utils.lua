@@ -15,7 +15,7 @@ function count_max_occurence(table)
 end
 
 -- Faster way to decrease food/bakery consumables remaining counter
-function decrease_remaining_food(G, card)
+function decrease_remaining_food(card)
     if card.ability.set == "Bakery" and G.GAME.used_vouchers.v_sdm_bakery_acclimator then return end
     if card.ability.extra.remaining - 1 <= 0 then
         G.E_MANAGER:add_event(Event({
