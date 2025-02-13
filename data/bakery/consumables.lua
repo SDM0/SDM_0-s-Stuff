@@ -12,31 +12,6 @@ SMODS.UndiscoveredSprite {
     pos = {x = 5, y = 2}
 }
 
--- Dough --
-
-SMODS.Consumable{
-    key = 'dough',
-    name = 'Dough',
-    set = 'Bakery',
-    pos = {x = 0, y = 0},
-    cost = 4,
-    config = {extra = {dollars = 4, remaining = 5}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.dollars, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
-    end,
-    calc_dollar_bonus = function(self, card)
-        local dollars = card.ability.extra.dollars
-        decrease_remaining_food(G, card)
-        return dollars
-    end,
-    atlas = "sdm_bakery_consumables"
-}
-
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
-
 -- Pita --
 
 SMODS.Consumable{
@@ -53,10 +28,10 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
-        end
         if context.joker_main then
+            if no_bp_retrigger(context) then
+                decrease_remaining_food(card)
+            end
             return {
                 chips = card.ability.extra.chips,
             }
@@ -75,7 +50,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {mult = 15, remaining = 5}},
+    config = {extra = {mult = 10, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
     end,
@@ -83,10 +58,10 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
-        end
         if context.joker_main then
+            if no_bp_retrigger(context) then
+                decrease_remaining_food(card)
+            end
             return {
                 mult = card.ability.extra.mult,
             }
@@ -105,7 +80,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {X_mult = 1.5, remaining = 5}},
+    config = {extra = {X_mult = 2, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
     end,
@@ -113,10 +88,10 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
-        end
         if context.joker_main then
+            if no_bp_retrigger(context) then
+                decrease_remaining_food(card)
+            end
             return {
                 x_mult = card.ability.extra.X_mult,
             }
@@ -126,6 +101,31 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baguette = "Baguette"
+
+-- Dough --
+
+SMODS.Consumable{
+    key = 'dough',
+    name = 'Dough',
+    set = 'Bakery',
+    pos = {x = 0, y = 0},
+    cost = 4,
+    config = {extra = {dollars = 4, remaining = 3}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.dollars, card.ability.extra.remaining}}
+    end,
+    can_use = function(self, card, area, copier)
+        return false
+    end,
+    calc_dollar_bonus = function(self, card)
+        local dollars = card.ability.extra.dollars
+        decrease_remaining_food(card)
+        return dollars
+    end,
+    atlas = "sdm_bakery_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
 
 -- Banana Bread --
 
@@ -189,7 +189,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {hands = 1, remaining = 4}},
+    config = {extra = {hands = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.hands, card.ability.extra.remaining}}
     end,
@@ -209,7 +209,7 @@ SMODS.Consumable{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
@@ -225,7 +225,7 @@ SMODS.Consumable{
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {discards = 1, remaining = 4}},
+    config = {extra = {discards = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.discards, card.ability.extra.remaining}}
     end,
@@ -245,7 +245,7 @@ SMODS.Consumable{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
@@ -280,7 +280,7 @@ SMODS.Consumable{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
@@ -320,7 +320,7 @@ SMODS.Consumable{
                     colour = G.C.SECONDARY_SET.Tarot,
                 })
             end
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
@@ -361,7 +361,7 @@ SMODS.Consumable{
                     colour = G.C.SECONDARY_SET.Planet,
                 })
             end
-            decrease_remaining_food(G, card)
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
@@ -369,15 +369,15 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_moon_cake = "Moon Cake"
 
--- Pączek --
+-- Bread Monster --
 
 SMODS.Consumable{
-    key = 'paczek',
-    name = 'Pączek',
+    key = 'bread_monster',
+    name = 'Bread Monster',
     set = 'Bakery',
     pos = {x = 0, y = 0},
     cost = 4,
-    config = {extra = {remaining = 3}},
+    config = {extra = {remaining = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
     end,
@@ -400,10 +400,26 @@ SMODS.Consumable{
     end,
     calculate = function(self, card, context)
         if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
-            decrease_remaining_food(G, card)
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        SMODS.add_card({set = 'Spectral', key_append = 'mck'})
+                        G.GAME.consumeable_buffer = 0
+                        return true
+                    end)
+                }))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_plus_spectral'),
+                    colour = G.C.SECONDARY_SET.Spectral,
+                })
+            end
+            decrease_remaining_food(card)
         end
     end,
     atlas = "sdm_bakery_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_paczek = "Pączek"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_monster = "Bread Monster"

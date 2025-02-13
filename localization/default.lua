@@ -597,21 +597,21 @@ return {
                 name = "Dough",
                 text = {
                     "Earn {C:money}$#1#{},",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} hand(s)",
                 }
             },
             c_sdm_pita = {
                 name = "Pita",
                 text = {
                     "{C:chips}+#1#{} Chips,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} hand(s)",
                 }
             },
             c_sdm_sourdough = {
                 name = "Sourdough",
                 text = {
                     "{C:mult}+#1#{} Mult,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} hand(s)",
                 }
             },
             c_sdm_baguette = {
@@ -626,7 +626,7 @@ return {
                 text = {
                     "{X:mult,C:white}X#1#{} Mult,",
                     "{C:green}#2# in #3#{} chance this",
-                    "bread is destroyed",
+                    "card is destroyed",
                     "at end of round"
                 }
             },
@@ -669,12 +669,13 @@ return {
                     "{C:inactive}(Must have room)"
                 }
             },
-            c_sdm_paczek = {
-                name = "Pączek",
+            c_sdm_bread_monster = {
+                name = "Bread Monster",
                 text = {
-                    "Doubles all {C:attention}listed",
-                    "{C:green,E:1,S:1.1}probabilities{},",
+                    "Create a {C:spectral}Spectral{} card",
+                    "at the end of round,",
                     "lasts {C:attention}#1#{} round(s)",
+                    "{C:inactive}(Must have room)"
                 }
             },
         },
