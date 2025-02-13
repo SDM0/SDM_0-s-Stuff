@@ -234,13 +234,13 @@ SMODS.Consumable{
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discards
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discards
             ease_discard(card.ability.extra.discards)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discards
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discards
         end
     end,
     calculate = function(self, card, context)
