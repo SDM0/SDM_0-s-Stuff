@@ -340,14 +340,6 @@ return {
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 }
             },
-            j_sdm_safe_hands = {
-                name = "Safe Hands",
-                text = {
-                    "Earn {C:money}$1{} per {C:attention}played{}",
-                    "{C:attention}hand{} this round",
-                    "at end of round"
-                }
-            },
             j_sdm_wormhole = {
                 name = "Wormhole",
                 text = {

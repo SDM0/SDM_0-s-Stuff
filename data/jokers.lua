@@ -169,6 +169,14 @@ SMODS.Joker{
             end
         end
     end,
+    in_pool = function()
+        for _, v in pairs(G.playing_cards) do
+            if v.config.center == G.P_CENTERS.m_bonus or v.config.center == G.P_CENTERS.m_mult then
+                return true
+            end
+        end
+        return false
+    end,
     atlas = "sdm_jokers"
 }
 
@@ -238,6 +246,7 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_shareholder_joker = "Shareholder Joker"
 
 --- Magic Hands ---
 
+-- TODO: Make the joker have an effect with playing card (for example, add a modification to a random card)
 SMODS.Joker{
     key = "magic_hands",
     name = "Magic Hands",
@@ -1307,7 +1316,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 0},
     cost = 5,
-    config = {extra = 20},
+    config = {extra = 15},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
     end,
@@ -1570,27 +1579,6 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_carcinization = "Carcinization"
-
---- Safe Hands --
-
-SMODS.Joker{
-    key = "safe_hands",
-    name = "Safe Hands",
-    rarity = 1,
-    pos = {x = 0, y = 0},
-    config = {extra = 1},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
-    end,
-    cost = 6,
-    calc_dollar_bonus = function(self, card)
-        local dollar = (G.GAME.round_resets.hands - G.GAME.current_round.hands_left) * card.ability.extra
-        if dollar > 0 then return dollar end
-    end,
-    atlas = "sdm_jokers"
-}
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_safe_hands = "Safe Hands"
 
 --- Wormhole ---
 
