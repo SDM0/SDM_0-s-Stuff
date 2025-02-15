@@ -187,12 +187,16 @@ function create_most_played_planet(card, context, ignore_limit)
 end
 ]]--
 
---- Get the sum of (almost) all existing numbers
+--- Get the sum of (almost) all existing numbers (capped at 1e300)
 function sum_incremental(n)
     if G.jokers then
-        return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
+        local sum_inc = ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
         + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
         #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
+        if sum_inc ~= sum_inc or (sum_inc == math.huge or sum_inc == -math.huge) or sum_inc > 1e300 then
+            sum_inc = 1e300
+        end
+        return sum_inc
     end
     return 0
 end
