@@ -40,7 +40,7 @@ SMODS.Voucher{
         info_queue[#info_queue+1] = G.P_TAGS.tag_negative
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) then
+        if context.end_of_round and context.main_eval then
             if G.GAME.blind.boss then
                 G.E_MANAGER:add_event(Event({
                     func = (function()

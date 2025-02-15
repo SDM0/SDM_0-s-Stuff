@@ -20,7 +20,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult, card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             decrease_remaining_food(card)
         elseif context.joker_main then
             return {
@@ -426,7 +426,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition) and card.ability.extra.no_faces then
+        if context.end_of_round and context.main_eval and card.ability.extra.no_faces then
             card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.extra.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.extra.hand].chips, mult = G.GAME.hands[card.ability.extra.hand].mult, level=G.GAME.hands[card.ability.extra.hand].level})
             level_up_hand(context.blueprint_card or card, card.ability.extra.hand, nil, 1)
@@ -598,7 +598,7 @@ SMODS.Joker{
         info_queue[#info_queue+1] = G.P_TAGS.tag_rare
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) then
+        if context.end_of_round and context.main_eval then
             if G.GAME.blind.boss then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
@@ -739,47 +739,43 @@ SMODS.Joker{
         card.ability.extra.num_card2 = num_card2
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.final_scoring_step and not (context.before or context.after) then
-            if context.scoring_hand then
+        if context.cardarea == G.jokers and context.final_scoring_step and not (context.before or context.after) and context.scoring_hand then
+            if no_bp_retrigger(context) then
                 if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
-                    if no_bp_retrigger(context) then
-                        card.ability.extra.c1_scored = true
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = ((card.ability.extra.c2_scored and "2/") or "1/") .. 2,
-                            colour = G.C.FILTER,
-                        })
-                    end
+                    card.ability.extra.c1_scored = true
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = ((card.ability.extra.c2_scored and "2/") or "1/") .. 2,
+                        colour = G.C.FILTER,
+                    })
                 elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
-                    if no_bp_retrigger(context) then
-                        card.ability.extra.c2_scored = true
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = ((card.ability.extra.c1_scored and "2/") or "1/") ..  2,
-                            colour = G.C.FILTER,
-                        })
-                    end
+                    card.ability.extra.c2_scored = true
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = ((card.ability.extra.c1_scored and "2/") or "1/") ..  2,
+                        colour = G.C.FILTER,
+                    })
                 end
-                if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
-                    card.ability.extra.c1_scored = false
-                    card.ability.extra.c2_scored = false
-                    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'before',
-                            delay = 0.0,
-                            func = (function()
-                                SMODS.add_card({set = 'Planet', key_append = 'rts'})
-                                G.GAME.consumeable_buffer = 0
-                                return true
-                            end)}))
-                        return {
-                            message = localize('k_plus_planet'),
-                            colour = G.C.SECONDARY_SET.Planet,
-                        }
-                    end
+            end
+            if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
+                card.ability.extra.c1_scored = false
+                card.ability.extra.c2_scored = false
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Planet', key_append = 'rts'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)}))
+                    return {
+                        message = localize('k_plus_planet'),
+                        colour = G.C.SECONDARY_SET.Planet,
+                    }
                 end
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             card.ability.extra.c1_scored = false
             card.ability.extra.c2_scored = false
             local num_card1, num_card2 = rts_init()
@@ -988,7 +984,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger then
             card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
             if card.ability.extra.hands > 0 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
@@ -1351,7 +1347,7 @@ SMODS.Joker{
                 }
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             local _poker_hands = {}
             for k, v in pairs(G.GAME.hands) do
                 if v.visible and k ~= card.ability.jack_poker_hand1 and k ~= card.ability.jack_poker_hand2 then _poker_hands[#_poker_hands+1] = k end
@@ -1412,7 +1408,7 @@ SMODS.Joker{
     pos = {x = 0, y = 0},
     cost = 6,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and G.GAME.current_round.hands_left == 0 then
+        if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
             G.E_MANAGER:add_event(Event({
                 func = (function()
                 add_tag(Tag(get_next_tag_key("conso_prize")))
@@ -1611,8 +1607,7 @@ SMODS.Joker{
                 end)}))
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint or context.retrigger_joker)
-        and not card.ability.extra.repetition then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) and not card.ability.extra.repetition then
             card.ability.extra.repetition = true
             card_eval_status_text(card, 'extra', nil, nil, nil, {
                 message = localize('k_active_ex'),
@@ -1744,7 +1739,7 @@ SMODS.Joker{
                 end
             end
         end
-        if context.end_of_round and not (context.individual or context.repetition or context.blueprint)
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context)
         and G.GAME.blind.boss and not card.ability.extra.can_copy then
             card.ability.extra.can_copy = true
             card_eval_status_text(card, 'extra', nil, nil, nil, {

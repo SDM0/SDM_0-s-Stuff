@@ -28,7 +28,7 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             return {vars = {math.max(1, self.config.extra)}}
         end,
         calculate = function(self, card, context)
-            if context.end_of_round and not (context.individual or context.repetition) then
+            if context.end_of_round and context.main_eval then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
                         add_tag(Tag('tag_negative'))

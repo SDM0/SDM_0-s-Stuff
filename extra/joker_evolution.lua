@@ -114,7 +114,7 @@ SMODS.Joker{
         end
     end,
     calculate_evo = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) then
+        if context.end_of_round and context.main_eval then
             if G.GAME.current_round.hands_played == 1 then
                 card:increment_evo_condition()
             end
