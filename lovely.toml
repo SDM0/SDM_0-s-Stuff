@@ -94,7 +94,7 @@ target = "game.lua"
 pattern = '''boot_timer('splash prep', 'end',1)'''
 position = "after"
 payload = '''
-if (SMODS.Mods['sdm0sstuff'] or {}).can_load then
+if next(SMODS.find_mod("sdm0sstuff")) then
     for k, v in pairs(G.GAME.hands) do
         if v.visible == false then
             G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands[#G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands+1] = k
