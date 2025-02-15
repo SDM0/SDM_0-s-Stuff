@@ -12,6 +12,38 @@ SMODS.UndiscoveredSprite {
     pos = {x = 5, y = 2}
 }
 
+--- The Baker ---
+
+SMODS.Consumable{
+    key = 'baker',
+    name = 'The Baker',
+    set = 'Tarot',
+    pos = {x = 2, y = 1},
+    cost = 3,
+    config = {extra = 1},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {self.config.extra}}
+    end,
+    can_use = function(self, card, area, copier)
+        return #G.consumeables.cards < G.consumeables.config.card_limit or card.area == G.consumeables
+    end,
+    use = function(self, card)
+        local used_tarot = card or self
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            if G.consumeables.config.card_limit > #G.consumeables.cards then
+                play_sound('timpani')
+                local _card = create_card('Bakery', G.consumeables, nil, nil, nil, nil, nil, bkr)
+                _card:add_to_deck()
+                G.consumeables:emplace(_card)
+                used_tarot:juice_up(0.3, 0.5)
+            end
+        return true end }))
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
+
 -- Pita --
 
 SMODS.Consumable{
@@ -143,7 +175,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.odds then
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -199,7 +231,7 @@ SMODS.Consumable{
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
             G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-            ease_hands_played(card.ability.extra.hand)
+            ease_hands_played(card.ability.extra.hands)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
@@ -208,7 +240,7 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             decrease_remaining_food(card)
         end
     end,
@@ -244,7 +276,7 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             decrease_remaining_food(card)
         end
     end,
@@ -279,7 +311,7 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             decrease_remaining_food(card)
         end
     end,
@@ -304,7 +336,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.setting_blind and no_bp_retrigger(context) then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -344,7 +376,7 @@ SMODS.Consumable{
         return false
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.setting_blind and no_bp_retrigger(context) then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -399,7 +431,7 @@ SMODS.Consumable{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and not (context.individual or context.repetition) and no_bp_retrigger(context) then
+        if context.setting_blind and no_bp_retrigger(context) then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({

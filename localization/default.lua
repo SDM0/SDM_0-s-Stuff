@@ -655,7 +655,7 @@ return {
                 name = "Fortune Cookie",
                 text = {
                     "Create a {C:tarot}Tarot{} card",
-                    "at the end of round,",
+                    "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#1#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
@@ -664,7 +664,7 @@ return {
                 name = "Moon Cake",
                 text = {
                     "Create a {C:planet}Planet{} card",
-                    "at the end of round,",
+                    "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#1#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
@@ -673,7 +673,7 @@ return {
                 name = "Bread Monster",
                 text = {
                     "Create a {C:spectral}Spectral{} card",
-                    "at the end of round,",
+                    "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#1#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
