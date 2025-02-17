@@ -1764,16 +1764,14 @@ SMODS.Joker{
     cost = 20,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME then G.GAME.patch_disable = true end
-        for k, v in pairs(G) do
-            if type(v) == "table" then
-                for i = 1, #v do
-                    if v[i].debuff then v[i].debuff = false end
-                end
-                if v.cards then
-                    for i = 1, #v.cards do
-                        if v.cards[i].debuff then v.cards[i].debuff = false end
-                    end
-                end
+        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].debuff then G.jokers.cards[i].debuff = false end
+            end
+        end
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if v.debuff then v.debuff = false end
             end
         end
     end,
@@ -1781,16 +1779,14 @@ SMODS.Joker{
         if G.GAME and G.GAME.patch_disable then
             G.GAME.patch_disable = nil
         end
-        for k, v in pairs(G) do
-            if type(v) == "table" then
-                for i = 1, #v do
-                    SMODS.recalc_debuff(v[i])
-                end
-                if v.cards then
-                    for i = 1, #v.cards do
-                        SMODS.recalc_debuff(v.cards[i])
-                    end
-                end
+        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+            for i = 1, #G.jokers.cards do
+                SMODS.recalc_debuff(G.jokers.cards[i])
+            end
+        end
+        if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                SMODS.recalc_debuff(v)
             end
         end
     end,
