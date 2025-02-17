@@ -154,7 +154,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = '''self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost'''
+pattern = '''if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end'''
 position = "after"
 payload = '''
 if self.config.center_key == "j_sdm_treasure_chest" then
