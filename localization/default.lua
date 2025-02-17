@@ -587,8 +587,8 @@ return {
             c_sdm_doppelganger = {
                 name = "Doppelgänger",
                 text = {
-                    "Replaces each {C:attention}Joker{}",
-                    "by a random Joker",
+                    "Replaces each {C:attention}Joker{} by",
+                    "a random owned Joker",
                 }
             },
         },
