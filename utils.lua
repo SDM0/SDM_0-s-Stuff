@@ -203,7 +203,7 @@ function sum_incremental(n)
         local sum_inc = ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
         + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
         #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
-        if sum_inc ~= sum_inc or (sum_inc == math.huge or sum_inc == -math.huge) or sum_inc > 1e300 then
+        if to_big(sum_inc) ~= to_big(sum_inc) or (to_big(sum_inc) == to_big(math.huge) or to_big(sum_inc) == to_big(-math.huge)) or to_big(sum_inc) > 1e300 then
             sum_inc = 1e300
         end
         return sum_inc
