@@ -181,7 +181,12 @@ SMODS.Atlas{
     py = 34,
 }
 
-SDM_0s_Stuff_Mod.optional_features = {retrigger_joker = true}
+SDM_0s_Stuff_Mod.optional_features = {
+    retrigger_joker = true,
+    cardareas = {
+        unscored = true
+    }
+}
 
 SDM_0s_Stuff_Mod.config_tab = function()
     return {n = G.UIT.ROOT, config = {align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6}, nodes = {

@@ -395,9 +395,9 @@ return {
             j_sdm_skelton = {
                 name = "Skelton",
                 text = {
-                    "If played hand contains",
-                    "an unscored {C:attention}Jack{}, destroy",
-                    "each scored cards"
+                    "If scored hand is a",
+                    "single {C:attention}Jack{}, destroy",
+                    "each unscored card"
                 }
             },
             j_sdm_trance_the_devil = {

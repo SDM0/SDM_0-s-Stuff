@@ -1863,15 +1863,12 @@ SMODS.Joker{
     pos = {x = 0, y = 3},
     cost = 20,
     calculate = function(self, card, context)
-        if context.destroying_card and no_bp_retrigger(context) then
-            if context.full_hand and context.scoring_hand and #context.scoring_hand < #context.full_hand then
-                for i = #context.full_hand, 1, -1 do
-                    if context.full_hand[i]:get_id() == 11 and not context.scoring_hand[context.full_hand[i]] then
-                        return {
-                            remove = true
-                        }
-                    end
-                end
+        -- TODO: Fix the joker when unscored card destruction is fixed
+        if context.destroying_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
+            if #context.scoring_hand == 1 and context.scoring_hand[1]:get_id() == 11 then
+                return {
+                    remove = true
+                }
             end
 		end
     end,
