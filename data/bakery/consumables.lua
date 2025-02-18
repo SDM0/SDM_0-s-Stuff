@@ -44,24 +44,18 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
 
+-- TODO: To add the vouchers bonus values, look at MathIsFun suggestion or do 2 config.extra values specifically for when the vouchers are redeemed
+-- Ex: card.ability.amount, card.ability.amount_boosted, in loc_vars or calculate: (G.GAME.redeemed[x_voucher] and x) or y)
+
 -- Pita --
 
 SMODS.Bakery{
     key = 'pita',
     name = 'Pita',
     pos = {x = 0, y = 0},
-    config = {extra = {chips = 30, remaining = 5}},
+    config = {extra = {amount = 30, remaining = 5}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chips, card.ability.extra.remaining}}
-    end,
-    -- TODO: Finish setting up "set_ability" for each Bakery good
-    set_ability = function(self, card, initial, delay_sprites)
-        if G.GAME and G.GAME.double_bakery_cd then
-            card.ability.extra.remaining = card.ability.extra.remaining * 2
-        end
-        if G.GAME and G.GAME.double_bakery_efc then
-            card.ability.extra.chips = card.ability.extra.chips * 2
-        end
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -69,7 +63,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                chips = card.ability.extra.chips,
+                chips = card.ability.extra.amount,
             }
         end
     end,
@@ -83,17 +77,9 @@ SMODS.Bakery{
     key = 'sourdough',
     name = 'Sourdough',
     pos = {x = 0, y = 0},
-    config = {extra = {mult = 10, remaining = 5}},
+    config = {extra = {amount = 10, remaining = 5}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
-    end,
-    set_ability = function(self, card, initial, delay_sprites)
-        if G.GAME and G.GAME.double_bakery_cd then
-            card.ability.extra.remaining = card.ability.extra.remaining * 2
-        end
-        if G.GAME and G.GAME.double_bakery_efc then
-            card.ability.extra.chips = card.ability.extra.chips * 2
-        end
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -101,7 +87,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                mult = card.ability.extra.mult,
+                mult = card.ability.extra.amount,
             }
         end
     end,
@@ -115,9 +101,9 @@ SMODS.Bakery{
     key = 'baguette',
     name = 'Baguette',
     pos = {x = 0, y = 0},
-    config = {extra = {X_mult = 2, remaining = 3}},
+    config = {extra = {amount = 2, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -125,7 +111,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                x_mult = card.ability.extra.X_mult,
+                x_mult = card.ability.extra.amount,
             }
         end
     end,
@@ -139,12 +125,12 @@ SMODS.Bakery{
     key = 'dough',
     name = 'Dough',
     pos = {x = 0, y = 0},
-    config = {extra = {dollars = 4, remaining = 3}},
+    config = {extra = {amount = 4, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.dollars, card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calc_dollar_bonus = function(self, card)
-        local dollars = card.ability.extra.dollars
+        local dollars = card.ability.extra.amount
         decrease_remaining_food(card)
         return dollars
     end,
@@ -158,13 +144,13 @@ SMODS.Bakery{
     key = 'banana_bread',
     name = 'Banana Bread',
     pos = {x = 0, y = 0},
-    config = {extra = {X_mult = 3, odds = 4}},
+    config = {extra = {amount = 3, remaining = 4}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.X_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
+        return {vars = {card.ability.extra.amount, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.odds then
+            if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -192,7 +178,7 @@ SMODS.Bakery{
         end
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.X_mult,
+                x_mult = card.ability.extra.amount,
             }
         end
     end,
@@ -206,19 +192,19 @@ SMODS.Bakery{
     key = 'breadsticks',
     name = 'Breadsticks',
     pos = {x = 0, y = 0},
-    config = {extra = {hands = 1, remaining = 3}},
+    config = {extra = {amount = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.hands, card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.hands
-            ease_hands_played(card.ability.extra.hands)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount
+            ease_hands_played(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.hands
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.amount
         end
     end,
     calculate = function(self, card, context)
@@ -236,19 +222,19 @@ SMODS.Bakery{
     key = 'croissant',
     name = 'Croissant',
     pos = {x = 0, y = 0},
-    config = {extra = {discards = 1, remaining = 3}},
+    config = {extra = {amount = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.discards, card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discards
-            ease_discard(card.ability.extra.discards)
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount
+            ease_discard(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discards
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.amount
         end
     end,
     calculate = function(self, card, context)
@@ -266,18 +252,18 @@ SMODS.Bakery{
     key = 'bread_loaf',
     name = 'Bread Loaf',
     pos = {x = 0, y = 0},
-    config = {extra = {handsize = 1, remaining = 3}},
+    config = {extra = {amount = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.handsize, card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(card.ability.extra.handsize)
+            G.hand:change_size(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(-card.ability.extra.handsize)
+            G.hand:change_size(-card.ability.extra.amount)
         end
     end,
     calculate = function(self, card, context)
@@ -295,26 +281,28 @@ SMODS.Bakery{
     key = 'fortune_cookie',
     name = 'Fortune Cookie',
     pos = {x = 0, y = 0},
-    config = {extra = {remaining = 3}},
+    config = {extra = {amount = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    delay = 0.0,
-                    func = (function()
-                        SMODS.add_card({set = 'Tarot', key_append = 'fck'})
-                        G.GAME.consumeable_buffer = 0
-                        return true
-                    end)}))
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_plus_tarot'),
-                    colour = G.C.SECONDARY_SET.Tarot,
-                })
+            for i = 1, card.ability.extra.amount do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Tarot', key_append = 'fck'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)}))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_tarot'),
+                        colour = G.C.SECONDARY_SET.Tarot,
+                    })
+                end
             end
             decrease_remaining_food(card)
         end
@@ -329,27 +317,29 @@ SMODS.Bakery{
     key = 'moon_cake',
     name = 'Moon Cake',
     pos = {x = 0, y = 0},
-    config = {extra = {remaining = 3}},
+    config = {extra = {amount = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.remaining}}
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    delay = 0.0,
-                    func = (function()
-                        SMODS.add_card({set = 'Planet', key_append = 'mck'})
-                        G.GAME.consumeable_buffer = 0
-                        return true
-                    end)
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_plus_planet'),
-                    colour = G.C.SECONDARY_SET.Planet,
-                })
+            for i = 1, card.ability.extra.amount do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Planet', key_append = 'mck'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_planet'),
+                        colour = G.C.SECONDARY_SET.Planet,
+                    })
+                end
             end
             decrease_remaining_food(card)
         end
@@ -364,41 +354,29 @@ SMODS.Bakery{
     key = 'bread_monster',
     name = 'Bread Monster',
     pos = {x = 0, y = 0},
-    config = {extra = {remaining = 2}},
+    config = {extra = {amount = 1, remaining = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.remaining}}
-    end,
-    add_to_deck = function(self, card, from_debuff)
-        if G.GAME and G.GAME.probabilities then
-            for k, v in pairs(G.GAME.probabilities) do
-                G.GAME.probabilities[k] = v*2
-            end
-        end
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        if G.GAME and G.GAME.probabilities then
-            for k, v in pairs(G.GAME.probabilities) do
-                G.GAME.probabilities[k] = v/2
-            end
-        end
+        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'before',
-                    delay = 0.0,
-                    func = (function()
-                        SMODS.add_card({set = 'Spectral', key_append = 'mck'})
-                        G.GAME.consumeable_buffer = 0
-                        return true
-                    end)
-                }))
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_plus_spectral'),
-                    colour = G.C.SECONDARY_SET.Spectral,
-                })
+            for i = 1, card.ability.extra.amount do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Spectral', key_append = 'bmt'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_spectral'),
+                        colour = G.C.SECONDARY_SET.Spectral,
+                    })
+                end
             end
             decrease_remaining_food(card)
         end

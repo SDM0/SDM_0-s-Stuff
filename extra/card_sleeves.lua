@@ -272,12 +272,12 @@ CardSleeves.Sleeve {
         local vars = {}
         if self.get_current_deck_key() == "b_sdm_baked" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
-            self.config = {vouchers = {'v_sdm_bakery_merchant', 'v_sdm_bakery_tycoon'}}
-            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_merchant', set = 'Voucher'}, localize{type = 'name_text', key = 'v_sdm_bakery_tycoon', set = 'Voucher'}}
+            self.config = {vouchers = {'v_sdm_bakery_stall', 'v_sdm_bakery_shop'}}
+            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, localize{type = 'name_text', key = 'v_sdm_bakery_shop', set = 'Voucher'}}
         else
             key = self.key
-            self.config = {voucher = 'v_sdm_bakery_merchant', consumable_slot = 1}
-            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_merchant', set = 'Voucher'}, self.config.consumable_slot}
+            self.config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1}
+            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, self.config.consumable_slot}
         end
         return { key = key, vars = vars }
     end

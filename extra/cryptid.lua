@@ -14,6 +14,46 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     end
 end
 
+if SDM_0s_Stuff_Config.sdm_bakery then
+
+    -- Bread Bites --
+
+    SMODS.Bakery{
+        key = 'bread_bites',
+        name = 'Bread Bites',
+        pos = {x = 0, y = 0},
+        config = {extra = {amount = 1, remaining = 2}},
+        loc_vars = function(self, info_queue, card)
+            return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
+        end,
+        calculate = function(self, card, context)
+            if context.setting_blind and no_bp_retrigger(context) then
+                for i = 1, card.ability.extra.amount do
+                    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                SMODS.add_card({set = 'Code', key_append = 'bpg'})
+                                G.GAME.consumeable_buffer = 0
+                                return true
+                            end)
+                        }))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_plus_code'),
+                            colour = G.C.SECONDARY_SET.Code,
+                        })
+                    end
+                end
+                decrease_remaining_food(card)
+            end
+        end,
+    }
+
+    SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_bites = "Bread Bites"
+end
+
 if SDM_0s_Stuff_Config.sdm_vouchers then
 
     -- Oblivion --
@@ -54,12 +94,12 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             name = 'Bakery Factory',
             pos = {x = 0, y = 2},
             requires = {"v_sdm_bakery_shop"},
-            config = {extra = 24 / 4, extra_disp = 6},
-            loc_vars = function(self, info_queue, card)
-                return {vars = {card.ability.extra_disp}}
-            end,
             redeem = function(self, card)
-                G.GAME.double_bakery_efc = true
+                for _, v in pairs(G.P_CENTERS) do
+                    if v.set == "Bakery" then
+                        v.config.extra.amount = v.config.extra.amount * 2
+                    end
+                end
             end,
             atlas = "sdm_bakery_vouchers"
         }

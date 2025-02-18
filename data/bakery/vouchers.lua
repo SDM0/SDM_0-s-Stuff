@@ -29,9 +29,13 @@ SMODS.Voucher{
     name = 'Bakery Shop',
     pos = {x = 0, y = 1},
     requires = {"v_sdm_bakery_stall"},
-    redeem = function(self, card)
-        G.GAME.double_bakery_cd = true
-    end,
+    -- redeem = function(self, card)
+    --     for _, v in pairs(G.P_CENTERS) do
+    --         if v.set == "Bakery" then
+    --             v.config.extra.remaining = v.config.extra.remaining * 2
+    --         end
+    --     end
+    -- end,
     atlas = "sdm_bakery_vouchers"
 }
 

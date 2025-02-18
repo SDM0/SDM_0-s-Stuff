@@ -520,7 +520,7 @@ return {
                 name = "Baked Deck",
                 text = {
                     "Start run with the",
-                    "{C:bakery,T:v_sdm_bakery_merchant}#1#{} voucher",
+                    "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
                     "{C:attention}+#2#{} consumable slots",
                 }
             },
@@ -597,7 +597,7 @@ return {
                 name = "Dough",
                 text = {
                     "Earn {C:money}$#1#{},",
-                    "lasts {C:attention}#2#{} hand(s)",
+                    "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_pita = {
@@ -618,7 +618,7 @@ return {
                 name = "Baguette",
                 text = {
                     "{X:mult,C:white}X#1#{} Mult,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} hand(s)",
                 }
             },
             c_sdm_banana_bread = {
@@ -654,27 +654,36 @@ return {
             c_sdm_fortune_cookie = {
                 name = "Fortune Cookie",
                 text = {
-                    "Create a {C:tarot}Tarot{} card",
+                    "Create {C:attention}#1#{} {C:tarot}Tarot{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#1#{} round(s)",
+                    "lasts {C:attention}#2#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
             c_sdm_moon_cake = {
                 name = "Moon Cake",
                 text = {
-                    "Create a {C:planet}Planet{} card",
+                    "Create {C:attention}#1#{} {C:planet}Planet{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#1#{} round(s)",
+                    "lasts {C:attention}#2#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
             c_sdm_bread_monster = {
                 name = "Bread Monster",
                 text = {
-                    "Create a {C:spectral}Spectral{} card",
+                    "Create {C:attention}#1#{} {C:spectral}Spectral{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#1#{} round(s)",
+                    "lasts {C:attention}#2#{} round(s)",
+                    "{C:inactive}(Must have room)"
+                }
+            },
+            c_sdm_bread_bites = {
+                name = "Bread Bites",
+                text = {
+                    "Create {C:attention}#1#{} {C:cry_code}Code{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} round(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -710,15 +719,15 @@ return {
             v_sdm_bakery_shop = {
                 name = "Bakery Shop",
                 text = {
-                    "{C:bakery}Bakery{} goods lasts",
-                    "twice as long",
+                    "Next {C:bakery}Bakery{} goods",
+                    "lasts twice as long",
                 },
             },
             v_sdm_bakery_factory = {
                 name = "Bakery Factory",
                 text = {
-                    "Double the effects of the",
-                    "next {C:bakery}Bakery{} goods"
+                    "Double the effects of",
+                    "the next {C:bakery}Bakery{} goods"
                 },
             },
             v_sdm_joker_voucher = {
@@ -952,7 +961,7 @@ return {
                 name = "Baked Sleeve",
                 text = {
                     "Start run with the",
-                    "{C:bakery,T:v_sdm_bakery_merchant}#1#{} voucher",
+                    "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
                     "{C:attention}+#2#{} consumable slots",
                 }
             },
@@ -960,7 +969,7 @@ return {
                 name = "Baked Sleeve",
                 text = {
                     "Start run with the",
-                    "{C:bakery,T:v_sdm_bakery_tycoon}#1#{} voucher",
+                    "{C:bakery,T:v_sdm_bakery_shop}#1#{} voucher",
                 }
             },
         },
@@ -971,6 +980,7 @@ return {
             k_sdm_inactive = "Inactive",
             k_halved_ex = "Halved!",
             k_shared_ex = "Shared!",
+            k_plus_code = "+1 Code",
             k_plus_tag = "+1 Tag",
             k_crab_ex = "Crab!",
             k_bakery_pack = "Bakery Pack",
