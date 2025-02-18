@@ -17,8 +17,17 @@ SMODS.ConsumableType {
         },
     },
     default = "c_sdm_pita",
-    shop_rate = 2,
 }
+
+SMODS.Bakery = SMODS.Consumable:extend({
+    set = "Bakery",
+    cost = 4,
+    can_use = function(self, card, area, copier)
+        return false
+    end,
+    atlas = "sdm_bakery_consumables"
+})
+
 
 SMODS.load_file("data/bakery/consumables.lua")()
 SMODS.load_file("data/bakery/boosters.lua")()

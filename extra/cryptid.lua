@@ -47,27 +47,25 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
     if SDM_0s_Stuff_Config.sdm_bakery then
 
-        -- Bakery Acclimator --
+        -- Bakery Factory --
 
         SMODS.Voucher{
-            key = 'bakery_acclimator',
-            name = 'Bakery Acclimator',
+            key = 'bakery_factory',
+            name = 'Bakery Factory',
             pos = {x = 0, y = 2},
-            requires = {"v_sdm_bakery_tycoon"},
+            requires = {"v_sdm_bakery_shop"},
             config = {extra = 24 / 4, extra_disp = 6},
             loc_vars = function(self, info_queue, card)
                 return {vars = {card.ability.extra_disp}}
             end,
             redeem = function(self, card)
-                G.E_MANAGER:add_event(Event({func = function()
-                    G.GAME.bakery_rate = 4 * card.ability.extra
-                return true end}))
+                G.GAME.double_bakery_efc = true
             end,
             atlas = "sdm_bakery_vouchers"
         }
 
-        SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_acclimator = "Bakery Acclimator"
-        SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_bakery_acclimator = "Bakery Acclimator"
+        SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_factory = "Bakery Factory"
+        SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_bakery_factory = "Bakery Factory"
     end
 
     if SMODS.ObjectTypes["Tier3"] then

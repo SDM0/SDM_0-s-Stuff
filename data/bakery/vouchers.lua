@@ -5,43 +5,34 @@ SMODS.Atlas{
     py = 95
 }
 
--- Bakery Merchant
+-- Bakery Stall
 
 SMODS.Voucher{
-    key = 'bakery_merchant',
-    name = 'Bakery Merchant',
+    key = 'bakery_stall',
+    name = 'Bakery Stall',
     pos = {x = 0, y = 0},
-    config = {extra = 9.6 / 4, extra_disp = 2},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra_disp}}
-    end,
+    config = {extra = 2},
     redeem = function(self, card)
         G.E_MANAGER:add_event(Event({func = function()
-            G.GAME.bakery_rate = 4 * card.ability.extra
+            G.GAME.bakery_rate = 2
         return true end}))
     end,
     atlas = "sdm_bakery_vouchers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_merchant = "Bakery Merchant"
+SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_stall = "Bakery Stall"
 
--- Bakery Tycoon
+-- Bakery Shop
 
 SMODS.Voucher{
-    key = 'bakery_tycoon',
-    name = 'Bakery Tycoon',
+    key = 'bakery_shop',
+    name = 'Bakery Shop',
     pos = {x = 0, y = 1},
-    requires = {"v_sdm_bakery_merchant"},
-    config = {extra = 32 / 4, extra_disp = 4},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra_disp}}
-    end,
+    requires = {"v_sdm_bakery_stall"},
     redeem = function(self, card)
-        G.E_MANAGER:add_event(Event({func = function()
-            G.GAME.bakery_rate = 4 * card.ability.extra
-        return true end}))
+        G.GAME.double_bakery_cd = true
     end,
     atlas = "sdm_bakery_vouchers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_tycoon = "Bakery Tycoon"
+SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_shop = "Bakery Shop"

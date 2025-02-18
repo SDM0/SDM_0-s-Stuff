@@ -46,18 +46,22 @@ SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
 
 -- Pita --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'pita',
     name = 'Pita',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {chips = 30, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.chips, card.ability.extra.remaining}}
     end,
-    can_use = function(self, card, area, copier)
-        return false
+    -- TODO: Finish setting up "set_ability" for each Bakery good
+    set_ability = function(self, card, initial, delay_sprites)
+        if G.GAME and G.GAME.double_bakery_cd then
+            card.ability.extra.remaining = card.ability.extra.remaining * 2
+        end
+        if G.GAME and G.GAME.double_bakery_efc then
+            card.ability.extra.chips = card.ability.extra.chips * 2
+        end
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -69,25 +73,27 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_pita = "Pita"
 
 -- Sourdough --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'sourdough',
     name = 'Sourdough',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {mult = 10, remaining = 5}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.mult, card.ability.extra.remaining}}
     end,
-    can_use = function(self, card, area, copier)
-        return false
+    set_ability = function(self, card, initial, delay_sprites)
+        if G.GAME and G.GAME.double_bakery_cd then
+            card.ability.extra.remaining = card.ability.extra.remaining * 2
+        end
+        if G.GAME and G.GAME.double_bakery_efc then
+            card.ability.extra.chips = card.ability.extra.chips * 2
+        end
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -99,25 +105,19 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
 
 -- Baguette --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'baguette',
     name = 'Baguette',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {X_mult = 2, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     calculate = function(self, card, context)
         if context.joker_main then
@@ -129,50 +129,38 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baguette = "Baguette"
 
 -- Dough --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'dough',
     name = 'Dough',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {dollars = 4, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.dollars, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     calc_dollar_bonus = function(self, card)
         local dollars = card.ability.extra.dollars
         decrease_remaining_food(card)
         return dollars
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
 
 -- Banana Bread --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'banana_bread',
     name = 'Banana Bread',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {X_mult = 3, odds = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.X_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
@@ -208,25 +196,19 @@ SMODS.Consumable{
             }
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
 
 -- Breadsticks --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'breadsticks',
     name = 'Breadsticks',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {hands = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.hands, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
@@ -244,25 +226,19 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
 
 -- Croissant --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'croissant',
     name = 'Croissant',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {discards = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.discards, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
@@ -280,25 +256,19 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
 
 -- Bread Loaf --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'bread_loaf',
     name = 'Bread Loaf',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {handsize = 1, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.handsize, card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.hand then
@@ -315,25 +285,19 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_cake = "Cake"
 
 -- Fortune Cookie --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'fortune_cookie',
     name = 'Fortune Cookie',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
@@ -355,25 +319,19 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_fortune_cookie = "Fortune Cookie"
 
 -- Moon Cake --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'moon_cake',
     name = 'Moon Cake',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
@@ -396,25 +354,19 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_moon_cake = "Moon Cake"
 
 -- Bread Monster --
 
-SMODS.Consumable{
+SMODS.Bakery{
     key = 'bread_monster',
     name = 'Bread Monster',
-    set = 'Bakery',
     pos = {x = 0, y = 0},
-    cost = 4,
     config = {extra = {remaining = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.remaining}}
-    end,
-    can_use = function(self, card, area, copier)
-        return false
     end,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME and G.GAME.probabilities then
@@ -451,7 +403,6 @@ SMODS.Consumable{
             decrease_remaining_food(card)
         end
     end,
-    atlas = "sdm_bakery_consumables"
 }
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_monster = "Bread Monster"

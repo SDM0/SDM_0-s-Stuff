@@ -700,30 +700,25 @@ return {
                     "when {C:attention}Blind{} is defeated"
                 }
             },
-            v_sdm_bakery_merchant = {
-                name = "Bakery Merchant",
+            v_sdm_bakery_stall = {
+                name = "Bakery Stall",
                 text = {
-                    "{C:bakery}Bakery{} goods appear",
-                    "{C:attention}#1#X{} more frequently",
-                    "in the shop"
+                    "{C:bakery}Bakery{} goods may",
+                    "appear in the shop"
                 }
             },
-            v_sdm_bakery_tycoon = {
-                name = "Bakery Tycoon",
+            v_sdm_bakery_shop = {
+                name = "Bakery Shop",
                 text = {
-                    "{C:bakery}Bakery{} goods appear",
-                    "{C:attention}#1#X{} more frequently",
-                    "in the shop"
+                    "{C:bakery}Bakery{} goods lasts",
+                    "twice as long",
                 },
             },
-            v_sdm_bakery_acclimator = {
-                name = "Bakery Acclimator",
+            v_sdm_bakery_factory = {
+                name = "Bakery Factory",
                 text = {
-                    "{C:bakery}Bakery{} goods appear",
-                    "{C:attention}X#1#{} more frequently",
-                    "in the shop",
-                    "{C:bakery}Bakery{} goods",
-                    "lasts forever",
+                    "Double the effects of the",
+                    "next {C:bakery}Bakery{} goods"
                 },
             },
             v_sdm_joker_voucher = {
