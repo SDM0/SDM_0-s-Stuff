@@ -25,6 +25,20 @@ SMODS.Bakery = SMODS.Consumable:extend({
     can_use = function(self, card, area, copier)
         return false
     end,
+    loc_vars = function(self, info_queue, card)
+        sdm_debug(card.ability.extra.amount)
+        return {vars = {
+            (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory and card.ability.extra.amount * 2) or card.ability.extra.amount,
+            (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop and card.area ~= G.consumeables and card.ability.extra.remaining * 2) or card.ability.extra.remaining
+        }}
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
+                card.ability.extra.remaining = card.ability.extra.remaining * 2
+            end
+        end
+    end,
     atlas = "sdm_bakery_consumables"
 })
 

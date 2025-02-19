@@ -14,6 +14,8 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     end
 end
 
+-- TODO: Add Cryptid items to their corresponding SMODS.ContentSet
+
 if SDM_0s_Stuff_Config.sdm_bakery then
 
     -- Bread Bites --
@@ -94,13 +96,6 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             name = 'Bakery Factory',
             pos = {x = 0, y = 2},
             requires = {"v_sdm_bakery_shop"},
-            redeem = function(self, card)
-                for _, v in pairs(G.P_CENTERS) do
-                    if v.set == "Bakery" then
-                        v.config.extra.amount = v.config.extra.amount * 2
-                    end
-                end
-            end,
             atlas = "sdm_bakery_vouchers"
         }
 

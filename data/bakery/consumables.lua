@@ -44,9 +44,6 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
 
--- TODO: To add the vouchers bonus values, look at MathIsFun suggestion or do 2 config.extra values specifically for when the vouchers are redeemed
--- Ex: card.ability.amount, card.ability.amount_boosted, in loc_vars or calculate: (G.GAME.redeemed[x_voucher] and x) or y)
-
 -- Pita --
 
 SMODS.Bakery{
@@ -54,16 +51,13 @@ SMODS.Bakery{
     name = 'Pita',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 30, remaining = 5}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.joker_main then
             if no_bp_retrigger(context) then
                 decrease_remaining_food(card)
             end
             return {
-                chips = card.ability.extra.amount,
+                chips = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
             }
         end
     end,
@@ -78,16 +72,13 @@ SMODS.Bakery{
     name = 'Sourdough',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 10, remaining = 5}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.joker_main then
             if no_bp_retrigger(context) then
                 decrease_remaining_food(card)
             end
             return {
-                mult = card.ability.extra.amount,
+                mult = card.ability.extra.amount  * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
             }
         end
     end,
@@ -102,16 +93,13 @@ SMODS.Bakery{
     name = 'Baguette',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 2, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.joker_main then
             if no_bp_retrigger(context) then
                 decrease_remaining_food(card)
             end
             return {
-                x_mult = card.ability.extra.amount,
+                x_mult = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
             }
         end
     end,
@@ -126,11 +114,8 @@ SMODS.Bakery{
     name = 'Dough',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 4, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calc_dollar_bonus = function(self, card)
-        local dollars = card.ability.extra.amount
+        local dollars = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
         decrease_remaining_food(card)
         return dollars
     end,
@@ -178,7 +163,7 @@ SMODS.Bakery{
         end
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.amount,
+                x_mult = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
             }
         end
     end,
@@ -193,18 +178,15 @@ SMODS.Bakery{
     name = 'Breadsticks',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount
-            ease_hands_played(card.ability.extra.amount)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
+            ease_hands_played(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.amount
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
         end
     end,
     calculate = function(self, card, context)
@@ -223,18 +205,15 @@ SMODS.Bakery{
     name = 'Croissant',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount
-            ease_discard(card.ability.extra.amount)
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
+            ease_discard(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.amount
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
         end
     end,
     calculate = function(self, card, context)
@@ -253,17 +232,14 @@ SMODS.Bakery{
     name = 'Bread Loaf',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     add_to_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(card.ability.extra.amount)
+            G.hand:change_size(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(-card.ability.extra.amount)
+            G.hand:change_size(-card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
         end
     end,
     calculate = function(self, card, context)
@@ -282,12 +258,9 @@ SMODS.Bakery{
     name = 'Fortune Cookie',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount do
+            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -318,12 +291,9 @@ SMODS.Bakery{
     name = 'Moon Cake',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 3}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount do
+            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -355,12 +325,9 @@ SMODS.Bakery{
     name = 'Bread Monster',
     pos = {x = 0, y = 0},
     config = {extra = {amount = 1, remaining = 2}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-    end,
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount do
+            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
