@@ -26,6 +26,7 @@ SMODS.Bakery = SMODS.Consumable:extend({
         return false
     end,
     loc_vars = function(self, info_queue, card)
+        sdm_debug(card.ability.extra.amount)
         return {vars = {
             (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory and card.area ~= G.consumeables and card.ability.extra.amount * 2) or card.ability.extra.amount,
             (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop and card.area ~= G.consumeables and card.ability.extra.remaining * 2) or card.ability.extra.remaining
