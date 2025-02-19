@@ -409,12 +409,12 @@ jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
     text_config = { colour = G.C.MULT },
     calc_function = function(card)
         local has_voucher = false
-        local used_voucher = 0
+        local voucher_amount = 0
         for _, _ in pairs(G.GAME.used_vouchers) do
             has_voucher = true
-            used_voucher = used_voucher + 1
+            voucher_amount = voucher_amount + 1
         end
-        card.joker_display_values.x_mult = (has_voucher and 1 + used_voucher * card.ability.extra.Xmult_mod) or 1
+        card.joker_display_values.x_mult = (has_voucher and 1 + voucher_amount * card.ability.extra.Xmult_mod) or 1
     end
 }
 jd_def["j_sdm_free_pass"] = { -- Free Pass
