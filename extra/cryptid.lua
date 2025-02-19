@@ -96,6 +96,14 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
             name = 'Bakery Factory',
             pos = {x = 0, y = 2},
             requires = {"v_sdm_bakery_shop"},
+            redeem = function(self, card)
+                for _, v in ipairs(G.consumeables.cards) do
+                    if v.config.center.set == "Bakery" then
+                        v.ability.extra.amount = v.ability.extra.amount * 2
+                    end
+                end
+                -- Future Bakery goods boost handled in SMODS.Bakery
+            end,
             atlas = "sdm_bakery_vouchers"
         }
 

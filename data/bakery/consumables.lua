@@ -57,7 +57,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                chips = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
+                chips = card.ability.extra.amount,
             }
         end
     end,
@@ -78,7 +78,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                mult = card.ability.extra.amount  * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
+                mult = card.ability.extra.amount,
             }
         end
     end,
@@ -99,7 +99,7 @@ SMODS.Bakery{
                 decrease_remaining_food(card)
             end
             return {
-                x_mult = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
+                x_mult = card.ability.extra.amount,
             }
         end
     end,
@@ -115,7 +115,7 @@ SMODS.Bakery{
     pos = {x = 0, y = 0},
     config = {extra = {amount = 4, remaining = 3}},
     calc_dollar_bonus = function(self, card)
-        local dollars = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
+        local dollars = card.ability.extra.amount
         decrease_remaining_food(card)
         return dollars
     end,
@@ -163,7 +163,7 @@ SMODS.Bakery{
         end
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1),
+                x_mult = card.ability.extra.amount,
             }
         end
     end,
@@ -180,13 +180,13 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
-            ease_hands_played(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount
+            ease_hands_played(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.amount
         end
     end,
     calculate = function(self, card, context)
@@ -207,13 +207,13 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
-            ease_discard(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount
+            ease_discard(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if not from_debuff then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1)
+            G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.amount
         end
     end,
     calculate = function(self, card, context)
@@ -234,12 +234,12 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     add_to_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
+            G.hand:change_size(card.ability.extra.amount)
         end
     end,
     remove_from_deck = function(self, card, from_debuff)
         if G.hand then
-            G.hand:change_size(-card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1))
+            G.hand:change_size(-card.ability.extra.amount)
         end
     end,
     calculate = function(self, card, context)
@@ -260,7 +260,7 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
+            for i = 1, card.ability.extra.amount do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -293,7 +293,7 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
+            for i = 1, card.ability.extra.amount do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -327,7 +327,7 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount * ((G.GAME.used_vouchers.v_sdm_bakery_factory and 2) or 1) do
+            for i = 1, card.ability.extra.amount do
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
