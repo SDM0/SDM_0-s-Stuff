@@ -167,7 +167,7 @@ if SDM_0s_Stuff_Config.sdm_decks then
 end
 
 if SDM_0s_Stuff_Config.sdm_bakery then
-    SMODS.load_file("data/bakery/main.lua")()
+    SMODS.load_file("data/bakery/bakery.lua")()
 end
 
 if Cryptid then
