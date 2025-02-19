@@ -719,15 +719,15 @@ return {
             v_sdm_bakery_shop = {
                 name = "Bakery Shop",
                 text = {
-                    "Next {C:bakery}Bakery{} goods",
-                    "lasts twice as long",
+                    "{C:bakery}Bakery{} goods lasts",
+                    "twice as long",
                 },
             },
             v_sdm_bakery_factory = {
                 name = "Bakery Factory",
                 text = {
-                    "Double the effects of",
-                    "the next {C:bakery}Bakery{} goods"
+                    "Double the effects",
+                    "of {C:bakery}Bakery{} goods"
                 },
             },
             v_sdm_joker_voucher = {
