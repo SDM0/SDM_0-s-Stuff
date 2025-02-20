@@ -299,6 +299,8 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_tip_jar = "Tip Jar"
 
+-- TODO: Add proper level_up return calc to level up jokers
+
 --- Wandering Star ---
 
 SMODS.Joker{
