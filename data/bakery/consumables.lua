@@ -44,6 +44,8 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
 
+-- TODO: Find new effect/replacement for Pita
+
 -- Pita --
 
 SMODS.Bakery{
@@ -71,14 +73,14 @@ SMODS.Bakery{
     key = 'sourdough',
     name = 'Sourdough',
     pos = {x = 0, y = 0},
-    config = {extra = {amount = 10, remaining = 5}},
+    config = {extra = {amount = 2, remaining = 3}},
     calculate = function(self, card, context)
         if context.joker_main then
             if no_bp_retrigger(context) then
                 decrease_remaining_food(card)
             end
             return {
-                mult = card.ability.extra.amount,
+                x_chips = card.ability.extra.amount,
             }
         end
     end,

@@ -610,7 +610,7 @@ return {
             c_sdm_sourdough = {
                 name = "Sourdough",
                 text = {
-                    "{C:mult}+#1#{} Mult,",
+                    "{X:chips,C:white}X#1#{} Chips,",
                     "lasts {C:attention}#2#{} hand(s)",
                 }
             },
