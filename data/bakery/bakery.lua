@@ -32,7 +32,7 @@ SMODS.Bakery = SMODS.Consumable:extend({
         }}
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then
+        if not from_debuff and not card.sdm_copy then
             if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
                 card.ability.extra.remaining = card.ability.extra.remaining * 2
             end

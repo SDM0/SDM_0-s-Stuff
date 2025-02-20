@@ -221,3 +221,14 @@ payload = '''
     end
 '''
 match_indent = true
+
+# Prevent copied "Bakery Goods" from receiving another buff
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "new_card.pinned = other.pinned"
+position = "after"
+payload = '''
+new_card.sdm_copy = true
+'''
+match_indent = true
