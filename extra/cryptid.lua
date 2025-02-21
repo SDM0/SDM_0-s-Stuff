@@ -14,8 +14,6 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     end
 end
 
--- TODO: Add Cryptid items to their corresponding SMODS.ContentSet
-
 if SDM_0s_Stuff_Config.sdm_bakery then
 
     -- Bread Bites --
@@ -23,15 +21,14 @@ if SDM_0s_Stuff_Config.sdm_bakery then
     SMODS.Bakery{
         key = 'bread_bites',
         name = 'Bread Bites',
-        pos = {x = 0, y = 0},
-        config = {extra = {amount = 1, remaining = 2}},
-        loc_vars = function(self, info_queue, card)
-            return {vars = {card.ability.extra.amount, card.ability.extra.remaining}}
-        end,
+        pos = {x = 5, y = 1},
+        config = {extra = {amount = 1, remaining = 3}},
         calculate = function(self, card, context)
             if context.setting_blind and no_bp_retrigger(context) then
+                local card_added = false
                 for i = 1, card.ability.extra.amount do
                     if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                        card_added = true
                         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                         G.E_MANAGER:add_event(Event({
                             trigger = 'before',
@@ -48,7 +45,9 @@ if SDM_0s_Stuff_Config.sdm_bakery then
                         })
                     end
                 end
-                decrease_remaining_food(card)
+                if card_added then
+                    decrease_remaining_food(card)
+                end
             end
         end,
     }
