@@ -268,21 +268,6 @@ jd_def["j_sdm_infinite_staircase"] = { -- Infinite Staircase
     end
 }
 jd_def["j_sdm_ninja_joker"] = { -- Ninja Joker
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "active" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.can_dupe and localize("k_active_ex") or "Inactive"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.can_dupe and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
-    end
 }
 jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
     text = {
@@ -360,13 +345,6 @@ jd_def["j_sdm_pizza"] = { -- Pizza
     },
 }
 jd_def["j_sdm_treasure_chest"] = { -- Treasure Chest
-    reminder_text = {
-        { text = "(" },
-        { text = "$",         colour = G.C.GOLD },
-        { ref_table = "card", ref_value = "sell_cost", colour = G.C.GOLD },
-        { text = ")" },
-    },
-    reminder_text_config = { scale = 0.35 }
 }
 jd_def["j_sdm_bullet_train"] = { -- Bullet Train
     text = {

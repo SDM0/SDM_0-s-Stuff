@@ -299,8 +299,6 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_tip_jar = "Tip Jar"
 
--- TODO: Add proper level_up return calc to level up jokers
-
 --- Wandering Star ---
 
 SMODS.Joker{
@@ -320,10 +318,10 @@ SMODS.Joker{
                 if v.visible then level_up_hands[#level_up_hands+1] = k end
             end
             local selected_hand = pseudorandom_element(level_up_hands, pseudoseed('wandering'))
-            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(selected_hand, 'poker_hands'),chips = G.GAME.hands[selected_hand].chips, mult = G.GAME.hands[selected_hand].mult, level=G.GAME.hands[selected_hand].level})
-            level_up_hand(card, selected_hand, nil, 1)
-            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+            return {
+                level_up = true,
+                level_up_hand = selected_hand
+            }
         end
     end,
     atlas = "sdm_jokers"
@@ -413,26 +411,21 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 2, y = 1},
     cost = 8,
-    config = {extra = {hand = "High Card", no_faces = true}},
+    config = {extra = {no_faces = true}},
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and no_bp_retrigger(context) then
-            if context.before and context.scoring_name then
-                card.ability.extra.hand = context.scoring_name
-            elseif context.after then
-                card.ability.extra.no_faces = true
-                for i = 1, #context.full_hand do
-                    if context.full_hand[i]:is_face() then
-                        card.ability.extra.no_faces = false
-                        break
-                    end
+        if context.cardarea == G.jokers and context.after and no_bp_retrigger(context) then
+            card.ability.extra.no_faces = true
+            for i = 1, #context.full_hand do
+                if context.full_hand[i]:is_face() then
+                    card.ability.extra.no_faces = false
+                    break
                 end
             end
         end
         if context.end_of_round and context.main_eval and card.ability.extra.no_faces then
-            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
-            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(card.ability.extra.hand, 'poker_hands'),chips = G.GAME.hands[card.ability.extra.hand].chips, mult = G.GAME.hands[card.ability.extra.hand].mult, level=G.GAME.hands[card.ability.extra.hand].level})
-            level_up_hand(context.blueprint_card or card, card.ability.extra.hand, nil, 1)
-            update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+            return {
+                level_up = true
+            }
         end
     end,
     atlas = "sdm_jokers"
@@ -659,53 +652,27 @@ SDM_0s_Stuff_Mod.meme_jokers.j_sdm_infinite_staircase = "Infinite Staircase"
 SMODS.Joker{
     key = "ninja_joker",
     name = "Ninja Joker",
-    rarity = 2,
-    blueprint_compat = true,
+    rarity = 3,
     pos = {x = 9, y = 1},
     cost = 8,
-    config = {extra = {can_dupe = true}},
     loc_vars = function(self, info_queue, card)
         if not card.edition or (card.edition and not card.edition.negative) then
-            info_queue[#info_queue+1] = G.P_TAGS.tag_negative
+            info_queue[#info_queue+1] = G.P_CENTERS.e_negative
         end
-        return {vars = {(card.ability.extra.can_dupe and localize("k_sdm_active")) or "", (not card.ability.extra.can_dupe and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
-        if context.playing_card_added and not card.getting_sliced and no_bp_retrigger(context) then
-            if not card.ability.extra.can_dupe then
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_active_ex'),
-                    colour = G.C.FILTER,
-                })
-                card.ability.extra.can_dupe = true
+        if (context.cards_destroyed and (context.glass_shattered and #context.glass_shattered > 0))
+        or (context.remove_playing_cards and (context.removed and #context.removed > 0)) and no_bp_retrigger(context) then
+            local my_pos = nil
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then my_pos = i; break end
             end
-        end
-        if context.cards_destroyed and card.ability.extra.can_dupe then
-            if #context.glass_shattered > 0 then
-                if no_bp_retrigger(context) then
-                    card.ability.extra.can_dupe = false
-                end
+            if my_pos and G.jokers.cards[my_pos-1] then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
-                        add_tag(Tag('tag_negative'))
+                        G.jokers.cards[my_pos-1]:set_edition("e_negative")
                         card:juice_up(0.3, 0.4)
-                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                        return true
-                    end)
-                }))
-            end
-        elseif context.remove_playing_cards and card.ability.extra.can_dupe then
-            if #context.removed > 0 then
-                if no_bp_retrigger(context) then
-                    card.ability.extra.can_dupe = false
-                end
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        add_tag(Tag('tag_negative'))
-                        card:juice_up(0.3, 0.4)
-                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                        card:start_dissolve({G.C.DARK_EDITION}, nil, 1.6)
                         return true
                     end)
                 }))
@@ -1049,15 +1016,7 @@ SMODS.Joker{
     add_to_deck = function(self, card, from_debuff)
         card.sell_cost = card.ability.extra
     end,
-    set_ability = function(self, card, initial, delay_sprites)
-        if G.P_CENTERS[self.key].discovered or card.bypass_discovery_center then
-            local W, H = card.T.w, card.T.h
-            card.children.center.scale.y = card.children.center.scale.x
-            H = W
-            card.T.h = H
-            card.T.w = W
-        end
-    end,
+    pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
 }
 
@@ -1312,7 +1271,7 @@ SMODS.Joker{
     name = "Jack a Dit",
     rarity = 1,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 5, y = 5},
     cost = 5,
     config = {extra = 15},
     loc_vars = function(self, info_queue, card)
@@ -1374,7 +1333,7 @@ SMODS.Joker{
     name = "Chain Reaction",
     rarity = 2,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 6, y = 5},
     cost = 8,
     config = {extra = {mult = 0}},
     loc_vars = function(self, info_queue, card)
@@ -1407,7 +1366,7 @@ SMODS.Joker{
     name = "Consolation Prize",
     rarity = 2,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 7, y = 5},
     cost = 6,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
@@ -1437,7 +1396,7 @@ SMODS.Joker{
     name = "Horoscopy",
     rarity = 3,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 8, y = 5},
     cost = 8,
     config = {extra = 2},
     loc_vars = function(self, info_queue, card)
@@ -1476,7 +1435,7 @@ SMODS.Joker{
     name = "Roulette",
     rarity = 3,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 9, y = 5},
     cost = 8,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
@@ -1539,7 +1498,7 @@ SMODS.Joker{
     name = "Carcinization",
     rarity = 2,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 0, y = 6},
     cost = 7,
     config = {extra = {mult_mod = 4, mult = 0}},
     loc_vars = function(self, info_queue, card)
@@ -1585,7 +1544,7 @@ SMODS.Joker{
     name = "Wormhole",
     rarity = 2,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 1, y = 6},
     cost = 6,
     config = {extra = {repetition = true}},
     loc_vars = function(self, info_queue, card)
@@ -1630,7 +1589,7 @@ SMODS.Joker{
     name = "Child",
     rarity = 1,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 2, y = 6},
     cost = 4,
     config = {extra = 0.85},
     loc_vars = function(self, info_queue, card)
@@ -1650,7 +1609,7 @@ SMODS.Joker{
             return true end }))
         end
     end,
-    -- TODO: Add proper resize, similar to "Square Joker"
+    pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
 }
 
@@ -1663,7 +1622,7 @@ SMODS.Joker{
     name = "Yo-Yo",
     rarity = 1,
     blueprint_compat = true,
-    pos = {x = 0, y = 0},
+    pos = {x = 3, y = 6},
     cost = 6,
     config = {extra = {low = false, low_xmult = 0.5, high_xmult = 2}},
     loc_vars = function(self, info_queue, card)
@@ -1762,7 +1721,7 @@ SMODS.Joker{
     key = "patch",
     name = "Patch",
     rarity = 4,
-    pos = {x = 0, y = 3},
+    pos = {x = 3, y = 3},
     cost = 20,
     add_to_deck = function(self, card, from_debuff)
         if G.GAME then G.GAME.patch_disable = true end
@@ -1793,7 +1752,7 @@ SMODS.Joker{
         end
     end,
     atlas = "sdm_jokers",
-    soul_pos = {x = 0, y = 4}
+    soul_pos = {x = 3, y = 4}
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_patch = "Patch"
@@ -1862,7 +1821,7 @@ SMODS.Joker{
     key = "skelton",
     name = "Skelton",
     rarity = 4,
-    pos = {x = 0, y = 3},
+    pos = {x = 4, y = 3},
     cost = 20,
     calculate = function(self, card, context)
         if context.destroying_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
@@ -1874,7 +1833,7 @@ SMODS.Joker{
 		end
     end,
     atlas = "sdm_jokers",
-    soul_pos = {x = 1, y = 4}
+    soul_pos = {x = 4, y = 4}
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_skelton = "Skelton"
