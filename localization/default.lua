@@ -155,11 +155,10 @@ return {
             j_sdm_ninja_joker = {
                 name = "Ninja Joker",
                 text = {
-                    "Creates a {C:dark_edition}Negative{C:attention} Tag{} if",
-                    "a playing card is {C:attention}removed{},",
-                    "becomes inactive until a",
-                    "{C:attention}playing card{} is added",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
+                    "This Joker adds {C:dark_edition}Negative{} on",
+                    "the Joker to the left when",
+                    "a {C:attention}playing card{} is destroyed",
+                    "then {S:1.1,C:red,E:2}self destructs{}"
                 }
             },
             j_sdm_reach_the_stars = {
@@ -651,12 +650,22 @@ return {
                     "lasts {C:attention}#2#{} round(s)",
                 }
             },
+            c_sdm_doughnut = {
+                name = "Doughnut",
+                text = {
+                    "When round begins, add a",
+                    "random {C:attention}playing card{} with",
+                    "a random {C:attention}enhancement{},",
+                    "{C:attention}seal{} and {C:attention}edition{},",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
             c_sdm_fortune_cookie = {
                 name = "Fortune Cookie",
                 text = {
                     "Create {C:attention}#1#{} {C:tarot}Tarot{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -665,7 +674,7 @@ return {
                 text = {
                     "Create {C:attention}#1#{} {C:planet}Planet{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -674,7 +683,7 @@ return {
                 text = {
                     "Create {C:attention}#1#{} {C:spectral}Spectral{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -683,7 +692,7 @@ return {
                 text = {
                     "Create {C:attention}#1#{} {C:cry_code}Code{} card",
                     "when {C:attention}Blind{} is selected,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -753,7 +762,7 @@ return {
                 name = "Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
                     "be taken immediately"
                 }
             },
@@ -761,7 +770,7 @@ return {
                 name = "Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
                     "be taken immediately"
                 }
             },
@@ -769,7 +778,7 @@ return {
                 name = "Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
                     "be taken immediately"
                 }
             },
@@ -777,7 +786,7 @@ return {
                 name = "Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
-                    "{C:attention}#2#{C:bakery} Bakery{} cards to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
                     "be taken immediately"
                 }
             },
