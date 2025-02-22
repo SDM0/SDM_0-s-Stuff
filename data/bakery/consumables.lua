@@ -148,7 +148,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_banana_bread = "Banana Bread"
 
 -- Breadsticks --
 
@@ -202,7 +202,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_croissant = "Croissant"
 
 -- Bread Loaf --
 
@@ -228,7 +228,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_cake = "Cake"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_loaf = "Bread Loaf"
 
 -- Doughnut --
 
@@ -259,7 +259,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_doughnut = "Doughnut"
 
 -- Fortune Cookie --
 
