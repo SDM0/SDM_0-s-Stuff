@@ -246,12 +246,10 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_shareholder_joker = "Shareholder Joker"
 
 --- Magic Hands ---
 
--- TODO: Make the joker have an effect with playing card (for example, add a modification to a random card)
 SMODS.Joker{
     key = "magic_hands",
     name = "Magic Hands",
     rarity = 2,
-    blueprint_compat = true,
     pos = {x = 8, y = 0},
     cost = 6,
     config = {extra = 3},
@@ -259,17 +257,19 @@ SMODS.Joker{
         return {vars = {card.ability.extra, (not G.jokers and 4) or G.GAME.current_round.hands_left}}
     end,
     calculate = function(self, card, context)
-        if context.joker_main and context.scoring_hand then
-            local cards_id = {}
-            for i = 1, #context.scoring_hand do
-                table.insert(cards_id, context.scoring_hand[i]:get_id())
-            end
-            local max_card = count_max_occurence(cards_id)
-            if G.GAME.current_round.hands_left + 1 == max_card then
-                return {
-                    Xmult = card.ability.extra
-                }
-            end
+        if context.first_hand_drawn and no_bp_retrigger(context) then
+            local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
+            juice_card_until(card, eval, true)
+        end
+        if context.cardarea == G.jokers and context.before and (context.scoring_hand and #context.scoring_hand == 1) and no_bp_retrigger(context) then
+            context.scoring_hand[1]:set_ability(G.P_CENTERS[SMODS.poll_enhancement({key = "mgh", guaranteed = true})])
+            context.scoring_hand[1]:set_seal(SMODS.poll_seal({guaranteed = true, type_key = "mgh"}))
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    context.scoring_hand[1]:juice_up()
+                    return true
+                end
+            }))
         end
     end,
     atlas = "sdm_jokers"
@@ -337,66 +337,44 @@ SMODS.Joker{
     name = "Ouija Board",
     rarity = 3,
     eternal_compat = false,
+    perishable_compat = false,
     pos = {x = 1, y = 1},
-    cost = 8,
-    config = {extra = {remaining = 0, rounds = 3, secret_poker_hands = {}, sold_rare = false, scored_secret = false, used_spectral = false}},
+    config = {extra = {rounds = 0, remaining = 6}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_soul
-        return {vars = {card.ability.extra.remaining, card.ability.extra.rounds,
-        (card.ability.extra.sold_rare and "Rare") or "", (not card.ability.extra.sold_rare and "Rare") or "",
-        (card.ability.extra.scored_secret and "Secret") or "", (not card.ability.extra.scored_secret and "Secret") or "",
-        (card.ability.extra.used_spectral and "Spectral") or "", (not card.ability.extra.used_spectral and "Spectral") or ""}}
+        return {vars = {card.ability.extra.rounds, card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
-        if context.selling_card and no_bp_retrigger(context) then
-            if context.card.ability.set == 'Joker' and context.card.config.center.rarity == 3 and not card.ability.extra.sold_rare then
-                card.ability.extra.sold_rare = true
-                card.ability.extra.remaining = card.ability.extra.remaining + 1
-                ouija_check(card, context)
-            end
-        end
-        if context.using_consumeable and no_bp_retrigger(context) then
-            if context.consumeable.ability.set == "Spectral" and not card.ability.extra.used_spectral then
-                card.ability.extra.used_spectral = true
-                card.ability.extra.remaining = card.ability.extra.remaining + 1
-                ouija_check(card, context)
-            end
-        end
-        if context.joker_main and no_bp_retrigger(context) then
-            if context.scoring_name then
-                local valid_secret_hand = false
-                for _, hand in ipairs(card.ability.extra.secret_poker_hands) do
-                    if context.scoring_name == hand then
-                        valid_secret_hand = true
-                        break
-                    end
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
+            if card.ability.extra.rounds < card.ability.extra.remaining then
+                card.ability.extra.rounds = math.min(card.ability.extra.rounds + 1, card.ability.extra.remaining)
+                if card.ability.extra.rounds <= card.ability.extra.remaining then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = card.ability.extra.rounds .. "/" .. card.ability.extra.remaining})
                 end
-                if valid_secret_hand and not card.ability.extra.scored_secret then
-                    card.ability.extra.scored_secret = true
-                    card.ability.extra.remaining = card.ability.extra.remaining + 1
-                    ouija_check(card, context)
+                if card.ability.extra.rounds >= card.ability.extra.remaining then
+                    local eval = function(card) return not card.REMOVED end
+                    juice_card_until(card, eval, true)
                 end
             end
         end
-        if context.selling_self and not no_bp_retrigger(context) then
-            if card.ability.extra.sold_rare and card.ability.extra.used_spectral and card.ability.extra.scored_secret then
-                if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    G.E_MANAGER:add_event(Event({
-                        func = (function()
-                            G.E_MANAGER:add_event(Event({
-                                func = function()
-                                    SMODS.add_card({key = 'c_soul', key_append = 'rtl'})
-                                    G.GAME.consumeable_buffer = 0
-                                    return true
-                                end}))
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
-                        return true
-                    end)}))
-                end
+        if context.selling_self and card.ability.extra.rounds >= card.ability.extra.remaining and no_bp_retrigger(context) then
+            if not card.getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                SMODS.add_card({key = 'c_soul', key_append = 'ojb'})
+                                G.GAME.consumeable_buffer = 0
+                                return true
+                            end}))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
+                    return true
+                end)}))
             end
         end
     end,
+    cost = 10,
     atlas = "sdm_jokers"
 }
 
@@ -1122,7 +1100,6 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and no_bp_retrigger(context) then
-
             for i = 1, #context.scoring_hand do
                 if context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
@@ -1546,36 +1523,6 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 1, y = 6},
     cost = 6,
-    config = {extra = {repetition = true}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {(card.ability.extra.repetition and localize("k_sdm_active")) or "", (not card.ability.extra.repetition and localize("k_sdm_inactive")) or ""}}
-    end,
-    calculate = function(self, card, context)
-        if context.using_consumeable and card.ability.extra.repetition then
-            if context.consumeable.ability.set == "Planet" and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                card.ability.extra.repetition = false
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                SMODS.add_card({key = context.consumeable.config.center.key, key_append = 'wds'})
-                                G.GAME.consumeable_buffer = 0
-                                return true
-                            end}))
-                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
-                    return true
-                end)}))
-            end
-        end
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) and not card.ability.extra.repetition then
-            card.ability.extra.repetition = true
-            card_eval_status_text(card, 'extra', nil, nil, nil, {
-                message = localize('k_active_ex'),
-                colour = G.C.FILTER,
-            })
-        end
-    end,
     atlas = "sdm_jokers"
 }
 

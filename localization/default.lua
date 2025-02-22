@@ -63,10 +63,9 @@ return {
             j_sdm_magic_hands = {
                 name = "Magic Hands",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{} has",
-                    "exactly {C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){}",
-                    "of its most frequent rank",
-                    "{C:inactive}(ex: {C:attention}K K K Q Q{C:inactive} with {C:blue}3{C:inactive} hands left)",
+                    "If {C:attention}first hand{} of round",
+                    "has only {C:attention}1{} card, add an",
+                    "{C:attention}enhancement{} and {C:attention}seal{} to it"
                 }
             },
             j_sdm_tip_jar = {
@@ -88,12 +87,11 @@ return {
             j_sdm_ouija_board = {
                 name = "Ouija Board",
                 text = {
-                    "After selling a {C:red}Rare {C:attention}Joker{},",
-                    "scoring a {C:attention}secret poker hand{}",
-                    "and using a {C:spectral}Spectral{} card,",
-                    "sell this Joker to create a {C:spectral}Soul{} card",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Remaining {C:attention}#3#{C:inactive}#4#/{C:attention}#5#{C:inactive}#6#/{C:attention}#7#{C:inactive}#8#)"
+                    "After {C:attention}#2#{} rounds,",
+                    "sell this card to",
+                    "create a {C:spectral}Soul{} card",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)"
                 }
             },
             j_sdm_la_revolution = {
@@ -342,11 +340,7 @@ return {
             j_sdm_wormhole = {
                 name = "Wormhole",
                 text = {
-                    "Creates a copy of",
-                    "a used {C:planet}Planet{} card,",
-                    "once per {C:attention}round{}",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
+                    "Level ups are {C:attention}doubled{}"
                 }
             },
             j_sdm_child = {

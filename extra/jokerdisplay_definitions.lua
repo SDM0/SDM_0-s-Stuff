@@ -113,25 +113,21 @@ jd_def["j_sdm_shareholder_joker"] = { -- Shareholder Joker
 }
 jd_def["j_sdm_magic_hands"] = { -- Magic Hands
     text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.joker_display_values", ref_value = "x_mult" }
-            }
-        }
+        { ref_table = "card.joker_display_values", ref_value = "enhance", colour = G.C.FILTER },
     },
     calc_function = function(card)
-        local is_magic_hands_hand = false
-        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
-        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
-            local cards_id = {}
-            for _, scoring_card in pairs(scoring_hand) do
-                table.insert(cards_id, scoring_card:get_id())
-            end
-            local max_card = count_max_occurence(cards_id)
-            is_magic_hands_hand = (G.GAME.current_round.hands_left + (next(G.play.cards) and 1 or 0)) == max_card
+        local is_magic = #G.hand.highlighted == 1
+        card.joker_display_values.active = G.GAME and G.GAME.current_round.hands_played == 0 and
+            G.GAME.current_round.hands_left > 0
+        card.joker_display_values.enhance = card.joker_display_values.active and
+            ((is_magic and card.ability.extra and "Valid")) or "-"
+    end,
+    style_function = function(card, text, reminder_text, extra)
+        if text and text.children[1] then
+            text.children[1].config.colour = card.joker_display_values.active and G.C.FILTER or
+                G.C.UI.TEXT_INACTIVE
         end
-        card.joker_display_values.x_mult = is_magic_hands_hand and card.ability.extra or 1
+        return false
     end
 }
 jd_def["j_sdm_tip_jar"] = { -- Tip Jar
@@ -169,37 +165,16 @@ jd_def["j_sdm_wandering_star"] = { -- Wandering Star
 }
 
 jd_def["j_sdm_ouija_board"] = { -- Ouija Board
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_rare" },
-        { text = "/" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_secret" },
-        { text = "/" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_spectral" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.localized_text_rare = localize("k_rare")
-        card.joker_display_values.localized_text_secret = "Secret"
-        card.joker_display_values.localized_text_spectral = localize("k_spectral")
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text then
-            if reminder_text.children[2] then
-                reminder_text.children[2].config.colour = card.ability.extra.sold_rare and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-            if reminder_text.children[4] then
-                reminder_text.children[4].config.colour = card.ability.extra.scored_secret and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-            if reminder_text.children[6] then
-                reminder_text.children[6].config.colour = card.ability.extra.used_spectral and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-        end
-        return false
-    end
+reminder_text = {
+    { text = "(" },
+    { ref_table = "card.joker_display_values", ref_value = "active" },
+    { text = ")" },
+},
+calc_function = function(card)
+    card.joker_display_values.active = card.ability.extra.rounds >= card.ability.extra.remaining and
+        localize("k_active") or
+        (card.ability.extra.rounds .. "/" .. card.ability.extra.remaining)
+end
 }
 jd_def["j_sdm_la_revolution"] = { -- La Révolution
 
@@ -268,6 +243,7 @@ jd_def["j_sdm_infinite_staircase"] = { -- Infinite Staircase
     end
 }
 jd_def["j_sdm_ninja_joker"] = { -- Ninja Joker
+
 }
 jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
     text = {
@@ -345,6 +321,7 @@ jd_def["j_sdm_pizza"] = { -- Pizza
     },
 }
 jd_def["j_sdm_treasure_chest"] = { -- Treasure Chest
+
 }
 jd_def["j_sdm_bullet_train"] = { -- Bullet Train
     text = {
@@ -485,21 +462,7 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
     text_config = { colour = G.C.MULT }
 }
 jd_def["j_sdm_wormhole"] = { -- Wormhole
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "active" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
-    end
+
 }
 jd_def["j_sdm_child"] = {
 

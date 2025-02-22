@@ -87,23 +87,6 @@ end
 '''
 match_indent = true
 
-# Ouija Board secret poker hand list (code from Ortalab)
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = '''boot_timer('splash prep', 'end',1)'''
-position = "after"
-payload = '''
-if next(SMODS.find_mod("sdm0sstuff")) then
-    for k, v in pairs(G.GAME.hands) do
-        if v.visible == false then
-            G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands[#G.P_CENTERS['j_sdm_ouija_board'].config.extra.secret_poker_hands+1] = k
-        end
-    end
-end
-'''
-match_indent = true
-
 # "Patch" effect
 [[patches]]
 [patches.pattern]
@@ -230,5 +213,22 @@ pattern = "new_card.pinned = other.pinned"
 position = "after"
 payload = '''
 new_card.sdm_copy = true
+'''
+match_indent = true
+
+# Whormhole effect
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "amount = amount or 1"
+position = "after"
+payload = '''
+if SMODS then
+    local sdm_wormhole = SMODS.find_card("j_sdm_wormhole")
+    for i = 1, #sdm_wormhole do
+        sdm_wormhole[i]:juice_up()
+    end
+    if #sdm_wormhole > 0 then amount = amount * (2 ^ #sdm_wormhole) end
+end
 '''
 match_indent = true
