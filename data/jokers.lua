@@ -1520,7 +1520,6 @@ SMODS.Joker{
     key = "wormhole",
     name = "Wormhole",
     rarity = 2,
-    blueprint_compat = true,
     pos = {x = 1, y = 6},
     cost = 6,
     atlas = "sdm_jokers"
