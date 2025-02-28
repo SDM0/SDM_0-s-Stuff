@@ -497,9 +497,6 @@ jd_def["j_sdm_archibald"] = { -- Archibald
         return false
     end
 }
-jd_def["j_sdm_patch"] = { -- Patch
-
-}
 jd_def["j_sdm_0"] = { -- SDM_0
     reminder_text = {
         { text = "(+" },
@@ -508,7 +505,12 @@ jd_def["j_sdm_0"] = { -- SDM_0
     },
 }
 jd_def["j_sdm_skelton"] = { -- Skelton
-
+    reminder_text = {
+        { text = "(" },
+        { text = "$",                       colour = G.C.GOLD },
+        { ref_table = "card.ability.extra", ref_value = "dollars", colour = G.C.GOLD },
+        { text = ")" },
+    }
 }
 jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
     text = {

@@ -370,13 +370,6 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
                 }
             },
-            j_sdm_patch = {
-                name = "Patch",
-                text = {
-                    "Cards cannot",
-                    "be {C:attention}debuffed"
-                }
-            },
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {
@@ -388,9 +381,11 @@ return {
             j_sdm_skelton = {
                 name = "Skelton",
                 text = {
-                    "If scored hand is a",
-                    "single {C:attention}Jack{}, destroy",
-                    "each unscored card"
+                    "If scored hand is a single",
+                    "{C:attention}Jack{}, this Joker destroys",
+                    "each {C:attention}unscored card{} and",
+                    "gains {C:money}$#2#{} per destroyed card",
+                    "{C:inactive}(Currently {C:money}$#1#{C:inactive})"
                 }
             },
             j_sdm_trance_the_devil = {

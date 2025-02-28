@@ -87,30 +87,6 @@ end
 '''
 match_indent = true
 
-# "Patch" effect
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''function Card:set_debuff(should_debuff)'''
-position = "after"
-payload = '''
-    if G.GAME and G.GAME.patch_disable then return end
-'''
-match_indent = true
-
-# Prevent "Disabled" message with "Patch"
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = '''card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_disabled_ex'),colour = G.C.FILTER, delay = 0.45})'''
-position = "at"
-payload = '''
-if G.GAME and not G.GAME.patch_disable then
-    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_disabled_ex'),colour = G.C.FILTER, delay = 0.45})
-end
-'''
-match_indent = true
-
 # "Joker Voucher" special case evolution
 [[patches]]
 [patches.pattern]

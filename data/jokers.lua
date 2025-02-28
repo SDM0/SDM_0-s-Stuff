@@ -252,10 +252,6 @@ SMODS.Joker{
     rarity = 2,
     pos = {x = 8, y = 0},
     cost = 6,
-    config = {extra = 3},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, (not G.jokers and 4) or G.GAME.current_round.hands_left}}
-    end,
     calculate = function(self, card, context)
         if context.first_hand_drawn and no_bp_retrigger(context) then
             local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
@@ -733,6 +729,7 @@ SMODS.Joker{
             }
         end
     end,
+    immutable = true, -- Cryptid compat to prevent impossible hand values
     atlas = "sdm_jokers"
 }
 
@@ -1661,48 +1658,6 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_archibald = "Archibald"
 
---- Patch ---
-
-SMODS.Joker{
-    key = "patch",
-    name = "Patch",
-    rarity = 4,
-    pos = {x = 3, y = 3},
-    cost = 20,
-    add_to_deck = function(self, card, from_debuff)
-        if G.GAME then G.GAME.patch_disable = true end
-        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i].debuff then G.jokers.cards[i].debuff = false end
-            end
-        end
-        if G.playing_cards then
-            for k, v in pairs(G.playing_cards) do
-                if v.debuff then v.debuff = false end
-            end
-        end
-    end,
-    remove_from_deck = function (self, card, from_debuff)
-        if G.GAME and G.GAME.patch_disable then
-            G.GAME.patch_disable = nil
-        end
-        if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
-            for i = 1, #G.jokers.cards do
-                SMODS.recalc_debuff(G.jokers.cards[i])
-            end
-        end
-        if G.playing_cards then
-            for k, v in pairs(G.playing_cards) do
-                SMODS.recalc_debuff(v)
-            end
-        end
-    end,
-    atlas = "sdm_jokers",
-    soul_pos = {x = 3, y = 4}
-}
-
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_patch = "Patch"
-
 --- SDM_0 ---
 
 SMODS.Joker{
@@ -1767,16 +1722,30 @@ SMODS.Joker{
     key = "skelton",
     name = "Skelton",
     rarity = 4,
+    blueprint_compat = true,
     pos = {x = 4, y = 3},
     cost = 20,
+    config = {extra = {dollars = 0, dollar_mod = 1}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod}}
+    end,
     calculate = function(self, card, context)
         if context.destroying_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
             if #context.scoring_hand == 1 and context.scoring_hand[1]:get_id() == 11 then
+                card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
+                card.ability.skelton_triggered = true
                 return {
-                    remove = true
+                    remove = true,
                 }
             end
 		end
+        if context.after and card.ability.skelton_triggered and no_bp_retrigger(context) then
+            card.ability.skelton_triggered = nil
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MONEY,
+            }
+        end
     end,
     atlas = "sdm_jokers",
     soul_pos = {x = 4, y = 4}
