@@ -197,7 +197,7 @@ SMODS.Back{
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
-    config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true},
+    config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true, voucher = 'v_sdm_bakery_stall', consumable_slot = 1},
     apply = function()
         -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
