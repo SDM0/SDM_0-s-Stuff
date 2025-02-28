@@ -1729,6 +1729,11 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod}}
     end,
+    calc_dollar_bonus = function(self, card)
+        if card.ability.extra.dollars > 0 then
+            return card.ability.extra.dollars
+        end
+    end,
     calculate = function(self, card, context)
         if context.destroying_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
             if #context.scoring_hand == 1 and context.scoring_hand[1]:get_id() == 11 then
