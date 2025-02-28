@@ -9,20 +9,20 @@ function sdm_debug(elem)
 end
 
 --- Get the max occurence of a card in a hand
-function count_max_occurence(table)
-    local max_card = 0
-    local counts = {}
-    for _, value in ipairs(table) do
-        counts[value] = (counts[value] or 0) + 1
-    end
-
-    for _, v in pairs(counts) do
-        if v > max_card then
-            max_card = v
-        end
-    end
-    return max_card
-end
+-- function count_max_occurence(table)
+--     local max_card = 0
+--     local counts = {}
+--     for _, value in ipairs(table) do
+--         counts[value] = (counts[value] or 0) + 1
+--     end
+--
+--     for _, v in pairs(counts) do
+--         if v > max_card then
+--             max_card = v
+--         end
+--     end
+--     return max_card
+-- end
 
 -- Faster way to decrease food/bakery consumables remaining counter
 function decrease_remaining_food(card)
@@ -212,12 +212,14 @@ end
 
 -- Initialization of the random "Reach the Stars" condition values
 function rts_init()
-    local valid_nums = {1, 2, 3, 4, 5}
+    local valid_nums = {}
+    for i = 1, (G.hand.config.highlighted_limit or 5) do
+        valid_nums[#valid_nums+1] = i
+    end
     local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
     table.remove(valid_nums, c1)
     local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-    local num_card1 = (c1 > c2 and c2) or c1
-    local num_card2 = (c1 > c2 and c1) or c2
+    local num_card1, num_card2 = math.min(c1, c2), math.max(c1, c2)
     return num_card1, num_card2
 end
 
