@@ -18,7 +18,7 @@ SMODS.Consumable{
         return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra}}
     end,
     can_use = function(self, card, area, copier)
-        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
+        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
             local valid_cards = {}
             for i = 1, #G.hand.cards do
                 if not G.hand.cards[i].edition then
@@ -53,8 +53,8 @@ SMODS.Consumable{
                     hold = 1.4,
                     major = used_tarot,
                     backdrop_colour = G.C.SECONDARY_SET.Tarot,
-                    align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
-                    offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
+                    align = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
+                    offset = {x = 0, y = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
                     silent = true
                     })
                     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.06*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
@@ -82,7 +82,7 @@ SMODS.Consumable{
         return {vars = {self.config.extra.max_highlighted, self.config.extra.chip_mod}}
     end,
     can_use = function(self, card, area, copier)
-        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
+        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK then
             return card.ability.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1
         end
         return false
