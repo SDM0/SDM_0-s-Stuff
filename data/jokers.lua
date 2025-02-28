@@ -257,7 +257,7 @@ SMODS.Joker{
             local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
             juice_card_until(card, eval, true)
         end
-        if context.cardarea == G.jokers and context.before and (context.scoring_hand and #context.scoring_hand == 1) and no_bp_retrigger(context) then
+        if context.cardarea == G.jokers and context.before and (context.full_hand and #context.full_hand == 1) and no_bp_retrigger(context) then
             context.scoring_hand[1]:set_ability(G.P_CENTERS[SMODS.poll_enhancement({key = "mgh", guaranteed = true})])
             context.scoring_hand[1]:set_seal(SMODS.poll_seal({guaranteed = true, type_key = "mgh"}))
             G.E_MANAGER:add_event(Event({
@@ -1722,8 +1722,7 @@ SMODS.Joker{
     key = "skelton",
     name = "Skelton",
     rarity = 4,
-    blueprint_compat = true,
-    pos = {x = 4, y = 3},
+    pos = {x = 3, y = 3},
     cost = 20,
     config = {extra = {dollars = 0, dollar_mod = 1}},
     loc_vars = function(self, info_queue, card)
