@@ -988,8 +988,12 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
-    add_to_deck = function(self, card, from_debuff)
-        card.sell_cost = card.ability.extra
+    calculate = function(self, card, context)
+        if context.selling_self then
+            return {
+                dollars = card.ability.extra
+            }
+        end
     end,
     pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
