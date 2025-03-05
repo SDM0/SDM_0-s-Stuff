@@ -1,18 +1,20 @@
-if SDM_0s_Stuff_Config.sdm_jokers then
-    -- Loading meme jokers into Cryptid's "Meme packs"
-    if SMODS.ObjectTypes["Meme"] then
-        for k, _ in pairs(SDM_0s_Stuff_Mod.meme_jokers) do
-            SMODS.ObjectTypes["Meme"]:inject_card(k)
-        end
-    end
-
-    -- Loading food jokers into Cryptid's "://SPAGHETTI" pool
-    if SMODS.ObjectTypes["Food"] then
-        for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
-            SMODS.ObjectTypes["Food"]:inject_card(k)
-        end
-    end
-end
+-- if SDM_0s_Stuff_Config.sdm_jokers then
+--     -- Loading meme jokers into Cryptid's "Meme packs"
+--     if SMODS.ObjectTypes["Meme"] then
+--         sdm_debug("adding card to meme pools")
+--         for k, _ in pairs(SDM_0s_Stuff_Mod.meme_jokers) do
+--             SMODS.ObjectTypes["Meme"]:inject_card(k)
+--         end
+--     end
+--
+--     -- Loading food jokers into Cryptid's "://SPAGHETTI" pool
+--     if SMODS.ObjectTypes["Food"] then
+--         sdm_debug("adding card to food pools")
+--         for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
+--             SMODS.ObjectTypes["Food"]:inject_card(k)
+--         end
+--     end
+-- end
 
 if SDM_0s_Stuff_Config.sdm_bakery then
 
