@@ -710,23 +710,22 @@ SMODS.Joker{
                             SMODS.add_card({set = 'Planet', key_append = 'rts'})
                             G.GAME.consumeable_buffer = 0
                             return true
-                        end)}))
-                    return {
+                        end)}
+                    ))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_plus_planet'),
                         colour = G.C.SECONDARY_SET.Planet,
-                    }
+                    })
+                    if no_bp_retrigger(context) then
+                        local num_card1, num_card2 = rts_init()
+                        card.ability.extra.num_card1 = num_card1
+                        card.ability.extra.num_card2 = num_card2
+                        return {
+                            message = localize('k_reset')
+                        }
+                    end
                 end
             end
-        end
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            card.ability.extra.c1_scored = false
-            card.ability.extra.c2_scored = false
-            local num_card1, num_card2 = rts_init()
-            card.ability.extra.num_card1 = num_card1
-            card.ability.extra.num_card2 = num_card2
-            return {
-                message = localize('k_reset')
-            }
         end
     end,
     immutable = true, -- Cryptid compat to prevent impossible hand values

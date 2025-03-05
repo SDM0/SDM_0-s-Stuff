@@ -165,7 +165,7 @@ return {
                     "Scoring a hand of {C:attention}#1#{} and",
                     "{C:attention}#2#{} cards creates a",
                     "random {C:planet}Planet{} card",
-                    "{s:0.8}Changes at end of round",
+                    "{s:0.8}Changes each trigger",
                     "{C:inactive}(Must have room)",
                     "{C:inactive}(Currently {C:attention}#3#{C:inactive}#4# & {C:attention}#5#{C:inactive}#6#)"
                 }
