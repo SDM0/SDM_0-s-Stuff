@@ -1,6 +1,9 @@
 --- Quicker way to print elements
 function sdm_debug(elem)
     if not elem then return sendDebugMessage("[SDM0's Stuff] DEBUG: This element doesn't exist") end
+    if type(elem) == "boolean" then
+        return (elem and sendDebugMessage("[SDM0's Stuff] DEBUG: true")) or sendDebugMessage("[SDM0's Stuff] DEBUG: false")
+    end
     if type(elem) == "table" then
         sendDebugMessage("[SDM0's Stuff] DEBUG: " .. inspect(elem))
     else
