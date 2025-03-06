@@ -37,7 +37,7 @@ SMODS.Booster{
 
 SMODS.Booster{
     key = 'bakery_jumbo_1',
-    name = 'Bakery Pack',
+    name = 'Jumbo Bakery Pack',
     pos = {x = 0, y = 5},
     cost = 4,
     config = {extra = 5, choose = 1},
@@ -52,7 +52,7 @@ SMODS.Booster{
 
 SMODS.Booster{
     key = 'bakery_mega_1',
-    name = 'Bakery Pack',
+    name = 'Mega Bakery Pack',
     pos = {x = 0, y = 5},
     cost = 8,
     config = {extra = 5, choose = 2},

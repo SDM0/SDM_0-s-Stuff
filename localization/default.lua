@@ -764,7 +764,7 @@ return {
                 }
             },
             p_sdm_bakery_jumbo_1 = {
-                name = "Bakery Pack",
+                name = "Jumbo Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:bakery} Bakery{} goods to",
@@ -772,7 +772,7 @@ return {
                 }
             },
             p_sdm_bakery_mega_1 = {
-                name = "Bakery Pack",
+                name = "Mega Bakery Pack",
                 text = {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:bakery} Bakery{} goods to",
