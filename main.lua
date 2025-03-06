@@ -170,10 +170,6 @@ if SDM_0s_Stuff_Config.sdm_bakery then
     SMODS.load_file("data/bakery/bakery.lua")()
 end
 
-if Cryptid then
-    SMODS.load_file("extra/cryptid.lua")()
-end
-
 SMODS.Atlas{
     key = "modicon",
     path = "sdm_modicon.png",
