@@ -220,7 +220,6 @@ if (card.area == G.consumeables and G.consumeables) and card.ability.consumeable
     base_attach.children.use = nil
 end
 if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable and card.ability.set == "Bakery" then
-sdm_debug(card.ab)
     base_attach.children.use = G.UIDEF.card_focus_button{
         card = card, parent = base_attach, type = 'select',
         func = 'can_pick_card', button = 'select_card', card_width = card_width
