@@ -227,3 +227,14 @@ if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable and
 end
 '''
 match_indent = true
+
+# Magic Hands effect
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''if or_more and (#curr >= num) or (#curr == num) then'''
+position = "at"
+payload = '''
+if or_more and (#curr >= num) or (next(SMODS.find_card("j_sdm_magic_hands")) and num > 2 and #curr == num - 1) or (#curr == num) then
+'''
+match_indent = true

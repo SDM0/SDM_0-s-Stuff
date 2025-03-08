@@ -252,22 +252,7 @@ SMODS.Joker{
     rarity = 2,
     pos = {x = 8, y = 0},
     cost = 6,
-    calculate = function(self, card, context)
-        if context.first_hand_drawn and no_bp_retrigger(context) then
-            local eval = function() return G.GAME.current_round.hands_played == 0 and not G.RESET_JIGGLES end
-            juice_card_until(card, eval, true)
-        end
-        if context.cardarea == G.jokers and context.before and (context.full_hand and #context.full_hand == 1) and no_bp_retrigger(context) then
-            context.scoring_hand[1]:set_ability(G.P_CENTERS[SMODS.poll_enhancement({key = "mgh", guaranteed = true})])
-            context.scoring_hand[1]:set_seal(SMODS.poll_seal({guaranteed = true, type_key = "mgh"}))
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    context.scoring_hand[1]:juice_up()
-                    return true
-                end
-            }))
-        end
-    end,
+    -- Effect coded in lovely.toml --
     atlas = "sdm_jokers"
 }
 
@@ -412,14 +397,14 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_la_revolution = "La Révolution"
 SMODS.Joker{
     key = "clown_bank",
     name = "Clown Bank",
-    rarity = 3,
+    rarity = 2,
     perishable_compat = false,
     blueprint_compat = true,
     pos = {x = 3, y = 1},
     cost = 8,
-    config = {extra = {Xmult = 1, Xmult_mod = 0.25, dollars = 1, inflation = 1}},
+    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.inflation}}
+        return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
@@ -429,11 +414,11 @@ SMODS.Joker{
                     colour = G.C.RED
                 })
                 ease_dollars(-card.ability.extra.dollars)
-                card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
-                card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.inflation
+                card.ability.extra_value = card.ability.extra_value + card.ability.extra.dollars
+                card:set_cost()
                 G.E_MANAGER:add_event(Event({
-                    func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}}}); return true
-                    end}))
+                    func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_val_up'), colour = G.C.MONEY}); return true
+                end}))
                 return
             end
         elseif context.joker_main and card.ability.extra.Xmult > 1 then
@@ -441,6 +426,9 @@ SMODS.Joker{
                 Xmult = card.ability.extra.Xmult
             }
         end
+    end,
+    update = function(self, card, dt)
+        card.ability.extra.Xmult = 1 + card.ability.extra_value * card.ability.extra.Xmult_mod
     end,
     atlas = "sdm_jokers"
 }
@@ -532,7 +520,7 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.selling_card and no_bp_retrigger(context) then
-            if context.card.ability.name ~= "Death" and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
+            if context.card.ability.set == 'Joker' and pseudorandom(pseudoseed('zmbjkr')) < G.GAME.probabilities.normal/card.ability.extra then
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
                 context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -1628,11 +1616,11 @@ SMODS.Joker{
                     G.E_MANAGER:add_event(Event({
                         func = function()
                             local rand_card = pseudorandom_element(valid_cards, pseudoseed('archi'))
-                            local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil, rand_card.config.center.key, 'ach')
+                            local new_card = copy_card(rand_card, nil, nil, nil, true)
                             new_card:set_edition("e_negative", true)
+                            new_card:start_materialize()
                             new_card:add_to_deck()
                             G.jokers:emplace(new_card)
-                            new_card:start_materialize()
                             if no_bp_retrigger(context) then
                                 card.ability.extra.can_copy = false
                             end

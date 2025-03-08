@@ -112,23 +112,7 @@ jd_def["j_sdm_shareholder_joker"] = { -- Shareholder Joker
     end
 }
 jd_def["j_sdm_magic_hands"] = { -- Magic Hands
-    text = {
-        { ref_table = "card.joker_display_values", ref_value = "enhance", colour = G.C.FILTER },
-    },
-    calc_function = function(card)
-        local is_magic = #G.hand.highlighted == 1
-        card.joker_display_values.active = G.GAME and G.GAME.current_round.hands_played == 0 and
-            G.GAME.current_round.hands_left > 0
-        card.joker_display_values.enhance = card.joker_display_values.active and
-            ((is_magic and card.ability.extra and "Valid")) or "-"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if text and text.children[1] then
-            text.children[1].config.colour = card.joker_display_values.active and G.C.FILTER or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
-    end
+
 }
 jd_def["j_sdm_tip_jar"] = { -- Tip Jar
     text = {
@@ -191,7 +175,7 @@ jd_def["j_sdm_clown_bank"] = { -- Clown Bank
     reminder_text = {
         { text = "(" },
         { text = "$",                       colour = G.C.GOLD },
-        { ref_table = "card.ability.extra", ref_value = "dollars", colour = G.C.GOLD },
+        { ref_table = "card.ability", ref_value = "extra_value", colour = G.C.GOLD },
         { text = ")" },
     }
 }

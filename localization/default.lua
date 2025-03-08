@@ -63,9 +63,9 @@ return {
             j_sdm_magic_hands = {
                 name = "Magic Hands",
                 text = {
-                    "If {C:attention}first hand{} of round",
-                    "has only {C:attention}1{} card, add an",
-                    "{C:attention}enhancement{} and {C:attention}seal{} to it"
+                    "{C:attention}Three of a Kind{} or",
+                    "{C:attention}higher{} can be made",
+                    "with {C:attention}1{} less card"
                 }
             },
             j_sdm_tip_jar = {
@@ -105,8 +105,8 @@ return {
                 name = "Clown Bank",
                 text = {
                     "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}",
-                    "to give this Joker {X:mult,C:white}X#2#{} Mult",
-                    "and increase requirement by {C:money}$#4#{}",
+                    "into this Joker {C:attention}sell value{},",
+                    "{X:mult,C:white}X#2#{} Mult per {C:attention}extra sell value{}",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },
@@ -129,9 +129,9 @@ return {
             j_sdm_zombie_joker = {
                 name = "Zombie Joker",
                 text = {
-                    "{C:green}#1# in #2#{} chance to create a",
-                    "{C:tarot}Death{} card when {C:attention}selling{}",
-                    "a card other than {C:tarot}Death{}",
+                    "{C:green}#1# in #2#{} chance to create",
+                    "a {C:tarot}Death{} card when",
+                    "{C:attention}selling{} a Joker card",
                     "{C:inactive}(Must have room)"
                 }
             },
