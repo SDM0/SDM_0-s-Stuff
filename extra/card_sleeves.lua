@@ -260,17 +260,17 @@ CardSleeves.Sleeve {
     end,
 }
 
---- Baked Sleeve
+--- Baker's Sleeve
 
 CardSleeves.Sleeve {
-    key = "baked",
+    key = "bakers",
     atlas = "sdm_sleeves",
     pos = { x = 4, y = 1 },
     unlocked = true,
     loc_vars = function(self)
         local key
         local vars = {}
-        if self.get_current_deck_key() == "b_sdm_baked" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        if self.get_current_deck_key() == "b_sdm_bakers" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
             self.config = {vouchers = {'v_sdm_bakery_shop'}}
             vars = {localize{type = 'name_text', key = 'v_sdm_bakery_shop', set = 'Voucher'}}

@@ -180,10 +180,10 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
---- Baked Deck
+--- Baker's Deck
 
 SMODS.Back{
-    key = "baked",
+    key = "bakers",
     pos = {x = 2, y = 2},
     config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1},
     loc_vars = function(self)

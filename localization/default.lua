@@ -373,9 +373,9 @@ return {
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {
-                    "This Joker gives {C:dark_edition}+#1#{} Joker",
-                    "Slots per destroyed {C:attention}2{}s",
-                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker Slots)"
+                    "{C:dark_edition}+#1#{} Joker Slot",
+                    "when a {C:attention}2{}",
+                    "is destroyed"
                 }
             },
             j_sdm_skelton = {
@@ -504,18 +504,18 @@ return {
                     "can't appear in shop"
                 }
             },
-            b_sdm_baked = {
-                name = "Baked Deck",
+            b_sdm_bakers = {
+                name = "Baker's Deck",
                 text = {
                     "Start run with the",
                     "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
-                    "{C:attention}+#2#{} consumable slots",
+                    "{C:attention}+#2#{} consumable slot",
                 }
             },
             b_sdm_deck_of_stuff = {
                 name = "Deck of Stuff",
                 text = {
-                    "Combines every",
+                    "Combines each",
                     "{C:attention}SDM_0's Stuff{}",
                     "deck effect"
                 }
@@ -955,16 +955,16 @@ return {
                     "can't appear in shop"
                 }
             },
-            sleeve_sdm_baked = {
-                name = "Baked Sleeve",
+            sleeve_sdm_bakers = {
+                name = "Baker's Sleeve",
                 text = {
                     "Start run with the",
                     "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
                     "{C:attention}+#2#{} consumable slots",
                 }
             },
-            sleeve_sdm_baked_alt = {
-                name = "Baked Sleeve",
+            sleeve_sdm_bakers_alt = {
+                name = "Baker's Sleeve",
                 text = {
                     "Start run with the",
                     "{C:bakery,T:v_sdm_bakery_shop}#1#{} voucher",
@@ -986,6 +986,7 @@ return {
         v_dictionary = {
             a_hand = "+#1# Hand",
             a_discard = "+#1# Discard",
+            a_joker_slot = "+#1# Joker Slot"
         },
         v_text = {
             ch_c_no_shop_planets = {
