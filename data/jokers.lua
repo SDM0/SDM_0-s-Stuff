@@ -1670,29 +1670,18 @@ SMODS.Joker{
     perishable_compat = false,
     pos = {x = 1, y = 3},
     cost = 20,
-    config = {extra = {jkr_slots = 0, extra_slots = 2}},
+    config = {extra = {jkr_slots = 1}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.extra_slots, card.ability.extra.jkr_slots}}
-    end,
-    add_to_deck = function(self, card, from_debuff)
-        if G.jokers and not from_debuff then
-            G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
-        end
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        if G.jokers and not from_debuff then
-            G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.jkr_slots
-        end
+        return {vars = {card.ability.extra.jkr_slots}}
     end,
     calculate = function(self, card, context)
         if context.cards_destroyed and no_bp_retrigger(context) then
             if #context.glass_shattered > 0 then
                 for _, v in ipairs(context.glass_shattered) do
                     if v:get_id() == 2 then
-                        card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
-                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = localize('k_upgrade_ex'),
+                            message = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra.jkr_slots}},
                             colour = G.C.DARK_EDITION,
                         })
                     end
@@ -1702,10 +1691,9 @@ SMODS.Joker{
             if #context.removed > 0 then
                 for _, v in ipairs(context.removed) do
                     if v:get_id() == 2 then
-                        card.ability.extra.jkr_slots = card.ability.extra.jkr_slots + card.ability.extra.extra_slots
-                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.extra_slots
+                        G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.jkr_slots
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = localize('k_upgrade_ex'),
+                            message = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra.jkr_slots}},
                             colour = G.C.DARK_EDITION,
                         })
                     end
