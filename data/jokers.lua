@@ -1229,7 +1229,7 @@ if sdm_config.sdm_jokers then
             end
         end,
         update = function(self, card, dt)
-            card.ability.extra.chips = sum_incremental(2)
+            card.ability.extra.chips = sum_incremental(card.ability.extra.chip_mod)
         end,
         atlas = "sdm_jokers"
     }

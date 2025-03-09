@@ -135,9 +135,13 @@ end
 --- Get the sum of (almost) all existing numbers
 function sum_incremental(n)
     if G.jokers then
-        return ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
+        local sum_inc = ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
         + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
-        #G.consumeables.cards + G.GAME.dollars + G.GAME.win_ante) * n) or 0
+        #G.consumeables.cards + (type(G.GAME.dollars) ~= "table" and G.GAME.dollars or to_number(G.GAME.dollars)) + G.GAME.win_ante) * n) or 0
+        if to_big(sum_inc) > to_big(1e300) then
+            return 1e300
+        end
+        return sum_inc
     end
     return 0
 end
@@ -260,6 +264,10 @@ end
 
 --- Talisman compat
 to_big = to_big or function(num)
+    return num
+end
+
+to_number = to_number or function(num)
     return num
 end
 
