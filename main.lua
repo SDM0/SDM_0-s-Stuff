@@ -6,7 +6,7 @@
 --- BADGE_COLOUR: c20000
 --- DISPLAY_NAME: SDM_0's Stuff
 --- PREFIX: sdm
---- VERSION: 1.6.4k
+--- VERSION: 1.6.4l
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-0812d]
 --- CONFLICTS: [CardSleeves<=1.4.9]
 
