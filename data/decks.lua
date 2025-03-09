@@ -190,10 +190,10 @@ SMODS.Back{
         return {vars = {self.config.joker_slot, self.config.retrigger}}
     end,
     calculate = function(self, back, context)
-        if context.repetition_only or context.retrigger_joker_check then
+        if context.retrigger_joker_check and not context.retrigger_joker then
             return {
                 repetitions = self.config.retrigger,
-                message = localize('k_again_ex')
+                message = localize('k_again_ex'),
             }
         end
     end,
