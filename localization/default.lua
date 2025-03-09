@@ -501,7 +501,16 @@ return {
                 name = "Modder's Deck",
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
-                    "can't appear in shop"
+                    "can't appear in shop",
+                    "{C:inactive}(Except{} {C:blue,T:j_splash}Splash{}{C:inactive})",
+                }
+            },
+            b_sdm_modders_tsunami = {
+                name = "Modder's Deck",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear in shop",
+                    "{C:inactive}(Except{} {C:blue,T:j_splash}Splash{}{C:inactive})",
                 }
             },
             b_sdm_reverb = {
@@ -953,6 +962,14 @@ return {
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
                     "can't appear in shop"
+                }
+            },
+            sleeve_sdm_modders_tsunami = {
+                name = "Modder's Sleeve",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear in shop",
+                    "{C:inactive}(Except{} {C:blue,T:j_splash}Splash{C:inactive})"
                 }
             },
             sleeve_sdm_modders_alt = {

@@ -164,6 +164,11 @@ SMODS.Back{
 SMODS.Back{
     key = "modders",
     pos = {x = 1, y = 2},
+    loc_vars = function(self)
+        if Tsunami then
+            return {key = self.key .. "_tsunami", vars = {self.config.extra}}
+        end
+    end,
     apply = function()
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
@@ -171,7 +176,7 @@ SMODS.Back{
         or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_antimatter_sleeve")) then
             for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
-                if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
+                if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) and (not Tsunami or (Tsunami and v.key ~= "j_splash")) then
                     v.no_doe = true
                 end
             end

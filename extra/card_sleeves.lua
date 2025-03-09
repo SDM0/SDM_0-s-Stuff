@@ -246,6 +246,8 @@ CardSleeves.Sleeve {
         if self.get_current_deck_key() == "b_sdm_modders" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             local key = self.key .. "_alt"
             return {key = key, vars = {}}
+        elseif Tsunami then
+            return {key = self.key .. "_tsunami", vars = {}}
         end
     end,
     apply = function(self)
