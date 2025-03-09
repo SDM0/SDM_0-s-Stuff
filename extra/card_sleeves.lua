@@ -262,35 +262,34 @@ CardSleeves.Sleeve {
 
 --- Reverb Sleeve
 
--- TODO: Add it when CardSleeves supports retriggers
---CardSleeves.Sleeve {
---    key = "reverb",
---    atlas = "sdm_sleeves",
---    pos = { x = 0, y = 2 },
---    unlocked = true,
---    loc_vars = function(self)
---        local key
---        local vars = {}
---        if self.get_current_deck_key() == "b_sdm_reverb" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
---            key = self.key .. "_alt"
---            self.config = {joker_slot = -1, retrigger = 1}
---            vars = {self.config.joker_slot, self.config.retrigger}
---        else
---            key = self.key
---            self.config = {joker_slot = -2, retrigger = 1}
---            vars = {self.config.joker_slot, self.config.retrigger}
---        end
---        return { key = key, vars = vars }
---    end,
---    calculate = function(self, sleeve, context)
---        if context.repetition_only or context.retrigger_joker_check then
---            return {
---                repetitions = self.config.retrigger,
---                message = localize('k_again_ex')
---            }
---        end
---    end,
---}
+CardSleeves.Sleeve {
+    key = "reverb",
+    atlas = "sdm_sleeves",
+    pos = { x = 0, y = 2 },
+    unlocked = true,
+    loc_vars = function(self)
+        local key
+        local vars = {}
+        if self.get_current_deck_key() == "b_sdm_reverb" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+            key = self.key .. "_alt"
+            self.config = {joker_slot = -1, retrigger = 1}
+            vars = {self.config.joker_slot, self.config.retrigger}
+        else
+            key = self.key
+            self.config = {joker_slot = -2, retrigger = 1}
+            vars = {self.config.joker_slot, self.config.retrigger}
+        end
+        return { key = key, vars = vars }
+    end,
+    calculate = function(self, sleeve, context)
+        if context.retrigger_joker_check and not context.retrigger_joker then
+            return {
+                repetitions = self.config.retrigger,
+                message = localize('k_again_ex'),
+            }
+        end
+    end,
+}
 
 --- Baker's Sleeve
 

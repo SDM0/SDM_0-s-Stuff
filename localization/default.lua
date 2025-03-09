@@ -963,23 +963,22 @@ return {
                     "can't appear in shop"
                 }
             },
-            -- TODO: Add it when CardSleeves supports retriggers
-            --sleeve_sdm_reverb = {
-            --    name = "Reverb Sleeve",
-            --    text = {
-            --        "{C:red}#1#{} Joker Slots",
-            --        "Retrigger each Joker",
-            --        "{C:attention}#2#{} time",
-            --    }
-            --},
-            --sleeve_sdm_reverb_alt = {
-            --    name = "Reverb Sleeve",
-            --    text = {
-            --        "{C:red}#1#{} Joker Slot",
-            --        "Retrigger each Joker",
-            --        "{C:attention}#2#{} more time",
-            --    }
-            --},
+            sleeve_sdm_reverb = {
+                name = "Reverb Sleeve",
+                text = {
+                    "{C:red}#1#{} Joker Slots",
+                    "Retrigger each Joker",
+                    "{C:attention}#2#{} time",
+                }
+            },
+            sleeve_sdm_reverb_alt = {
+                name = "Reverb Sleeve",
+                text = {
+                    "{C:red}#1#{} Joker Slot",
+                    "Retrigger each Joker",
+                    "{C:attention}#2#{} more time",
+                }
+            },
             sleeve_sdm_bakers = {
                 name = "Baker's Sleeve",
                 text = {
