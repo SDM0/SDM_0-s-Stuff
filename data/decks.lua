@@ -180,6 +180,26 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
+--- Reverb Deck
+
+SMODS.Back{
+    key = "reverb",
+    pos = {x = 3, y = 2},
+    config = {joker_slot = -2, retrigger = 1},
+    loc_vars = function(self)
+        return {vars = {self.config.joker_slot, self.config.retrigger}}
+    end,
+    calculate = function(self, back, context)
+        if context.repetition_only or context.retrigger_joker_check then
+            return {
+                repetitions = self.config.retrigger,
+                message = localize('k_again_ex')
+            }
+        end
+    end,
+    atlas = "sdm_enhancers"
+}
+
 --- Baker's Deck
 
 SMODS.Back{
@@ -197,7 +217,7 @@ SMODS.Back{
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
-    config = {spectral_rate = 2, consumables = {'c_ankh'}, joker_slot = 2, extra_discard_bonus = 3, no_interest = true, voucher = 'v_sdm_bakery_stall', consumable_slot = 1},
+    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, no_interest = true, voucher = 'v_sdm_bakery_stall', consumable_slot = 1, retrigger = 1},
     apply = function()
         -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
@@ -266,6 +286,12 @@ SMODS.Back{
                     return true
                 end}))
             end
+        end
+        if context.repetition_only or context.retrigger_joker_check then
+            return {
+                repetitions = self.config.retrigger,
+                message = localize('k_again_ex')
+            }
         end
     end,
     atlas = "sdm_enhancers"
