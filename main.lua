@@ -193,7 +193,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_jokers" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Jokers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Jokers*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
@@ -202,7 +202,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_consus" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Consumables", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Consumables*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
@@ -211,7 +211,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_vouchers" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Vouchers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Vouchers*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
@@ -220,7 +220,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_decks" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Decks", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Decks*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
@@ -229,7 +229,7 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_bakery" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Bakery Goods", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Bakery Goods*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
@@ -238,12 +238,21 @@ SDM_0s_Stuff_Mod.config_tab = function()
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "limit_moon_base" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Limit Moon Base", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Moon Base: Limit rarity pool", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
+
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "retrigger_on_deck" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = 'Reverb Deck: "Again" on Deck?', scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
         {n = G.UIT.R, config = {align = "cm", padding = 0.5}, nodes = {
-            {n = G.UIT.T, config = {text = "(Must restart to apply changes)", scale = 0.40, colour = G.C.UI.TEXT_LIGHT}},
+            {n = G.UIT.T, config = {text = "*Must restart to apply changes", scale = 0.35, colour = G.C.UI.TEXT_LIGHT}},
         }},
 
     }}

@@ -196,10 +196,22 @@ SMODS.Back{
     end,
     calculate = function(self, back, context)
         if context.retrigger_joker_check and not context.retrigger_joker then
-            return {
-                repetitions = self.config.retrigger,
-                message = localize('k_again_ex'),
-            }
+            if SDM_0s_Stuff_Config.retrigger_on_deck then
+                return {
+                    repetitions = self.config.retrigger,
+                    message = localize('k_again_ex'),
+                }
+            else
+                return {
+                    repetitions = self.config.retrigger,
+                    remove_default_message = true,
+                    func = function()
+                        card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {
+                            message = localize('k_again_ex'),
+                        })
+                    end
+                }
+            end
         end
     end,
     atlas = "sdm_enhancers"
