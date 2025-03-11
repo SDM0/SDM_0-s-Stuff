@@ -106,7 +106,7 @@ return {
                 text = {
                     "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}",
                     "into this Joker {C:attention}sell value{},",
-                    "{X:mult,C:white}X#2#{} Mult per {C:attention}extra sell value{}",
+                    "{X:mult,C:white}X#2#{} Mult per {C:money}$#4#{} of {C:attention}extra sell value{}",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },

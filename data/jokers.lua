@@ -402,9 +402,9 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 3, y = 1},
     cost = 8,
-    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 2}},
+    config = {extra = {Xmult = 1, Xmult_mod = 0.25, dollars = 2, dollars_mod = 4}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars}}
+        return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.dollars_mod}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
@@ -428,7 +428,7 @@ SMODS.Joker{
         end
     end,
     update = function(self, card, dt)
-        card.ability.extra.Xmult = 1 + card.ability.extra_value * card.ability.extra.Xmult_mod
+        card.ability.extra.Xmult = 1 + math.floor(card.ability.extra_value/card.ability.extra.dollars_mod) * card.ability.extra.Xmult_mod
     end,
     atlas = "sdm_jokers"
 }
@@ -1035,7 +1035,9 @@ SMODS.Joker{
         end
     end,
     update = function(self, card, dt)
-        card.ability.extra.chips = sum_incremental(card.ability.extra.chip_mod)
+        local num = sum_incremental(card.ability.extra.chip_mod)
+        sdm_debug(num)
+        card.ability.extra.chips = num
     end,
     atlas = "sdm_jokers"
 }
