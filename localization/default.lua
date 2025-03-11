@@ -991,9 +991,8 @@ return {
             sleeve_sdm_reverb_alt = {
                 name = "Reverb Sleeve",
                 text = {
-                    "{C:red}#1#{} Joker Slot",
                     "Retrigger each Joker",
-                    "{C:attention}#2#{} more time",
+                    "{C:attention}#1#{} more time",
                 }
             },
             sleeve_sdm_bakers = {

@@ -274,8 +274,8 @@ CardSleeves.Sleeve {
         local vars = {}
         if self.get_current_deck_key() == "b_sdm_reverb" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
-            self.config = {joker_slot = -1, retrigger = 1}
-            vars = {self.config.joker_slot, self.config.retrigger}
+            self.config = {retrigger = 1}
+            vars = {self.config.retrigger}
         else
             key = self.key
             self.config = {joker_slot = -2, retrigger = 1}
@@ -285,10 +285,22 @@ CardSleeves.Sleeve {
     end,
     calculate = function(self, sleeve, context)
         if context.retrigger_joker_check and not context.retrigger_joker then
-            return {
-                repetitions = self.config.retrigger,
-                message = localize('k_again_ex'),
-            }
+            if SDM_0s_Stuff_Config.retrigger_on_deck then
+                return {
+                    repetitions = self.config.retrigger,
+                    message = localize('k_again_ex'),
+                }
+            else
+                return {
+                    repetitions = self.config.retrigger,
+                    remove_default_message = true,
+                    func = function()
+                        card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {
+                            message = localize('k_again_ex'),
+                        })
+                    end
+                }
+            end
         end
     end,
 }
