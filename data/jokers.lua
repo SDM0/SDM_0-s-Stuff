@@ -402,7 +402,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 3, y = 1},
     cost = 8,
-    config = {extra = {Xmult = 1, Xmult_mod = 0.25, dollars = 2, dollars_mod = 4}},
+    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 4, dollars_mod = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.dollars_mod}}
     end,
@@ -1041,7 +1041,6 @@ SMODS.Joker{
     end,
     update = function(self, card, dt)
         local num = sum_incremental(card.ability.extra.chip_mod)
-        sdm_debug(num)
         card.ability.extra.chips = num
     end,
     atlas = "sdm_jokers"
