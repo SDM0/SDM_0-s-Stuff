@@ -731,6 +731,11 @@ SMODS.Joker{
     rarity = 1,
     pos = {x = 1, y = 2},
     cost = 1,
+    loc_vars = function(self, info_queue, card)
+        if Cryptid then
+            return {key = self.key .. "_cryptid", vars = {}}
+        end
+    end,
     calculate = function(self, card, context)
         if context.sdm_adding_card and context.card and no_bp_retrigger(context) then
             if context.card ~= card and context.card.ability.set == 'Joker' and not context.card.not_crooked then

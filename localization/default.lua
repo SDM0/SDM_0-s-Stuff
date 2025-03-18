@@ -178,6 +178,15 @@ return {
                     "{C:inactive}(Must have room)"
                 }
             },
+            j_sdm_crooked_joker_cryptid = {
+                name = "Crooked Joker",
+                text = {
+                    "{C:attention}Doubles{} or {C:red}destroys{}",
+                    "each added {C:attention}Joker{}",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Cannot be rigged)"
+                }
+            },
             j_sdm_property_damage = {
                 name = "Property Damage",
                 text = {
