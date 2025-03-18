@@ -232,11 +232,23 @@ function no_bp_retrigger(context)
     return not (context.blueprint or context.retrigger_joker)
 end
 
+-- Overrides
+
 --- "Crooked Joker" failsafe
 local atd = Card.add_to_deck
 function Card:add_to_deck2(debuff)
     self.not_crooked = true
     return atd(self, debuff)
+end
+
+local gfcr = G.FUNCS.can_reroll
+function G.FUNCS.can_reroll(e)
+	if G.GAME.modifiers.sdm_no_reroll then
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	else
+		return gfcr(e)
+	end
 end
 
 --- Talisman compat

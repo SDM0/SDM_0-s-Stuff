@@ -305,6 +305,31 @@ CardSleeves.Sleeve {
     end,
 }
 
+-- TODO: Finish "Stockpile Sleeve" (loc is done)
+
+--- Stockpile Sleeve
+
+CardSleeves.Sleeve {
+    key = "stockpile",
+    atlas = "sdm_sleeves",
+    pos = { x = 4, y = 1 },
+    unlocked = true,
+    loc_vars = function(self)
+        local key
+        local vars = {}
+        if self.get_current_deck_key() == "b_sdm_stockpile" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+            key = self.key .. "_alt"
+            self.config = {vouchers = {'v_sdm_overstock_plus'}}
+            vars = {localize{type = 'name_text', key = 'v_sdm_overstock_plus', set = 'Voucher'}}
+        else
+            key = self.key
+            self.config = {voucher = 'v_sdm_overstock_norm'}
+            vars = {localize{type = 'name_text', key = 'v_sdm_overstock_norm', set = 'Voucher'}, self.config.consumable_slot}
+        end
+        return { key = key, vars = vars }
+    end
+}
+
 --- Baker's Sleeve
 
 CardSleeves.Sleeve {

@@ -525,9 +525,18 @@ return {
             b_sdm_reverb = {
                 name = "Reverb Deck",
                 text = {
-                    "{C:red}#1#{} Joker Slots",
                     "Retrigger each Joker",
                     "{C:attention}#2#{} time",
+                    "{C:red}#1#{} Joker Slots",
+                }
+            },
+            b_sdm_stockpile = {
+                name = "Stockpile Deck",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_norm}#1#{} voucher",
+                    "{C:attention}+#2#{} Booster Pack slot",
+                    "{C:green}Rerolling{} is disabled"
                 }
             },
             b_sdm_bakers = {
@@ -992,9 +1001,9 @@ return {
             sleeve_sdm_reverb = {
                 name = "Reverb Sleeve",
                 text = {
-                    "{C:red}#1#{} Joker Slots",
                     "Retrigger each Joker",
                     "{C:attention}#2#{} time",
+                    "{C:red}#1#{} Joker Slots",
                 }
             },
             sleeve_sdm_reverb_alt = {
@@ -1002,6 +1011,23 @@ return {
                 text = {
                     "Retrigger each Joker",
                     "{C:attention}#1#{} more time",
+                }
+            },
+            sleeve_sdm_stockpile = {
+                name = "Stockpile Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_norm}#1#{} voucher",
+                    "{C:attention}+#2#{} Booster Pack slot",
+                    "{C:green}Rerolling{} is disabled"
+                }
+            },
+            sleeve_sdm_stockpile_alt = {
+                name = "Stockpile Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_plus}#1#{} voucher",
+                    "{C:attention}+#2#1{} Voucher slot",
                 }
             },
             sleeve_sdm_bakers = {
