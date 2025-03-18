@@ -530,8 +530,8 @@ return {
                     "{C:red}#1#{} Joker Slots",
                 }
             },
-            b_sdm_stockpile = {
-                name = "Stockpile Deck",
+            b_sdm_roguelike = {
+                name = "Roguelike Deck",
                 text = {
                     "Start run with the",
                     "{C:attention,T:v_overstock_norm}#1#{} voucher",
@@ -1013,8 +1013,8 @@ return {
                     "{C:attention}#1#{} more time",
                 }
             },
-            sleeve_sdm_stockpile = {
-                name = "Stockpile Sleeve",
+            sleeve_sdm_roguelike = {
+                name = "Roguelike Sleeve",
                 text = {
                     "Start run with the",
                     "{C:attention,T:v_overstock_norm}#1#{} voucher",
@@ -1022,12 +1022,12 @@ return {
                     "{C:green}Rerolling{} is disabled"
                 }
             },
-            sleeve_sdm_stockpile_alt = {
-                name = "Stockpile Sleeve",
+            sleeve_sdm_roguelike_alt = {
+                name = "Roguelike Sleeve",
                 text = {
                     "Start run with the",
                     "{C:attention,T:v_overstock_plus}#1#{} voucher",
-                    "{C:attention}+#2#1{} Voucher slot",
+                    "{C:attention}+#2#{} Voucher slot",
                 }
             },
             sleeve_sdm_bakers = {

@@ -305,29 +305,45 @@ CardSleeves.Sleeve {
     end,
 }
 
--- TODO: Finish "Stockpile Sleeve" (loc is done)
-
---- Stockpile Sleeve
+--- Roguelike Sleeve
 
 CardSleeves.Sleeve {
-    key = "stockpile",
+    key = "roguelike",
     atlas = "sdm_sleeves",
-    pos = { x = 4, y = 1 },
+    pos = { x = 0, y = 0 },
     unlocked = true,
     loc_vars = function(self)
         local key
         local vars = {}
-        if self.get_current_deck_key() == "b_sdm_stockpile" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt"
-            self.config = {vouchers = {'v_sdm_overstock_plus'}}
-            vars = {localize{type = 'name_text', key = 'v_sdm_overstock_plus', set = 'Voucher'}}
+            self.config = {extra_slot = 1, vouchers = {'v_overstock_plus'}}
+            vars = {localize{type = 'name_text', key = 'v_overstock_plus', set = 'Voucher'}, self.config.extra_slot}
         else
             key = self.key
-            self.config = {voucher = 'v_sdm_overstock_norm'}
-            vars = {localize{type = 'name_text', key = 'v_sdm_overstock_norm', set = 'Voucher'}, self.config.consumable_slot}
+            self.config = {extra_slot = 1, vouchers = {'v_overstock_norm'}}
+            vars = {localize{type = 'name_text', key = 'v_overstock_norm', set = 'Voucher'}, self.config.extra_slot}
         end
         return { key = key, vars = vars }
-    end
+    end,
+    apply = function(self)
+        G.GAME.modifiers.sdm_no_reroll = true   -- No reroll effect in utils.lua overrides
+        for _, v in pairs(self.config.vouchers) do
+            G.GAME.used_vouchers[v] = true
+            G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    Card.apply_to_run(nil, G.P_CENTERS[v])
+                    return true
+                end
+            }))
+        end
+        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+            SMODS.change_voucher_limit(self.config.extra_slot)
+        else
+            SMODS.change_booster_limit(self.config.extra_slot)
+        end
+    end,
 }
 
 --- Baker's Sleeve

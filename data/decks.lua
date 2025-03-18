@@ -217,18 +217,18 @@ SMODS.Back{
     atlas = "sdm_enhancers"
 }
 
---- Stockpile Deck
+--- Roguelike Deck
 
 SMODS.Back{
-    key = "stockpile",
+    key = "roguelike",
     pos = {x = 0, y = 0},
     config = {booster_slot = 1, vouchers = {"v_overstock_norm"}},
     loc_vars = function(self)
         return {vars = {localize{type = 'name_text', key = 'v_overstock_norm', set = 'Voucher'}, self.config.booster_slot}}
     end,
-    apply = function()
+    apply = function(self)
         G.GAME.modifiers.sdm_no_reroll = true   -- No reroll effect in utils.lua overrides
-        SMODS.change_booster_limit(1)
+        SMODS.change_booster_limit(self.config.booster_slot)
     end,
     atlas = "sdm_enhancers"
 }
