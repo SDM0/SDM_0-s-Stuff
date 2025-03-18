@@ -1,5 +1,7 @@
 --- Challenges ---
 
+-- TODO: Rework challenges due to recent changess
+
 --- Scientific Downfall ---
 
 SMODS.Challenge{
