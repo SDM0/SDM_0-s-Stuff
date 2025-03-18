@@ -68,7 +68,7 @@ target = "functions/common_events.lua"
 pattern = "_pool[#_pool + 1] = v.key"
 position = "before"
 payload = '''
-if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_deck_of_stuff") then
+if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
         for i = 1, 4 do
             _pool[#_pool + 1] = v.key
@@ -78,7 +78,7 @@ if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_deck_of_stuff") th
 end
 if (curr_sleeve and curr_sleeve == "sleeve_sdm_0_s") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
-        for i = 1, (curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_deck_of_stuff" and 5)) or 4 do
+        for i = 1, (curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff" and 5)) or 4 do
             _pool[#_pool + 1] = v.key
             _pool_size = _pool_size + 1
         end
@@ -236,5 +236,75 @@ pattern = '''if or_more and (#curr >= num) or (#curr == num) then'''
 position = "at"
 payload = '''
 if or_more and (#curr >= num) or (next(SMODS.find_card("j_sdm_magic_hands")) and num > 2 and #curr == num - 1) or (#curr == num) then
+'''
+match_indent = true
+
+# Prevent reroll vouchers from showing up in Roguelike Deck/Sleeve
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if G.shop_vouchers and G.shop_vouchers.cards then"
+position = "before"
+payload = '''
+    local curr_deck = (G.GAME.viewed_back and G.GAME.viewed_back.name) or (G.GAME.selected_back and G.GAME.selected_back.name) or "Red Deck"
+    local curr_sleeve = (CardSleeves and G.GAME.selected_sleeve) or "sleeve_casl_none"
+    if curr_deck and (curr_deck == "b_sdm_roguelike" or curr_deck == "b_sdm_deck_of_stuff") then
+        if v.key == "v_reroll_surplus" or v.key == "v_reroll_glut" or v.key == "v_cry_rerollexchange" then
+            include = false
+        end
+    end
+    if (curr_sleeve and curr_sleeve == "sleeve_sdm_roguelike") then
+        if v.key == "v_reroll_surplus" or v.key == "v_reroll_glut" or v.key == "v_cry_rerollexchange" then
+            include = false
+        end
+    end
+'''
+match_indent = true
+
+# Hide reroll button
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={"
+position = "before"
+payload = '''
+if G.GAME G.GAME.modifiers and G.GAME.modifiers.sdm_no_reroll then
+    local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={
+        UIBox_dyn_container({
+            {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes={
+                {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+                {n=G.UIT.C, config={align = "cm", padding = 0.1}, nodes={
+                    {n=G.UIT.R,config={id = 'next_round_button', align = "cm", minw = 2.8, minh = 1.5, r=0.15,colour = G.C.RED, one_press = true, button = 'toggle_shop', hover = true,shadow = true}, nodes = {
+                    {n=G.UIT.R, config={align = "cm", padding = 0.07, focus_args = {button = 'y', orientation = 'cr'}, func = 'set_button_pip'}, nodes={
+                        {n=G.UIT.R, config={align = "cm", maxw = 1.3}, nodes={
+                        {n=G.UIT.T, config={text = localize('b_next_round_1'), scale = 0.4, colour = G.C.WHITE, shadow = true}}
+                        }},
+                        {n=G.UIT.R, config={align = "cm", maxw = 1.3}, nodes={
+                        {n=G.UIT.T, config={text = localize('b_next_round_2'), scale = 0.4, colour = G.C.WHITE, shadow = true}}
+                        }}
+                    }},
+                    }},
+                }},
+                {n=G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.L_BLACK, emboss = 0.05, minw = 8.2}, nodes={
+                    {n=G.UIT.O, config={object = G.shop_jokers}},
+                }},
+                }},
+                {n=G.UIT.R, config={align = "cm", minh = 0.2}, nodes={}},
+                {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+                {n=G.UIT.C, config={align = "cm", padding = 0.15, r=0.2, colour = G.C.L_BLACK, emboss = 0.05}, nodes={
+                    {n=G.UIT.C, config={align = "cm", padding = 0.2, r=0.2, colour = G.C.BLACK, maxh = G.shop_vouchers.T.h+0.4}, nodes={
+                    {n=G.UIT.T, config={text = localize{type = 'variable', key = 'ante_x_voucher', vars = {G.GAME.round_resets.ante}}, scale = 0.45, colour = G.C.L_BLACK, vert = true}},
+                    {n=G.UIT.O, config={object = G.shop_vouchers}},
+                    }},
+                }},
+                {n=G.UIT.C, config={align = "cm", padding = 0.15, r=0.2, colour = G.C.L_BLACK, emboss = 0.05}, nodes={
+                    {n=G.UIT.O, config={object = G.shop_booster}},
+                }},
+                }}
+            }
+        },
+    }, false)}}
+    return t
+end
 '''
 match_indent = true
