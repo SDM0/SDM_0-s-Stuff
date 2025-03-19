@@ -1248,7 +1248,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 5, y = 5},
     cost = 5,
-    config = {extra = 15},
+    config = {extra = 20},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
     end,
@@ -1621,6 +1621,15 @@ SMODS.Joker{
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         card:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
+                        card:set_cost()
+                        for k, v in pairs(chosen_joker.ability) do
+                            if type(v) == 'table' then
+                                card.ability[k] = copy_table(v)
+                            else
+                                card.ability[k] = v
+                            end
+                        end
+                        card.ability.fusion = nil -- FusionJokers compat to remove fuse button
                         card.sdm_is_ditto = true
                         return true
                     end

@@ -321,6 +321,7 @@ if self.sdm_is_ditto then
         func = function()
             self:juice_up(0.3, 0.5)
             self:set_ability(G.P_CENTERS["j_sdm_ditto_joker"], true)
+            self.sdm_is_ditto = nil
             return true
         end
     }))
@@ -339,6 +340,15 @@ if self.sdm_is_ditto then
         G.E_MANAGER:add_event(Event({
             func = function()
                 self:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
+                self:set_cost()
+                for k, v in pairs(chosen_joker.ability) do
+                    if type(v) == 'table' then
+                        self.ability[k] = copy_table(v)
+                    else
+                        self.ability[k] = v
+                    end
+                end
+                self.ability.fusion = nil -- FusionJokers compat to remove fuse button
                 self.sdm_is_ditto = true
                 return true
             end
@@ -359,7 +369,17 @@ target = "functions/common_events.lua"
 pattern = "if _c.name == 'Stone Joker' or _c.name == 'Marble Joker' then info_queue[#info_queue+1] = G.P_CENTERS.m_stone"
 position = "before"
 payload = '''
-sdm_debug(card)
 if card and card.config.center.key ~= "j_sdm_ditto_joker" and card.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
+'''
+match_indent = true
+
+# Prevent Ditto from evolving
+[[patches]]
+[patches.pattern]
+target = '=[SMODS joker_evolution "functions.lua"]'
+pattern = "function get_card_evolution(card)"
+position = "after"
+payload = '''
+    if card.sdm_is_ditto then return false end
 '''
 match_indent = true
