@@ -270,29 +270,22 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            local card_added = false
             for i = 1, card.ability.extra.amount do
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    card_added = true
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        delay = 0.0,
-                        func = (function()
-                            SMODS.add_card({set = 'Tarot', key_append = 'fck'})
-                            G.GAME.consumeable_buffer = 0
-                            return true
-                        end)
-                    }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_plus_tarot'),
-                        colour = G.C.SECONDARY_SET.Tarot,
-                    })
-                end
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        SMODS.add_card({set = 'Tarot', key_append = 'fck'})
+                        G.GAME.consumeable_buffer = 0
+                        return true
+                    end)
+                }))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_plus_tarot'),
+                    colour = G.C.SECONDARY_SET.Tarot,
+                })
             end
-            if card_added then
-                decrease_remaining_food(card)
-            end
+            decrease_remaining_food(card)
         end
     end,
 }
@@ -308,29 +301,22 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            local card_added = false
             for i = 1, card.ability.extra.amount do
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    card_added = true
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        delay = 0.0,
-                        func = (function()
-                            SMODS.add_card({set = 'Planet', key_append = 'mck'})
-                            G.GAME.consumeable_buffer = 0
-                            return true
-                        end)
-                    }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_plus_planet'),
-                        colour = G.C.SECONDARY_SET.Planet,
-                    })
-                end
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        SMODS.add_card({set = 'Planet', key_append = 'mck'})
+                        G.GAME.consumeable_buffer = 0
+                        return true
+                    end)
+                }))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_plus_planet'),
+                    colour = G.C.SECONDARY_SET.Planet,
+                })
             end
-            if card_added then
-                decrease_remaining_food(card)
-            end
+            decrease_remaining_food(card)
         end
     end,
 }
@@ -346,29 +332,23 @@ SMODS.Bakery{
     config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
-            local card_added = false
             for i = 1, card.ability.extra.amount do
-                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                    card_added = true
-                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        delay = 0.0,
-                        func = (function()
-                            SMODS.add_card({set = 'Spectral', key_append = 'bmt'})
-                            G.GAME.consumeable_buffer = 0
-                            return true
-                        end)
-                    }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_plus_Spectral'),
-                        colour = G.C.SECONDARY_SET.Spectral,
-                    })
-                end
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        SMODS.add_card({set = 'Spectral', key_append = 'bmt'})
+                        G.GAME.consumeable_buffer = 0
+                        return true
+                    end)
+                }))
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_plus_Spectral'),
+                    colour = G.C.SECONDARY_SET.Spectral,
+                })
             end
-            if card_added then
-                decrease_remaining_food(card)
-            end
+            decrease_remaining_food(card)
         end
     end,
 }

@@ -63,22 +63,19 @@ if SDM_0s_Stuff_Config.sdm_bakery then
         calculate = function(self, card, context)
             if context.setting_blind and no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
-                    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'before',
-                            delay = 0.0,
-                            func = (function()
-                                SMODS.add_card({set = 'Code', key_append = 'bpg'})
-                                G.GAME.consumeable_buffer = 0
-                                return true
-                            end)
-                        }))
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {
-                            message = localize('k_plus_code'),
-                            colour = G.C.SECONDARY_SET.Code,
-                        })
-                    end
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Code', key_append = 'bpg'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_code'),
+                        colour = G.C.SECONDARY_SET.Code,
+                    })
                 end
                 decrease_remaining_food(card)
             end
