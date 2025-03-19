@@ -268,7 +268,7 @@ target = "functions/UI_definitions.lua"
 pattern = "local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={"
 position = "before"
 payload = '''
-if G.GAME G.GAME.modifiers and G.GAME.modifiers.sdm_no_reroll then
+if G.GAME and G.GAME.modifiers and G.GAME.modifiers.sdm_no_reroll then
     local t = {n=G.UIT.ROOT, config = {align = 'cl', colour = G.C.CLEAR}, nodes={
         UIBox_dyn_container({
             {n=G.UIT.C, config={align = "cm", padding = 0.1, emboss = 0.05, r = 0.1, colour = G.C.DYN_UI.BOSS_MAIN}, nodes={
@@ -306,5 +306,60 @@ if G.GAME G.GAME.modifiers and G.GAME.modifiers.sdm_no_reroll then
     }, false)}}
     return t
 end
+'''
+match_indent = true
+
+# Ditto reset
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "elseif context.setting_blind and not self.getting_sliced then"
+position = "after"
+payload = '''
+if self.sdm_is_ditto then
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            self:juice_up(0.3, 0.5)
+            self:set_ability(G.P_CENTERS["j_sdm_ditto_joker"], true)
+            return true
+        end
+    }))
+    local valid_jokers = {}
+    if G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
+        for i = 1, #G.jokers.cards do
+            if not G.jokers.cards[i].debuff and G.jokers.cards[i] ~= self and G.jokers.cards[i].config.center.key ~= "j_sdm_ditto_joker" then
+                valid_jokers[#valid_jokers+1] = G.jokers.cards[i]
+            end
+        end
+    end
+    if #valid_jokers > 0 then
+        local old_card = self
+        local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('ditto'))
+        delay(1)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                self:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
+                self.sdm_is_ditto = true
+                return true
+            end
+        }))
+        card_eval_status_text(old_card, 'extra', nil, nil, nil, {
+            message = localize('k_ditto_ex'),
+            colour = HEX('f06bf2'),
+        })
+    end
+end
+'''
+match_indent = true
+
+# Ditto tooltip when transformed
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if _c.name == 'Stone Joker' or _c.name == 'Marble Joker' then info_queue[#info_queue+1] = G.P_CENTERS.m_stone"
+position = "before"
+payload = '''
+sdm_debug(card)
+if card and card.config.center.key ~= "j_sdm_ditto_joker" and card.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
 '''
 match_indent = true
