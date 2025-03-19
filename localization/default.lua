@@ -373,7 +373,8 @@ return {
                 text = {
                     "When {C:attention}Blind{} is selected,",
                     "turns into a random",
-                    "owned {C:attention}Joker{}",
+                    "owned {C:attention}Joker{}, resets",
+                    "on each selected {C:attention}Blind{}",
                     "{C:inactive}(Except Ditto Joker)"
                 }
             },
@@ -611,8 +612,8 @@ return {
             c_sdm_bind = {
                 name = "Bind",
                 text = {
-                    "Apply {C:purple}Eternal{} to",
-                    "a selected Joker",
+                    "Apply or remove {C:purple}Eternal{}",
+                    "to a selected Joker",
                     "{C:inactive}(Must be compatible){}"
                 }
             },
@@ -699,7 +700,7 @@ return {
                     "Create {C:attention}#1#{} {C:tarot}Tarot{} card",
                     "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#2#{} trigger(s)",
-                    "{C:inactive}(Must have room)"
+                    "{C:inactive}(Doesn't require room)"
                 }
             },
             c_sdm_moon_cake = {
@@ -708,7 +709,7 @@ return {
                     "Create {C:attention}#1#{} {C:planet}Planet{} card",
                     "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#2#{} trigger(s)",
-                    "{C:inactive}(Must have room)"
+                    "{C:inactive}(Doesn't require room)"
                 }
             },
             c_sdm_bread_monster = {
@@ -717,7 +718,7 @@ return {
                     "Create {C:attention}#1#{} {C:spectral}Spectral{} card",
                     "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#2#{} trigger(s)",
-                    "{C:inactive}(Must have room)"
+                    "{C:inactive}(Doesn't require room)"
                 }
             },
             c_sdm_bread_bites = {
@@ -726,7 +727,7 @@ return {
                     "Create {C:attention}#1#{} {C:cry_code}Code{} card",
                     "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#2#{} trigger(s)",
-                    "{C:inactive}(Must have room)"
+                    "{C:inactive}(Doesn't require room)"
                 }
             },
         },
