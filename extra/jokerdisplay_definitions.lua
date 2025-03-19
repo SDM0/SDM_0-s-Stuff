@@ -420,8 +420,20 @@ jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
 
 }
-jd_def["j_sdm_astrology"] = { -- Astrology
-
+jd_def["j_sdm_horoscopy"] = { -- Horoscopy
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
+    end
 }
 jd_def["j_sdm_roulette"] = { -- Roulette
     extra = {
@@ -448,10 +460,16 @@ jd_def["j_sdm_carcinization"] = { -- Carcinization
 jd_def["j_sdm_wormhole"] = { -- Wormhole
 
 }
-jd_def["j_sdm_child"] = {
-
+jd_def["j_sdm_child"] = { -- Child
+    text = {
+        {
+            text = "X",
+            colour = G.C.ORANGE
+        },
+        { ref_table = "card.ability", ref_value = "extra", colour = G.C.ORANGE },
+    }
 }
-jd_def["j_sdm_yo_yo"] = {
+jd_def["j_sdm_yo_yo"] = { -- Yo-yo
     text = {
         {
             border_nodes = {
@@ -463,6 +481,9 @@ jd_def["j_sdm_yo_yo"] = {
     calc_function = function(card)
         card.joker_display_values.Xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
     end,
+}
+jd_def["j_sdm_ditto_joker"] = { -- Ditto Joker
+
 }
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
