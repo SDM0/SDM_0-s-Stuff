@@ -987,6 +987,10 @@ SMODS.Joker{
             }
         end
     end,
+    in_pool = function()
+        if not G.jokers or (G.jokers and (not G.jokers.cards or not G.jokers.config)) then return false end
+        return #G.jokers.cards < G.jokers.config.card_limit
+    end,
     pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
 }
@@ -1592,6 +1596,46 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_yo_yo = "Yo-Yo"
+
+--- Ditto Joker ---
+
+SMODS.Joker{
+    key = "ditto_joker",
+    name = "Ditto Joker",
+    rarity = 2,
+    pos = {x = 4, y = 6},
+    cost = 5,
+    calculate = function(self, card, context)
+        if context.setting_blind and not card.getting_sliced then
+            local valid_jokers = {}
+            if G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
+                for i = 1, #G.jokers.cards do
+                    if not G.jokers.cards[i].debuff and G.jokers.cards[i] ~= card and G.jokers.cards[i].config.center.key ~= "j_sdm_ditto_joker" then
+                        valid_jokers[#valid_jokers+1] = G.jokers.cards[i]
+                    end
+                end
+            end
+            if #valid_jokers > 0 then
+                local old_card = card
+                local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('ditto'))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
+                        card.sdm_is_ditto = true
+                        return true
+                    end
+                }))
+                card_eval_status_text(old_card, 'extra', nil, nil, nil, {
+                    message = localize('k_ditto_ex'),
+                    colour = HEX('f06bf2'),
+                })
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.j_sdm_ditto_joker = "Ditto Joker"
 
 --- Archibald ---
 

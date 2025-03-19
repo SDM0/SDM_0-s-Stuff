@@ -368,6 +368,15 @@ return {
                     "{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)"
                 }
             },
+            j_sdm_ditto_joker = {
+                name = "Ditto Joker",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "turns into a random",
+                    "owned {C:attention}Joker{}",
+                    "{C:inactive}(Except Ditto Joker)"
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
@@ -1056,6 +1065,7 @@ return {
             k_plus_code = "+1 Code",
             k_plus_tag = "+1 Tag",
             k_crab_ex = "Crab!",
+            k_ditto_ex = "Ditto!",
             k_bakery_pack = "Bakery Pack",
         },
         v_dictionary = {
