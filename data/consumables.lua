@@ -194,7 +194,7 @@ SMODS.Consumable{
     can_use = function(self, card, area, copier)
         if #G.jokers.highlighted >= 1 then
             local joker = G.jokers.highlighted[1]
-            return joker.config.center.eternal_compat and not joker.ability.perishable
+            return joker.ability.eternal or (joker.config.center.eternal_compat and not joker.ability.perishable)
         end
         return false
     end,
@@ -206,11 +206,19 @@ SMODS.Consumable{
             used_tarot:juice_up(0.3, 0.5)
             return true end
         }))
-        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            joker:set_eternal(true)
-            joker:juice_up(0.3, 0.3)
-            return true end
-        }))
+        if not joker.ability.eternal then
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                joker:set_eternal(true)
+                joker:juice_up(0.3, 0.3)
+                return true end
+            }))
+        else
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                joker.ability.eternal = false
+                joker:juice_up(0.3, 0.3)
+                return true end
+            }))
+        end
         delay(0.5)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.jokers:unhighlight_all(); return true end }))
     end,
