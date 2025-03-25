@@ -1,6 +1,6 @@
 --- Challenges ---
 
--- TODO: Rework challenges due to recent changess
+-- TODO: Finish challenges update
 
 --- Scientific Downfall ---
 
@@ -34,7 +34,8 @@ SMODS.Challenge{
             {id = 'j_satellite'},
             {id = 'j_astronomer'},
             {id = 'j_burnt'},
-            {id = 'j_sdm_wandering_star'},
+            {id = 'j_sdm_reach_the_stars'},
+            {id = 'j_sdm_wormhole'},
             {id = 'v_telescope'},
             {id = 'v_observatory'},
             {id = 'v_planet_merchant'},
@@ -101,6 +102,8 @@ SMODS.Challenge{
             {id = 'j_golden'},
             {id = 'j_satellite'},
             {id = 'j_sdm_shareholder_joker'},
+            {id = 'j_sdm_tip_jar'},
+            {id = 'j_sdm_treasure_chest'},
         },
         banned_tags = {},
         banned_other = {}
@@ -133,6 +136,7 @@ SMODS.Challenge{
     },
     restrictions = {
         banned_cards = {
+            {id = 'j_sdm_0'},
             {id = 'v_blank'},
             {id = 'v_antimatter'},
         },
