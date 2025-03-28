@@ -178,6 +178,21 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
 end
 
+local good_riddance = {
+    object_type = "Achievement",
+    key = "good_riddance",
+    order = 10000,
+    bypass_all_unlocked = true,
+    --reset_on_startup = true,
+    unlock_condition = function(self, args)
+        if args.type == "good_riddance" then
+            return true
+        end
+    end,
+}
+
+items[#items+1] = good_riddance
+
 return {
     init = function()
         if SDM_0s_Stuff_Config.sdm_jokers then

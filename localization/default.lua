@@ -1079,5 +1079,11 @@ return {
                 "{C:planet}Planets{} no longer appear in the {C:attention}shop"
             }
         },
-    },
+        achievement_names = {
+			ach_sdm_good_riddance = "Good Riddance",
+		},
+		achievement_descriptions = {
+			ach_sdm_good_riddance = 'Use ://DELETE on a Blurred Joker',
+        },
+    }
 }

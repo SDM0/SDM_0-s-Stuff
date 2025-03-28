@@ -383,3 +383,16 @@ payload = '''
     if card.sdm_is_ditto then return false end
 '''
 match_indent = true
+
+# Cryptid "Good Riddance" achievement
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "items/code.lua"]'
+pattern = "G.GAME.cry_banished_keys[c.config.center.key] = true"
+position = "after"
+payload = '''
+    if c.config.center.key == "j_cry_blurred" then
+		check_for_unlock({type = "good_riddance"})
+	end
+'''
+match_indent = true
