@@ -138,13 +138,20 @@ SMODS.Joker{
     end,
     add_to_deck = function(self, card, from_debuff)
         G.E_MANAGER:add_event(Event({func = (function()
+            G.CONTROLLER.locks.use = true
             G.jokers:remove_card(card)
             card:remove()
             card = nil
             local _card = create_card("Voucher", nil, nil, nil, nil, nil, "v_sdm_joker_voucher")
             G.play:emplace(_card)
             _card.cost = 0
-            G.FUNCS.use_card({config = {ref_table = _card}})
+            delay(0.1)
+            _card:redeem()
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function()
+                _card:start_dissolve()
+                G.CONTROLLER.locks.use = false
+                return true
+            end}))
             return true end
         )}))
     end,
