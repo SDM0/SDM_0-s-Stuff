@@ -810,11 +810,12 @@ if sdm_config.sdm_jokers then
 
     SMODS.Joker{
         key = "reach_the_stars",
+        name = "Reach the Stars",
         rarity = 1,
         blueprint_compat = true,
         pos = {x = 0, y = 2},
         cost = 5,
-        config = {extra = {num_card1 = 1, num_card2 = 5, rts_scored = 0, remaining = 2, c1_scored = false, c2_scored = false}},
+        config = {extra = {num_card1 = 1, num_card2 = 5, c1_scored = false, c2_scored = false}},
         loc_vars = function(self, info_queue, card)
             return {vars = {card.ability.extra.num_card1, card.ability.extra.num_card2,
             (card.ability.extra.c1_scored and card.ability.extra.num_card1) or "",
@@ -824,85 +825,58 @@ if sdm_config.sdm_jokers then
         }}
         end,
         set_ability = function(self, card, initial, delay_sprites)
-            local valid_nums = {1, 2, 3, 4, 5}
-            local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-            table.remove(valid_nums, c1)
-            local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-            if c1 > c2 then
-                card.ability.extra.num_card1 = c2
-                card.ability.extra.num_card2 = c1
-            elseif c1 < c2 then
-                card.ability.extra.num_card1 = c1
-                card.ability.extra.num_card2 = c2
-            end
+            local num_card1, num_card2 = rts_init()
+            card.ability.extra.num_card1 = num_card1
+            card.ability.extra.num_card2 = num_card2
         end,
         calculate = function(self, card, context)
-            if context.cardarea == G.jokers and not (context.before or context.after) then
-                if context.scoring_hand then
+            if context.cardarea == G.jokers and context.final_scoring_step and not (context.before or context.after) and context.scoring_hand then
+                if no_bp_retrigger(context) then
                     if #context.scoring_hand == card.ability.extra.num_card1 and not card.ability.extra.c1_scored then
-                        if not context.blueprint then
-                            card.ability.extra.c1_scored = true
-                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {
-                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
-                                colour = G.C.FILTER,
-                            })
-                        end
+                        card.ability.extra.c1_scored = true
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = ((card.ability.extra.c2_scored and "2/") or "1/") .. 2,
+                            colour = G.C.FILTER,
+                        })
                     elseif #context.scoring_hand == card.ability.extra.num_card2 and not card.ability.extra.c2_scored then
-                        if not context.blueprint then
-                            card.ability.extra.c2_scored = true
-                            card.ability.extra.rts_scored = card.ability.extra.rts_scored + 1
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {
-                                message = card.ability.extra.rts_scored .. '/' .. card.ability.extra.remaining,
-                                colour = G.C.FILTER,
-                            })
-                        end
+                        card.ability.extra.c2_scored = true
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = ((card.ability.extra.c1_scored and "2/") or "1/") ..  2,
+                            colour = G.C.FILTER,
+                        })
                     end
-                    if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
-                        card.ability.extra.rts_scored = 0
-                        card.ability.extra.c1_scored = false
-                        card.ability.extra.c2_scored = false
-                        if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                            G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                            G.E_MANAGER:add_event(Event({
-                                trigger = 'before',
-                                delay = 0.0,
-                                func = (function()
-                                    local new_card = create_card('Planet', G.consumeables, nil, nil, nil, nil, nil, 'rts')
-                                    new_card:add_to_deck()
-                                    G.consumeables:emplace(new_card)
-                                    G.GAME.consumeable_buffer = 0
-                                    return true
-                                end)}))
+                end
+                if card.ability.extra.c1_scored and card.ability.extra.c2_scored then
+                    card.ability.extra.c1_scored = false
+                    card.ability.extra.c2_scored = false
+                    if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                SMODS.add_card({set = 'Planet', key_append = 'rts'})
+                                G.GAME.consumeable_buffer = 0
+                                return true
+                            end)}
+                        ))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_plus_planet'),
+                            colour = G.C.SECONDARY_SET.Planet,
+                        })
+                        if no_bp_retrigger(context) then
+                            local num_card1, num_card2 = rts_init()
+                            card.ability.extra.num_card1 = num_card1
+                            card.ability.extra.num_card2 = num_card2
                             return {
-                                message = localize('k_plus_planet'),
-                                colour = G.C.SECONDARY_SET.Planet,
-                                card = card
+                                message = localize('k_reset')
                             }
                         end
                     end
                 end
             end
-            if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-                card.ability.extra.rts_scored = 0
-                card.ability.extra.c1_scored = false
-                card.ability.extra.c2_scored = false
-                local valid_nums = {1, 2, 3, 4, 5}
-                local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-                table.remove(valid_nums, c1)
-                local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
-                if c1 > c2 then
-                    card.ability.extra.num_card1 = c2
-                    card.ability.extra.num_card2 = c1
-                elseif c1 < c2 then
-                    card.ability.extra.num_card1 = c1
-                    card.ability.extra.num_card2 = c2
-                end
-                return {
-                    message = localize('k_reset')
-                }
-            end
         end,
+        immutable = true, -- Cryptid compat to prevent impossible hand values
         atlas = "sdm_jokers"
     }
 

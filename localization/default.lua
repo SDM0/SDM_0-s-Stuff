@@ -7,7 +7,7 @@ return {
                     "When {C:attention}Blind{} is selected,",
                     "this Joker {C:attention}destroys{} each",
                     "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
-                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)" 
+                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)"
                 }
             },
             j_sdm_burger = {
@@ -178,9 +178,10 @@ return {
             j_sdm_reach_the_stars = {
                 name = "Reach The Stars",
                 text = {
-                    "Scoring {C:attention}#1#{} and {C:attention}#2#{} cards",
-                    "creates a random {C:planet}Planet{} card",
-                    "{s:0.8}Changes at end of round",
+                    "Scoring a hand of {C:attention}#1#{} and",
+                    "{C:attention}#2#{} cards creates a",
+                    "random {C:planet}Planet{} card",
+                    "{s:0.8}Changes each trigger",
                     "{C:inactive}(Must have room)",
                     "{C:inactive}(Currently {C:attention}#3#{C:inactive}#4# & {C:attention}#5#{C:inactive}#6#)"
                 }

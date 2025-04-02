@@ -160,6 +160,19 @@ function redeemed_voucher_count()
     return 0
 end
 
+-- Initialization of the random "Reach the Stars" condition values
+function rts_init()
+    local valid_nums = {}
+    for i = 1, (G.hand and G.hand.config.highlighted_limit or 5) do
+        valid_nums[#valid_nums+1] = i
+    end
+    local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+    table.remove(valid_nums, c1)
+    local c2 = pseudorandom_element(valid_nums, pseudoseed('rts'))
+    local num_card1, num_card2 = math.min(c1, c2), math.max(c1, c2)
+    return num_card1, num_card2
+end
+
 --- Second "add_to_deck" to prevent context.sdm_adding_card to loop ---
 function Card:add_to_deck2(from_debuff)
     local obj = self.config.center
