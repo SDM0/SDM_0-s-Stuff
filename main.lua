@@ -235,15 +235,6 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "limit_moon_base" },
-            }},
-            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Moon Base: Limit rarity pool", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
-            }},
-        }},
-
-        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "retrigger_on_deck" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {

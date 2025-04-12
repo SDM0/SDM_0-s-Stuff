@@ -199,18 +199,7 @@ SMODS.Joker{
             G.GAME.joker_buffer = G.GAME.joker_buffer + 1
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    local space = {}
-                    for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
-                        if k ~= "j_sdm_moon_base" and G.P_CENTERS[k] ~= nil and not next(SMODS.find_card(k, true)) then
-                            if not SDM_0s_Stuff_Config.limit_moon_base or (SDM_0s_Stuff_Config.limit_moon_base and type(G.P_CENTERS[k].rarity) ~= "string" and G.P_CENTERS[k].rarity < 4) then
-                                table.insert(space, k)
-                            end
-                        end
-                    end
-                    if #space == 0 then table.insert(space, "j_space") end -- fallback
-                    local chosen_space = space[pseudorandom(pseudoseed('mnb'), 1, #space)]
-                    SMODS.add_card({key = chosen_space, key_append = 'mnb'})
-                    card:start_materialize()
+                    SMODS.add_card({set = "Space", key_append = "mnb"})
                     G.GAME.joker_buffer = 0
                     return true
                 end}))
@@ -1841,3 +1830,40 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_trance_the_devil = "Trance The Devil"
+
+-- Space pool for Moon Base
+SMODS.ObjectType {
+    key = 'Space',
+    default = 'j_space',
+    cards = {},
+    inject = function(self)
+        SMODS.ObjectType.inject(self)
+        for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
+            local joker = nil
+            if G.P_CENTERS[k] then
+                joker = G.P_CENTERS[k]
+            elseif SMODS.Centers[k] then
+                joker = SMODS.Centers[k]
+            end
+            if joker then
+                sdm_debug(self)
+                self:inject_card(joker)
+            end
+        end
+    end
+}
+
+-- Food pool additions for cross-mod compat
+if not Cryptid and (SMODS.ObjectTypes and SMODS.ObjectTypes.Food) then
+    for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
+        local joker = nil
+        if G.P_CENTERS[k] then
+            joker = G.P_CENTERS[k]
+        elseif SMODS.Centers[k] then
+            joker = SMODS.Centers[k]
+        end
+        if joker then
+            SMODS.insert_pool(SMODS.ObjectTypes.Food, joker)
+        end
+    end
+end
