@@ -369,7 +369,7 @@ target = "functions/common_events.lua"
 pattern = "if _c.set == 'Other' then"
 position = "before"
 payload = '''
-if card and card.config.center.key ~= "j_sdm_ditto_joker" and card.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
+if _c.set == "Joker" and card and card.config.center.key ~= "j_sdm_ditto_joker" and card.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
 '''
 match_indent = true
 
