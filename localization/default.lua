@@ -262,10 +262,9 @@ return {
             j_sdm_water_slide = {
                 name = "Water Slide",
                 text = {
-                    "This Joker gains {C:chips}+#1#{}",
-                    "Chips if scored hand",
-                    "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
-                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+                    "All played {C:attention}9{}, {C:attention}7{} and {C:attention}6{}",
+                    "become {C:attention}Bonus{} cards",
+                    "when scored",
                 }
             },
             j_sdm_joker_voucher = {
@@ -294,11 +293,9 @@ return {
             j_sdm_jack_a_dit = {
                 name = "Jack a Dit",
                 text = {
-                    "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
-                    "is a {C:attention}#2#{} or {C:attention}#3#{}",
-                    "and has a {C:attention}Jack{}, poker",
-                    "hands changes at",
-                    "end of round"
+                    "Earn {C:money}$#1#{} when a",
+                    "{C:attention}#2#{} is added",
+                    "to your deck"
                 },
             },
             j_sdm_chain_reaction = {
@@ -1066,6 +1063,7 @@ return {
             k_plus_code = "+1 Code",
             k_plus_tag = "+1 Tag",
             k_crab_ex = "Crab!",
+            k_bonus = "Bonus",
             k_ditto_ex = "Ditto!",
             k_bakery_pack = "Bakery Pack",
         },

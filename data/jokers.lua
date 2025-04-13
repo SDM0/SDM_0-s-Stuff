@@ -390,8 +390,8 @@ SMODS.Joker{
     perishable_compat = false,
     blueprint_compat = true,
     pos = {x = 3, y = 1},
-    cost = 8,
-    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 4, dollars_mod = 4}},
+    cost = 6,
+    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 2, dollars_mod = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.dollars_mod}}
     end,
@@ -1076,14 +1076,11 @@ SDM_0s_Stuff_Mod.modded_objects.j_sdm_jambo = "Jambo"
 SMODS.Joker{
     key = "water_slide",
     name = "Water Slide",
-    rarity = 1,
-    blueprint_compat = true,
-    perishable_compat = false,
+    rarity = 2,
     pos = {x = 1, y = 5},
-    cost = 4,
-    config = {extra = {chips = 0, chip_mod = 8}},
+    cost = 7,
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
+        info_queue[#info_queue+1] = G.P_CENTERS.m_bonus
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and no_bp_retrigger(context) then
@@ -1091,19 +1088,20 @@ SMODS.Joker{
                 if context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
                 context.scoring_hand[i]:get_id() == 6 then
-                    card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+                    context.scoring_hand[i]:set_ability(G.P_CENTERS.m_bonus, nil, true)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            context.scoring_hand[i]:juice_up()
+                            return true
+                        end
+                    }))
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_upgrade_ex'),
+                        message = localize('k_bonus'),
                         colour = G.C.BLUE,
                     })
                     break
                 end
             end
-        end
-        if context.joker_main and card.ability.extra.chips > 0 then
-            return {
-                chips = card.ability.extra.chips,
-            }
         end
     end,
     atlas = "sdm_jokers"
@@ -1234,55 +1232,27 @@ SMODS.Joker{
     key = "jack_a_dit",
     name = "Jack a Dit",
     rarity = 1,
-    blueprint_compat = true,
     pos = {x = 5, y = 5},
-    cost = 5,
-    config = {extra = 20},
+    cost = 6,
+    config = {extra = 5},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
-    end,
-    set_ability = function(self, card, initial, delay_sprites)
-        local _poker_hands = {}
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible then _poker_hands[#_poker_hands+1] = k end
-        end
-        local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
-        card.ability.jack_poker_hand1 = nil
-        card.ability.jack_poker_hand2 = nil
-
-        repeat
-            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do1' or 'to_do1'))
-            if card.ability.jack_poker_hand1 == old_hand1 then card.ability.jack_poker_hand1 = nil end
-            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do2' or 'to_do2'))
-            if card.ability.jack_poker_hand2 == old_hand2 then card.ability.jack_poker_hand2 = nil end
-        until card.ability.jack_poker_hand1 and card.ability.jack_poker_hand2 and card.ability.jack_poker_hand1 ~= card.ability.jack_poker_hand2
+        return {vars = {card.ability.extra, localize('Jack', 'ranks')}}
     end,
     calculate = function(self, card, context)
-        if context.joker_main and context.scoring_hand then
-            local has_jack = false
-            for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() == 11 then
-                    has_jack = true
-                    break
+        if context.playing_card_added and not card.getting_sliced and no_bp_retrigger(context) then
+            local jacks = 0
+            for _, v in ipairs(context.cards) do
+                if v.base.id == 11 then
+                    jacks = jacks + 1
                 end
             end
-            if has_jack and (context.scoring_name and (context.scoring_name == card.ability.jack_poker_hand1 or context.scoring_name == card.ability.jack_poker_hand2)) then
+            if jacks > 0 then
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra * jacks
+                G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
                 return {
-                    mult = card.ability.extra,
+                    dollars = card.ability.extra * jacks
                 }
             end
-        end
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            local _poker_hands = {}
-            for k, v in pairs(G.GAME.hands) do
-                if v.visible and k ~= card.ability.jack_poker_hand1 and k ~= card.ability.jack_poker_hand2 then _poker_hands[#_poker_hands+1] = k end
-            end
-            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jad1'))
-            _poker_hands[card.ability.jack_poker_hand1] = nil
-            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jad2'))
-            return {
-                message = localize('k_reset')
-            }
         end
     end,
     atlas = "sdm_jokers"
@@ -1510,6 +1480,7 @@ SMODS.Joker{
     pos = {x = 1, y = 6},
     cost = 6,
     atlas = "sdm_jokers"
+    -- effect coded in lovely.toml
 }
 
 SDM_0s_Stuff_Mod.modded_objects.j_sdm_wormhole = "Wormhole"
@@ -1846,7 +1817,6 @@ SMODS.ObjectType {
                 joker = SMODS.Centers[k]
             end
             if joker then
-                sdm_debug(self)
                 self:inject_card(joker)
             end
         end
