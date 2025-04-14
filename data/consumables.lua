@@ -19,16 +19,14 @@ if sdm_config.sdm_consus then
             return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra}}
         end,
         can_use = function(self, card, area, copier)
-            if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or area then
-                if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.PLANET_PACK then
-                    local valid_card = {}
-                    for i = 1, #G.hand.cards do
-                        if not G.hand.cards[i].edition then
-                            table.insert(valid_card, G.hand.cards[i])
-                        end
+            if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
+                local valid_cards = {}
+                for i = 1, #G.hand.cards do
+                    if not G.hand.cards[i].edition then
+                        table.insert(valid_cards, G.hand.cards[i])
                     end
-                    return G.hand and #G.hand.cards > 0 and #valid_card > 0
                 end
+                return G.hand and #G.hand.cards > 0 and #valid_cards > 0
             end
             return false
         end,
@@ -174,8 +172,8 @@ if sdm_config.sdm_consus then
                     hold = 1,
                     major = used_tarot,
                     backdrop_colour = G.C.RED,
-                    align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
-                    offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
+                    align = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+                    offset = {x = 0, y = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
                     silent = true
                 })
             return true end }))
@@ -198,8 +196,8 @@ if sdm_config.sdm_consus then
                     hold = 1,
                     major = used_tarot,
                     backdrop_colour = G.C.BLUE,
-                    align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and 'tm' or 'cm',
-                    offset = {x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0},
+                    align = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+                    offset = {x = 0, y = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
                     silent = true
                 })
             return true end }))
