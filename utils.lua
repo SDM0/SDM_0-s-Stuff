@@ -132,6 +132,12 @@ function create_most_played_planet(card, context, ignore_limit)
 end
 ]]--
 
+-- Faster way to write non-BP/retrigger check
+function no_bp_retrigger(context)
+    if not context then return true end
+    return not (context.blueprint or context.retrigger_joker)
+end
+
 --- Get the sum of (almost) all existing numbers
 function sum_incremental(n)
     if G.jokers then
