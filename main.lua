@@ -151,6 +151,8 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     end
 end
 
+SMODS.load_file("data/pokerhands.lua")()
+
 if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
 end

@@ -118,6 +118,24 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_mother = "Mother"
 
+--- Egg Planet ---
+
+SMODS.Consumable{
+    key = 'egg_planet',
+    name = 'Egg Planet',
+    set = 'Planet',
+    pos = {x = 3, y = 1},
+    cost = 3,
+    config = {hand_type = "sdm_Chicken Head"},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {G.GAME.hands[self.config.hand_type].level,localize(self.config.hand_type, 'poker_hands'), G.GAME.hands[self.config.hand_type].l_mult, G.GAME.hands[self.config.hand_type].l_chips,
+        colours = {(G.GAME.hands[self.config.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[self.config.hand_type].level)])}}}
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_egg_planet = "Egg Planet"
+
 --- Sacrifice ---
 
 SMODS.Consumable{

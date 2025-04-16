@@ -590,6 +590,17 @@ return {
                 }
             }
         },
+        Planet = {
+            c_sdm_egg_planet = {
+                name = "Egg Planet",
+                text = {
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#",
+                    "{C:mult}+#3#{} Mult and",
+                    "{C:chips}+#4#{} chips"
+                }
+            },
+        },
         Spectral = {
             c_sdm_sacrifice = {
                 name = "Sacrifice",
@@ -1066,6 +1077,14 @@ return {
             k_bonus = "Bonus",
             k_ditto_ex = "Ditto!",
             k_bakery_pack = "Bakery Pack",
+        },
+        poker_hands = {
+            ['sdm_Chicken Head'] = "Chicken Head",
+        },
+        poker_hand_descriptions = {
+            ['sdm_Chicken Head'] = {
+                "A hand containing at least an 8, 4 and 3"
+            },
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
