@@ -118,11 +118,11 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_objects.c_sdm_mother = "Mother"
 
---- Egg Planet ---
+--- Egg-xoplanet ---
 
 SMODS.Consumable{
-    key = 'egg_planet',
-    name = 'Egg Planet',
+    key = 'eggxoplanet',
+    name = 'Egg-xoplanet',
     set = 'Planet',
     pos = {x = 3, y = 1},
     cost = 3,
@@ -134,7 +134,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_egg_planet = "Egg Planet"
+SDM_0s_Stuff_Mod.modded_objects.c_sdm_eggxoplanet = "Egg-xoplanet"
 
 --- Sacrifice ---
 

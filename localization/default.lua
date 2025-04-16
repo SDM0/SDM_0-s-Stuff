@@ -591,8 +591,8 @@ return {
             }
         },
         Planet = {
-            c_sdm_egg_planet = {
-                name = "Egg Planet",
+            c_sdm_eggxoplanet = {
+                name = "Egg-xoplanet",
                 text = {
                     "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
                     "{C:attention}#2#",
