@@ -96,6 +96,7 @@ SMODS.Joker{
             end
         end
     end,
+    enhancement_gate = 'm_lucky',
     atlas = "sdm_jokers"
 }
 
@@ -820,6 +821,14 @@ SMODS.Joker{
                 }
             end
         end
+    end,
+    in_pool = function()
+        for _, v in pairs(G.playing_cards) do
+            if v.ability.effect ~= "Base" then
+                return true
+            end
+        end
+        return false
     end,
     atlas = "sdm_jokers"
 }
