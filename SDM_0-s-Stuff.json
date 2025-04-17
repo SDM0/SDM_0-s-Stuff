@@ -6,9 +6,9 @@
 	"prefix": "sdm",
 	"main_file": "main.lua",
 	"badge_colour": "c20000",
-	"version": "1.7.0~BETA-0417c",
+	"version": "1.7.0~BETA-0418a",
 	"dependencies": [
-		"Steamodded (>=1.0.0~ALPHA-0401a)"
+		"Steamodded (>=1.0.0~ALPHA-0323b)"
 	],
 	"conflicts": [
 		"CardSleeves (<<1.5.0)"
