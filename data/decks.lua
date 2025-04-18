@@ -22,24 +22,19 @@ if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.Back{
         key = "bazaar",
         pos = {x = 1, y = 0},
-        config = {extra = 1},
-        loc_vars = function(self)
-            return {vars = {self.config.extra}}
-        end,
         calculate = function(self, back, context)
             if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
-                        for i = 1, #rand_cons do
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
                             play_sound('timpani')
-                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
-                            card:add_to_deck()
-                            G.consumeables:emplace(card)
+                            SMODS.add_card({set = "SDM_0s_consus", area = G.consumeables, key_append = 'bzr'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
                         end
-                        return true
-                    end
-                }))
+                    }))
+                end
             end
         end,
         atlas = "sdm_enhancers"
@@ -250,8 +245,8 @@ SMODS.Back{
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
-    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, no_interest = true, voucher = 'v_sdm_bakery_stall', consumable_slot = 1, retrigger = 1},
-    apply = function()
+    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, no_interest = true, vouchers = {"v_sdm_bakery_stall", "v_overstock_norm"}, consumable_slot = 1, retrigger = 1, booster_slot = 1},
+    apply = function(self)
         -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
@@ -273,6 +268,8 @@ SMODS.Back{
         G.GAME.starting_params.extra_cards = extra_cards
         G.GAME.win_ante = 10
         G.GAME.modifiers.no_extra_hand_money = true
+        G.GAME.modifiers.sdm_no_reroll = true   -- No reroll effect in utils.lua overrides
+        SMODS.change_booster_limit(self.config.booster_slot)
         G.E_MANAGER:add_event(Event({
             func = function()
                 if SDM_0s_Stuff_Config.sdm_jokers then
@@ -289,18 +286,17 @@ SMODS.Back{
     end,
     calculate = function(self, back, context)
         if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
-                    for i = 1, #rand_cons do
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = function()
                         play_sound('timpani')
-                        local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
-                        card:add_to_deck()
-                        G.consumeables:emplace(card)
+                        SMODS.add_card({set = "SDM_0s_consus", area = G.consumeables, key_append = 'dos'})
+                        G.GAME.consumeable_buffer = 0
+                        return true
                     end
-                    return true
-                end
-            }))
+                }))
+            end
         elseif context.context == "final_scoring_step" then
             if G.GAME.chips + context.chips * context.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()

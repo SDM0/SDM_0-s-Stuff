@@ -35,17 +35,17 @@ if SDM_0s_Stuff_Config.sdm_consus then
         unlocked = true,
         trigger_effect = function(self, args)
             if args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local rand_cons = get_random_sdm_modded_card("c_", self.config.extra)
-                        for i = 1, #rand_cons do
-                            local card = create_card('Tarot' or 'Spectral', G.consumeables, nil, nil, nil, nil, rand_cons[i], 'bzr')
-                            card:add_to_deck()
-                            G.consumeables:emplace(card)
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            play_sound('timpani')
+                            SMODS.add_card({set = "SDM_0s_consus", area = G.consumeables, key_append = 'bzr'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
                         end
-                        return true
-                    end
-                }))
+                    }))
+                end
             end
         end,
     }
