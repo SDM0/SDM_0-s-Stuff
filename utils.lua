@@ -11,22 +11,6 @@ function sdm_debug(elem)
     end
 end
 
---- Get the max occurence of a card in a hand
--- function count_max_occurence(table)
---     local max_card = 0
---     local counts = {}
---     for _, value in ipairs(table) do
---         counts[value] = (counts[value] or 0) + 1
---     end
---
---     for _, v in pairs(counts) do
---         if v > max_card then
---             max_card = v
---         end
---     end
---     return max_card
--- end
-
 -- Faster way to decrease food/bakery consumables remaining counter
 function decrease_remaining_food(card)
     if card.ability.extra.remaining - 1 <= 0 then
@@ -84,31 +68,6 @@ function get_most_played_better_hand()
     return hand
 end
 
---- Check if Ouija effect can trigger
-function ouija_check(card, context)
-    if card.ability.extra.remaining < card.ability.extra.rounds then
-        card_eval_status_text(card, 'extra', nil, nil, nil, {
-            message = card.ability.extra.remaining ..'/'.. card.ability.extra.rounds,
-            colour = G.C.FILTER
-        })
-    else
-        G.E_MANAGER:add_event(Event({
-            func = (function()
-                card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize('k_active_ex'),
-                    colour = G.C.FILTER
-                })
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local eval = function(card) return not card.REMOVED end
-                        juice_card_until(card, eval, true)
-                        return true
-                    end}))
-            return true
-        end)}))
-    end
-end
-
 --- Counts how many Carcinization there is
 function get_crab_count()
     local crab_count = 0
@@ -123,81 +82,6 @@ function get_crab_count()
     end
     return crab_count
 end
-
---- Get the rank and suit of a card
-function get_scry_info(card, is_compact)
-    if card.ability.name == 'Stone Card' then return (is_compact and "SC") or "Stone Card" end
-    local rank = (is_compact and SMODS.Ranks[card.base.value].card_key) or SMODS.Ranks[card.base.value].key
-    if rank == "T" then rank = "10" end
-    local suit = (is_compact and SMODS.Suits[card.base.suit].card_key) or SMODS.Suits[card.base.suit].key
-    return (is_compact and rank .. suit) or rank .. " of " .. suit
-end
-
--- Get n cards from SDM_0's Stuff
-function get_random_sdm_modded_card(prefix, n)
-    if G.GAME then
-        local modded_elem = {}
-        local random_elem = {}
-
-        for k, v in pairs(SDM_0s_Stuff_Mod.modded_objects) do
-            if string.sub(k, 1, #prefix) == prefix then
-                if string.sub(prefix, 1, 2) == "j_" then
-                    if k ~= "j_sdm_archibald" and k ~= "j_sdm_0" and k ~= "j_sdm_trance_the_devil" then
-                        table.insert(modded_elem, k)
-                    end
-                else
-                    table.insert(modded_elem, k)
-                end
-            end
-        end
-
-        if modded_elem and #modded_elem >= n then
-            while n > 0 do
-                local r_num = pseudorandom("deck_create", 1, #modded_elem)
-                local r_elem = modded_elem[r_num]
-                table.insert(random_elem, r_elem)
-                table.remove(modded_elem, r_num)
-                n = n - 1
-            end
-            return random_elem
-        end
-    return nil
-    end
-end
-
---- Creates the most played hand planet card
---[[
-function create_most_played_planet(card, context, ignore_limit)
-    if ignore_limit or (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit) then
-        G.GAME.consumeable_buffer = (ignore_limit and 0) or G.GAME.consumeable_buffer + 1
-        G.E_MANAGER:add_event(Event({
-            trigger = 'before',
-            delay = 0.0,
-            func = (function()
-                local _planet, _hand, _tally = nil, nil, 0
-                for k, v in ipairs(G.handlist) do
-                    if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
-                        _hand = v
-                        _tally = G.GAME.hands[v].played
-                    end
-                end
-                if _hand then
-                    for k, v in pairs(G.P_CENTER_POOLS.Planet) do
-                        if v.config.hand_type == _hand then
-                            _planet = v.key
-                        end
-                    end
-                end
-                _card = create_card("Planet", G.pack_cards, nil, nil, true, true, _planet, 'pl1')
-                _card:add_to_deck()
-                G.consumeables:emplace(_card)
-                G.GAME.consumeable_buffer = 0
-                return true
-            end)}))
-        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
-    end
-end
-]]--
 
 --- Get the sum of (almost) all existing numbers (capped at 1e300)
 function sum_incremental(n)
