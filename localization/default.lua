@@ -375,6 +375,12 @@ return {
                     "{C:inactive}(Except Ditto Joker)"
                 }
             },
+            j_sdm_d4 = {
+                name = "D4",
+                text = {
+                    "{X:mult,C:white}X#1#{} - {X:mult,C:white}X#2#{} Mult"
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
@@ -460,7 +466,7 @@ return {
                 name = "Bazaar Deck",
                 text = {
                     "After Boss Blind,",
-                    "create {C:attention}#1#{} random",
+                    "create a random",
                     "{C:attention}SDM_0's Stuff{} consumable",
                     "{C:inactive}(Must have room)"
                 },
@@ -908,7 +914,7 @@ return {
                 name = "Bazaar Sleeve",
                 text = {
                     "After Boss Blind,",
-                    "create {C:attention}#1#{} random",
+                    "create a random",
                     "{C:attention}SDM_0's Stuff{} consumable",
                     "{C:inactive}(Must have room)"
                 },

@@ -37,7 +37,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_burger = "Burger"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_burger = "Burger"
 SDM_0s_Stuff_Mod.food_jokers.j_sdm_burger = "Burger"
 
 --- Bounciest Ball ---
@@ -72,7 +72,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_bounciest_ball = "Bounciest Ball"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_bounciest_ball = "Bounciest Ball"
 
 --- Lucky Joker ---
 
@@ -100,7 +100,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_lucky_joker = "Lucky Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_lucky_joker = "Lucky Joker"
 
 --- Iconic Icon ---
 
@@ -139,7 +139,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_iconic_icon = "Iconic Icon"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_iconic_icon = "Iconic Icon"
 SDM_0s_Stuff_Mod.meme_jokers.j_sdm_iconic_icon = "Iconic Icon"
 
 --- Mult'N'Chips ---
@@ -181,7 +181,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_mult_n_chips = "Mult'N'Chips"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_mult_n_chips = "Mult'N'Chips"
 
 --- Moon Base ---
 
@@ -210,7 +210,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_moon_base = "Moon Base"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_moon_base = "Moon Base"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_moon_base = "Moon Base"
 
 --- Shareholder Joker ---
@@ -232,7 +232,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_shareholder_joker = "Shareholder Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_shareholder_joker = "Shareholder Joker"
 
 --- Magic Hands ---
 
@@ -246,7 +246,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_magic_hands = "Magic Hands"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_magic_hands = "Magic Hands"
 
 --- Tip Jar ---
 
@@ -268,7 +268,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_tip_jar = "Tip Jar"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_tip_jar = "Tip Jar"
 
 --- Wandering Star ---
 
@@ -298,7 +298,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_wandering_star = "Wandering Star"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_wandering_star = "Wandering Star"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_wandering_star = "Wandering Star"
 
 --- Ouija Board ---
@@ -349,7 +349,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_ouija_board = "Ouija Board"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_ouija_board = "Ouija Board"
 
 --- La Révolution ---
 
@@ -380,7 +380,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_la_revolution = "La Révolution"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_la_revolution = "La Révolution"
 
 --- Clown Bank ---
 
@@ -423,7 +423,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_clown_bank = "Clown Bank"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_clown_bank = "Clown Bank"
 
 --- Furnace ---
 
@@ -460,7 +460,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_furnace = "Furnace"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_furnace = "Furnace"
 
 --- Warehouse ---
 
@@ -484,7 +484,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_warehouse = "Warehouse"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_warehouse = "Warehouse"
 
 --- Zombie Joker ---
 
@@ -530,7 +530,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_zombie_joker = "Zombie Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_zombie_joker = "Zombie Joker"
 
 --- Mystery Joker ---
 
@@ -562,7 +562,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_mystery_joker = "Mystery Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_mystery_joker = "Mystery Joker"
 
 --- Infinite Staircase ---
 
@@ -596,7 +596,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_infinite_staircase = "Infinite Staircase"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_infinite_staircase = "Infinite Staircase"
 SDM_0s_Stuff_Mod.meme_jokers.j_sdm_infinite_staircase = "Infinite Staircase"
 
 --- Ninja Joker ---
@@ -634,7 +634,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_ninja_joker = "Ninja Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_ninja_joker = "Ninja Joker"
 
 --- Reach the Stars ---
 
@@ -710,7 +710,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_reach_the_stars = "Reach The Stars"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_reach_the_stars = "Reach The Stars"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_reach_the_stars = "Reach The Stars"
 
 --- Crooked Joker ---
@@ -764,7 +764,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_crooked_joker = "Crooked Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_crooked_joker = "Crooked Joker"
 SDM_0s_Stuff_Mod.meme_jokers.j_sdm_crooked_joker = "Crooked Joker"
 
 --- Property Damage ---
@@ -800,7 +800,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_property_damage = "Property Damage"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_property_damage = "Property Damage"
 SDM_0s_Stuff_Mod.meme_jokers.j_sdm_property_damage = "Property Damage"
 
 --- Rock'N'Roll ---
@@ -833,7 +833,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_rock_n_roll = "Rock'N'Roll"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_rock_n_roll = "Rock'N'Roll"
 
 --- Contract ---
 
@@ -868,7 +868,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_contract = "Contract"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_contract = "Contract"
 
 --- Cupidon ---
 
@@ -901,7 +901,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_cupidon = "Cupidon"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_cupidon = "Cupidon"
 
 --- Pizza ---
 
@@ -962,7 +962,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_pizza = "Pizza"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pizza = "Pizza"
 SDM_0s_Stuff_Mod.food_jokers.j_sdm_pizza = "Pizza"
 
 --- Treasure Chest ---
@@ -993,7 +993,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_treasure_chest = "Treasure Chest"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_treasure_chest = "Treasure Chest"
 
 --- Bullet Train ---
 
@@ -1018,7 +1018,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_bullet_train = "Bullet Train"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_bullet_train = "Bullet Train"
 
 --- Chaos Theory ---
 
@@ -1048,7 +1048,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_chaos_theory = "Chaos Theory"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_chaos_theory = "Chaos Theory"
 
 --- Jambo ---
 
@@ -1078,7 +1078,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_jambo = "Jambo"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_jambo = "Jambo"
 
 --- Water Slide ---
 
@@ -1116,7 +1116,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_water_slide = "Water Slide"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_water_slide = "Water Slide"
 
 --- Joker Voucher ---
 
@@ -1150,7 +1150,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_joker_voucher = "Joker Voucher"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_joker_voucher = "Joker Voucher"
 
 --- Free Pass ---
 
@@ -1198,7 +1198,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_free_pass = "Free Pass"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_free_pass = "Free Pass"
 
 --- Legionary Joker ---
 
@@ -1233,7 +1233,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_legionary_joker = "Legionary Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_legionary_joker = "Legionary Joker"
 
 --- Jack a Dit ---
 
@@ -1267,7 +1267,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_jack_a_dit = "Jack A Dit"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_jack_a_dit = "Jack A Dit"
 
 --- Chain Reaction ---
 
@@ -1300,7 +1300,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_chain_reaction = "Chain Reaction"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_chain_reaction = "Chain Reaction"
 
 --- Consolation Prize ---
 
@@ -1330,7 +1330,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_consolation_prize = "Consolation Prize"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_consolation_prize = "Consolation Prize"
 
 --- Horoscopy ---
 
@@ -1368,7 +1368,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_horoscopy = "Horoscopy"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_horoscopy = "Horoscopy"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_horoscopy = "Horoscopy"
 
 --- Roulette ---
@@ -1432,7 +1432,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_roulette = "Roulette"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_roulette = "Roulette"
 
 --- Carcinization ---
 
@@ -1478,7 +1478,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_carcinization = "Carcinization"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_carcinization = "Carcinization"
 
 --- Wormhole ---
 
@@ -1492,7 +1492,7 @@ SMODS.Joker{
     -- effect coded in lovely.toml
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_wormhole = "Wormhole"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_wormhole = "Wormhole"
 SDM_0s_Stuff_Mod.space_jokers.j_sdm_wormhole = "Wormhole"
 
 --- Child ---
@@ -1526,7 +1526,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_child = "Child"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_child = "Child"
 
 --- Yo-yo ---
 
@@ -1564,7 +1564,7 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_yo_yo = "Yo-Yo"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_yo_yo = "Yo-Yo"
 
 --- Ditto Joker ---
 
@@ -1572,6 +1572,7 @@ SMODS.Joker{
     key = "ditto_joker",
     name = "Ditto Joker",
     rarity = 2,
+    eternal_compat = false,
     pos = {x = 4, y = 6},
     cost = 5,
     calculate = function(self, card, context)
@@ -1613,7 +1614,35 @@ SMODS.Joker{
     atlas = "sdm_jokers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_ditto_joker = "Ditto Joker"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_ditto_joker = "Ditto Joker"
+
+--- D4 ---
+
+SMODS.Joker{
+    key = "d4",
+    name = "D4",
+    rarity = 3,
+    blueprint_compat = true,
+    pos = {x = 5, y = 6},
+    cost = 6,
+    config = {extra = {min = 1, max = 4}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.min or 1, card.ability.extra.max or 1}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local _xmult = pseudorandom(pseudoseed('d4'), card.ability.extra.min, card.ability.extra.max)
+            if _xmult ~= 1 then
+                return {
+                    xmult = _xmult,
+                }
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_d4 = "D4"
 
 --- Archibald ---
 
@@ -1675,7 +1704,7 @@ SMODS.Joker{
     soul_pos = {x = 0, y = 4}
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_archibald = "Archibald"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_archibald = "Archibald"
 
 --- SDM_0 ---
 
@@ -1721,7 +1750,7 @@ SMODS.Joker{
     soul_pos = {x = 1, y = 4}
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_0 = "SDM_0"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_0 = "SDM_0"
 
 --- Skelton ---
 
@@ -1762,7 +1791,7 @@ SMODS.Joker{
     soul_pos = {x = 4, y = 4}
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_skelton = "Skelton"
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_skelton = "Skelton"
 
 --- Trance The Devil ---
 
@@ -1809,40 +1838,4 @@ SMODS.Joker{
     soul_pos = {x = 2, y = 4}
 }
 
-SDM_0s_Stuff_Mod.modded_objects.j_sdm_trance_the_devil = "Trance The Devil"
-
--- Space pool for Moon Base
-SMODS.ObjectType {
-    key = 'Space',
-    default = 'j_space',
-    cards = {},
-    inject = function(self)
-        SMODS.ObjectType.inject(self)
-        for k, _ in pairs(SDM_0s_Stuff_Mod.space_jokers) do
-            local joker = nil
-            if G.P_CENTERS[k] then
-                joker = G.P_CENTERS[k]
-            elseif SMODS.Centers[k] then
-                joker = SMODS.Centers[k]
-            end
-            if joker then
-                self:inject_card(joker)
-            end
-        end
-    end
-}
-
--- Food pool additions for cross-mod compat
-if not Cryptid and (SMODS.ObjectTypes and SMODS.ObjectTypes.Food) then
-    for k, _ in pairs(SDM_0s_Stuff_Mod.food_jokers) do
-        local joker = nil
-        if G.P_CENTERS[k] then
-            joker = G.P_CENTERS[k]
-        elseif SMODS.Centers[k] then
-            joker = SMODS.Centers[k]
-        end
-        if joker then
-            SMODS.insert_pool(SMODS.ObjectTypes.Food, joker)
-        end
-    end
-end
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_trance_the_devil = "Trance The Devil"
