@@ -27,8 +27,6 @@ SMODS.Voucher{
     atlas = "sdm_vouchers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_shadow = "Shadow"
-
 -- Eclipse
 
 SMODS.Voucher{
@@ -55,8 +53,6 @@ SMODS.Voucher{
     end,
     atlas = "sdm_vouchers"
 }
-
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_eclipse = "Eclipse"
 
 if JokerEvolution then
 
@@ -87,6 +83,4 @@ if JokerEvolution then
         no_collection = true,
         atlas = "sdm_vouchers"
     }
-
-    SDM_0s_Stuff_Mod.modded_objects.v_sdm_joker_voucher = "Joker Voucher"
 end

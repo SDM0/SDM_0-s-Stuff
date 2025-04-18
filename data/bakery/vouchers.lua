@@ -20,8 +20,6 @@ SMODS.Voucher{
     atlas = "sdm_bakery_vouchers"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_stall = "Bakery Stall"
-
 -- Bakery Shop
 
 SMODS.Voucher{
@@ -39,5 +37,3 @@ SMODS.Voucher{
     requires = {"v_sdm_bakery_stall"},
     atlas = "sdm_bakery_vouchers"
 }
-
-SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_shop = "Bakery Shop"

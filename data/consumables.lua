@@ -67,7 +67,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_sphinx = "Sphinx"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sphinx = "Sphinx"
 
 --- The Mother ---
 
@@ -116,7 +116,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_mother = "Mother"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_mother = "Mother"
 
 --- Egg-xoplanet ---
 
@@ -134,7 +134,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_eggxoplanet = "Egg-xoplanet"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_eggxoplanet = "Egg-xoplanet"
 
 --- Sacrifice ---
 
@@ -166,7 +166,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_sacrifice = "Sacrifice"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sacrifice = "Sacrifice"
 
 --- Morph ---
 
@@ -198,7 +198,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_morph = "Morph"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_morph = "Morph"
 
 --- Bind ---
 
@@ -245,7 +245,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_bind = "Bind"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bind = "Bind"
 
 --- Doppelgänger ---
 
@@ -288,4 +288,4 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_doppelganger = "Doppelgänger"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_doppelganger = "Doppelgänger"

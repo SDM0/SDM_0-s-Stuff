@@ -82,7 +82,7 @@ if SDM_0s_Stuff_Config.sdm_bakery then
         end,
     }
 
-    SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_bites = "Bread Bites"
+    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_bites = "Bread Bites"
 
     items[#items+1] = bread_bites
 end
@@ -130,7 +130,6 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
     items[#items+1] = oblivion
 
-    SDM_0s_Stuff_Mod.modded_objects.v_sdm_oblivion = "Oblivion"
     SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_oblivion = "Oblivion"
 
     if SDM_0s_Stuff_Config.sdm_bakery then
@@ -172,7 +171,6 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
 
         items[#items+1] = bakery_factory
 
-        SDM_0s_Stuff_Mod.modded_objects.v_sdm_bakery_factory = "Bakery Factory"
         SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_bakery_factory = "Bakery Factory"
     end
 

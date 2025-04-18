@@ -42,7 +42,7 @@ SMODS.Consumable{
     atlas = "sdm_consumables"
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_baker = "Baker"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_baker = "Baker"
 
 -- Sourdough --
 
@@ -63,7 +63,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_sourdough = "Sourdough"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sourdough = "Sourdough"
 
 -- Baguette --
 
@@ -84,7 +84,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_baguette = "Baguette"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_baguette = "Baguette"
 
 -- Dough --
 
@@ -100,7 +100,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_dough = "Dough"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_dough = "Dough"
 
 -- Banana Bread --
 
@@ -148,7 +148,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_banana_bread = "Banana Bread"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_banana_bread = "Banana Bread"
 
 -- Breadsticks --
 
@@ -175,7 +175,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_breadsticks = "Breadsticks"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_breadsticks = "Breadsticks"
 
 -- Croissant --
 
@@ -202,7 +202,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_croissant = "Croissant"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_croissant = "Croissant"
 
 -- Bread Loaf --
 
@@ -228,7 +228,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_loaf = "Bread Loaf"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_loaf = "Bread Loaf"
 
 -- Doughnut --
 
@@ -259,7 +259,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_doughnut = "Doughnut"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_doughnut = "Doughnut"
 
 -- Fortune Cookie --
 
@@ -290,7 +290,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_fortune_cookie = "Fortune Cookie"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_fortune_cookie = "Fortune Cookie"
 
 -- Moon Cake --
 
@@ -321,7 +321,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_moon_cake = "Moon Cake"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_moon_cake = "Moon Cake"
 
 -- Bread Monster --
 
@@ -353,4 +353,4 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_objects.c_sdm_bread_monster = "Bread Monster"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_monster = "Bread Monster"

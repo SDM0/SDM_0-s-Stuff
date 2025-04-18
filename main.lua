@@ -1,7 +1,8 @@
 SDM_0s_Stuff_Mod = SMODS.current_mod
 SDM_0s_Stuff_Config = SDM_0s_Stuff_Mod.config
 
-SDM_0s_Stuff_Mod.modded_objects = {}
+SDM_0s_Stuff_Mod.modded_jokers = {}
+SDM_0s_Stuff_Mod.modded_consumables = {}
 SDM_0s_Stuff_Mod.food_jokers = {}
 SDM_0s_Stuff_Mod.meme_jokers = {}
 SDM_0s_Stuff_Mod.tier3_vouchers = {}
@@ -171,6 +172,8 @@ end
 if SDM_0s_Stuff_Config.sdm_bakery then
     SMODS.load_file("data/bakery/bakery.lua")()
 end
+
+SMODS.load_file("data/pools.lua")()
 
 SMODS.Atlas{
     key = "modicon",
