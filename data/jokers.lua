@@ -1093,10 +1093,13 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and no_bp_retrigger(context) then
+            local triggered = false
             for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:get_id() == 9 or
+                if (context.scoring_hand[i]:get_id() == 9 or
                 context.scoring_hand[i]:get_id() == 7 or
-                context.scoring_hand[i]:get_id() == 6 then
+                context.scoring_hand[i]:get_id() == 6)
+                and not context.scoring_hand[i].debuff then
+                    triggered = true
                     context.scoring_hand[i]:set_ability(G.P_CENTERS.m_bonus, nil, true)
                     G.E_MANAGER:add_event(Event({
                         func = function()
@@ -1104,12 +1107,13 @@ SMODS.Joker{
                             return true
                         end
                     }))
-                    card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_bonus'),
-                        colour = G.C.BLUE,
-                    })
-                    break
                 end
+            end
+            if triggered then
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize('k_bonus'),
+                    colour = G.C.BLUE,
+                })
             end
         end
     end,
