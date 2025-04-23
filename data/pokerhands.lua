@@ -18,16 +18,18 @@ SMODS.PokerHand({
         local has_3 = nil
         local result = {}
 		for _, card in ipairs(hand) do
-            if card.base.id == 8 and not has_8 then
-                has_8 = true
-                result[#result+1] = card
-            elseif card.base.id == 4 and not has_4 then
-                has_4 = true
-                result[#result+1] = card
-            elseif card.base.id == 3 and not has_3 then
-                has_3 = true
-                result[#result+1] = card
-            end
+			if not SMODS.has_no_rank(card) then
+				if card.base.id == 8 and not has_8 then
+					has_8 = true
+					result[#result+1] = card
+				elseif card.base.id == 4 and not has_4 then
+					has_4 = true
+					result[#result+1] = card
+				elseif card.base.id == 3 and not has_3 then
+					has_3 = true
+					result[#result+1] = card
+				end
+			end
 		end
         return (has_8 and has_4 and has_3) and { result } or {}
 	end,
