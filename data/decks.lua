@@ -128,10 +128,11 @@ SMODS.Back{
     pos = {x = 3, y = 1},
     apply = function()
         local extra_cards = {}
-        for k, _ in pairs(G.P_CARDS) do
-            if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
-                local s, r = k:match("^(.*)_(.-)$")
-                extra_cards[#extra_cards + 1] = {s = s, r = r}
+        for _, v in pairs(G.P_CARDS) do
+            if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
+            and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
+                local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
+                extra_cards[#extra_cards + 1] = {s = _s, r = _r}
             end
         end
         G.GAME.starting_params.extra_cards = extra_cards
@@ -259,10 +260,11 @@ SMODS.Back{
             end
         end
         local extra_cards = {}
-        for k, _ in pairs(G.P_CARDS) do
-            if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
-                local s, r = k:match("^(.*)_(.-)$")
-                extra_cards[#extra_cards + 1] = {s = s, r = r}
+        for _, v in pairs(G.P_CARDS) do
+            if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
+            and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
+                local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
+                extra_cards[#extra_cards + 1] = {s = _s, r = _r}
             end
         end
         G.GAME.starting_params.extra_cards = extra_cards

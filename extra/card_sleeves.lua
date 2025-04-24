@@ -179,21 +179,22 @@ CardSleeves.Sleeve {
     apply = function(self)
         local extra_cards = {}
         if G.GAME.starting_params.erratic_suits_and_ranks then
-            for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then -- Avoid giving exotic cards from other mods
-                    _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic'))
-                    local s, r = k:match("^(.*)_(.-)$")
-                    extra_cards[#extra_cards+1] = {s = s, r = r}
+            for _, v in pairs(G.P_CARDS) do
+                if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
+                and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
+                    local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
+                    extra_cards[#extra_cards + 1] = {s = _s, r = _r}
                 end
             end
         else
-            for k, _ in pairs(G.P_CARDS) do
-                if string.sub(k,1,4) ~= 'bunc' and string.sub(k,1,4) ~= 'cere' then
-                    local s, r = k:match("^(.*)_(.-)$")
-                    if not (G.GAME.starting_params.no_faces and (r == 'K' or r == 'Q' or r == 'J')) then
-                        extra_cards[#extra_cards + 1] = {s = s, r = r}
+            for _, v in pairs(G.P_CARDS) do
+                if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
+                and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
+                    local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
+                    if not (G.GAME.starting_params.no_faces and (_r == 'K' or _r == 'Q' or _r == 'J')) then
+                        extra_cards[#extra_cards + 1] = {s = _s, r = _r}
                         if self.get_current_deck_key() == "b_sdm_xxl" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-                            extra_cards[#extra_cards + 1] = {s = s, r = r}
+                            extra_cards[#extra_cards + 1] = {s = _s, r = _r}
                         end
                     end
                 end
