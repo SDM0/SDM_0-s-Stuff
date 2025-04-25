@@ -1548,9 +1548,6 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.joker_main then
             local curr_xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
-            if no_bp_retrigger(context) then
-                card.ability.extra.low = not card.ability.extra.low
-            end
             if curr_xmult ~= 1 then
                 return {
                     Xmult = curr_xmult
@@ -1558,6 +1555,7 @@ SMODS.Joker{
             end
         end
         if context.after and no_bp_retrigger(context) then
+            card.ability.extra.low = not card.ability.extra.low
             local curr_xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
             card_eval_status_text(card, 'extra', nil, nil, nil, {
                 message = localize{type='variable',key='a_xmult',vars={curr_xmult}},
