@@ -123,7 +123,7 @@ end
 -- Faster way to write non-BP/retrigger check
 function no_bp_retrigger(context)
     if not context then return false end
-    return not (context.blueprint or context.retrigger_joker)
+    return not (context.blueprint or context.retrigger_joker or context.retrigger_joker_check)
 end
 
 -- Overrides
