@@ -619,8 +619,9 @@ return {
             c_sdm_morph = {
                 name = "Morph",
                 text = {
-                    "Shuffle {C:blue}hands{}",
-                    "and {C:red}discards{}"
+                    "Swap {C:attention}2{} random",
+                    "elements from",
+                    "its tooltip"
                 }
             },
             c_sdm_bind = {
@@ -634,8 +635,9 @@ return {
             c_sdm_doppelganger = {
                 name = "Doppelgänger",
                 text = {
-                    "Replaces each {C:attention}Joker{} by",
-                    "a random owned Joker",
+                    "Replaces a random {C:attention}Joker{}",
+                    "by the leftmost or",
+                    "rightmost {C:attention}Joker{}",
                 }
             },
         },
@@ -865,6 +867,13 @@ return {
                 text = {
                     "Debuffed after",
                     "{C:attention}#1#{} rounds"
+                }
+            },
+            morph_tooltip = {
+                name = "Morph Tooltip",
+                text = {
+                    "Hand, discard, handsize,",
+                    "joker slot, consumable slot"
                 }
             },
             je_j_sdm_mult_n_chips = {
@@ -1106,8 +1115,13 @@ return {
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
+            a_hand_minus = "-#1# Hand",
             a_discard = "+#1# Discard",
-            a_joker_slot = "+#1# Joker Slot"
+            a_discard_minus = "-#1# Discard",
+            a_joker_slot = "+#1# Joker Slot",
+            a_joker_slot_minus = "-#1# Joker Slot",
+            a_consumable_slot = "+#1# Cons. Slot",
+            a_consumable_slot_minus = "-#1# Cons. Slot",
         },
         v_text = {
             ch_c_no_shop_planets = {

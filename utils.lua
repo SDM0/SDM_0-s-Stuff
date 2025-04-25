@@ -11,6 +11,16 @@ function sdm_debug(elem)
     end
 end
 
+--- Get a value's index in a table
+function index_elem(table, value)
+    for k, v in ipairs(table) do
+        if v == value then
+            return k
+        end
+    end
+    return nil
+end
+
 -- Faster way to decrease food/bakery consumables remaining counter
 function decrease_remaining_food(card)
     if card.ability.extra.remaining - 1 <= 0 then

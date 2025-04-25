@@ -172,28 +172,106 @@ SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sacrifice = "Sacrifice"
 
 SMODS.Consumable{
     key = 'morph',
-    name = 'Morph',
     set = 'Spectral',
     pos = {x = 2, y = 0},
     cost = 4,
+    config = {extra = 1},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = "morph_tooltip", set = "Other"}
+        return {vars = {self.config.extra, (self.config.extra > 1 and "resources") or "resource"}}
+    end,
     can_use = function(self, card, area, copier)
-        return G.GAME.round_resets.hands > 1 and G.GAME.round_resets.discards > 1
+        return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or to_big(G.GAME.dollars) > to_big(0)
+        or G.hand.config.card_limit > card.ability.extra or G.jokers.config.card_limit > 0 or G.consumeables.config.card_limit > 0
     end,
     use = function(self, card)
+        local resource = {"hand", "discard", "handsize", "joker_slot", "consumable_slot"}
+        local taken = {}
+        if G.GAME.round_resets.hands > card.ability.extra then
+            table.insert(taken, "hand")
+        end
+        if G.GAME.round_resets.discards > 0 then
+            table.insert(taken, "discard")
+        end
+        if G.hand.config.card_limit > card.ability.extra then
+            table.insert(taken, "handsize")
+        end
+        if G.jokers.config.card_limit > 0 then
+            table.insert(taken, "joker_slot")
+        end
+        if G.consumeables.config.card_limit > 0 then
+            table.insert(taken, "consumable_slot")
+        end
+        local removed_ind = pseudorandom("tmtt_removed", 1, #taken)
+        local removed = taken[removed_ind]
+        table.remove(resource, (index_elem(resource, removed) or "hand"))
+        local added = resource[pseudorandom("tmtt_added", 1, #resource)]
+        local morph_funcs = {
+            hand = function(extra, sign)
+                G.GAME.round_resets.hands = G.GAME.round_resets.hands + (sign * extra)
+                ease_hands_played(sign * extra)
+            end,
+            discard = function(extra, sign)
+                G.GAME.round_resets.discards = G.GAME.round_resets.discards + (sign * extra)
+                ease_discard(sign * extra)
+            end,
+            handsize = function(extra, sign)
+                G.hand:change_size(sign * extra)
+            end,
+            joker_slot = function(extra, sign)
+                G.jokers.config.card_limit = G.jokers.config.card_limit + (sign * extra)
+            end,
+            consumable_slot = function(extra, sign)
+                G.consumeables.config.card_limit = G.consumeables.config.card_limit + (sign * extra)
+            end
+        }
         local used_tarot = card or self
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
             play_sound('tarot1')
             used_tarot:juice_up(0.3, 0.5)
-            local prev_hands = G.GAME.round_resets.hands
-            local prev_discards = G.GAME.round_resets.discards
-            local total = prev_hands + prev_discards
-            repeat
-                G.GAME.round_resets.hands = pseudorandom(pseudoseed("morph"), 1, total - 1)
-                G.GAME.round_resets.discards = total - G.GAME.round_resets.hands
-            until G.GAME.round_resets.hands ~= prev_hands and G.GAME.round_resets.discards ~= prev_discards
-            ease_hands_played(G.GAME.round_resets.hands - prev_hands)
-            ease_discard(G.GAME.round_resets.discards - prev_discards)
+            removed_result = {
+                hand = localize{type = 'variable', key = 'a_hand_minus', vars = {card.ability.extra}},
+                discard = localize{type = 'variable', key = 'a_discard_minus', vars = {card.ability.extra}},
+                handsize = localize{type = 'variable', key = 'a_handsize_minus', vars = {card.ability.extra}},
+                joker_slot = localize{type = 'variable', key = 'a_joker_slot_minus', vars = {card.ability.extra}},
+                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot_minus', vars = {card.ability.extra}},
+            }
+            morph_funcs[removed](card.ability.extra, -1)
+            attention_text({
+                text = removed_result[removed],
+                scale = 1,
+                hold = 1,
+                major = used_tarot,
+                backdrop_colour = G.C.RED,
+                align = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+                offset = {x = 0, y = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
+                silent = true
+            })
         return true end }))
+        delay(0.8)
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, func = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+            added_result = {
+                hand = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}},
+                discard = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}},
+                handsize = localize{type = 'variable', key = 'a_handsize', vars = {card.ability.extra}},
+                joker_slot = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra}},
+                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot', vars = {card.ability.extra}},
+            }
+            morph_funcs[added](card.ability.extra, 1)
+            attention_text({
+                text = added_result[added],
+                scale = 1,
+                hold = 1,
+                major = used_tarot,
+                backdrop_colour = G.C.BLUE,
+                align = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and 'tm' or 'cm',
+                offset = {x = 0, y = (G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0},
+                silent = true
+            })
+        return true end }))
+        delay(0.6)
     end,
     atlas = "sdm_consumables"
 }
@@ -256,34 +334,35 @@ SMODS.Consumable{
     pos = {x = 1, y = 1},
     cost = 4,
     can_use = function(self, card, area, copier)
-        return (G.jokers and G.jokers.cards and #G.jokers.cards > 1)
+        if G.jokers and G.jokers.cards then
+            if #G.jokers.cards <= 1 then return false end
+            local eternal_count = 0
+            for _, v in ipairs(G.jokers.cards) do
+                if v.ability.eternal then eternal_count = eternal_count + 1
+            end
+            return eternal_count < #G.jokers.cards - 1 end
+        else
+            return false
+        end
     end,
     use = function(self, card)
-        local deletable_jokers = {}
-        for _, v in pairs(G.jokers.cards) do
-            if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
+        local selected_joker = G.jokers.cards[pseudorandom_element({1, #G.jokers.cards}, pseudoseed('dpgg'))]
+        local replacable_jokers = {}
+        for _, v in ipairs(G.jokers.cards) do
+            if not (v.ability.eternal or v == selected_joker) then replacable_jokers[#replacable_jokers + 1] = v end
         end
-        local amount_to_copy = (#deletable_jokers or 1) - 1
-        local chosen_joker = pseudorandom_element(G.jokers.cards, pseudoseed('dpg_choice'))
-        local _first_dissolve = nil
+        local chosen_joker = pseudorandom_element(replacable_jokers, pseudoseed('dpgg'))
         G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.75, func = function()
-            for _, v in pairs(deletable_jokers) do
-                if v ~= chosen_joker then
-                    v:start_dissolve(nil, _first_dissolve)
-                    _first_dissolve = true
-                end
-            end
+            chosen_joker:start_dissolve()
         return true end }))
         G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.4, func = function()
-            for _ = 1, amount_to_copy do
-                if #G.jokers.cards < G.jokers.config.card_limit then
-                    local _card = copy_card(chosen_joker)
-                    _card:start_materialize()
-                    _card:add_to_deck()
-                    G.jokers:emplace(_card)
-                end
+            if #G.jokers.cards < G.jokers.config.card_limit then
+                local _card = copy_card(selected_joker)
+                _card:start_materialize()
+                _card:add_to_deck()
+                G.jokers:emplace(_card)
             end
-            return true end }))
+        return true end }))
     end,
     atlas = "sdm_consumables"
 }
