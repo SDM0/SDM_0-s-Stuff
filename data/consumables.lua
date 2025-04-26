@@ -356,7 +356,7 @@ SMODS.Consumable{
             chosen_joker:start_dissolve()
         return true end }))
         G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.4, func = function()
-            if #G.jokers.cards < G.jokers.config.card_limit then
+            if #G.jokers.cards <= G.jokers.config.card_limit then
                 local _card = copy_card(selected_joker)
                 _card:start_materialize()
                 _card:add_to_deck()
