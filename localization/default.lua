@@ -737,6 +737,14 @@ return {
                     "{C:inactive}(Doesn't require room)"
                 }
             },
+            c_sdm_wedding_cake = {
+                name = "Wedding Cake",
+                text = {
+                    "{C:dark_edition}+#1#{} Joker Slot",
+                    "{C:attention}+#1#{} consumable slot,",
+                    "lasts forever"
+                }
+            },
             c_sdm_bread_bites = {
                 name = "Bread Bites",
                 text = {

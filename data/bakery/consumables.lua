@@ -354,3 +354,27 @@ SMODS.Bakery{
 }
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_monster = "Bread Monster"
+
+-- Wedding Cake --
+
+SMODS.Bakery{
+    key = 'wedding_cake',
+    name = 'Wedding Cake',
+    pos = {x = 0, y = 2},
+    config = {extra = {amount = 1, remaining = -1}},
+    hidden = true,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.amount
+            G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra.amount
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.amount
+            G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra.amount
+        end
+    end,
+}
+
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_wedding_cake = "Wedding Cake"
