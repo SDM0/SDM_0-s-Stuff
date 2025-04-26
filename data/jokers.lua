@@ -1627,7 +1627,7 @@ SMODS.Atlas{
 
 SMODS.DrawStep{
     key = 'ditto_mark',
-    order = 31,
+    order = -1,
     func = function(self)
         if self.sdm_is_ditto then
             if not SDM_0s_Stuff_Mod.ditto_mark then SDM_0s_Stuff_Mod.ditto_mark = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["sdm_ditto_mark"], {x = 0,y = 0}) end
