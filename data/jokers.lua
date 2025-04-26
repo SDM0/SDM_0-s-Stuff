@@ -1618,6 +1618,26 @@ SMODS.Joker{
 
 SDM_0s_Stuff_Mod.modded_jokers.j_sdm_ditto_joker = "Ditto Joker"
 
+SMODS.Atlas{
+    key = "sdm_ditto_mark",
+    path = "sdm_ditto_mark.png",
+    px = 71,
+    py = 95
+}
+
+SMODS.DrawStep{
+    key = 'ditto_mark',
+    order = 31,
+    func = function(self)
+        if self.sdm_is_ditto then
+            if not SDM_0s_Stuff_Mod.ditto_mark then SDM_0s_Stuff_Mod.ditto_mark = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["sdm_ditto_mark"], {x = 0,y = 0}) end
+            SDM_0s_Stuff_Mod.ditto_mark.role.draw_major = self
+            SDM_0s_Stuff_Mod.ditto_mark:draw_shader('dissolve', nil, nil, nil, self.children.center)
+        end
+    end,
+    conditions = {vortex = false, facing = 'front'}
+}
+
 --- D4 ---
 
 SMODS.Joker{
