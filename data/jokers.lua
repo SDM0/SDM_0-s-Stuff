@@ -96,7 +96,6 @@ SMODS.Joker{
             end
         end
     end,
-    enhancement_gate = 'm_lucky',
     atlas = "sdm_jokers"
 }
 
@@ -1613,6 +1612,12 @@ SMODS.Joker{
             end
         end
     end,
+    in_pool = function()
+        for _, v in ipairs(G.jokers.cards) do
+            if v.sdm_is_ditto then return false end
+        end
+        return true
+    end,
     atlas = "sdm_jokers"
 }
 
@@ -1627,7 +1632,7 @@ SMODS.Atlas{
 
 SMODS.DrawStep{
     key = 'ditto_mark',
-    order = -1,
+    order = 19,
     func = function(self)
         if self.sdm_is_ditto then
             if not SDM_0s_Stuff_Mod.ditto_mark then SDM_0s_Stuff_Mod.ditto_mark = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["sdm_ditto_mark"], {x = 0,y = 0}) end
