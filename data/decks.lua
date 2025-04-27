@@ -74,7 +74,9 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                             G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                         end
                     end
-                    add_joker("j_sdm_lucky_joker", nil, true, true)
+                    for k, v in pairs(G.GAME.probabilities) do
+                        G.GAME.probabilities[k] = v*2
+                    end
                     return true
                 end
             }))
@@ -93,9 +95,9 @@ SMODS.Back{
             if G.GAME.chips + context.chips * context.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                    local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dna_deck'))
-                    if chosen_card then
-                        local _card = copy_card(chosen_card, nil, nil, G.playing_card)
+                    local card_to_copy = G.play.cards[#G.play.cards]
+                    if card_to_copy then
+                        local _card = copy_card(card_to_copy, nil, nil, G.playing_card)
                         _card:add_to_deck()
                         G.deck.config.card_limit = G.deck.config.card_limit + 1
                         table.insert(G.playing_cards, _card)
@@ -160,16 +162,11 @@ SMODS.Back{
 SMODS.Back{
     key = "modders",
     pos = {x = 1, y = 2},
-    loc_vars = function(self)
-        if Tsunami then
-            return {key = self.key .. "_tsunami", vars = {self.config.extra}}
-        end
-    end,
     apply = function()
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
-        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
+        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_antimatter_sleeve")) then
             for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
                 if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) and (not Tsunami or (Tsunami and v.key ~= "j_splash")) then
@@ -217,7 +214,7 @@ SMODS.Back{
 
 SMODS.Back{
     key = "roguelike",
-    pos = {x = 0, y = 0},
+    pos = {x = 0, y = 3},
     config = {booster_slot = 1, vouchers = {"v_overstock_norm"}},
     loc_vars = function(self)
         return {vars = {localize{type = 'name_text', key = 'v_overstock_norm', set = 'Voucher'}, self.config.booster_slot}}
@@ -251,7 +248,7 @@ SMODS.Back{
         -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_equilibrium_sleeve"))
-        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve") -- In case Antimatter Sleeve ever gets added to Cryptid
+        or ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_antimatter_sleeve")
         or (G.GAME.viewed_sleeve and G.GAME.viewed_sleeve == "sleeve_cry_antimatter_sleeve")) then
             for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
                 if not v.original_key or (v.class_prefix..'_'..v.original_key == v.key) then
@@ -274,13 +271,13 @@ SMODS.Back{
         SMODS.change_booster_limit(self.config.booster_slot)
         G.E_MANAGER:add_event(Event({
             func = function()
-                if SDM_0s_Stuff_Config.sdm_jokers then
-                    for i = #G.playing_cards, 1, -1 do
-                        if G.playing_cards[i].base.id == 7 then
-                            G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
-                        end
+                for i = #G.playing_cards, 1, -1 do
+                    if G.playing_cards[i].base.id == 7 then
+                        G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                     end
-                    add_joker("j_sdm_lucky_joker", nil, true, true)
+                end
+                for k, v in pairs(G.GAME.probabilities) do
+                    G.GAME.probabilities[k] = v*2
                 end
                 return true
             end
@@ -303,9 +300,9 @@ SMODS.Back{
             if G.GAME.chips + context.chips * context.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                    local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dos_deck'))
-                    if chosen_card then
-                        local _card = copy_card(chosen_card, nil, nil, G.playing_card)
+                    local card_to_copy = G.play.cards[#G.play.cards]
+                    if card_to_copy then
+                        local _card = copy_card(card_to_copy, nil, nil, G.playing_card)
                         _card:add_to_deck()
                         G.deck.config.card_limit = G.deck.config.card_limit + 1
                         table.insert(G.playing_cards, _card)

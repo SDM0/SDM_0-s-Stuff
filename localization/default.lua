@@ -459,8 +459,8 @@ return {
             b_sdm_bazaar = {
                 name = "Bazaar Deck",
                 text = {
-                    "After Boss Blind,",
-                    "create a random",
+                    "After defeating each",
+                    "{C:attention}Boss Blind{}, create a",
                     "{C:attention}SDM_0's Stuff{} consumable",
                     "{C:inactive}(Must have room)"
                 },
@@ -475,17 +475,16 @@ return {
             b_sdm_lucky_7 = {
                 name = "Lucky 7 Deck",
                 text = {
-                    "Start run with",
-                    "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
                     "{C:red}X#1#{} base Blind size"
                 }
             },
             b_sdm_dna = {
                 name = "DNA Deck",
                 text = {
-                    "{C:attention}1{} playing card from",
-                    "{C:attention}winning poker hand{}",
+                    "Rightmost playing card",
+                    "from {C:attention}winning poker hand{}",
                     "is {C:blue}dupli{C:red}cated{}",
                 }
             },
@@ -924,8 +923,8 @@ return {
             sleeve_sdm_bazaar = {
                 name = "Bazaar Sleeve",
                 text = {
-                    "After Boss Blind,",
-                    "create a random",
+                    "After defeating each",
+                    "{C:attention}Boss Blind{}, create a",
                     "{C:attention}SDM_0's Stuff{} consumable",
                     "{C:inactive}(Must have room)"
                 },
@@ -940,24 +939,23 @@ return {
             sleeve_sdm_lucky_7 = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "Start run with",
-                    "an {C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
                     "{C:red}X#1#{} base Blind size"
                 }
             },
             sleeve_sdm_lucky_7_alt = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "Doubles all {C:attention}listed",
-                    "{C:green,E:1,S:1.1}probabilities",
+                    "Start run with a",
+                    "{C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                 }
             },
             sleeve_sdm_dna = {
                 name = "DNA Sleeve",
                 text = {
-                    "{C:attention}1{} playing card from",
-                    "{C:attention}winning poker hand{}",
+                    "Rightmost playing card",
+                    "from {C:attention}winning poker hand{}",
                     "is {C:blue}dupli{C:red}cated{}",
                 }
             },

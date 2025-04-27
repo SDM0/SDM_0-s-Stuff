@@ -79,7 +79,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
         unlocked = true,
         loc_vars = function(self)
             if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-                return {key = self.key .. '_alt', vars = {}}
+                return {key = self.key .. '_alt', vars = {self.config.ante_scaling}}
             else
                 return {vars = {self.config.ante_scaling}}
             end
@@ -93,11 +93,11 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                         end
                     end
                     G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
-                    add_joker("j_sdm_lucky_joker", nil, true, true)
+                    for k, v in pairs(G.GAME.probabilities) do
+                        G.GAME.probabilities[k] = v*2
+                    end
                     if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-                        for k, v in pairs(G.GAME.probabilities) do
-                            G.GAME.probabilities[k] = v*2
-                        end
+                        add_joker("j_sdm_lucky_joker", nil, true, true)
                     end
                     return true
                 end
@@ -118,9 +118,9 @@ CardSleeves.Sleeve {
             if G.GAME.chips + args.chips * args.mult > G.GAME.blind.chips and (G.play and G.play.cards) then
                 G.E_MANAGER:add_event(Event({func = function()
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                    local chosen_card = pseudorandom_element(G.play.cards, pseudoseed('dna_deck'))
-                    if chosen_card then
-                        local _card = copy_card(chosen_card, nil, nil, G.playing_card)
+                    local card_to_copy = G.play.cards[#G.play.cards]
+                    if card_to_copy then
+                        local _card = copy_card(card_to_copy, nil, nil, G.playing_card)
                         _card:add_to_deck()
                         G.deck.config.card_limit = G.deck.config.card_limit + 1
                         table.insert(G.playing_cards, _card)
@@ -311,7 +311,7 @@ CardSleeves.Sleeve {
 CardSleeves.Sleeve {
     key = "roguelike",
     atlas = "sdm_sleeves",
-    pos = { x = 0, y = 0 },
+    pos = { x = 1, y = 2 },
     unlocked = true,
     loc_vars = function(self)
         local key
