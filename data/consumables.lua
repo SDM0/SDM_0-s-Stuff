@@ -77,7 +77,7 @@ SMODS.Consumable{
     set = 'Tarot',
     pos = {x = 3, y = 0},
     cost = 3,
-    config = {extra = {max_highlighted = 2, chip_mod = 10}},
+    config = {extra = {max_highlighted = 2, chip_mod = 15}},
     loc_vars = function(self, info_queue, card)
         return {vars = {self.config.extra.max_highlighted, self.config.extra.chip_mod}}
     end,
