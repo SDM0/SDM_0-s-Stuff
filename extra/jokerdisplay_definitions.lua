@@ -498,23 +498,6 @@ jd_def["j_sdm_yo_yo"] = { -- Yo-yo
 jd_def["j_sdm_ditto_joker"] = { -- Ditto Joker
 
 }
-jd_def["j_sdm_d4"] = { -- Ditto Joker
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability.extra", ref_value = "min" }
-            }
-        },
-        { text = " - ", colour = G.C.UI.TEXT_INACTIVE  },
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability.extra", ref_value = "max" }
-            }
-        }
-    }
-}
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
         { text = "(" },

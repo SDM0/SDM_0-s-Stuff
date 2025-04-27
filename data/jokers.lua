@@ -314,6 +314,7 @@ SMODS.Joker{
     eternal_compat = false,
     perishable_compat = false,
     pos = {x = 1, y = 1},
+    cost = 10,
     config = {extra = {rounds = 0, remaining = 6}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_soul
@@ -349,7 +350,6 @@ SMODS.Joker{
             end
         end
     end,
-    cost = 10,
     atlas = "sdm_jokers"
 }
 
@@ -611,7 +611,7 @@ SMODS.Joker{
     name = "Ninja Joker",
     rarity = 3,
     pos = {x = 9, y = 1},
-    cost = 8,
+    cost = 7,
     loc_vars = function(self, info_queue, card)
         if not card.edition or (card.edition and not card.edition.negative) then
             info_queue[#info_queue+1] = G.P_CENTERS.e_negative
@@ -1218,7 +1218,7 @@ SMODS.Joker{
     cost = 5,
     config = {extra = 5},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
+        return {vars = {localize('Spades', 'suits_singular'), localize('Diamonds', 'suits_singular'), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if not context.end_of_round and context.individual and context.cardarea == G.hand then
@@ -1647,34 +1647,6 @@ SMODS.DrawStep{
     end,
     conditions = {vortex = false, facing = 'front'}
 }
-
---- D4 ---
-
-SMODS.Joker{
-    key = "d4",
-    name = "D4",
-    rarity = 3,
-    blueprint_compat = true,
-    pos = {x = 5, y = 6},
-    cost = 6,
-    config = {extra = {min = 1, max = 4}},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.min or 1, card.ability.extra.max or 1}}
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main then
-            local xmlt = pseudorandom(pseudoseed('d4'), card.ability.extra.min, card.ability.extra.max)
-            if xmlt ~= 1 then
-                return {
-                    xmult = xmlt,
-                }
-            end
-        end
-    end,
-    atlas = "sdm_jokers"
-}
-
-SDM_0s_Stuff_Mod.modded_jokers.j_sdm_d4 = "D4"
 
 --- Archibald ---
 

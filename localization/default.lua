@@ -285,9 +285,9 @@ return {
             j_sdm_legionary_joker = {
                 name = "Legionary Joker",
                 text = {
-                    "Each {C:spades}Spade{} or {C:diamonds}Diamond{}",
+                    "Each {C:spades}#1#{} or {C:diamonds}#2#{}",
                     "card held in hand",
-                    "gives {C:mult}+#1#{} Mult",
+                    "gives {C:mult}+#3#{} Mult",
                 },
             },
             j_sdm_jack_a_dit = {
@@ -375,16 +375,10 @@ return {
                     "{C:inactive}(Except Ditto Joker)"
                 }
             },
-            j_sdm_d4 = {
-                name = "D4",
-                text = {
-                    "{X:mult,C:white}X#1#{} - {X:mult,C:white}X#2#{} Mult"
-                }
-            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
-                    "After {C:attention}Boss Blind{}, creates",
+                    "Once per {C:attention}Ante{}, creates",
                     "a {C:dark_edition}Negative{} copy of a",
                     "random {C:attention}Joker{} at the",
                     "end of the {C:attention}shop",
