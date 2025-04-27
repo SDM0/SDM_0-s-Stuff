@@ -63,7 +63,7 @@ SMODS.Joker{
                     colour = G.C.CHIPS,
                 }
             end
-        elseif context.joker_main and card.ability.extra.chips > 0 then
+        elseif context.joker_main and card.ability.extra.chips ~= 0 then
             return {
                 chips = card.ability.extra.chips
             }
@@ -110,28 +110,33 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 4, y = 0},
     cost = 5,
-    config = {extra = {mult = 0, mult_mod = 2}},
+    config = {extra = {mult_mod = 2}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {key = "modified_card", set = "Other"}
-        return {vars = {card.ability.extra.mult, card.ability.extra.mult_mod, card.ability.extra.mult_mod * 2}}
-    end,
-    calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.mult > 0 then
-            return {
-                mult = card.ability.extra.mult,
-            }
-        end
-    end,
-    update = function(self, card, dt)
-        card.ability.extra.mult = 0
+        local mlt = 0
         if G.playing_cards then
             for _, v in pairs(G.playing_cards) do
                 if v:get_id() == 14 then
-                    card.ability.extra.mult =  card.ability.extra.mult + card.ability.extra.mult_mod
-                    if (v.edition or v.seal or v.ability.effect ~= "Base") then
-                        card.ability.extra.mult =  card.ability.extra.mult + card.ability.extra.mult_mod
+                    mlt = mlt + card.ability.extra.mult_mod * (((v.edition or v.seal or v.ability.effect ~= "Base") and 2) or 1)
+                end
+            end
+        end
+        return {vars = {mlt, card.ability.extra.mult_mod, card.ability.extra.mult_mod * 2}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local mlt = 0
+            if G.playing_cards then
+                for _, v in pairs(G.playing_cards) do
+                    if v:get_id() == 14 then
+                        mlt =  mlt + card.ability.extra.mult_mod * (((v.edition or v.seal or v.ability.effect ~= "Base") and 2) or 1)
                     end
                 end
+            end
+            if mlt ~= 0 then
+                return {
+                    mult = mlt,
+                }
             end
         end
     end,
@@ -391,9 +396,10 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 3, y = 1},
     cost = 6,
-    config = {extra = {Xmult = 1, Xmult_mod = 0.1, dollars = 2, dollars_mod = 2}},
+    config = {extra = {Xmult_mod = 0.1, dollars = 2, dollars_mod = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.Xmult, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.dollars_mod}}
+        local xmlt = 1 + math.floor(card.ability.extra_value/card.ability.extra.dollars_mod) * card.ability.extra.Xmult_mod
+        return {vars = {xmlt, card.ability.extra.Xmult_mod, card.ability.extra.dollars, card.ability.extra.dollars_mod}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
@@ -410,14 +416,14 @@ SMODS.Joker{
                 end}))
                 return
             end
-        elseif context.joker_main and card.ability.extra.Xmult > 1 then
-            return {
-                Xmult = card.ability.extra.Xmult
-            }
+        elseif context.joker_main then
+            local xmlt = 1 + math.floor(card.ability.extra_value/card.ability.extra.dollars_mod) * card.ability.extra.Xmult_mod
+            if xmlt ~= 1 then
+                return {
+                    Xmult = xmlt
+                }
+            end
         end
-    end,
-    update = function(self, card, dt)
-        card.ability.extra.Xmult = 1 + math.floor(card.ability.extra_value/card.ability.extra.dollars_mod) * card.ability.extra.Xmult_mod
     end,
     atlas = "sdm_jokers"
 }
@@ -790,7 +796,7 @@ SMODS.Joker{
                     return true end}))
                 return
             end
-        elseif context.joker_main and card.ability.extra.Xmult > 1 then
+        elseif context.joker_main and card.ability.extra.Xmult ~= 1 then
             return {
                 Xmult = card.ability.extra.Xmult
             }
@@ -1031,18 +1037,16 @@ SMODS.Joker{
     config = {extra = {chips = 0, chip_mod = 2}},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {key = "chaos_exceptions", set = "Other"}
-        return {vars = {card.ability.extra.chip_mod, card.ability.extra.chips}}
+        local chs = sum_incremental(card.ability.extra.chip_mod)
+        return {vars = {card.ability.extra.chip_mod, chs}}
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
+        local chs = sum_incremental(card.ability.extra.chip_mod)
+        if context.joker_main and chs ~= 0 then
             return {
-                chips = card.ability.extra.chips
+                chips = chs
             }
         end
-    end,
-    update = function(self, card, dt)
-        local num = sum_incremental(card.ability.extra.chip_mod)
-        card.ability.extra.chips = num
     end,
     atlas = "sdm_jokers"
 }
@@ -1067,7 +1071,7 @@ SMODS.Joker{
                 }
             end
             local mlt = _card.base.nominal * 2
-            if mlt > 0 then
+            if mlt ~= 0 then
                 return {
                     mult = mlt
                 }
@@ -1143,7 +1147,7 @@ SMODS.Joker{
         end
         if context.joker_main then
             local xmlt = 1 + (#G.vouchers.cards or 0) * card.ability.extra.Xmult_mod
-            if xmlt > 1 then
+            if xmlt ~= 1 then
                 return {
                     Xmult = xmlt
                 }
@@ -1294,7 +1298,7 @@ SMODS.Joker{
                 }
             end
         end
-        if context.joker_main and card.ability.extra.mult > 0 then
+        if context.joker_main and card.ability.extra.mult ~= 0 then
             return {
                 mult = card.ability.extra.mult
             }
@@ -1446,9 +1450,10 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 6},
     cost = 7,
-    config = {extra = {mult_mod = 4, mult = 0}},
+    config = {extra = {mult_mod = 4}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.mult_mod, card.ability.extra.mult}}
+        local mlt = card.ability.extra.mult_mod * get_crab_count()
+        return {vars = {card.ability.extra.mult_mod, mlt}}
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
@@ -1470,13 +1475,13 @@ SMODS.Joker{
             end
         end
         if context.joker_main then
-            return {
-                mult = card.ability.extra.mult
-            }
+            local mlt = card.ability.extra.mult_mod * get_crab_count()
+            if mlt ~= 0 then
+                return {
+                    mult = mlt
+                }
+            end
         end
-    end,
-    update = function(self, card, dt)
-        card.ability.extra.mult = card.ability.extra.mult_mod * get_crab_count()
     end,
     atlas = "sdm_jokers"
 }
@@ -1658,10 +1663,10 @@ SMODS.Joker{
     end,
     calculate = function(self, card, context)
         if context.joker_main then
-            local _xmult = pseudorandom(pseudoseed('d4'), card.ability.extra.min, card.ability.extra.max)
-            if _xmult ~= 1 then
+            local xmlt = pseudorandom(pseudoseed('d4'), card.ability.extra.min, card.ability.extra.max)
+            if xmlt ~= 1 then
                 return {
-                    xmult = _xmult,
+                    xmult = xmlt,
                 }
             end
         end
@@ -1792,7 +1797,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.dollars, card.ability.extra.dollar_mod}}
     end,
     calc_dollar_bonus = function(self, card)
-        if card.ability.extra.dollars > 0 then
+        if card.ability.extra.dollars ~= 0 then
             return card.ability.extra.dollars
         end
     end,
@@ -1855,7 +1860,7 @@ SMODS.Joker{
                     end
                 end
             end
-        elseif context.joker_main and card.ability.extra.Xmult > 1 then
+        elseif context.joker_main and card.ability.extra.Xmult ~= 1 then
             return {
                 Xmult = card.ability.extra.Xmult
             }
