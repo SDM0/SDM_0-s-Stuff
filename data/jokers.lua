@@ -610,6 +610,7 @@ SMODS.Joker{
     key = "ninja_joker",
     name = "Ninja Joker",
     rarity = 3,
+    eternal_compat = false,
     pos = {x = 9, y = 1},
     cost = 7,
     loc_vars = function(self, info_queue, card)
