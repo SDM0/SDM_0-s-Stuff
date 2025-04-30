@@ -1774,7 +1774,7 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.destroying_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
+        if context.destroy_card and context.cardarea == "unscored" and context.scoring_hand and no_bp_retrigger(context) then
             if #context.scoring_hand == 1 and context.scoring_hand[1]:get_id() == 11 then
                 card.ability.extra.dollars = card.ability.extra.dollars + card.ability.extra.dollar_mod
                 card.ability.skelton_triggered = true
@@ -1832,7 +1832,8 @@ SMODS.Joker{
                     end
                 end
             end
-        elseif context.joker_main and card.ability.extra.Xmult ~= 1 then
+        end
+        if context.joker_main and card.ability.extra.Xmult ~= 1 then
             return {
                 Xmult = card.ability.extra.Xmult
             }
