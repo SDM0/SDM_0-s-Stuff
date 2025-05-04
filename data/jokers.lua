@@ -1583,7 +1583,7 @@ SMODS.Joker{
     pos = {x = 4, y = 6},
     cost = 5,
     calculate = function(self, card, context)
-        if context.setting_blind and not card.getting_sliced then
+        if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
             local valid_jokers = {}
             if G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
                 for i = 1, #G.jokers.cards do
