@@ -110,7 +110,7 @@ end
 -- Initialization of the random "Reach the Stars" condition values
 function rts_init()
     local valid_nums = {}
-    for i = 1, (G.hand and G.hand.config.highlighted_limit or 5) do
+    for i = 1, math.min(G.hand and G.hand.config.card_limit or 8, G.hand and G.hand.config.highlighted_limit or 5) do
         valid_nums[#valid_nums+1] = i
     end
     local c1 = pseudorandom_element(valid_nums, pseudoseed('rts'))
