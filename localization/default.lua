@@ -612,16 +612,16 @@ return {
             c_sdm_morph = {
                 name = "Morph",
                 text = {
-                    "Swap {C:attention}2{} random",
-                    "elements from",
-                    "its tooltip"
+                    "Lose {C:attention}#1#{} item, gain {C:attention}#2#{}",
+                    "of another item",
+                    "from the list"
                 }
             },
             c_sdm_bind = {
                 name = "Bind",
                 text = {
                     "Apply or remove {C:purple}Eternal{}",
-                    "to a selected Joker",
+                    "on a selected Joker",
                     "{C:inactive}(Must be compatible){}"
                 }
             },
@@ -870,8 +870,8 @@ return {
                     "{C:attention}#1#{} rounds"
                 }
             },
-            morph_tooltip = {
-                name = "Morph Tooltip",
+            morph_list = {
+                name = "Morph List",
                 text = {
                     "Hand, discard, handsize,",
                     "joker slot, consumable slot"

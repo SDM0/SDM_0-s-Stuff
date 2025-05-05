@@ -175,25 +175,25 @@ SMODS.Consumable{
     set = 'Spectral',
     pos = {x = 2, y = 0},
     cost = 4,
-    config = {extra = 1},
+    config = {extra = {add = 2, remove = 1}},
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {key = "morph_tooltip", set = "Other"}
-        return {vars = {self.config.extra, (self.config.extra > 1 and "resources") or "resource"}}
+        info_queue[#info_queue+1] = {key = "morph_list", set = "Other"}
+        return {vars = {self.config.extra.remove, self.config.extra.add}}
     end,
     can_use = function(self, card, area, copier)
-        return G.GAME.round_resets.hands > card.ability.extra or G.GAME.round_resets.discards > 0 or to_big(G.GAME.dollars) > to_big(0)
-        or G.hand.config.card_limit > card.ability.extra or G.jokers.config.card_limit > 0 or G.consumeables.config.card_limit > 0
+        return G.GAME.round_resets.hands > card.ability.extra.remove or G.GAME.round_resets.discards > 0 or to_big(G.GAME.dollars) > to_big(0)
+        or G.hand.config.card_limit > card.ability.extra.remove or G.jokers.config.card_limit > 0 or G.consumeables.config.card_limit > 0
     end,
     use = function(self, card)
         local resource = {"hand", "discard", "handsize", "joker_slot", "consumable_slot"}
         local taken = {}
-        if G.GAME.round_resets.hands > card.ability.extra then
+        if G.GAME.round_resets.hands > card.ability.extra.remove then
             table.insert(taken, "hand")
         end
         if G.GAME.round_resets.discards > 0 then
             table.insert(taken, "discard")
         end
-        if G.hand.config.card_limit > card.ability.extra then
+        if G.hand.config.card_limit > card.ability.extra.remove then
             table.insert(taken, "handsize")
         end
         if G.jokers.config.card_limit > 0 then
@@ -230,13 +230,13 @@ SMODS.Consumable{
             play_sound('tarot1')
             used_tarot:juice_up(0.3, 0.5)
             removed_result = {
-                hand = localize{type = 'variable', key = 'a_hand_minus', vars = {card.ability.extra}},
-                discard = localize{type = 'variable', key = 'a_discard_minus', vars = {card.ability.extra}},
-                handsize = localize{type = 'variable', key = 'a_handsize_minus', vars = {card.ability.extra}},
-                joker_slot = localize{type = 'variable', key = 'a_joker_slot_minus', vars = {card.ability.extra}},
-                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot_minus', vars = {card.ability.extra}},
+                hand = localize{type = 'variable', key = 'a_hand_minus', vars = {card.ability.extra.remove}},
+                discard = localize{type = 'variable', key = 'a_discard_minus', vars = {card.ability.extra.remove}},
+                handsize = localize{type = 'variable', key = 'a_handsize_minus', vars = {card.ability.extra.remove}},
+                joker_slot = localize{type = 'variable', key = 'a_joker_slot_minus', vars = {card.ability.extra.remove}},
+                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot_minus', vars = {card.ability.extra.remove}},
             }
-            morph_funcs[removed](card.ability.extra, -1)
+            morph_funcs[removed](card.ability.extra.remove, -1)
             attention_text({
                 text = removed_result[removed],
                 scale = 1,
@@ -253,13 +253,13 @@ SMODS.Consumable{
             play_sound('tarot1')
             used_tarot:juice_up(0.3, 0.5)
             added_result = {
-                hand = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}},
-                discard = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}},
-                handsize = localize{type = 'variable', key = 'a_handsize', vars = {card.ability.extra}},
-                joker_slot = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra}},
-                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot', vars = {card.ability.extra}},
+                hand = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra.add}},
+                discard = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra.add}},
+                handsize = localize{type = 'variable', key = 'a_handsize', vars = {card.ability.extra.add}},
+                joker_slot = localize{type = 'variable', key = 'a_joker_slot', vars = {card.ability.extra.add}},
+                consumable_slot = localize{type = 'variable', key = 'a_consumable_slot', vars = {card.ability.extra.add}},
             }
-            morph_funcs[added](card.ability.extra, 1)
+            morph_funcs[added](card.ability.extra.add, 1)
             attention_text({
                 text = added_result[added],
                 scale = 1,
