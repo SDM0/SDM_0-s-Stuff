@@ -380,9 +380,8 @@ return {
             j_sdm_pastry_chef = {
                 name = "Pastry Chef",
                 text = {
-                    "When a {C:bakery}Bakery{} card",
-                    "is {C:attention}consumed{}, create",
-                    "a {C:bakery}Bakery{} card",
+                    "Create a {C:bakery}Bakery{} good",
+                    "when one is {C:attention}consumed{}",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -596,7 +595,7 @@ return {
                 name = "The Baker",
                 text = {
                     "Creates {C:attention}#1#{} random",
-                    "{C:bakery}Bakery{} card",
+                    "{C:bakery}Bakery{} good",
                     "{C:inactive}(Must have room)"
                 }
             }
@@ -1096,7 +1095,7 @@ return {
                 name = "Caramel",
                 text = {
                   "Create a random {C:dark_edition}Negative{}",
-                  "{C:bakery}Bakery{} card for every",
+                  "{C:bakery}Bakery{} good for every",
                   "{C:attention}#4#{} rounds this has been held",
                   "{C:inactive}(Currently {C:attention}#1#{C:inactive}, {}[{C:attention}#2#{C:inactive}#3#{}]{C:inactive})",
                   "{s:0.8,C:inactive}Art by: Multi"
