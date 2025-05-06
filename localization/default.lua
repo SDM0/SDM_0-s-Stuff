@@ -293,9 +293,11 @@ return {
             j_sdm_jack_a_dit = {
                 name = "Jack a Dit",
                 text = {
-                    "Earn {C:money}$#1#{} when a",
-                    "{C:attention}#2#{} is added",
-                    "to your deck"
+                    "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
+                    "is a {C:attention}#2#{} or {C:attention}#3#{}",
+                    "and has a {C:attention}Jack{}, poker",
+                    "hands changes at",
+                    "end of round"
                 },
             },
             j_sdm_chain_reaction = {
@@ -375,6 +377,15 @@ return {
                     "{C:inactive}(Except Ditto Joker)"
                 }
             },
+            j_sdm_pastry_chef = {
+                name = "Pastry Chef",
+                text = {
+                    "When a {C:bakery}Bakery{} card",
+                    "is {C:attention}consumed{}, create",
+                    "a {C:bakery}Bakery{} card",
+                    "{C:inactive}(Must have room)"
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
@@ -407,9 +418,10 @@ return {
             j_sdm_trance_the_devil = {
                 name = "Trance The Devil",
                 text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "this Joker {C:attention}destroys{} each",
-                    "{C:attention}consumable{} for {X:mult,C:white}X#1#{} Mult",
+                    "This Joker {C:attention}destroys{} each",
+                    "{C:tarot}Tarot{} and {C:planet}Planet{} cards",
+                    "for {X:mult,C:white}X#1#{} Mult at",
+                    "the end of round",
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             },
@@ -633,6 +645,14 @@ return {
                     "rightmost {C:attention}Joker{}",
                 }
             },
+            c_sdm_wedding_cake = {
+                name = "Wedding Cake",
+                text = {
+                    "{C:dark_edition}+#1#{} Joker Slot,",
+                    "{C:attention}+#1#{} consumable slot,",
+                    "lasts forever"
+                }
+            },
         },
         Bakery = {
             c_sdm_dough = {
@@ -728,14 +748,6 @@ return {
                     "when {C:attention}Blind{} is selected,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
-                }
-            },
-            c_sdm_wedding_cake = {
-                name = "Wedding Cake",
-                text = {
-                    "{C:dark_edition}+#1#{} Joker Slot",
-                    "{C:attention}+#1#{} consumable slot,",
-                    "lasts forever"
                 }
             },
             c_sdm_bread_bites = {
@@ -1104,6 +1116,7 @@ return {
             k_bonus = "Bonus",
             k_ditto_ex = "Ditto!",
             k_bakery_pack = "Bakery Pack",
+            k_plus_bakery = "+1 Bakery",
         },
         poker_hands = {
             ['sdm_Chicken Head'] = "Chicken Head",

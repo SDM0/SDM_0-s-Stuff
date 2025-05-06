@@ -419,15 +419,23 @@ jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
 }
 jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
     text = {
-        { text = "+$" },
-        { ref_table = "card.ability", ref_value = "extra" },
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
     },
-    text_config = { colour = G.C.GOLD },
-    reminder_text = {
-        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
-    },
+    text_config = { colour = G.C.MULT },
     calc_function = function(card)
-        card.joker_display_values.localized_text = "(" .. localize("Jack", "ranks") .. ")"
+        local has_jack = false
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        local is_jack_a_dit_poker_hand = text == card.ability.jack_poker_hand
+        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
+            for _, scoring_card in pairs(scoring_hand) do
+                if not scoring_card.debuff and scoring_card.base.value == "Jack" then
+                    has_jack = true
+                    break
+                end
+            end
+        end
+        card.joker_display_values.mult = has_jack and is_jack_a_dit_poker_hand and card.ability.extra or 0
     end
 }
 jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize

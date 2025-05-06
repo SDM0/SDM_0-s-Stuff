@@ -500,15 +500,6 @@ SMODS.Joker{
     pos = {x = 6, y = 1},
     cost = 5,
     config = {extra = 3},
-    loc_txt = {
-        name = "Zombie Joker",
-        text = {
-            "{C:green}#1# in #2#{} chance to create a",
-            "{C:tarot}Death{} card when {C:attention}selling{}",
-            "a card other than {C:tarot}Death{}",
-            "{C:inactive}(Must have room)"
-        }
-    },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_death
         return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
@@ -708,6 +699,8 @@ SMODS.Joker{
                             message = localize('k_reset')
                         }
                     end
+                else
+                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_no_room_ex')})
                 end
             end
         end
@@ -984,6 +977,9 @@ SMODS.Joker{
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra}}
     end,
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then card.sell_cost = 0 end
+    end,
     calculate = function(self, card, context)
         if context.selling_self then
             return {
@@ -1135,7 +1131,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 2, y = 5},
     cost = 8,
-    config = {extra = {Xmult_mod = 0.5}},
+    config = {extra = {Xmult_mod = 0.25}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.Xmult_mod, 1 + ((G.vouchers and #G.vouchers.cards) or 0) * card.ability.extra.Xmult_mod}}
     end,
@@ -1249,27 +1245,55 @@ SMODS.Joker{
     key = "jack_a_dit",
     name = "Jack a Dit",
     rarity = 1,
+    blueprint_compat = true,
     pos = {x = 5, y = 5},
-    cost = 6,
-    config = {extra = 5},
+    cost = 5,
+    config = {extra = 15},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra, localize('Jack', 'ranks')}}
+        return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
+    end,
+    set_ability = function(self, card, initial, delay_sprites)
+        local _poker_hands = {}
+        for k, v in pairs(G.GAME.hands) do
+            if v.visible then _poker_hands[#_poker_hands+1] = k end
+        end
+        local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
+        card.ability.jack_poker_hand1 = nil
+        card.ability.jack_poker_hand2 = nil
+
+        repeat
+            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do1' or 'to_do1'))
+            if card.ability.jack_poker_hand1 == old_hand1 then card.ability.jack_poker_hand1 = nil end
+            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do2' or 'to_do2'))
+            if card.ability.jack_poker_hand2 == old_hand2 then card.ability.jack_poker_hand2 = nil end
+        until card.ability.jack_poker_hand1 and card.ability.jack_poker_hand2 and card.ability.jack_poker_hand1 ~= card.ability.jack_poker_hand2
     end,
     calculate = function(self, card, context)
-        if context.playing_card_added and not card.getting_sliced and no_bp_retrigger(context) then
-            local jacks = 0
-            for _, v in ipairs(context.cards) do
-                if v.base.id == 11 then
-                    jacks = jacks + 1
+        if context.joker_main and context.scoring_hand then
+            local has_jack = false
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:get_id() == 11 then
+                    has_jack = true
+                    break
                 end
             end
-            if jacks > 0 then
-                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra * jacks
-                G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+            if has_jack and (context.scoring_name and (context.scoring_name == card.ability.jack_poker_hand1 or context.scoring_name == card.ability.jack_poker_hand2)) then
                 return {
-                    dollars = card.ability.extra * jacks
+                    mult = card.ability.extra,
                 }
             end
+        end
+        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
+            local _poker_hands = {}
+            for k, v in pairs(G.GAME.hands) do
+                if v.visible and k ~= card.ability.jack_poker_hand1 and k ~= card.ability.jack_poker_hand2 then _poker_hands[#_poker_hands+1] = k end
+            end
+            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jad1'))
+            _poker_hands[card.ability.jack_poker_hand1] = nil
+            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jad2'))
+            return {
+                message = localize('k_reset')
+            }
         end
     end,
     atlas = "sdm_jokers"
@@ -1649,6 +1673,41 @@ SMODS.DrawStep{
     conditions = {vortex = false, facing = 'front'}
 }
 
+--- Pastry Chef ---
+
+SMODS.Joker{
+    key = "pastry_chef",
+    name = "Pastry Chef",
+    rarity = 3,
+    blueprint_compat = true,
+    pos = {x = 5, y = 6},
+    cost = 8,
+    calculate = function(self, card, context)
+        if context.sdm_bakery_consumed then
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                SMODS.add_card({set = 'Bakery', key_append = 'chef'})
+                                G.GAME.consumeable_buffer = 0
+                                return true
+                            end}))
+                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_bakery'), colour = G.C.ORANGE})
+                    return true
+                end)}))
+            end
+        end
+    end,
+    in_pool = function()
+        return SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_bakery
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pastry_chef = "Pastry Chef"
+
 --- Archibald ---
 
 SMODS.Joker{
@@ -1813,11 +1872,12 @@ SMODS.Joker{
         return {vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}}
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not (context.blueprint_card or card).getting_sliced and no_bp_retrigger(context) then
+        if context.end_of_round and not card.getting_sliced and (context.individual or context.repetition) and no_bp_retrigger(context) then
             if G.consumeables and #G.consumeables.cards > 0 then
                 local destructable_consus = {}
                 for i = 1, #G.consumeables.cards do
-                    if not G.consumeables.cards[i].ability.eternal and not G.consumeables.cards[i].getting_sliced then
+                    if not G.consumeables.cards[i].ability.eternal and not G.consumeables.cards[i].getting_sliced
+                    and (G.consumeables.cards[i].ability.set == "Tarot" or G.consumeables.cards[i].ability.set == "Planet") then
                         destructable_consus[#destructable_consus+1] = G.consumeables.cards[i]
                     end
                 end

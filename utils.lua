@@ -24,6 +24,7 @@ end
 -- Faster way to decrease food/bakery consumables remaining counter
 function decrease_remaining_food(card)
     if card.ability.extra.remaining - 1 <= 0 then
+        local is_bakery = card.ability.set == "Bakery"
         G.E_MANAGER:add_event(Event({
             func = function()
                 play_sound('tarot1')
@@ -41,7 +42,9 @@ function decrease_remaining_food(card)
                         end
                         card:remove()
                         card = nil
-                    return true; end}))
+                        if is_bakery then SMODS.calculate_context({sdm_bakery_consumed = true}) end
+                    return true
+                end}))
             return true
         end}))
         card_eval_status_text(card, 'extra', nil, nil, nil, {
