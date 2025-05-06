@@ -144,15 +144,17 @@ SMODS.load_file("utils.lua")()
 if SDM_0s_Stuff_Config.sdm_jokers then
     SMODS.load_file("data/jokers.lua")()
     SMODS.load_file("data/challenges.lua")()
-    if JokerEvolution then
-        SMODS.load_file("extra/joker_evolution.lua")()
-    end
+    --if JokerEvolution then
+    --    SMODS.load_file("extra/joker_evolution.lua")()
+    --end
     if JokerDisplay then
         SMODS.load_file("extra/jokerdisplay_definitions.lua")()
     end
 end
 
-SMODS.load_file("data/pokerhands.lua")()
+if SDM_0s_Stuff_Config.sdm_hands then
+    SMODS.load_file("data/pokerhands.lua")()
+end
 
 if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
@@ -238,6 +240,15 @@ SDM_0s_Stuff_Mod.config_tab = function()
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Enable Bakery Goods*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
+
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_hands" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Enable Poker Hands*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
