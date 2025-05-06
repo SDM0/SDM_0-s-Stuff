@@ -360,6 +360,7 @@ SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_monster = "Bread Monster"
 SMODS.Bakery{
     key = 'wedding_cake',
     name = 'Wedding Cake',
+    set = 'Spectral',
     pos = {x = 0, y = 2},
     config = {extra = {amount = 1, remaining = -1}},
     hidden = true,
