@@ -1255,18 +1255,13 @@ SMODS.Joker{
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
         for k, v in pairs(G.GAME.hands) do
-            if v.visible then _poker_hands[#_poker_hands+1] = k end
+            if v.visible then _poker_hands[k] = true end
         end
-        local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
-        card.ability.jack_poker_hand1 = nil
-        card.ability.jack_poker_hand2 = nil
+        _, card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jack1'))
+        _poker_hands[card.ability.jack_poker_hand1] = nil
+        _, card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jack2'))
 
-        repeat
-            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do1' or 'to_do1'))
-            if card.ability.jack_poker_hand1 == old_hand1 then card.ability.jack_poker_hand1 = nil end
-            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed((card.area and card.area.config.type == 'title') and 'false_to_do2' or 'to_do2'))
-            if card.ability.jack_poker_hand2 == old_hand2 then card.ability.jack_poker_hand2 = nil end
-        until card.ability.jack_poker_hand1 and card.ability.jack_poker_hand2 and card.ability.jack_poker_hand1 ~= card.ability.jack_poker_hand2
+
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_hand then
@@ -1286,11 +1281,14 @@ SMODS.Joker{
         if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
             local _poker_hands = {}
             for k, v in pairs(G.GAME.hands) do
-                if v.visible and k ~= card.ability.jack_poker_hand1 and k ~= card.ability.jack_poker_hand2 then _poker_hands[#_poker_hands+1] = k end
+                if v.visible then _poker_hands[k] = true end
             end
-            card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jad1'))
+            local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
+            _poker_hands[old_hand1] = nil
+            _poker_hands[old_hand2] = nil
+            _, card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jack1'))
             _poker_hands[card.ability.jack_poker_hand1] = nil
-            card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jad2'))
+            _, card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jack2'))
             return {
                 message = localize('k_reset')
             }
