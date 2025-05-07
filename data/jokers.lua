@@ -1671,40 +1671,41 @@ SMODS.DrawStep{
     conditions = {vortex = false, facing = 'front'}
 }
 
---- Pastry Chef ---
+if SDM_0s_Stuff_Config.sdm_bakery then
 
-SMODS.Joker{
-    key = "pastry_chef",
-    name = "Pastry Chef",
-    rarity = 3,
-    blueprint_compat = true,
-    pos = {x = 5, y = 6},
-    cost = 8,
-    calculate = function(self, card, context)
-        if context.sdm_bakery_consumed then
-            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                SMODS.add_card({set = 'Bakery', key_append = 'chef'})
-                                G.GAME.consumeable_buffer = 0
-                                return true
-                            end}))
-                    card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_bakery'), colour = G.C.ORANGE})
-                    return true
-                end)}))
+    --- Pastry Chef ---
+
+    SMODS.Joker{
+        key = "pastry_chef",
+        name = "Pastry Chef",
+        rarity = 3,
+        blueprint_compat = true,
+        pos = {x = 5, y = 6},
+        cost = 8,
+        calculate = function(self, card, context)
+            if context.sdm_bakery_consumed then
+                if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        func = (function()
+                            G.E_MANAGER:add_event(Event({
+                                func = function()
+                                    SMODS.add_card({set = 'Bakery', key_append = 'chef'})
+                                    G.GAME.consumeable_buffer = 0
+                                    return true
+                                end}))
+                        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_bakery'), colour = G.C.ORANGE})
+                        return true
+                    end)}))
+                end
             end
-        end
-    end,
-    in_pool = function()
-        return SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_bakery
-    end,
-    atlas = "sdm_jokers"
-}
+        end,
+        atlas = "sdm_jokers"
+    }
 
-SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pastry_chef = "Pastry Chef"
+    SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pastry_chef = "Pastry Chef"
+
+end
 
 --- Archibald ---
 
