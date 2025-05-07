@@ -1629,7 +1629,7 @@ SMODS.Joker{
                             end
                         end
                         card.ability.fusion = nil -- FusionJokers compat to remove fuse button
-                        card.sdm_is_ditto = true
+                        card.ability.sdm_is_ditto = true
                         return true
                     end
                 }))
@@ -1642,7 +1642,7 @@ SMODS.Joker{
     end,
     in_pool = function()
         for _, v in ipairs(G.jokers.cards) do
-            if v.sdm_is_ditto then return false end
+            if v.ability and v.ability.sdm_is_ditto then return false end
         end
         return true
     end,
@@ -1662,7 +1662,7 @@ SMODS.DrawStep{
     key = 'ditto_mark',
     order = 19,
     func = function(self)
-        if self.sdm_is_ditto then
+        if self.ability.sdm_is_ditto then
             if not SDM_0s_Stuff_Mod.ditto_mark then SDM_0s_Stuff_Mod.ditto_mark = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["sdm_ditto_mark"], {x = 0,y = 0}) end
             SDM_0s_Stuff_Mod.ditto_mark.role.draw_major = self
             SDM_0s_Stuff_Mod.ditto_mark:draw_shader('dissolve', nil, nil, nil, self.children.center)
