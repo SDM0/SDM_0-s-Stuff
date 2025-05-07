@@ -2,16 +2,6 @@
 
 local jd_def = JokerDisplay.Definitions
 
-jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability.extra", ref_value = "Xmult" }
-            }
-        }
-    }
-}
 jd_def["j_sdm_burger"] = { -- Burger
     text = {
         { text = "+",                       colour = G.C.CHIPS },
@@ -122,27 +112,7 @@ jd_def["j_sdm_shareholder_joker"] = { -- Shareholder Joker
     end
 }
 jd_def["j_sdm_magic_hands"] = { -- Magic Hands
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.joker_display_values", ref_value = "x_mult" }
-            }
-        }
-    },
-    calc_function = function(card)
-        local is_magic_hands_hand = false
-        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
-        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
-            local cards_id = {}
-            for _, scoring_card in pairs(scoring_hand) do
-                table.insert(cards_id, scoring_card:get_id())
-            end
-            local max_card = count_max_occurence(cards_id) or 0
-            is_magic_hands_hand = (G.GAME.current_round.hands_left + (next(G.play.cards) and 1 or 0)) == max_card
-        end
-        card.joker_display_values.x_mult = is_magic_hands_hand and card.ability.extra or 1
-    end
+
 }
 jd_def["j_sdm_tip_jar"] = { -- Tip Jar
     text = {
@@ -163,55 +133,32 @@ jd_def["j_sdm_tip_jar"] = { -- Tip Jar
     end
 }
 jd_def["j_sdm_wandering_star"] = { -- Wandering Star
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "active" },
-        { text = ")" },
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
     },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
     calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.repetition and localize("k_active_ex") or "Inactive"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.repetition and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
     end
-
 }
+
 jd_def["j_sdm_ouija_board"] = { -- Ouija Board
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_rare" },
-        { text = "/" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_secret" },
-        { text = "/" },
-        { ref_table = "card.joker_display_values", ref_value = "localized_text_spectral" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.localized_text_rare = localize("k_rare")
-        card.joker_display_values.localized_text_secret = "Secret"
-        card.joker_display_values.localized_text_spectral = localize("k_spectral")
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text then
-            if reminder_text.children[2] then
-                reminder_text.children[2].config.colour = card.ability.extra.sold_rare and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-            if reminder_text.children[4] then
-                reminder_text.children[4].config.colour = card.ability.extra.scored_secret and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-            if reminder_text.children[6] then
-                reminder_text.children[6].config.colour = card.ability.extra.used_spectral and G.C.ORANGE or
-                    G.C.UI.TEXT_INACTIVE
-            end
-        end
-        return false
-    end
+reminder_text = {
+    { text = "(" },
+    { ref_table = "card.joker_display_values", ref_value = "active" },
+    { text = ")" },
+},
+calc_function = function(card)
+    card.joker_display_values.active = card.ability.extra.rounds >= card.ability.extra.remaining and
+        localize("k_active") or
+        (card.ability.extra.rounds .. "/" .. card.ability.extra.remaining)
+end
 }
 jd_def["j_sdm_la_revolution"] = { -- La Révolution
 
@@ -228,7 +175,7 @@ jd_def["j_sdm_clown_bank"] = { -- Clown Bank
     reminder_text = {
         { text = "(" },
         { text = "$",                       colour = G.C.GOLD },
-        { ref_table = "card.ability.extra", ref_value = "dollars", colour = G.C.GOLD },
+        { ref_table = "card.ability", ref_value = "extra_value", colour = G.C.GOLD },
         { text = ")" },
     }
 }
@@ -280,21 +227,7 @@ jd_def["j_sdm_infinite_staircase"] = { -- Infinite Staircase
     end
 }
 jd_def["j_sdm_ninja_joker"] = { -- Ninja Joker
-    reminder_text = {
-        { text = "(" },
-        { ref_table = "card.joker_display_values", ref_value = "active" },
-        { text = ")" },
-    },
-    calc_function = function(card)
-        card.joker_display_values.active = card.ability.extra.can_dupe and localize("k_active_ex") or "Inactive"
-    end,
-    style_function = function(card, text, reminder_text, extra)
-        if reminder_text and reminder_text.children[2] then
-            reminder_text.children[2].config.colour = card.ability.extra.can_dupe and G.C.ORANGE or
-                G.C.UI.TEXT_INACTIVE
-        end
-        return false
-    end
+
 }
 jd_def["j_sdm_reach_the_stars"] = { -- Reach The Stars
     text = {
@@ -363,17 +296,7 @@ jd_def["j_sdm_contract"] = { -- Contract
         },
     },
 }
-jd_def["j_sdm_cupidon"] = { -- Cupidon
-    text = {
-        {
-            border_nodes = {
-                { text = "X" },
-                { ref_table = "card.ability", ref_value = "extra" }
-            },
-            border_colour = G.C.FILTER
-        }
-    },
-}
+jd_def["j_sdm_cupidon"] = {} -- Cupidon
 jd_def["j_sdm_pizza"] = { -- Pizza
     reminder_text = {
         { text = "(+" },
@@ -403,14 +326,35 @@ jd_def["j_sdm_chaos_theory"] = { -- Chaos Theory
     text_config = { colour = G.C.CHIPS },
 }
 jd_def["j_sdm_jambo"] = { -- Jambo
-
-}
-jd_def["j_sdm_water_slide"] = { -- Water Slide
     text = {
         { text = "+" },
-        { ref_table = "card.ability.extra", ref_value = "chips" }
+        { ref_table = "card.joker_display_values", ref_value = "min" },
+        { text = " | ", colour = G.C.UI.TEXT_INACTIVE },
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "max" },
     },
-    text_config = { colour = G.C.CHIPS },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local min = nil
+        local max = nil
+        if (G.discard and G.discard.cards) then
+            for _, v in ipairs(G.discard.cards) do
+                if v.debuff then min = 0
+                else
+                    if not min then min = v.base.nominal * 2
+                    elseif v.base.nominal * 2 < min then min = v.base.nominal * 2 end
+
+                    if not max then max = v.base.nominal * 2
+                    elseif v.base.nominal * 2 > max then max = v.base.nominal * 2 end
+                end
+            end
+        end
+        card.joker_display_values.min = min or 0
+        card.joker_display_values.max = max or 0
+    end
+}
+jd_def["j_sdm_water_slide"] = { -- Water Slide
+
 }
 jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
     text = {
@@ -425,12 +369,12 @@ jd_def["j_sdm_joker_voucher"] = { -- Joker Voucher
     text_config = { colour = G.C.MULT },
     calc_function = function(card)
         local has_voucher = false
-        local used_voucher = 0
+        local voucher_amount = 0
         for _, _ in pairs(G.GAME.used_vouchers) do
             has_voucher = true
-            used_voucher = used_voucher + 1
+            voucher_amount = voucher_amount + 1
         end
-        card.joker_display_values.x_mult = (has_voucher and 1 + used_voucher * card.ability.extra.Xmult_mod) or 1
+        card.joker_display_values.x_mult = (has_voucher and 1 + voucher_amount * card.ability.extra.Xmult_mod) or 1
     end
 }
 jd_def["j_sdm_free_pass"] = { -- Free Pass
@@ -438,11 +382,12 @@ jd_def["j_sdm_free_pass"] = { -- Free Pass
         { ref_table = "card.joker_display_values", ref_value = "extra", colour = G.C.FILTER},
     },
     calc_function = function(card)
-        local is_free_pass_act = #G.hand.highlighted == 1
-        card.joker_display_values.active = G.GAME and G.GAME.current_round.discards_used == 0 and
-            G.GAME.current_round.discards_left > 0
+        local valid_pass = G.GAME and G.GAME.current_round.discards_used == 0 and
+        G.GAME.current_round.discards_left > 0 and G.GAME.current_round.hands_played == 0 and
+        G.GAME.current_round.hands_left > 0
+        card.joker_display_values.active = valid_pass
         card.joker_display_values.extra = card.joker_display_values.active and
-            ("+" .. (is_free_pass_act and card.ability.extra and JokerDisplay.number_format(card.ability.extra) or 0)) or
+            ("+" .. (valid_pass and card.ability.extra and JokerDisplay.number_format(card.ability.extra) or 0)) or
             "-"
     end,
     style_function = function(card, text, reminder_text, extra)
@@ -472,6 +417,95 @@ jd_def["j_sdm_legionary_joker"] = { -- Legionary Joker
         card.joker_display_values.mult = mult
     end
 }
+jd_def["j_sdm_jack_a_dit"] = { -- Jack a Dit
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local has_jack = false
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        local is_jack_a_dit_poker_hand = text == card.ability.jack_poker_hand
+        if #JokerDisplay.current_hand > 0 and text ~= "Unknown" then
+            for _, scoring_card in pairs(scoring_hand) do
+                if not scoring_card.debuff and scoring_card.base.value == "Jack" then
+                    has_jack = true
+                    break
+                end
+            end
+        end
+        card.joker_display_values.mult = has_jack and is_jack_a_dit_poker_hand and card.ability.extra or 0
+    end
+}
+jd_def["j_sdm_consolation_prize"] = { -- Consolation Prize
+
+}
+jd_def["j_sdm_horoscopy"] = { -- Horoscopy
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
+    end
+}
+jd_def["j_sdm_roulette"] = { -- Roulette
+    extra = {
+        {
+            { text = "(" },
+            { ref_table = "card.joker_display_values", ref_value = "odds" },
+            { text = " in " },
+            { ref_table = "card.ability",              ref_value = "extra" },
+            { text = ")" },
+        }
+    },
+    extra_config = { colour = G.C.GREEN, scale = 0.3 },
+    calc_function = function(card)
+        card.joker_display_values.odds = G.GAME and G.GAME.probabilities.normal or 1
+    end
+}
+jd_def["j_sdm_carcinization"] = { -- Carcinization
+    text = {
+        { text = "+" },
+        { ref_table = "card.ability.extra", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT }
+}
+jd_def["j_sdm_wormhole"] = { -- Wormhole
+
+}
+jd_def["j_sdm_child"] = { -- Child
+    text = {
+        {
+            text = "X",
+            colour = G.C.ORANGE
+        },
+        { ref_table = "card.ability", ref_value = "extra", colour = G.C.ORANGE },
+    }
+}
+jd_def["j_sdm_yo_yo"] = { -- Yo-yo
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.joker_display_values", ref_value = "Xmult" },
+            }
+        }
+    },
+    calc_function = function(card)
+        card.joker_display_values.Xmult = (card.ability.extra.low and card.ability.extra.low_xmult) or card.ability.extra.high_xmult
+    end,
+}
+jd_def["j_sdm_ditto_joker"] = { -- Ditto Joker
+
+}
 jd_def["j_sdm_archibald"] = { -- Archibald
     reminder_text = {
         { text = "(" },
@@ -495,4 +529,79 @@ jd_def["j_sdm_0"] = { -- SDM_0
         { ref_table = "card.ability.extra", ref_value = "jkr_slots", colour = G.C.DARK_EDITION },
         { text = ")" },
     },
+}
+jd_def["j_sdm_skelton"] = { -- Skelton
+text = {
+    { text = "+$" },
+    { ref_table = "card.ability.extra", ref_value = "dollars" },
+    },
+    text_config = { colour = G.C.GOLD },
+    reminder_text = {
+        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+    end
+}
+jd_def["j_sdm_trance_the_devil"] = { -- Trance The Devil
+    text = {
+        {
+            border_nodes = {
+                { text = "X" },
+                { ref_table = "card.ability.extra", ref_value = "Xmult" }
+            }
+        }
+    }
+}
+jd_def["j_sdm_mishmash"] = { -- Mishmash
+    text = {
+        { text = "+",                              colour = G.C.CHIPS },
+        { ref_table = "card.joker_display_values", ref_value = "chips", colour = G.C.CHIPS },
+        { text = " +",                             colour = G.C.MULT },
+        { ref_table = "card.joker_display_values", ref_value = "mult",  colour = G.C.MULT },
+    },
+    calc_function = function(card)
+        local chips = 0
+        local mult = 0
+        local text, poker_hands, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= "Unknown" then
+            for _, scoring_card in pairs(scoring_hand) do
+                if scoring_card.ability.effect and scoring_card.ability.effect == "Bonus Card" then
+                    mult = mult + card.ability.extra.mult *
+                        JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                elseif scoring_card.ability.effect and scoring_card.ability.effect == "Mult Card" then
+                    chips = chips + card.ability.extra.chips *
+                        JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
+                end
+            end
+        end
+        card.joker_display_values.chips = chips
+        card.joker_display_values.mult = mult
+    end
+}
+jd_def["j_sdm_ceo_joker"] = { -- CEO Joker
+    text = {
+        { text = "+$" },
+        { ref_table = "card.ability.extra", ref_value = "min" },
+        { text = "-" },
+        { ref_table = "card.ability.extra", ref_value = "max" },
+    },
+    text_config = { colour = G.C.GOLD },
+    reminder_text = {
+        { ref_table = "card.joker_display_values", ref_value = "localized_text" },
+    },
+    calc_function = function(card)
+        card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
+    end
+}
+jd_def["j_sdm_maglev_train"] = { -- Maglev Train
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult" },
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        card.joker_display_values.mult = G.GAME.current_round.hands_played == 0 and
+            G.GAME.current_round.discards_used == 0 and card.ability.extra or 0
+    end
 }

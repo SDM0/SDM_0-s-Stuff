@@ -1,15 +1,6 @@
 return {
     descriptions = {
         Joker = {
-            j_sdm_trance_the_devil = {
-                name = "Trance The Devil",
-                text = {
-                    "When {C:attention}Blind{} is selected,",
-                    "this Joker {C:attention}destroys{} each",
-                    "{C:attention}consumable{} for {X:red,C:white}X#1#{} Mult",
-                    "{C:inactive}(Currently {X:red,C:white}X#2#{C:inactive} Mult)"
-                }
-            },
             j_sdm_burger = {
                 name = "Burger",
                 text = {
@@ -22,8 +13,7 @@ return {
                 name = "Bounciest Ball",
                 text = {
                     "This Joker gains {C:chips}+#2#{} Chips when",
-                    "scoring most played {C:attention}poker hand{},",
-                    "halved on {C:attention}different hand{}",
+                    "scoring most played {C:attention}poker hand{}",
                     "{C:inactive}(Currently {C:attention}#3#{C:inactive}, {C:chips}+#1#{C:inactive} Chips)"
                 }
             },
@@ -73,10 +63,9 @@ return {
             j_sdm_magic_hands = {
                 name = "Magic Hands",
                 text = {
-                    "{X:mult,C:white}X#1#{} Mult if scored {C:attention}poker hand{} has",
-                    "exactly {C:blue}#2#{} {C:inactive,s:0.8}(= hands left before Play){}",
-                    "of its most frequent rank",
-                    "{C:inactive}(ex: {C:attention}K K K Q Q{C:inactive} with {C:blue}3{C:inactive} hands left)",
+                    "{C:attention}Three of a Kind{} or",
+                    "{C:attention}higher{} can be made",
+                    "with {C:attention}1{} less card"
                 }
             },
             j_sdm_tip_jar = {
@@ -91,22 +80,18 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "Creates a copy of",
-                    "a used {C:planet}Planet{} card,",
-                    "once per {C:attention}round{}",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#)"
+                    "{C:green}#1# in #2#{} chance to level up a",
+                    "random {C:attention}poker hand{} on {C:green}reroll{}"
                 }
             },
             j_sdm_ouija_board = {
                 name = "Ouija Board",
                 text = {
-                    "After selling a {C:red}Rare {C:attention}Joker{},",
-                    "scoring a {C:attention}secret poker hand{}",
-                    "and using a {C:spectral}Spectral{} card,",
-                    "sell this Joker to create a {C:spectral}Soul{} card",
-                    "{s:0.8,C:inactive}(Must have room)",
-                    "{C:inactive}(Remaining {C:attention}#3#{C:inactive}#4#/{C:attention}#5#{C:inactive}#6#/{C:attention}#7#{C:inactive}#8#)"
+                    "After {C:attention}#2#{} rounds,",
+                    "sell this card to",
+                    "create a {C:spectral}Soul{} card",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)"
                 }
             },
             j_sdm_la_revolution = {
@@ -120,8 +105,8 @@ return {
                 name = "Clown Bank",
                 text = {
                     "When {C:attention}Blind{} is selected, spend {C:money}$#3#{}",
-                    "to give this Joker {X:mult,C:white}X#2#{} Mult",
-                    "and increase requirement by {C:money}$#4#{}",
+                    "into this Joker {C:attention}sell value{},",
+                    "{X:mult,C:white}X#2#{} Mult per {C:money}$#4#{} of {C:attention}extra sell value{}",
                     "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)"
                 }
             },
@@ -137,16 +122,16 @@ return {
                 name = "Warehouse",
                 text = {
                     "{C:attention}+#1#{} hand size,",
-                    "{C:red}-#2#{} consumable slot,",
-                    "lose {C:money}$#3#{} if sold"
+                    "other cards",
+                    "can't be sold",
                 }
             },
             j_sdm_zombie_joker = {
                 name = "Zombie Joker",
                 text = {
-                    "{C:green}#1# in #2#{} chance to create a",
-                    "{C:tarot}Death{} card when {C:attention}selling{}",
-                    "a card other than {C:tarot}Death{}",
+                    "{C:green}#1# in #2#{} chance to create",
+                    "a {C:tarot}Death{} card when",
+                    "{C:attention}selling{} a Joker card",
                     "{C:inactive}(Must have room)"
                 }
             },
@@ -168,15 +153,14 @@ return {
             j_sdm_ninja_joker = {
                 name = "Ninja Joker",
                 text = {
-                    "Creates a {C:dark_edition}Negative{C:attention} Tag{} if",
-                    "a playing card is {C:attention}destroyed{},",
-                    "becomes inactive until a",
-                    "{C:attention}playing card{} is added",
-                    "{C:inactive}(Currently {C:attention}#1#{C:inactive}#2#{C:inactive})"
+                    "This Joker adds {C:dark_edition}Negative{} on",
+                    "the Joker to the left when",
+                    "a {C:attention}playing card{} is destroyed",
+                    "then {S:1.1,C:red,E:2}self destructs{}"
                 }
             },
             j_sdm_reach_the_stars = {
-                name = "Reach The Stars",
+                name = "Reach the Stars",
                 text = {
                     "Scoring a hand of {C:attention}#1#{} and",
                     "{C:attention}#2#{} cards creates a",
@@ -192,6 +176,15 @@ return {
                     "{C:attention}Doubles{} or {C:red}destroys{}",
                     "each added {C:attention}Joker{}",
                     "{C:inactive}(Must have room)"
+                }
+            },
+            j_sdm_crooked_joker_cryptid = {
+                name = "Crooked Joker",
+                text = {
+                    "{C:attention}Doubles{} or {C:red}destroys{}",
+                    "each added {C:attention}Joker{}",
+                    "{C:inactive}(Must have room)",
+                    "{C:inactive}(Cannot be rigged)"
                 }
             },
             j_sdm_property_damage = {
@@ -221,23 +214,24 @@ return {
             j_sdm_cupidon = {
                 name = "Cupidon",
                 text = {
-                    "{X:attention,C:white}X#1#{} Blind",
-                    "requirement",
+                    "{C:blue}+#1#{} hand,",
+                    "{C:attention}+#2#{} hand size,",
+                    "{C:red}-#3#{} discards",
                 }
             },
             j_sdm_pizza = {
                 name = "Pizza",
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "gain {C:blue}+#1#{} #3#",
+                    "gain {C:blue}+#1#{} hands",
                     "{C:blue}-#2#{} per round played"
                 }
             },
             j_sdm_treasure_chest = {
                 name = "Treasure Chest",
                 text = {
-                    "Gains {C:money}$#1#{} of {C:attention}sell value{}",
-                    "per {C:attention}consumable{} sold",
+                    "Sell this card",
+                    "to gain {C:money}$#1#",
                 }
             },
             j_sdm_bullet_train = {
@@ -268,10 +262,9 @@ return {
             j_sdm_water_slide = {
                 name = "Water Slide",
                 text = {
-                    "This Joker gains {C:chips}+#1#{}",
-                    "Chips if scored hand",
-                    "contains a {C:attention}9{}, {C:attention}7{} or {C:attention}6",
-                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+                    "All played {C:attention}9{}, {C:attention}7{} and {C:attention}6{}",
+                    "become {C:attention}Bonus{} cards",
+                    "when scored",
                 }
             },
             j_sdm_joker_voucher = {
@@ -285,24 +278,117 @@ return {
             j_sdm_free_pass = {
                 name = "Free Pass",
                 text = {
-                    "If {C:attention}first hand{} or {C:attention}discard{}",
-                    "of round has only {C:attention}1{} card,",
-                    "gain {C:attention}+#1#{} {C:blue}hand{} or {C:red}discard{}",
-                    "respectively",
+                    "First {C:blue}hand{} or {C:red}discard{}",
+                    "of round is {C:attention}free{}",
                 }
             },
             j_sdm_legionary_joker = {
                 name = "Legionary Joker",
                 text = {
-                    "Each {C:spades}Spade{} or {C:diamonds}Diamond{}",
+                    "Each {C:spades}#1#{} or {C:diamonds}#2#{}",
                     "card held in hand",
-                    "gives {C:mult}+#1#{} Mult",
+                    "gives {C:mult}+#3#{} Mult",
                 },
+            },
+            j_sdm_jack_a_dit = {
+                name = "Jack a Dit",
+                text = {
+                    "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
+                    "is a {C:attention}#2#{} or {C:attention}#3#{}",
+                    "and has a {C:attention}Jack{}, poker",
+                    "hands changes at",
+                    "end of round"
+                },
+            },
+            j_sdm_chain_reaction = {
+                name = "Chain Reaction",
+                text = {
+                    "This Joker gains {C:mult}+X{} Mult",
+                    "when scoring an {C:attention}X of a Kind{}",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
+                }
+            },
+            j_sdm_consolation_prize = {
+                name = "Consolation Prize",
+                text = {
+                    "At end of round, create",
+                    "a random {C:attention}Tag{} if you",
+                    "played your {C:attention}final hand{}",
+                }
+            },
+            j_sdm_horoscopy = {
+                name = "Horoscopy",
+                text = {
+                    "{C:green}#1# in #2#{} chance to create a",
+                    "random {C:tarot}Tarot{} card when",
+                    "a {C:planet}Planet{} card is used",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
+            j_sdm_roulette = {
+                name = "Roulette",
+                text = {
+                    "When round begins,",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "a {C:dark_edition}Foil{}, {C:dark_edition}Holographic{} or",
+                    "{C:dark_edition}Polychrome{} edition to",
+                    "a random {C:attention}Joker{} or {C:attention}card{}",
+                },
+            },
+            j_sdm_carcinization = {
+                name = "Carcinization",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "turn Joker to the left",
+                    "into {C:attention}Carcinization{},",
+                    "{C:mult}+#1#{} Mult per {C:attention}Carcinization{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                }
+            },
+            j_sdm_wormhole = {
+                name = "Wormhole",
+                text = {
+                    "Level ups are {C:attention}doubled{}"
+                }
+            },
+            j_sdm_child = {
+                name = "Child",
+                text = {
+                    "{X:attention,C:white}X#1#{} Blind",
+                    "requirement",
+                }
+            },
+            j_sdm_yo_yo = {
+                name = "Yo-Yo",
+                text = {
+                    "Swaps between {X:mult,C:white}X#1#",
+                    "and {X:mult,C:white}X#2#{} Mult each",
+                    "{C:attention}played hand",
+                    "{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)"
+                }
+            },
+            j_sdm_ditto_joker = {
+                name = "Ditto Joker",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "turns into a random",
+                    "owned {C:attention}Joker{}, resets",
+                    "on each selected {C:attention}Blind{}",
+                    "{C:inactive}(Except Ditto Joker)"
+                }
+            },
+            j_sdm_pastry_chef = {
+                name = "Pastry Chef",
+                text = {
+                    "Create a {C:bakery}Bakery{} good",
+                    "when one is {C:attention}consumed{}",
+                    "{C:inactive}(Must have room)"
+                }
             },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {
-                    "After {C:attention}Boss Blind{}, creates",
+                    "Once per {C:attention}Ante{}, creates",
                     "a {C:dark_edition}Negative{} copy of a",
                     "random {C:attention}Joker{} at the",
                     "end of the {C:attention}shop",
@@ -313,27 +399,81 @@ return {
             j_sdm_0 = { -- Steamodded thinks "sdm" overwrites the prefix
                 name = "SDM_0",
                 text = {
-                    "This Joker gains {C:dark_edition}+#1#{} Joker",
-                    "Slots per destroyed {C:attention}2{}s",
-                    "{C:inactive}(Currently {C:dark_edition}+#2# {C:inactive}Joker #3#)"
+                    "{C:dark_edition}+#1#{} Joker Slot",
+                    "when a {C:attention}2{}",
+                    "is destroyed"
                 }
             },
+            j_sdm_skelton = {
+                name = "Skelton",
+                text = {
+                    "If scored hand is a single",
+                    "{C:attention}Jack{}, this Joker destroys",
+                    "each {C:attention}unscored card{} and",
+                    "gains {C:money}$#2#{} per destroyed card",
+                    "{C:inactive}(Currently {C:money}$#1#{C:inactive})"
+                }
+            },
+            j_sdm_trance_the_devil = {
+                name = "Trance The Devil",
+                text = {
+                    "This Joker {C:attention}destroys{} each",
+                    "{C:tarot}Tarot{} and {C:planet}Planet{} cards",
+                    "for {X:mult,C:white}X#1#{} Mult at",
+                    "the end of round",
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
+                }
+            },
+            -- Joker Evolutions
+            j_sdm_mishmash = {
+                name = "Mishmash",
+                text = {
+                    "Scored {C:attention}Bonus{} cards give {C:mult}+#1#{} Mult,",
+                    "scored {C:attention}Mult{} cards give {C:chips}+#2#{} Chips,",
+                    "held {C:attention}Gold{} cards give {X:mult,C:white}X#3#{} Mult and",
+                    "held {C:attention}Steel{} cards give {C:money}$#4#{} at end of round",
+                }
+            },
+            j_sdm_ceo_joker = {
+                name = "CEO Joker",
+                text = {
+                    "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
+                    "at end of round,",
+                }
+            },
+            j_sdm_maglev_train = {
+                name = "Maglev Train",
+                text = {
+                    "{C:mult}+#1#{} Mult on your",
+                    "{C:attention}first hand{} if no discards",
+                    "were used this round",
+                }
+            },
+            j_sdm_joker_voucher_voucher = {
+                name = "Joker Voucher Voucher",
+                text = {
+                    "This card is destroyed to redeem",
+                    "a {C:attention}Joker Voucher Voucher{}"
+                }
+            }
         },
         Back = {
             b_sdm_0_s = {
                 name = "SDM_0's Deck",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:eternal}Eternal non-{C:legendary}legendary",
-                    "{C:attention}SDM_0's Stuff{} jokers",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "Joker cards",
+                    "appear {C:attention}5{} times",
+                    "more often"
                 },
             },
             b_sdm_bazaar = {
                 name = "Bazaar Deck",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
-                    "consumables",
+                    "After defeating each",
+                    "{C:attention}Boss Blind{}, create a",
+                    "{C:attention}SDM_0's Stuff{} consumable",
+                    "{C:inactive}(Must have room)"
                 },
             },
             b_sdm_sandbox = {
@@ -346,16 +486,16 @@ return {
             b_sdm_lucky_7 = {
                 name = "Lucky 7 Deck",
                 text = {
-                    "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
+                    "{C:red}X#1#{} base Blind size"
                 }
             },
             b_sdm_dna = {
                 name = "DNA Deck",
                 text = {
-                    "{C:attention}1{} playing card from",
-                    "{C:attention}winning poker hand{}",
+                    "Rightmost playing card",
+                    "from {C:attention}winning poker hand{}",
                     "is {C:blue}dupli{C:red}cated{}",
                 }
             },
@@ -383,10 +523,43 @@ return {
                     "Earn no {C:attention}Interest{} at end of round"
                 }
             },
+            b_sdm_modders = {
+                name = "Modder's Deck",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear in shop",
+                    "{C:inactive}(Except{} {C:blue,T:j_splash}Splash{}{C:inactive})",
+                }
+            },
+            b_sdm_reverb = {
+                name = "Reverb Deck",
+                text = {
+                    "Retrigger each Joker",
+                    "{C:attention}#2#{} time",
+                    "{C:red}#1#{} Joker Slots",
+                }
+            },
+            b_sdm_roguelike = {
+                name = "Roguelike Deck",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_norm}#1#{} voucher",
+                    "{C:attention}+#2#{} Booster Pack slot",
+                    "{C:green}Rerolling{} is disabled"
+                }
+            },
+            b_sdm_bakers = {
+                name = "Baker's Deck",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
+                    "{C:attention}+#2#{} consumable slot",
+                }
+            },
             b_sdm_deck_of_stuff = {
                 name = "Deck of Stuff",
                 text = {
-                    "Combines every",
+                    "Combines each",
                     "{C:attention}SDM_0's Stuff{}",
                     "deck effect"
                 }
@@ -396,11 +569,39 @@ return {
             c_sdm_sphinx = {
                 name = "The Sphinx",
                 text = {
-                    "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
-                    "or {C:dark_edition}Polychrome{} edition to",
+                    "{C:green}#1# in #2#{} chance to add",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition to",
                     "a random {C:attention}card{} in hand"
                 }
+            },
+            c_sdm_mother = {
+                name = "The Mother",
+                text = {
+                    "Permanently upgrades",
+                    "up to {C:attention}#1#{} selected",
+                    "cards with {C:chips}+#2#{} Chips"
+                }
+            },
+            c_sdm_baker = {
+                name = "The Baker",
+                text = {
+                    "Creates {C:attention}#1#{} random",
+                    "{C:bakery}Bakery{} good",
+                    "{C:inactive}(Must have room)"
+                }
             }
+        },
+        Planet = {
+            c_sdm_eggxoplanet = {
+                name = "Egg-xoplanet",
+                text = {
+                    "{S:0.8}({S:0.8,V:1}lvl.#1#{S:0.8}){} Level up",
+                    "{C:attention}#2#",
+                    "{C:mult}+#3#{} Mult and",
+                    "{C:chips}+#4#{} chips"
+                }
+            },
         },
         Spectral = {
             c_sdm_sacrifice = {
@@ -414,12 +615,235 @@ return {
             c_sdm_morph = {
                 name = "Morph",
                 text = {
-                    "Swap {C:attention}#1#{} #2#",
-                    "with another one"
+                    "Lose {C:attention}#1#{} item, gain {C:attention}#2#{}",
+                    "of another item",
+                    "from the list"
+                }
+            },
+            c_sdm_bind = {
+                name = "Bind",
+                text = {
+                    "Apply or remove {C:purple}Eternal{}",
+                    "on a selected Joker",
+                    "{C:inactive}(Must be compatible){}"
+                }
+            },
+            c_sdm_doppelganger = {
+                name = "Doppelgänger",
+                text = {
+                    "Replaces a random {C:attention}Joker{}",
+                    "by the leftmost or",
+                    "rightmost {C:attention}Joker{}",
+                }
+            },
+            c_sdm_wedding_cake = {
+                name = "Wedding Cake",
+                text = {
+                    "{C:dark_edition}+#1#{} Joker Slot,",
+                    "{C:attention}+#1#{} consumable slot,",
+                    "lasts forever"
+                }
+            },
+        },
+        Bakery = {
+            c_sdm_dough = {
+                name = "Dough",
+                text = {
+                    "Earn {C:money}$#1#{},",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
+            c_sdm_pita = {
+                name = "Pita",
+                text = {
+                    "{C:chips}+#1#{} Chips,",
+                    "lasts {C:attention}#2#{} hand(s)",
+                }
+            },
+            c_sdm_sourdough = {
+                name = "Sourdough",
+                text = {
+                    "{X:chips,C:white}X#1#{} Chips,",
+                    "lasts {C:attention}#2#{} hand(s)",
+                }
+            },
+            c_sdm_baguette = {
+                name = "Baguette",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "lasts {C:attention}#2#{} hand(s)",
+                }
+            },
+            c_sdm_banana_bread = {
+                name = "Banana Bread",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult,",
+                    "{C:green}#2# in #3#{} chance this",
+                    "card is destroyed",
+                    "at end of round"
+                }
+            },
+            c_sdm_breadsticks = {
+                name = "Breadsticks",
+                text = {
+                    "{C:blue}+#1#{} hand,",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
+            c_sdm_croissant = {
+                name = "Croissant",
+                text = {
+                    "{C:red}+#1#{} discard,",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
+            c_sdm_bread_loaf = {
+                name = "Bread Loaf",
+                text = {
+                    "{C:attention}+#1#{} handsize,",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
+            c_sdm_doughnut = {
+                name = "Doughnut",
+                text = {
+                    "When round begins, add a",
+                    "random {C:attention}playing card{} with",
+                    "a random {C:attention}enhancement{},",
+                    "{C:attention}seal{} and {C:attention}edition{},",
+                    "lasts {C:attention}#2#{} round(s)",
+                }
+            },
+            c_sdm_fortune_cookie = {
+                name = "Fortune Cookie",
+                text = {
+                    "Create {C:attention}#1#{} {C:tarot}Tarot{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_moon_cake = {
+                name = "Moon Cake",
+                text = {
+                    "Create {C:attention}#1#{} {C:planet}Planet{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_bread_monster = {
+                name = "Bread Monster",
+                text = {
+                    "Create {C:attention}#1#{} {C:spectral}Spectral{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_bread_bites = {
+                name = "Bread Bites",
+                text = {
+                    "Create {C:attention}#1#{} {C:cry_code}Code{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+        },
+        Voucher = {
+            v_sdm_shadow = {
+                name = "Shadow",
+                text = {
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
+                }
+            },
+            v_sdm_eclipse = {
+                name = "Eclipse",
+                text = {
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
+                    "when {C:attention}Boss Blind{} is defeated"
+                }
+            },
+            v_sdm_oblivion = {
+                name = "Oblivion",
+                text = {
+                    "Create a {C:dark_edition}Negative{C:attention} Tag{}",
+                    "when {C:attention}Blind{} is defeated"
+                }
+            },
+            v_sdm_bakery_stall = {
+                name = "Bakery Stall",
+                text = {
+                    "{C:bakery}Bakery{} goods may",
+                    "appear in the shop"
+                }
+            },
+            v_sdm_bakery_shop = {
+                name = "Bakery Shop",
+                text = {
+                    "{C:bakery}Bakery{} goods lasts",
+                    "twice as long",
+                },
+            },
+            v_sdm_bakery_factory = {
+                name = "Bakery Factory",
+                text = {
+                    "Double the effects",
+                    "of {C:bakery}Bakery{} goods"
+                },
+            },
+            v_sdm_joker_voucher = {
+                name = "Joker Voucher",
+                text = {
+                    "{X:mult,C:white}X#1#{} Mult per redeemed",
+                    "{C:attention}Voucher{} this run",
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             }
         },
+        Tag = {
+            tag_sdm_flour = {
+                name = "Flour Tag",
+                text = {
+                    "Gives a free",
+                    "{C:bakery}Jumbo Bakery Pack"
+                }
+            },
+        },
         Other = {
+            p_sdm_bakery_normal_1 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_normal_2 = {
+                name = "Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_jumbo_1 = {
+                name = "Jumbo Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
+                    "be taken immediately"
+                }
+            },
+            p_sdm_bakery_mega_1 = {
+                name = "Mega Bakery Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bakery} Bakery{} goods to",
+                    "be taken immediately"
+                }
+            },
             space_jokers = {
                 name = "Space Jokers",
                 text = {
@@ -449,11 +873,43 @@ return {
                     "{C:attention}#1#{} rounds"
                 }
             },
-            resources = {
-                name = "Resources",
+            morph_list = {
+                name = "Morph List",
                 text = {
-                    "Hand, discard, dollar, handsize,",
+                    "Hand, discard, handsize,",
                     "joker slot, consumable slot"
+                }
+            },
+            je_j_sdm_mult_n_chips = {
+                name = "Evolution",
+                text = {
+                    "Score {C:attention}#2# Mult",
+                    "and {C:attention}Bonus{} cards",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_shareholder_joker = {
+                name = "Evolution",
+                text = {
+                    "Sell {C:attention}#2# {C:blue}Common",
+                    "{C:attention}Joker{} cards",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_bullet_train = {
+                name = "Evolution",
+                text = {
+                    "Win {C:attention}#2# rounds",
+                    "with {C:attention}1{} hand",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
+                }
+            },
+            je_j_sdm_joker_voucher = {
+                name = "Evolution",
+                text = {
+                    "Purchase {C:attention}#2#{} vouchers",
+                    "this run",
+                    "{C:inactive}({C:attention}#1#{C:inactive}/#2#)"
                 }
             }
         },
@@ -461,17 +917,19 @@ return {
             sleeve_sdm_0_s = {
                 name = "SDM_0's Sleeve",
                 text = {
-                    "Start run with",
-                    "{s:0.9,C:attention}#1#{s:0.9} random {s:0.9,C:eternal}Eternal non-{s:0.9,C:legendary}legendary",
-                    "{C:attention}SDM_0's Stuff{} jokers",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "Joker cards",
+                    "appear {C:attention}5{} times",
+                    "more often"
                 },
             },
             sleeve_sdm_bazaar = {
                 name = "Bazaar Sleeve",
                 text = {
-                    "Start run with",
-                    "{C:attention}#1#{} random {C:attention}SDM_0's Stuff{}",
-                    "consumables",
+                    "After defeating each",
+                    "{C:attention}Boss Blind{}, create a",
+                    "{C:attention}SDM_0's Stuff{} consumable",
+                    "{C:inactive}(Must have room)"
                 },
             },
             sleeve_sdm_sandbox = {
@@ -484,24 +942,23 @@ return {
             sleeve_sdm_lucky_7 = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "Start run with",
-                    "an {C:eternal}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                     "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
+                    "{C:red}X#1#{} base Blind size"
                 }
             },
             sleeve_sdm_lucky_7_alt = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "{C:attention,T:j_sdm_lucky_joker}Lucky Joker{} is {C:dark_edition}Negative{}",
-                    "Doubles all {C:attention}listed",
-                    "{C:green,E:1,S:1.1}probabilities",
+                    "Start run with a",
+                    "{C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
                 }
             },
             sleeve_sdm_dna = {
                 name = "DNA Sleeve",
                 text = {
-                    "{C:attention}1{} playing card from",
-                    "{C:attention}winning poker hand{}",
+                    "Rightmost playing card",
+                    "from {C:attention}winning poker hand{}",
                     "is {C:blue}dupli{C:red}cated{}",
                 }
             },
@@ -553,13 +1010,104 @@ return {
                     "{C:money}$#1#{} per remaining {C:red}Discard",
                     "{s:0.8}Earn no {s:0.8,C:attention}Interest{s:0.8} at end of round"
                 }
-            }
+            },
+            sleeve_sdm_modders = {
+                name = "Modder's Sleeve",
+                text = {
+                    "{C:attention}Vanilla{} Joker cards",
+                    "can't appear in shop"
+                }
+            },
+            sleeve_sdm_modders_alt = {
+                name = "Modder's Sleeve",
+                text = {
+                    "{C:attention}Vanilla{} cards",
+                    "and Vouchers",
+                    "can't appear in shop"
+                }
+            },
+            sleeve_sdm_reverb = {
+                name = "Reverb Sleeve",
+                text = {
+                    "Retrigger each Joker",
+                    "{C:attention}#2#{} time",
+                    "{C:red}#1#{} Joker Slots",
+                }
+            },
+            sleeve_sdm_reverb_alt = {
+                name = "Reverb Sleeve",
+                text = {
+                    "Retrigger each Joker",
+                    "{C:attention}#1#{} more time",
+                }
+            },
+            sleeve_sdm_roguelike = {
+                name = "Roguelike Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_norm}#1#{} voucher",
+                    "{C:attention}+#2#{} Booster Pack slot",
+                    "{C:green}Rerolling{} is disabled"
+                }
+            },
+            sleeve_sdm_roguelike_alt = {
+                name = "Roguelike Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:attention,T:v_overstock_plus}#1#{} voucher",
+                    "{C:attention}+#2#{} Voucher slot",
+                }
+            },
+            sleeve_sdm_bakers = {
+                name = "Baker's Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_stall}#1#{} voucher",
+                    "{C:attention}+#2#{} consumable slots",
+                }
+            },
+            sleeve_sdm_bakers_alt = {
+                name = "Baker's Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:bakery,T:v_sdm_bakery_shop}#1#{} voucher",
+                }
+            },
         },
+        Colour = {
+            c_sdm_caramel = {
+                name = "Caramel",
+                text = {
+                  "Create a random {C:dark_edition}Negative{}",
+                  "{C:bakery}Bakery{} good for every",
+                  "{C:attention}#4#{} rounds this has been held",
+                  "{C:inactive}(Currently {C:attention}#1#{C:inactive}, {}[{C:attention}#2#{C:inactive}#3#{}]{C:inactive})",
+                  "{s:0.8,C:inactive}Art by: Multi"
+                },
+            },
+        }
     },
     misc = {
         dictionary = {
+            k_sdm_active = "Active",
+            k_sdm_inactive = "Inactive",
             k_halved_ex = "Halved!",
             k_shared_ex = "Shared!",
+            k_plus_code = "+1 Code",
+            k_plus_tag = "+1 Tag",
+            k_crab_ex = "Crab!",
+            k_bonus = "Bonus",
+            k_ditto_ex = "Ditto!",
+            k_bakery_pack = "Bakery Pack",
+            k_plus_bakery = "+1 Bakery",
+        },
+        poker_hands = {
+            ['sdm_Chicken Head'] = "Chicken Head",
+        },
+        poker_hand_descriptions = {
+            ['sdm_Chicken Head'] = {
+                "A hand containing at least an 8, 4 and 3"
+            },
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
@@ -576,5 +1124,11 @@ return {
                 "{C:planet}Planets{} no longer appear in the {C:attention}shop"
             }
         },
-    },
+        achievement_names = {
+			ach_sdm_good_riddance = "Good Riddance",
+		},
+		achievement_descriptions = {
+			ach_sdm_good_riddance = 'Use ://DELETE on a Blurred Joker',
+        },
+    }
 }
