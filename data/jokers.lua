@@ -1603,7 +1603,7 @@ SMODS.Joker{
     rarity = 2,
     eternal_compat = false,
     pos = {x = 4, y = 6},
-    cost = 5,
+    cost = 7,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and no_bp_retrigger(context) then
             local valid_jokers = {}
