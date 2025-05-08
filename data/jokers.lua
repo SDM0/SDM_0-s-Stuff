@@ -616,10 +616,17 @@ SMODS.Joker{
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
             end
-            if my_pos and G.jokers.cards[my_pos-1] then
+            local jokers = {}
+            if my_pos then
+                if G.jokers.cards[my_pos-1] then jokers[#jokers+1] = G.jokers.cards[my_pos-1] end
+                if G.jokers.cards[my_pos+1] then jokers[#jokers+1] = G.jokers.cards[my_pos+1] end
+            end
+            if jokers[1] then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
-                        G.jokers.cards[my_pos-1]:set_edition("e_negative")
+                        for i = 1, #jokers do
+                            jokers[i]:set_edition("e_negative")
+                        end
                         card:juice_up(0.3, 0.4)
                         card:start_dissolve({G.C.DARK_EDITION}, nil, 1.6)
                         return true
@@ -1248,7 +1255,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 5, y = 5},
     cost = 5,
-    config = {extra = 15},
+    config = {extra = 20},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
     end,

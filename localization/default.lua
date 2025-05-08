@@ -154,7 +154,7 @@ return {
                 name = "Ninja Joker",
                 text = {
                     "This Joker adds {C:dark_edition}Negative{} on",
-                    "the Joker to the left when",
+                    "each {C:attention}adjacent Joker{} when",
                     "a {C:attention}playing card{} is destroyed",
                     "then {S:1.1,C:red,E:2}self destructs{}"
                 }
