@@ -1074,18 +1074,6 @@ return {
                 }
             },
         },
-        Colour = {
-            c_sdm_caramel = {
-                name = "Caramel",
-                text = {
-                  "Create a random {C:dark_edition}Negative{}",
-                  "{C:bakery}Bakery{} good for every",
-                  "{C:attention}#4#{} rounds this has been held",
-                  "{C:inactive}(Currently {C:attention}#1#{C:inactive}, {}[{C:attention}#2#{C:inactive}#3#{}]{C:inactive})",
-                  "{s:0.8,C:inactive}Art by: Multi"
-                },
-            },
-        }
     },
     misc = {
         dictionary = {

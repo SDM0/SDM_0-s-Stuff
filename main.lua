@@ -158,9 +158,6 @@ end
 
 if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
-    if mf_config then
-        SMODS.load_file("extra/morefluff.lua")()
-    end
 end
 
 if SDM_0s_Stuff_Config.sdm_vouchers then
