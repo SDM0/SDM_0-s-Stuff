@@ -556,6 +556,24 @@ return {
                     "{C:attention}+#2#{} consumable slot",
                 }
             },
+            b_sdm_deck_of_dreams = {
+                name = "Deck of Dreams",
+                text = {
+                    "Combines each",
+                    "{C:green}positive{}",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "deck effect"
+                }
+            },
+            b_sdm_deck_of_nightmares = {
+                name = "Deck of Nightmares",
+                text = {
+                    "Combines each",
+                    "{C:red}negative{}",
+                    "{C:attention}SDM_0's Stuff{}",
+                    "deck effect"
+                }
+            },
             b_sdm_deck_of_stuff = {
                 name = "Deck of Stuff",
                 text = {
