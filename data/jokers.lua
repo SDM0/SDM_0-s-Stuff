@@ -733,8 +733,8 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.sdm_adding_card and context.card and no_bp_retrigger(context) then
-            if context.card ~= card and context.card.ability.set == 'Joker' and not context.card.not_crooked then
+        if context.card_added and no_bp_retrigger(context) then
+            if context.card ~= card and context.card.ability.set == 'Joker' and not (context.card.ability and context.card.ability.not_crooked) then
                 local do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
                 if do_dupe == 1 then
                     if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
@@ -745,8 +745,9 @@ SMODS.Joker{
                         })
                         G.E_MANAGER:add_event(Event({
                             func = function()
+                                context.card.ability.not_crooked = true
                                 local new_card = copy_card(context.card, nil, nil, nil, nil)
-                                new_card:add_to_deck2()
+                                new_card:add_to_deck()
                                 G.jokers:emplace(new_card)
                                 new_card:start_materialize()
                                 G.GAME.joker_buffer = 0

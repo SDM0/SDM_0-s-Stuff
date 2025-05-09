@@ -131,13 +131,6 @@ end
 
 -- Overrides
 
---- "Crooked Joker" failsafe
-local atd = Card.add_to_deck
-function Card:add_to_deck2(debuff)
-    self.not_crooked = true
-    return atd(self, debuff)
-end
-
 local gfcr = G.FUNCS.can_reroll
 function G.FUNCS.can_reroll(e)
 	if G.GAME.modifiers.sdm_no_reroll then
