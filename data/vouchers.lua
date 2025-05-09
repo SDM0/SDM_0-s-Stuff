@@ -54,6 +54,33 @@ SMODS.Voucher{
     atlas = "sdm_vouchers"
 }
 
+-- Drought
+
+SMODS.Voucher{
+    key = 'drought',
+    name = 'Drought',
+    pos = {x = 1, y = 0},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.p_standard_normal_1
+    end,
+    -- Effect in "lovely.toml"
+    atlas = "sdm_vouchers"
+}
+
+-- Famine
+
+SMODS.Voucher{
+    key = 'famine',
+    name = 'Famine',
+    pos = {x = 1, y = 1},
+    requires = {"v_sdm_drought"},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.p_buffoon_normal_1
+    end,
+    -- Effect in "lovely.toml"
+    atlas = "sdm_vouchers"
+}
+
 if JokerEvolution then
 
     --- Joker Voucher

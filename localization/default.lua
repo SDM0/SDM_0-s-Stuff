@@ -772,6 +772,20 @@ return {
                     "when {C:attention}Blind{} is defeated"
                 }
             },
+            v_sdm_drought = {
+                name = "Drought",
+                text = {
+                    "{C:attention}Standard Packs{} no",
+                    "longer appear in shop"
+                }
+            },
+            v_sdm_famine = {
+                name = "Famine",
+                text = {
+                    "{C:attention}Buffon Packs{} no",
+                    "longer appear in shop"
+                }
+            },
             v_sdm_bakery_stall = {
                 name = "Bakery Stall",
                 text = {
