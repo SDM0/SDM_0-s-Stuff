@@ -396,19 +396,3 @@ payload = '''
 	end
 '''
 match_indent = true
-
-# "Drought" voucher line effect
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = "v.current_weight = v.get_weight and v:get_weight() or v.weight or 1"
-position = "before"
-payload = '''
-if G.GAME and G.GAME.used_vouchers.v_sdm_drought then
-    if v.kind == "Standard" then G.GAME.banned_keys[v.key] = true end
-end
-if G.GAME and G.GAME.used_vouchers.v_sdm_famine then
-    if v.kind == "Buffoon" then G.GAME.banned_keys[v.key] = true end
-end
-'''
-match_indent = true
