@@ -486,7 +486,7 @@ return {
             b_sdm_lucky_7 = {
                 name = "Lucky 7 Deck",
                 text = {
-                    "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "Starting {C:attention}7s{} are {C:attention,T:m_lucky}Lucky{} Cards",
                     "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
                     "{C:red}X#1#{} base Blind size"
                 }
@@ -894,6 +894,21 @@ return {
                     "joker slot, consumable slot"
                 }
             },
+            undefined_standard_pack = {
+                name = "Standard Pack",
+                text = {
+                    "Choose {C:attention}X{} of up to",
+                    "{C:attention}Y{C:attention} Playing{} cards to",
+                    "add to your deck"
+                }
+            },
+            undefined_buffoon_pack = {
+                name = "Buffoon Pack",
+                text = {
+                    "Choose {C:attention}X{} of up to",
+                    "{C:attention}Y{C:joker} Joker{} cards"
+                }
+            },
             je_j_sdm_mult_n_chips = {
                 name = "Evolution",
                 text = {
@@ -956,7 +971,7 @@ return {
             sleeve_sdm_lucky_7 = {
                 name = "Lucky 7 Sleeve",
                 text = {
-                    "Every {C:attention}7{} is a {C:attention,T:m_lucky}Lucky{} card",
+                    "Starting {C:attention}7s{} are {C:attention,T:m_lucky}Lucky{} Cards",
                     "{s:0.8}Doubles all {C:attention,s:0.8}listed {C:green,E:1,S:1.1,s:0.8}probabilities",
                     "{C:red}X#1#{} base Blind size"
                 }
