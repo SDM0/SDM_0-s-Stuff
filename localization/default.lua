@@ -700,14 +700,14 @@ return {
             c_sdm_breadsticks = {
                 name = "Breadsticks",
                 text = {
-                    "{C:blue}+#1#{} hand,",
+                    "{C:blue}+#1#{} hands,",
                     "lasts {C:attention}#2#{} round(s)",
                 }
             },
             c_sdm_croissant = {
                 name = "Croissant",
                 text = {
-                    "{C:red}+#1#{} discard,",
+                    "{C:red}+#1#{} discards,",
                     "lasts {C:attention}#2#{} round(s)",
                 }
             },
@@ -718,13 +718,12 @@ return {
                     "lasts {C:attention}#2#{} round(s)",
                 }
             },
-            c_sdm_doughnut = {
-                name = "Doughnut",
+            c_sdm_sprinkle_donut = {
+                name = "Sprinkle Donut",
                 text = {
-                    "When round begins, add a",
-                    "random {C:attention}playing card{} with",
-                    "a random {C:attention}enhancement{},",
-                    "{C:attention}seal{} and {C:attention}edition{},",
+                    "When round begins, add",
+                    "{C:dark_edition}Polychrome{} to a random",
+                    "{C:attention}playing card{} in hand,",
                     "lasts {C:attention}#2#{} round(s)",
                 }
             },

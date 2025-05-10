@@ -25,7 +25,7 @@ SMODS.Consumable{
         return {vars = {self.config.extra}}
     end,
     can_use = function(self, card, area, copier)
-        return #G.consumeables.cards < G.consumeables.config.card_limit or card.area == G.consumeables
+        return #G.consumeables.cards <= G.consumeables.config.card_limit
     end,
     use = function(self, card)
         local used_tarot = card or self
@@ -53,11 +53,13 @@ SMODS.Bakery{
     config = {extra = {amount = 2, remaining = 4}},
     calculate = function(self, card, context)
         if context.joker_main then
-            if no_bp_retrigger(context) then
-                decrease_remaining_food(card)
-            end
             return {
                 x_chips = card.ability.extra.amount,
+                func = function()
+                    if not context or no_bp_retrigger(context) then
+                        decrease_remaining_food(card)
+                    end
+                end
             }
         end
     end,
@@ -74,11 +76,13 @@ SMODS.Bakery{
     config = {extra = {amount = 2, remaining = 4}},
     calculate = function(self, card, context)
         if context.joker_main then
-            if no_bp_retrigger(context) then
-                decrease_remaining_food(card)
-            end
             return {
                 x_mult = card.ability.extra.amount,
+                func = function()
+                    if not context or no_bp_retrigger(context) then
+                        decrease_remaining_food(card)
+                    end
+                end
             }
         end
     end,
@@ -108,7 +112,7 @@ SMODS.Bakery{
     key = 'banana_bread',
     name = 'Banana Bread',
     pos = {x = 3, y = 0},
-    config = {extra = {amount = 3, remaining = 4}},
+    config = {extra = {amount = 3, remaining = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.amount, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.remaining}}
     end,
@@ -230,36 +234,30 @@ SMODS.Bakery{
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_loaf = "Bread Loaf"
 
--- Doughnut --
+-- Sprinkle Donut --
 
 SMODS.Bakery{
-    key = 'doughnut',
-    name = 'Doughnut',
+    key = 'sprinkle_donut',
+    name = 'Sprinkle Donut',
     pos = {x = 1, y = 1},
-    config = {extra = {amount = 1, remaining = 3}},
+    config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
         if context.first_hand_drawn and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount do
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local _card = create_playing_card({
-                            front = pseudorandom_element(G.P_CARDS, pseudoseed('cert_fr')),
-                            center = G.P_CENTERS[SMODS.poll_enhancement({key = "dgt", guaranteed = true})]}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
-                        _card:set_seal(SMODS.poll_seal({guaranteed = true, type_key = "dgt"}))
-                        _card:set_edition(poll_edition("dgt", nil, true, true))
-                        G.GAME.blind:debuff_card(_card)
-                        G.hand:sort()
-                        card:juice_up()
-                        return true
-                    end}))
-                playing_card_joker_effects({true})
+            local no_edition_cards = {}
+            for _, v in ipairs(G.hand.cards) do
+                if not v.edition then no_edition_cards[#no_edition_cards+1] = v end
             end
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                local _card = pseudorandom_element(no_edition_cards, pseudoseed('dnt'))
+                _card:set_edition('e_polychrome', true)
+                card:juice_up(0.3, 0.5)
+            return true end }))
             decrease_remaining_food(card)
         end
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_consumables.c_sdm_doughnut = "Doughnut"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sprinkle_donut = "Sprinkle Donut"
 
 -- Fortune Cookie --
 
