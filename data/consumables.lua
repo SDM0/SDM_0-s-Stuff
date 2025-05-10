@@ -341,9 +341,9 @@ SMODS.Consumable{
             if #G.jokers.cards <= 1 then return false end
             local eternal_count = 0
             for _, v in ipairs(G.jokers.cards) do
-                if v.ability.eternal then eternal_count = eternal_count + 1
+                if v.ability.eternal then eternal_count = eternal_count + 1 end
             end
-            return eternal_count < #G.jokers.cards - 1 end
+            return eternal_count < #G.jokers.cards
         else
             return false
         end
