@@ -24,6 +24,7 @@ end
 --- Bazaar Sleeve
 
 if SDM_0s_Stuff_Config.sdm_consus then
+
     CardSleeves.Sleeve {
         key = "bazaar",
         atlas = "sdm_sleeves",
@@ -49,6 +50,7 @@ if SDM_0s_Stuff_Config.sdm_consus then
             end
         end,
     }
+
 end
 
 --- Sandbox Sleeve
@@ -347,23 +349,27 @@ CardSleeves.Sleeve {
 
 --- Baker's Sleeve
 
-CardSleeves.Sleeve {
-    key = "bakers",
-    atlas = "sdm_sleeves",
-    pos = { x = 4, y = 1 },
-    unlocked = true,
-    loc_vars = function(self)
-        local key
-        local vars = {}
-        if self.get_current_deck_key() == "b_sdm_bakers" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-            key = self.key .. "_alt"
-            self.config = {vouchers = {'v_sdm_bakery_shop'}}
-            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_shop', set = 'Voucher'}}
-        else
-            key = self.key
-            self.config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1}
-            vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, self.config.consumable_slot}
+if SDM_0s_Stuff_Config.sdm_bakery then
+
+    CardSleeves.Sleeve {
+        key = "bakers",
+        atlas = "sdm_sleeves",
+        pos = { x = 4, y = 1 },
+        unlocked = true,
+        loc_vars = function(self)
+            local key
+            local vars = {}
+            if self.get_current_deck_key() == "b_sdm_bakers" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
+                key = self.key .. "_alt"
+                self.config = {vouchers = {'v_sdm_bakery_shop'}}
+                vars = {localize{type = 'name_text', key = 'v_sdm_bakery_shop', set = 'Voucher'}}
+            else
+                key = self.key
+                self.config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1}
+                vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, self.config.consumable_slot}
+            end
+            return { key = key, vars = vars }
         end
-        return { key = key, vars = vars }
-    end
-}
+    }
+
+end
