@@ -54,7 +54,7 @@ SMODS.Bakery{
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                x_chips = card.ability.extra.amount,
+                xchips = card.ability.extra.amount,
                 func = function()
                     if not context or no_bp_retrigger(context) then
                         decrease_remaining_food(card)
@@ -77,7 +77,7 @@ SMODS.Bakery{
     calculate = function(self, card, context)
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.amount,
+                xmult = card.ability.extra.amount,
                 func = function()
                     if not context or no_bp_retrigger(context) then
                         decrease_remaining_food(card)
@@ -112,41 +112,43 @@ SMODS.Bakery{
     key = 'banana_bread',
     name = 'Banana Bread',
     pos = {x = 3, y = 0},
-    config = {extra = {amount = 3, remaining = 3}},
+    config = {extra = {amount = 3, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.amount, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        card.T.r = -0.2
-                        card:juice_up(0.3, 0.4)
-                        card.states.drag.is = true
-                        card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                G.jokers:remove_card(card)
-                                card:remove()
-                                card = nil
-                            return true; end}))
-                        return true
-                    end
-                }))
-                return {
-                    message = localize('k_extinct_ex')
-                }
-            else
-                return {
-                    message = localize('k_safe_ex')
-                }
-            end
-        end
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.amount,
+                xmult = card.ability.extra.amount,
+                func = function()
+                    if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                play_sound('tarot1')
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
+                                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
+                                    return true; end}))
+                                return true
+                            end
+                        }))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_extinct_ex'),
+                            colour = G.C.FILTER
+                        })
+                    else
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_safe_ex'),
+                            colour = G.C.FILTER
+                        })
+                    end
+                end
             }
         end
     end,

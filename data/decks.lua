@@ -19,6 +19,7 @@ end
 --- Bazaar Deck
 
 if SDM_0s_Stuff_Config.sdm_consus then
+
     SMODS.Back{
         key = "bazaar",
         pos = {x = 1, y = 0},
@@ -39,6 +40,7 @@ if SDM_0s_Stuff_Config.sdm_consus then
         end,
         atlas = "sdm_enhancers"
     }
+
 end
 
 --- Sandbox Deck
@@ -228,22 +230,26 @@ SMODS.Back{
 
 --- Baker's Deck
 
-SMODS.Back{
-    key = "bakers",
-    pos = {x = 2, y = 2},
-    config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1},
-    loc_vars = function(self)
-        return {vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, self.config.consumable_slot}}
-    end,
-    atlas = "sdm_enhancers"
-}
+if SDM_0s_Stuff_Config.sdm_bakery then
+
+    SMODS.Back{
+        key = "bakers",
+        pos = {x = 2, y = 2},
+        config = {voucher = 'v_sdm_bakery_stall', consumable_slot = 1},
+        loc_vars = function(self)
+            return {vars = {localize{type = 'name_text', key = 'v_sdm_bakery_stall', set = 'Voucher'}, self.config.consumable_slot}}
+        end,
+        atlas = "sdm_enhancers"
+    }
+
+end
 
 --- Deck Of Dreams
 
 SMODS.Back{
     key = "deck_of_dreams",
     pos = {x = 1, y = 3},
-    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, vouchers = {"v_sdm_bakery_stall", "v_overstock_norm"}, joker_slot = 2, consumable_slot = 1, retrigger = 1, booster_slot = 1},
+    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, vouchers = {(SDM_0s_Stuff_Config.sdm_bakery and "v_sdm_bakery_stall") or nil, "v_overstock_norm"}, joker_slot = 2, consumable_slot = 1, retrigger = 1, booster_slot = 1},
     apply = function(self)
         SMODS.change_booster_limit(self.config.booster_slot)
         G.E_MANAGER:add_event(Event({
@@ -261,7 +267,7 @@ SMODS.Back{
         }))
     end,
     calculate = function(self, back, context)
-        if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+        if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss and SDM_0s_Stuff_Config.sdm_consus then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -356,7 +362,7 @@ SMODS.Back{
 SMODS.Back{
     key = "deck_of_stuff",
     pos = {x = 0, y = 1},
-    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, no_interest = true, vouchers = {"v_sdm_bakery_stall", "v_overstock_norm"}, consumable_slot = 1, retrigger = 1, booster_slot = 1},
+    config = {spectral_rate = 2, consumables = {'c_ankh'}, extra_discard_bonus = 3, no_interest = true, vouchers = {(SDM_0s_Stuff_Config.sdm_bakery and "v_sdm_bakery_stall") or nil, "v_overstock_norm"}, consumable_slot = 1, retrigger = 1, booster_slot = 1},
     apply = function(self)
         -- SDM_0's Deck and Modder's Deck effect in "lovely.toml"
         if Cryptid and ((G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_cry_equilibrium_sleeve")
@@ -397,7 +403,7 @@ SMODS.Back{
         }))
     end,
     calculate = function(self, back, context)
-        if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+        if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss and SDM_0s_Stuff_Config.sdm_consus then
             if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
