@@ -150,6 +150,9 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     if JokerDisplay then
         SMODS.load_file("extra/jokerdisplay_definitions.lua")()
     end
+    if Partner_API then
+        SMODS.load_file("extra/partners.lua")()
+    end
 end
 
 if SDM_0s_Stuff_Config.sdm_hands then

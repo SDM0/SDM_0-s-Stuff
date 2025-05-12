@@ -1115,6 +1115,46 @@ return {
                 }
             },
         },
+        Partner = {
+            pnr_sdm_lucky_joker = {
+                name = "Luck",
+                text = {
+                    "Retrigger",
+                    "first scored {C:attention}7{}",
+                    "{C:attention}#1#{} additional time(s)"
+                },
+            },
+            pnr_sdm_shareholder_joker = {
+                name = "Stonks",
+                text = {
+                    "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
+                    "at end of round",
+                }
+            },
+            pnr_sdm_mystery_joker = {
+                name = "Gacha",
+                text = {
+                    "Create {C:attention}#1# {C:green}Uncommon {C:attention}Tag(s){}",
+                    "when {C:attention}Boss Blind{} is defeated",
+                }
+            },
+            pnr_sdm_jambo = {
+                name = "Joke",
+                text = {
+                    "{C:mult}+#1#{} Mult per lowest",
+                    "discarded {C:attention}rank{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
+                }
+            },
+            pnr_sdm_free_pass = {
+                name = "Ticket",
+                text = {
+                    "First {C:blue}hand{} #1# {C:red}discard{}",
+                    "of round is {C:attention}free{}",
+                    "on {C:attention}Boss Blind{}"
+                }
+            },
+        },
     },
     misc = {
         dictionary = {
@@ -1140,6 +1180,7 @@ return {
         },
         v_dictionary = {
             a_hand = "+#1# Hand",
+            a_hands = "+#1# Hands",
             a_hand_minus = "-#1# Hand",
             a_discard = "+#1# Discard",
             a_discard_minus = "-#1# Discard",
