@@ -10,6 +10,7 @@ SMODS.Atlas{
 Partner_API.Partner{
     key = "lucky_joker",
     name = "Lucky Joker Partner",
+    unlocked = false,
     discovered = true,
     pos = {x = 0, y = 0},
     atlas = "sdm_partners",
@@ -33,6 +34,16 @@ Partner_API.Partner{
             card.ability.first_seven_scored = nil
         end
     end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_lucky_joker" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
 }
 
 --- Stonks ---
@@ -40,6 +51,7 @@ Partner_API.Partner{
 Partner_API.Partner{
     key = "shareholder_joker",
     name = "Shareholder Joker Partner",
+    unlocked = false,
     discovered = true,
     pos = {x = 1, y = 0},
     atlas = "sdm_partners",
@@ -54,6 +66,16 @@ Partner_API.Partner{
         local rand_dollar = pseudorandom(pseudoseed('stock'), card.ability.extra.min, card.ability.extra.max + benefits)
         return rand_dollar
     end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_shareholder_joker" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
 }
 
 --- Gacha ---
@@ -61,6 +83,7 @@ Partner_API.Partner{
 Partner_API.Partner{
     key = "mystery_joker",
     name = "Mystery Joker Partner",
+    unlocked = false,
     discovered = true,
     pos = {x = 2, y = 0},
     atlas = "sdm_partners",
@@ -88,6 +111,16 @@ Partner_API.Partner{
             end
         end
     end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_mystery_joker" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
 }
 
 --- Joke ---
@@ -95,6 +128,7 @@ Partner_API.Partner{
 Partner_API.Partner{
     key = "jambo",
     name = "Jambo Partner",
+    unlocked = false,
     discovered = true,
     pos = {x = 3, y = 0},
     atlas = "sdm_partners",
@@ -134,6 +168,16 @@ Partner_API.Partner{
             end
         end
     end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_jambo" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
 }
 
 --- Ticket ---
@@ -141,6 +185,7 @@ Partner_API.Partner{
 Partner_API.Partner{
     key = "free_pass",
     name = "Free Pass Partner",
+    unlocked = false,
     discovered = true,
     pos = {x = 4, y = 0},
     atlas = "sdm_partners",
@@ -176,6 +221,16 @@ Partner_API.Partner{
         if context.end_of_round and not (context.individual or context.repetition) then
             card.ability.sdm_ticket_hand_triggered = nil
             card.ability.sdm_ticket_discard_triggered = nil
+        end
+    end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_free_pass" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
         end
     end,
 }

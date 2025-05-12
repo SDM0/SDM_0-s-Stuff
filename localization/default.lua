@@ -1123,20 +1123,35 @@ return {
                     "first scored {C:attention}7{}",
                     "{C:attention}#1#{} additional time(s)"
                 },
+                unlock={
+                    "Used {C:attention}Lucky Joker",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
             },
             pnr_sdm_shareholder_joker = {
                 name = "Stonks",
                 text = {
                     "Earn between {C:money}$#1#{} and {C:money}$#2#{}",
                     "at end of round",
-                }
+                },
+                unlock={
+                    "Used {C:attention}Shareholder Joker",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
             },
             pnr_sdm_mystery_joker = {
                 name = "Gacha",
                 text = {
                     "Create {C:attention}#1# {C:green}Uncommon {C:attention}Tag(s){}",
                     "when {C:attention}Boss Blind{} is defeated",
-                }
+                },
+                unlock={
+                    "Used {C:attention}Mystery Joker",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
             },
             pnr_sdm_jambo = {
                 name = "Joke",
@@ -1144,7 +1159,12 @@ return {
                     "{C:mult}+#1#{} Mult per lowest",
                     "discarded {C:attention}rank{}",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
-                }
+                },
+                unlock={
+                    "Used {C:attention}Jambo",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
             },
             pnr_sdm_free_pass = {
                 name = "Ticket",
@@ -1152,7 +1172,12 @@ return {
                     "First {C:blue}hand{} #1# {C:red}discard{}",
                     "of round is {C:attention}free{}",
                     "on {C:attention}Boss Blind{}"
-                }
+                },
+                unlock={
+                    "Used {C:attention}Free Pass",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
             },
         },
     },
