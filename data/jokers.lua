@@ -1172,10 +1172,6 @@ SMODS.Joker{
     rarity = 1,
     pos = {x = 3, y = 5},
     cost = 5,
-    config = {extra = 1},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
-    end,
     calculate = function(self, card, context)
         if context.first_hand_drawn and no_bp_retrigger(context) then
             local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 end
@@ -1184,24 +1180,16 @@ SMODS.Joker{
         if context.cardarea == G.jokers and context.before and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    ease_hands_played(card.ability.extra)
-                    if card.ability.extra <= 1 then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}}, colour = G.C.BLUE})
-                    else
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra}}, colour = G.C.BLUE})
-                    end
+                    ease_hands_played(1)
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {1}}, colour = G.C.BLUE})
                     return true
                 end}))
             return
         elseif context.pre_discard and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    ease_discard(card.ability.extra)
-                    if card.ability.extra <= 1 then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}}, colour = G.C.RED})
-                    else
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discards', vars = {card.ability.extra}}, colour = G.C.RED})
-                    end
+                    ease_discard(1)
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {1}}, colour = G.C.RED})
                     return true
                 end}))
             return
