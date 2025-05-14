@@ -1645,8 +1645,10 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in ipairs(G.jokers.cards) do
-            if v.ability and v.ability.sdm_is_ditto then return false end
+        if G.jokers and G.jokers.cards then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.ability and v.ability.sdm_is_ditto then return false end
+            end
         end
         return true
     end,
