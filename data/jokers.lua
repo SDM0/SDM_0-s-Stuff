@@ -175,9 +175,11 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in pairs(G.playing_cards) do
-            if v.config.center == G.P_CENTERS.m_bonus or v.config.center == G.P_CENTERS.m_mult then
-                return true
+        if G.playing_cards then
+            for _, v in pairs(G.playing_cards) do
+                if v.config.center == G.P_CENTERS.m_bonus or v.config.center == G.P_CENTERS.m_mult then
+                    return true
+                end
             end
         end
         return false
@@ -822,9 +824,11 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in pairs(G.playing_cards) do
-            if v.ability.effect ~= "Base" then
-                return true
+        if G.playing_cards then
+            for _, v in pairs(G.playing_cards) do
+                if v.ability.effect ~= "Base" then
+                    return true
+                end
             end
         end
         return false

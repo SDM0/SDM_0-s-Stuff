@@ -6,7 +6,7 @@
 	"prefix": "sdm",
 	"main_file": "main.lua",
 	"badge_colour": "c20000",
-	"version": "1.7.0e",
+	"version": "1.7.0f",
 	"dependencies": [
 		"Steamodded (>=1.0.0~ALPHA-0323b)"
 	],
