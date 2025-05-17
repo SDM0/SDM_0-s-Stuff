@@ -175,9 +175,11 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in pairs(G.playing_cards) do
-            if v.config.center == G.P_CENTERS.m_bonus or v.config.center == G.P_CENTERS.m_mult then
-                return true
+        if G.playing_cards then
+            for _, v in pairs(G.playing_cards) do
+                if v.config.center == G.P_CENTERS.m_bonus or v.config.center == G.P_CENTERS.m_mult then
+                    return true
+                end
             end
         end
         return false
@@ -284,7 +286,7 @@ SMODS.Joker{
     cost = 5,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.reroll_shop and no_bp_retrigger(context) and pseudorandom(pseudoseed('wdrstr')) < G.GAME.probabilities.normal/card.ability.extra then
@@ -830,9 +832,11 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in pairs(G.playing_cards) do
-            if v.ability.effect ~= "Base" then
-                return true
+        if G.playing_cards then
+            for _, v in pairs(G.playing_cards) do
+                if v.ability.effect ~= "Base" then
+                    return true
+                end
             end
         end
         return false
@@ -1369,7 +1373,7 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 2},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.using_consumeable and pseudorandom('horoscopy') < G.GAME.probabilities.normal/card.ability.extra then
@@ -1408,7 +1412,7 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.first_hand_drawn then
@@ -1620,7 +1624,7 @@ SMODS.Joker{
                         for k, v in pairs(chosen_joker.ability) do
                             if type(v) == 'table' then
                                 card.ability[k] = copy_table(v)
-                            else
+                            elseif not SMODS.Stickers[k] then
                                 card.ability[k] = v
                             end
                         end
@@ -1637,8 +1641,10 @@ SMODS.Joker{
         end
     end,
     in_pool = function()
-        for _, v in ipairs(G.jokers.cards) do
-            if v.ability and v.ability.sdm_is_ditto then return false end
+        if G.jokers and G.jokers.cards then
+            for _, v in ipairs(G.jokers.cards) do
+                if v.ability and v.ability.sdm_is_ditto then return false end
+            end
         end
         return true
     end,
@@ -1709,7 +1715,6 @@ SMODS.Joker{
     key = "archibald",
     name = "Archibald",
     rarity = 4,
-    blueprint_compat = true,
     config = {extra = {can_copy = true}},
     pos = {x = 0, y = 3},
     cost = 20,
@@ -1720,7 +1725,7 @@ SMODS.Joker{
         return {vars = {(card.ability.extra.can_copy and localize("k_sdm_active")) or "", (not card.ability.extra.can_copy and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
-        if context.ending_shop then
+        if context.ending_shop and no_bp_retrigger(context) then
             if card.ability.extra.can_copy and #G.jokers.cards > 0 then
                 local valid_cards = {}
                 for i = 1, #G.jokers.cards do

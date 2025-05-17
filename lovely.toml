@@ -290,60 +290,7 @@ end
 '''
 match_indent = true
 
-# Ditto reset
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "elseif context.setting_blind and not self.getting_sliced then"
-position = "after"
-payload = '''
-if self.ability and self.ability.sdm_is_ditto then
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            self:juice_up(0.3, 0.5)
-            self:set_ability(G.P_CENTERS["j_sdm_ditto_joker"], true)
-            self.ability.sdm_is_ditto = nil
-            return true
-        end
-    }))
-    local valid_jokers = {}
-    if G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
-        for i = 1, #G.jokers.cards do
-            if not G.jokers.cards[i].debuff and G.jokers.cards[i] ~= self and G.jokers.cards[i].config.center.key ~= "j_sdm_ditto_joker" then
-                valid_jokers[#valid_jokers+1] = G.jokers.cards[i]
-            end
-        end
-    end
-    if #valid_jokers > 0 then
-        local old_card = self
-        local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('ditto'))
-        delay(1)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                self:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
-                self:set_cost()
-                for k, v in pairs(chosen_joker.ability) do
-                    if type(v) == 'table' then
-                        self.ability[k] = copy_table(v)
-                    else
-                        self.ability[k] = v
-                    end
-                end
-                self.ability.fusion = nil -- FusionJokers compat to remove fuse button
-                self.ability.sdm_is_ditto = true
-                return true
-            end
-        }))
-        card_eval_status_text(old_card, 'extra', nil, nil, nil, {
-            message = localize('k_ditto_ex'),
-            colour = HEX('f06bf2'),
-        })
-    end
-end
-'''
-match_indent = true
-
-# Ditto tooltip when transformed
+# Ditto/Ditto partner tooltip when transformed
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -351,6 +298,7 @@ pattern = "if _c.set == 'Other' then"
 position = "before"
 payload = '''
 if _c.set == "Joker" and card and card.config.center.key ~= "j_sdm_ditto_joker" and card.ability and card.ability.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
+if _c.set == "Partner" and card and card.config.center.key ~= "pnr_sdm_ditto_joker" and card.ability and card.ability.sdm_is_partner_ditto then info_queue[#info_queue+1] = G.P_CENTERS.pnr_sdm_ditto_joker end
 '''
 match_indent = true
 
