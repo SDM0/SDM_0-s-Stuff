@@ -8,7 +8,7 @@ SMODS.Atlas{
 SMODS.Booster{
     key = 'bakery_normal_1',
     name = 'Bakery Pack',
-    pos = {x = 0, y = 5},
+    pos = {x = 1, y = 0},
     cost = 4,
     config = {extra = 3, choose = 1},
     group_key = 'k_bakery_pack',
@@ -23,7 +23,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = 'bakery_normal_2',
     name = 'Bakery Pack',
-    pos = {x = 0, y = 5},
+    pos = {x = 0, y = 0},
     cost = 4,
     config = {extra = 3, choose = 1},
     group_key = 'k_bakery_pack',
@@ -38,7 +38,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = 'bakery_jumbo_1',
     name = 'Jumbo Bakery Pack',
-    pos = {x = 0, y = 5},
+    pos = {x = 2, y = 0},
     cost = 4,
     config = {extra = 5, choose = 1},
     group_key = 'k_bakery_pack',
@@ -53,7 +53,7 @@ SMODS.Booster{
 SMODS.Booster{
     key = 'bakery_mega_1',
     name = 'Mega Bakery Pack',
-    pos = {x = 0, y = 5},
+    pos = {x = 3, y = 0},
     cost = 8,
     config = {extra = 5, choose = 2},
     group_key = 'k_bakery_pack',
