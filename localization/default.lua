@@ -1252,7 +1252,7 @@ return {
                 text = {
                     "Transforms into a",
                     "random {C:attention}partner{}",
-                    "each {C:attention}2{} Antes",
+                    "every {C:attention}2{} Antes",
                 },
                 unlock={
                     "Used {C:attention}Free Pass",
