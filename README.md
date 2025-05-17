@@ -21,6 +21,7 @@ __Manual Installation:__
  - [Paperback](https://github.com/Balatro-Paperback/paperback): Food joker additions to its Food pool (same for Cryptid)
  - [More Fluff](https://github.com/notmario/MoreFluff): Colour card related to Bakery goods
  - [Aikoyori's Shenanigans](https://github.com/Aikoyori/Balatro-Aikoyoris-Shenanigans): Effect for the mod's self-insert legendary
+ - [Partner API](https://github.com/Icecanno/Partner-API): A few SDM_0's Stuff jokers exists as partners
 
 ## Thanks
 - RattlingSnow for the spectral cards art
