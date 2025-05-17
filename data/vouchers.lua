@@ -72,9 +72,9 @@ SMODS.Voucher{
         if G.shop_booster then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    for _, v in ipairs(G.shop_booster.cards) do
+                    for i = #G.shop_booster.cards, 1, -1 do
                         if G.GAME.banned_keys[v.config.center.key] then
-                            v:remove()
+                            G.shop_booster.cards[i]:remove()
                             SMODS.add_booster_to_shop()
                         end
                     end
@@ -104,10 +104,10 @@ SMODS.Voucher{
         if G.shop_booster then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    for _, v in ipairs(G.shop_booster.cards) do
+                    for i = #G.shop_booster.cards, 1, -1 do
                         local _center = v.config.center
                         if G.GAME.banned_keys[_center.key] and (_center.kind and _center.kind == "Buffoon") then
-                            v:remove()
+                            G.shop_booster.cards[i]:remove()
                             SMODS.add_booster_to_shop()
                         end
                     end
