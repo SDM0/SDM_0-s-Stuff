@@ -660,18 +660,11 @@ return {
             },
         },
         Bakery = {
-            c_sdm_dough = {
-                name = "Dough",
+            c_sdm_chocolate_truffles = {
+                name = "Chocolate Truffles",
                 text = {
                     "Earn {C:money}$#1#{},",
                     "lasts {C:attention}#2#{} round(s)",
-                }
-            },
-            c_sdm_pita = {
-                name = "Pita",
-                text = {
-                    "{C:chips}+#1#{} Chips,",
-                    "lasts {C:attention}#2#{} hand(s)",
                 }
             },
             c_sdm_sourdough = {
@@ -735,8 +728,8 @@ return {
                     "{C:inactive}(Doesn't require room)"
                 }
             },
-            c_sdm_moon_cake = {
-                name = "Moon Cake",
+            c_sdm_moon_cakes = {
+                name = "Moon Cakes",
                 text = {
                     "Create {C:attention}#1#{} {C:planet}Planet{} card",
                     "when {C:attention}Blind{} is selected,",
@@ -762,6 +755,41 @@ return {
                     "{C:inactive}(Doesn't require room)"
                 }
             },
+            c_sdm_sponge_cake = {
+                name = "Sponge Cake",
+                text = {
+                    "Create {C:attention}#1#{} {C:dark_edition}Negative {C:attention}Splash{}",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                }
+            },
+            c_sdm_macarons = {
+                name = "Macarons",
+                text = {
+                    "Create {C:attention}#1#{} {C:colourcard}Colour{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_king_cake = {
+                name = "King Cake",
+                text = {
+                    "Create {C:attention}#1#{} {C:paperback_minor_arcana}Minor Arcana{}",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_ambrosia_bread = {
+                name = "Ambrosia Bread",
+                text = {
+                    "Create {C:attention}#1#{} {C:myth_light}Myth{} card",
+                    "when {C:attention}Blind{} is selected,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            }
         },
         Voucher = {
             v_sdm_shadow = {
@@ -795,6 +823,13 @@ return {
                 name = "Famine",
                 text = {
                     "{C:attention}Buffon Packs{} no",
+                    "longer appear in shop"
+                }
+            },
+            v_sdm_desolation = {
+                name = "Desolation",
+                text = {
+                    "Non-{C:attention}Mega Packs{} no",
                     "longer appear in shop"
                 }
             },
@@ -919,6 +954,14 @@ return {
                 text = {
                     "Choose {C:attention}X{} of up to",
                     "{C:attention}Y{C:joker} Joker{} cards"
+                }
+            },
+            undefined_mega_pack = {
+                name = "Mega Booster Pack",
+                text = {
+                    "Choose {C:attention}2{} of up to",
+                    "{C:attention}5{C:attention} X{} cards to",
+                    "be used immediately"
                 }
             },
             je_j_sdm_mult_n_chips = {
@@ -1141,6 +1184,19 @@ return {
                     "{C:attention}Stake{} difficulty",
                 },
             },
+            pnr_sdm_ouija_board = {
+                name = "Spirit",
+                text = {
+                    "Create {C:attention}#2# {C:red}Rare {C:attention}Tag(s){}",
+                    "after {C:attention}#1#{} rounds",
+                    "{C:inactive}(Currently {C:attention}#3#{C:inactive}/#1#)"
+                },
+                unlock={
+                    "Used {C:attention}Ouija Board",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
+            },
             pnr_sdm_mystery_joker = {
                 name = "Gacha",
                 text = {
@@ -1153,10 +1209,22 @@ return {
                     "{C:attention}Stake{} difficulty",
                 },
             },
+            pnr_sdm_crooked_joker = {
+                name = "Twist",
+                text = {
+                    "Gain or lose {C:attention}#1#{} card slot(s)",
+                    "at the start of shop"
+                },
+                unlock={
+                    "Used {C:attention}Crooked Joker",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
+            },
             pnr_sdm_jambo = {
                 name = "Joke",
                 text = {
-                    "{C:mult}+#1#{} Mult per lowest",
+                    "{C:mult}+#1#{} Mult from lowest",
                     "discarded {C:attention}rank{}",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
                 },
@@ -1172,6 +1240,19 @@ return {
                     "First {C:blue}hand{} #1# {C:red}discard{}",
                     "of round is {C:attention}free{}",
                     "on {C:attention}Boss Blind{}"
+                },
+                unlock={
+                    "Used {C:attention}Free Pass",
+                    "to win on {C:attention}Gold",
+                    "{C:attention}Stake{} difficulty",
+                },
+            },
+            pnr_sdm_ditto_joker = {
+                name = "Goop",
+                text = {
+                    "Transforms into a",
+                    "random {C:attention}partner{}",
+                    "each {C:attention}2{} Antes",
                 },
                 unlock={
                     "Used {C:attention}Free Pass",
@@ -1213,6 +1294,8 @@ return {
             a_joker_slot_minus = "-#1# Joker Slot",
             a_consumable_slot = "+#1# Cons. Slot",
             a_consumable_slot_minus = "-#1# Cons. Slot",
+            a_shop_slot = "+#1# Shop Slot",
+            a_shop_slot_minus = "-#1# Shop Slot"
         },
         v_text = {
             ch_c_no_shop_planets = {
@@ -1225,5 +1308,62 @@ return {
 		achievement_descriptions = {
 			ach_sdm_good_riddance = 'Use ://DELETE on a Blurred Joker',
         },
+        quips = {
+            pnr_sdm_lucky_joker_1 = {
+                "Let's go gambling!"
+            },
+            pnr_sdm_lucky_joker_2 = {
+                "7 will be our",
+                "lucky number"
+            },
+            pnr_sdm_lucky_joker_3 = {
+                "I wish you good luck!",
+            },
+            pnr_sdm_shareholder_joker_1 = {
+                "Let's make some bread",
+            },
+            pnr_sdm_shareholder_joker_2 = {
+                "Ka-ching!",
+            },
+            pnr_sdm_shareholder_joker_3 = {
+                "If you get no money,",
+                "don't blame the joker,",
+                "blame the game,"
+            },
+            pnr_sdm_mystery_joker_1 = {
+                "Who can I be?",
+                "You'll see..."
+            },
+            pnr_sdm_mystery_joker_2 = {
+                "Who doesn't love surprises?"
+            },
+            pnr_sdm_mystery_joker_3 = {
+                "I can't guarantee",
+                "you good jokers..."
+            },
+            pnr_sdm_crooked_joker_1 = {
+                "I hope you lose :P"
+            },
+            pnr_sdm_crooked_joker_2 = {
+                "There will be no",
+                "cards for you! xD"
+            },
+            pnr_sdm_crooked_joker_3 = {
+                "Cards are yummy",
+                "in my tummy :)"
+            },
+            pnr_sdm_jambo_1 = {
+                "This place feels",
+                "oddly familiar"
+            },
+            pnr_sdm_jambo_2 = {
+                "Are we gonna gamble",
+                "against deities?"
+            },
+            pnr_sdm_jambo_3 = {
+                "A man's trash is",
+                "another man's treasure!"
+            },
+        }
     }
 }

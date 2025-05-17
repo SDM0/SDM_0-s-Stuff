@@ -12,6 +12,7 @@ Partner_API.Partner{
     name = "Lucky Joker Partner",
     unlocked = false,
     discovered = true,
+    individual_quips = true,
     pos = {x = 0, y = 0},
     atlas = "sdm_partners",
     config = {extra = {related_card = "j_sdm_lucky_joker", repetitions = 1}},
@@ -53,6 +54,7 @@ Partner_API.Partner{
     name = "Shareholder Joker Partner",
     unlocked = false,
     discovered = true,
+    individual_quips = true,
     pos = {x = 1, y = 0},
     atlas = "sdm_partners",
     config = {extra = {related_card = "j_sdm_shareholder_joker", min = 1, max = 4}},
@@ -78,6 +80,57 @@ Partner_API.Partner{
     end,
 }
 
+--- Spirit ---
+
+Partner_API.Partner{
+    key = "ouija_board",
+    name = "Ouija Board Partner",
+    unlocked = false,
+    discovered = true,
+    no_quips = true,
+    pos = {x = 2, y = 0},
+    atlas = "sdm_partners",
+    config = {extra = {related_card = "j_sdm_ouija_board", amount = 1, rounds = 0, remaining = 6}},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_TAGS.tag_rare
+        local benefits = ((next(SMODS.find_card("j_sdm_ouija_board")) and 3) or 0)
+        return { vars = {card.ability.extra.remaining - benefits , card.ability.extra.amount, card.ability.extra.rounds} }
+    end,
+    calculate = function(self, card, context)
+        if context.partner_end_of_round then
+            if card.ability.extra.rounds < card.ability.extra.remaining then
+                local benefits = (next(SMODS.find_card("j_sdm_ouija_board")) and 3) or 0
+                card.ability.extra.rounds = math.min(card.ability.extra.rounds + 1, card.ability.extra.remaining)
+                if card.ability.extra.rounds <= card.ability.extra.remaining - benefits then
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = card.ability.extra.rounds .. "/" .. card.ability.extra.remaining})
+                end
+                if card.ability.extra.rounds >= card.ability.extra.remaining - benefits then
+                    card.ability.extra.rounds = 0
+                    G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        add_tag(Tag('tag_rare'))
+                        card:juice_up(0.3, 0.4)
+                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                        return true
+                    end)
+                }))
+                end
+            end
+        end
+    end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_ouija_board" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
+}
+
 --- Gacha ---
 
 Partner_API.Partner{
@@ -85,7 +138,8 @@ Partner_API.Partner{
     name = "Mystery Joker Partner",
     unlocked = false,
     discovered = true,
-    pos = {x = 2, y = 0},
+    individual_quips = true,
+    pos = {x = 3, y = 0},
     atlas = "sdm_partners",
     config = {extra = {related_card = "j_sdm_mystery_joker", amount = 1}},
     loc_vars = function(self, info_queue, card)
@@ -123,6 +177,63 @@ Partner_API.Partner{
     end,
 }
 
+--- Twist ---
+
+Partner_API.Partner{
+    key = "crooked_joker",
+    name = "Crooked Joker",
+    unlocked = false,
+    discovered = true,
+    individual_quips = true,
+    pos = {x = 0, y = 1},
+    atlas = "sdm_partners",
+    config = {extra = {related_card = "j_sdm_crooked_joker", shop_slots = 1, pos_change = 0}},
+    loc_vars = function(self, info_queue, card)
+        local benefits = ((next(SMODS.find_card("j_sdm_crooked_joker")) and 1) or 0)
+        return { vars = {card.ability.extra.shop_slots + benefits} }
+    end,
+    calculate = function(self, card, context)
+        if context.partner_starting_shop then
+            local benefits = ((next(SMODS.find_card("j_sdm_crooked_joker")) and 1) or 0)
+            local mod = pseudorandom(pseudoseed('crkp'), 0, 1)
+            if mod == 1 then
+                change_shop_size(card.ability.extra.shop_slots + benefits)
+                card.ability.extra.pos_change = card.ability.extra.shop_slots + benefits
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize{type = 'variable', key = 'a_shop_slot', vars = {card.ability.extra.pos_change}},
+                    colour = G.C.FILTER
+                })
+            else
+                change_shop_size(-(card.ability.extra.shop_slots + benefits))
+                card.ability.extra.pos_change = -(card.ability.extra.shop_slots + benefits)
+                card_eval_status_text(card, 'extra', nil, nil, nil, {
+                    message = localize{type = 'variable', key = 'a_shop_slot_minus', vars = {card.ability.extra.pos_change}},
+                    colour = G.C.FILTER
+                })
+            end
+        end
+        if context.partner_ending_shop then
+            card_eval_status_text(card, 'extra', nil, nil, nil, {
+                message = localize('k_reset'),
+                colour = G.C.FILTER
+            })
+        end
+        if context.partner_setting_blind then
+            change_shop_size(-card.ability.extra.pos_change)
+        end
+    end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_crooked_joker" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
+}
+
 --- Joke ---
 
 Partner_API.Partner{
@@ -130,7 +241,8 @@ Partner_API.Partner{
     name = "Jambo Partner",
     unlocked = false,
     discovered = true,
-    pos = {x = 3, y = 0},
+    individual_quips = true,
+    pos = {x = 1, y = 1},
     atlas = "sdm_partners",
     config = {extra = {related_card = "j_sdm_jambo", mult_mod = 1}},
     loc_vars = function(self, info_queue, card)
@@ -187,7 +299,8 @@ Partner_API.Partner{
     name = "Free Pass Partner",
     unlocked = false,
     discovered = true,
-    pos = {x = 4, y = 0},
+    no_quips = true,
+    pos = {x = 2, y = 1},
     atlas = "sdm_partners",
     config = {extra = {related_card = "j_sdm_free_pass"}},
     loc_vars = function(self, info_queue, card)
@@ -226,6 +339,54 @@ Partner_API.Partner{
     check_for_unlock = function(self, args)
         for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
             if v.key == "j_sdm_free_pass" then
+                if get_joker_win_sticker(v, true) >= 8 then
+                    return true
+                end
+                break
+            end
+        end
+    end,
+}
+
+--- Goop ---
+
+Partner_API.Partner{
+    key = "ditto_joker",
+    name = "Ditto Joker",
+    unlocked = false,
+    discovered = true,
+    no_quips = true,
+    pos = {x = 3, y = 1},
+    atlas = "sdm_partners",
+    config = {extra = {related_card = "j_sdm_ditto_joker"}},
+    calculate = function(self, card, context)
+        if context.partner_setting_blind then
+            local unlocked_partners = {}
+            for _, v in pairs(G.P_CENTER_POOLS["Partner"]) do
+                if v.key ~= 'pnr_sdm_ditto_joker' and v:is_unlocked() then
+                    unlocked_partners[#unlocked_partners+1] = v
+                end
+            end
+            if unlocked_partners[1] then
+                local old_card = card
+                local chosen_partner = pseudorandom_element(unlocked_partners, pseudoseed('dtp'))
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        card:set_ability(G.P_CENTERS[chosen_partner.key])
+                        card.ability.sdm_is_partner_ditto = true
+                        card.ability.sdm_partner_ditto_ante = 0
+                    return true
+                end}))
+                card_eval_status_text(old_card, 'extra', nil, nil, nil, {
+                    message = localize('k_ditto_ex'),
+                    colour = HEX('f06bf2'),
+                })
+            end
+        end
+    end,
+    check_for_unlock = function(self, args)
+        for _, v in pairs(G.P_CENTER_POOLS["Joker"]) do
+            if v.key == "j_sdm_ditto_joker" then
                 if get_joker_win_sticker(v, true) >= 8 then
                     return true
                 end
