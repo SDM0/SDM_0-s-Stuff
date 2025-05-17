@@ -1,7 +1,7 @@
 SMODS.Atlas{
     key = "sdm_bakery_consumables",
     path = "bakery/sdm_bakery_consumables.png",
-    px = 71,
+    px = 70,
     py = 95
 }
 
@@ -25,7 +25,7 @@ SMODS.Consumable{
         return {vars = {self.config.extra}}
     end,
     can_use = function(self, card, area, copier)
-        return #G.consumeables.cards < G.consumeables.config.card_limit or card.area == G.consumeables
+        return #G.consumeables.cards <= G.consumeables.config.card_limit
     end,
     use = function(self, card)
         local used_tarot = card or self
@@ -50,14 +50,17 @@ SMODS.Bakery{
     key = 'sourdough',
     name = 'Sourdough',
     pos = {x = 0, y = 0},
+    soul_pos = {x = 0, y = 1},
     config = {extra = {amount = 2, remaining = 4}},
     calculate = function(self, card, context)
         if context.joker_main then
-            if no_bp_retrigger(context) then
-                decrease_remaining_food(card)
-            end
             return {
-                x_chips = card.ability.extra.amount,
+                xchips = card.ability.extra.amount,
+                func = function()
+                    if not context or no_bp_retrigger(context) then
+                        decrease_remaining_food(card)
+                    end
+                end
             }
         end
     end,
@@ -71,14 +74,17 @@ SMODS.Bakery{
     key = 'baguette',
     name = 'Baguette',
     pos = {x = 1, y = 0},
+    soul_pos = {x = 1, y = 1},
     config = {extra = {amount = 2, remaining = 4}},
     calculate = function(self, card, context)
         if context.joker_main then
-            if no_bp_retrigger(context) then
-                decrease_remaining_food(card)
-            end
             return {
-                x_mult = card.ability.extra.amount,
+                xmult = card.ability.extra.amount,
+                func = function()
+                    if not context or no_bp_retrigger(context) then
+                        decrease_remaining_food(card)
+                    end
+                end
             }
         end
     end,
@@ -86,12 +92,13 @@ SMODS.Bakery{
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_baguette = "Baguette"
 
--- Dough --
+-- Chocolate Truffles --
 
 SMODS.Bakery{
-    key = 'dough',
-    name = 'Dough',
+    key = 'chocolate_truffles',
+    name = 'Chocolate Truffles',
     pos = {x = 2, y = 0},
+    soul_pos = {x = 2, y = 1},
     config = {extra = {amount = 6, remaining = 3}},
     calc_dollar_bonus = function(self, card)
         local dollars = card.ability.extra.amount
@@ -100,7 +107,7 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_consumables.c_sdm_dough = "Dough"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_chocolate_truffles = "Chocolate Truffles"
 
 -- Banana Bread --
 
@@ -108,41 +115,44 @@ SMODS.Bakery{
     key = 'banana_bread',
     name = 'Banana Bread',
     pos = {x = 3, y = 0},
+    soul_pos = {x = 3, y = 1},
     config = {extra = {amount = 3, remaining = 4}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.amount, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.remaining}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        card.T.r = -0.2
-                        card:juice_up(0.3, 0.4)
-                        card.states.drag.is = true
-                        card.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                G.jokers:remove_card(card)
-                                card:remove()
-                                card = nil
-                            return true; end}))
-                        return true
-                    end
-                }))
-                return {
-                    message = localize('k_extinct_ex')
-                }
-            else
-                return {
-                    message = localize('k_safe_ex')
-                }
-            end
-        end
         if context.joker_main then
             return {
-                x_mult = card.ability.extra.amount,
+                xmult = card.ability.extra.amount,
+                func = function()
+                    if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                play_sound('tarot1')
+                                card.T.r = -0.2
+                                card:juice_up(0.3, 0.4)
+                                card.states.drag.is = true
+                                card.children.center.pinch.x = true
+                                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                                    func = function()
+                                        G.jokers:remove_card(card)
+                                        card:remove()
+                                        card = nil
+                                    return true; end}))
+                                return true
+                            end
+                        }))
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_extinct_ex'),
+                            colour = G.C.FILTER
+                        })
+                    else
+                        card_eval_status_text(card, 'extra', nil, nil, nil, {
+                            message = localize('k_safe_ex'),
+                            colour = G.C.FILTER
+                        })
+                    end
+                end
             }
         end
     end,
@@ -156,6 +166,7 @@ SMODS.Bakery{
     key = 'breadsticks',
     name = 'Breadsticks',
     pos = {x = 4, y = 0},
+    soul_pos = {x = 4, y = 1},
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
@@ -183,6 +194,7 @@ SMODS.Bakery{
     key = 'croissant',
     name = 'Croissant',
     pos = {x = 5, y = 0},
+    soul_pos = {x = 5, y = 1},
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
@@ -209,7 +221,8 @@ SDM_0s_Stuff_Mod.modded_consumables.c_sdm_croissant = "Croissant"
 SMODS.Bakery{
     key = 'bread_loaf',
     name = 'Bread Loaf',
-    pos = {x = 0, y = 1},
+    pos = {x = 0, y = 2},
+    soul_pos = {x = 0, y = 3},
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
         if G.hand then
@@ -230,43 +243,39 @@ SMODS.Bakery{
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_bread_loaf = "Bread Loaf"
 
--- Doughnut --
+-- Sprinkle Donut --
 
 SMODS.Bakery{
-    key = 'doughnut',
-    name = 'Doughnut',
-    pos = {x = 1, y = 1},
-    config = {extra = {amount = 1, remaining = 3}},
+    key = 'sprinkle_donut',
+    name = 'Sprinkle Donut',
+    pos = {x = 1, y = 2},
+    soul_pos = {x = 1, y = 3},
+    config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
         if context.first_hand_drawn and no_bp_retrigger(context) then
-            for i = 1, card.ability.extra.amount do
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        local _card = create_playing_card({
-                            front = pseudorandom_element(G.P_CARDS, pseudoseed('cert_fr')),
-                            center = G.P_CENTERS[SMODS.poll_enhancement({key = "dgt", guaranteed = true})]}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
-                        _card:set_seal(SMODS.poll_seal({guaranteed = true, type_key = "dgt"}))
-                        _card:set_edition(poll_edition("dgt", nil, true, true))
-                        G.GAME.blind:debuff_card(_card)
-                        G.hand:sort()
-                        card:juice_up()
-                        return true
-                    end}))
-                playing_card_joker_effects({true})
+            local no_edition_cards = {}
+            for _, v in ipairs(G.hand.cards) do
+                if not v.edition then no_edition_cards[#no_edition_cards+1] = v end
             end
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                local _card = pseudorandom_element(no_edition_cards, pseudoseed('dnt'))
+                _card:set_edition('e_polychrome', true)
+                card:juice_up(0.3, 0.5)
+            return true end }))
             decrease_remaining_food(card)
         end
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_consumables.c_sdm_doughnut = "Doughnut"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sprinkle_donut = "Sprinkle Donut"
 
 -- Fortune Cookie --
 
 SMODS.Bakery{
     key = 'fortune_cookie',
     name = 'Fortune Cookie',
-    pos = {x = 2, y = 1},
+    pos = {x = 2, y = 2},
+    soul_pos = {x = 2, y = 3},
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
@@ -292,12 +301,13 @@ SMODS.Bakery{
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_fortune_cookie = "Fortune Cookie"
 
--- Moon Cake --
+-- Moon Cakes --
 
 SMODS.Bakery{
-    key = 'moon_cake',
-    name = 'Moon Cake',
-    pos = {x = 3, y = 1},
+    key = 'moon_cakes',
+    name = 'Moon Cakes',
+    pos = {x = 3, y = 2},
+    soul_pos = {x = 3, y = 3},
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
@@ -321,14 +331,15 @@ SMODS.Bakery{
     end,
 }
 
-SDM_0s_Stuff_Mod.modded_consumables.c_sdm_moon_cake = "Moon Cake"
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_moon_cakes = "Moon Cakes"
 
 -- Bread Monster --
 
 SMODS.Bakery{
     key = 'bread_monster',
     name = 'Bread Monster',
-    pos = {x = 4, y = 1},
+    pos = {x = 4, y = 2},
+    soul_pos = {x = 4, y = 3},
     config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
         if context.setting_blind and no_bp_retrigger(context) then
@@ -361,7 +372,9 @@ SMODS.Bakery{
     key = 'wedding_cake',
     name = 'Wedding Cake',
     set = 'Spectral',
-    pos = {x = 0, y = 2},
+    soul_set = 'Bakery',
+    pos = {x = 5, y = 2},
+    soul_pos = {x = 5, y = 3},
     config = {extra = {amount = 1, remaining = -1}},
     hidden = true,
     add_to_deck = function(self, card, from_debuff)
@@ -379,3 +392,162 @@ SMODS.Bakery{
 }
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_wedding_cake = "Wedding Cake"
+
+--- Crossmod content ---
+
+-- Sponge Cake (Tsunami) --
+
+if next(SMODS.find_mod('Tsunami')) then
+    SMODS.Bakery{
+        key = 'sponge_cake',
+        name = 'Sponge Cake',
+        pos = {x = 1, y = 4},
+        soul_pos = {x = 1, y = 5},
+        config = {extra = {amount = 1, remaining = 2}},
+        loc_vars = function(self, info_queue, card)
+            info_queue[#info_queue+1] = G.P_CENTERS.j_splash
+            return {vars = {
+                (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory and card.area ~= G.consumeables and card.ability.extra.amount * 2) or card.ability.extra.amount,
+                (G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop and card.area ~= G.consumeables and card.ability.extra.remaining * 2) or card.ability.extra.remaining
+            }}
+        end,
+        calculate = function(self, card, context)
+            if context.setting_blind and no_bp_retrigger(context) then
+                for i = 1, card.ability.extra.amount do
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({key = 'j_splash', edition = 'e_negative', key_append = 'sck'})
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_joker'),
+                        colour = G.C.BLUE,
+                    })
+                end
+                decrease_remaining_food(card)
+            end
+        end,
+    }
+
+    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_sponge_cake = "Sponge Cake"
+end
+
+-- Macarons (MoreFluff) --
+
+if next(SMODS.find_mod('MoreFluff')) and mf_config and mf_config["Colour Cards"] then
+    SMODS.Bakery{
+        key = 'macarons',
+        name = 'Macarons',
+        pos = {x = 2, y = 4},
+        soul_pos = {x = 2, y = 5},
+        config = {extra = {amount = 1, remaining = 2}},
+        calculate = function(self, card, context)
+            if context.setting_blind and no_bp_retrigger(context) then
+                for i = 1, card.ability.extra.amount do
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Colour', key_append = 'mcr'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('k_plus_colour'),
+                        colour = G.C.PURPLE,
+                    })
+                end
+                decrease_remaining_food(card)
+            end
+        end,
+        no_collection = not (mf_config and mf_config["Colour Cards"]),
+        in_pool = function()
+            return mf_config and mf_config["Colour Cards"]
+        end,
+    }
+
+    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_macarons = "Macarons"
+end
+
+-- King Cake (Paperback) --
+
+if next(SMODS.find_mod('paperback')) then
+    SMODS.Bakery{
+        key = 'king_cake',
+        name = 'King Cake',
+        pos = {x = 3, y = 4},
+        soul_pos = {x = 3, y = 5},
+        config = {extra = {amount = 1, remaining = 2}},
+        calculate = function(self, card, context)
+            if context.setting_blind and no_bp_retrigger(context) then
+                for i = 1, card.ability.extra.amount do
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'paperback_minor_arcana', key_append = 'kgc'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = localize('paperback_plus_minor_arcana'),
+                        colour = G.C.PAPERBACK_MINOR_ARCANA,
+                    })
+                end
+                decrease_remaining_food(card)
+            end
+        end,
+        no_collection = not (PB_UTIL and PB_UTIL.config.minor_arcana_enabled),
+        in_pool = function()
+            return PB_UTIL and PB_UTIL.config.minor_arcana_enabled
+        end,
+    }
+
+    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_king_cake = "King Cake"
+end
+
+-- Ambrosia Bread (Prism) --
+
+if next(SMODS.find_mod('Prism')) then
+    SMODS.Bakery{
+        key = 'ambrosia_bread',
+        name = 'Ambrosia Bread',
+        pos = {x = 4, y = 4},
+        soul_pos = {x = 4, y = 5},
+        config = {extra = {amount = 1, remaining = 2}},
+        calculate = function(self, card, context)
+            if context.setting_blind and no_bp_retrigger(context) then
+                for i = 1, card.ability.extra.amount do
+                    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                    G.E_MANAGER:add_event(Event({
+                        trigger = 'before',
+                        delay = 0.0,
+                        func = (function()
+                            SMODS.add_card({set = 'Myth', key_append = 'amb'})
+                            G.GAME.consumeable_buffer = 0
+                            return true
+                        end)
+                    }))
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {
+                        message = {"+1 Myth"},  -- The mod has no localization for adding Myth cards
+                        colour = G.PRISM.C.myth_1,
+                    })
+                end
+                decrease_remaining_food(card)
+            end
+        end,
+        no_collection = not (G.PRISM and G.PRISM.config.myth_enabled),
+        in_pool = function()
+            return G.PRISM and G.PRISM.config.myth_enabled
+        end,
+    }
+
+    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_ambrosia_bread = "Ambrosia Bread"
+end

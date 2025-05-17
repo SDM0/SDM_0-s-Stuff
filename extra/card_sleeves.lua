@@ -80,7 +80,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
         config = {ante_scaling = 1.5},
         unlocked = true,
         loc_vars = function(self)
-            if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+            if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
                 return {key = self.key .. '_alt', vars = {self.config.ante_scaling}}
             else
                 return {vars = {self.config.ante_scaling}}
@@ -98,7 +98,7 @@ if SDM_0s_Stuff_Config.sdm_jokers then
                     for k, v in pairs(G.GAME.probabilities) do
                         G.GAME.probabilities[k] = v*2
                     end
-                    if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+                    if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
                         add_joker("j_sdm_lucky_joker", nil, true, true)
                     end
                     return true
@@ -152,7 +152,7 @@ CardSleeves.Sleeve {
             key = self.key .. "_ghost"
             self.config = { spectral_rate = 4, consumables = { 'c_ankh' } }
             vars[#vars+1] = localize{type = 'name_text', key = self.config.consumables[1], set = 'Tarot'}
-        elseif self.get_current_deck_key() == "b_sdm_hieroglyph" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        elseif self.get_current_deck_key() == "b_sdm_hieroglyph" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
             key = self.key .. "_alt"
             self.config = { spectral_rate = 4, spectral_more_options = 2 }
             vars[#vars+1] = self.config.spectral_more_options
@@ -195,7 +195,7 @@ CardSleeves.Sleeve {
                     local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
                     if not (G.GAME.starting_params.no_faces and (_r == 'K' or _r == 'Q' or _r == 'J')) then
                         extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-                        if self.get_current_deck_key() == "b_sdm_xxl" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+                        if self.get_current_deck_key() == "b_sdm_xxl" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_nightmares" then
                             extra_cards[#extra_cards + 1] = {s = _s, r = _r}
                         end
                     end
@@ -245,12 +245,6 @@ CardSleeves.Sleeve {
     atlas = "sdm_sleeves",
     pos = { x = 3, y = 1 },
     unlocked = true,
-    loc_vars = function(self)
-        if self.get_current_deck_key() == "b_sdm_modders" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-            local key = self.key .. "_alt"
-            return {key = key, vars = {}}
-        end
-    end,
     apply = function(self)
         -- Vanilla pool changes applied in "lovely.toml"
         if Cryptid and self.get_current_deck_key() == "b_cry_equilibrium" or self.get_current_deck_key() == "b_cry_antimatter" then
@@ -273,7 +267,7 @@ CardSleeves.Sleeve {
     loc_vars = function(self)
         local key
         local vars = {}
-        if self.get_current_deck_key() == "b_sdm_reverb" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        if self.get_current_deck_key() == "b_sdm_reverb" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
             key = self.key .. "_alt"
             self.config = {retrigger = 1}
             vars = {self.config.retrigger}
@@ -316,7 +310,7 @@ CardSleeves.Sleeve {
     loc_vars = function(self)
         local key
         local vars = {}
-        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
             key = self.key .. "_alt"
             self.config = {extra_slot = 1, vouchers = {'v_overstock_plus'}}
             vars = {localize{type = 'name_text', key = 'v_overstock_plus', set = 'Voucher'}, self.config.extra_slot}
@@ -339,7 +333,7 @@ CardSleeves.Sleeve {
                 end
             }))
         end
-        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
+        if self.get_current_deck_key() == "b_sdm_roguelike" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
             SMODS.change_voucher_limit(self.config.extra_slot)
         else
             SMODS.change_booster_limit(self.config.extra_slot)

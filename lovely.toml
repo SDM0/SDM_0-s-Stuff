@@ -3,25 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-# sdm_adding_card context
-# regex also has Talisman compat
-[[patches]]
-[patches.regex]
-target = "card.lua"
-pattern = '''
-[\t ]*function Card:add_to_deck[\s\S]*?
-(?<indent>[\t ]*)if G\.GAME\.blind.*then G\.E_MANAGER:add_event\(Event\(\{ func = function\(\) G\.GAME\.blind:set_blind\(nil, true, nil\); return true end \}\)\) end\n'''
-position = "after"
-payload = """
-if not from_debuff and G.jokers and #G.jokers.cards > 0 then
-    for i = 1, #G.jokers.cards do
-        G.jokers.cards[i]:calculate_joker({sdm_adding_card = true, card = self})
-    end
-end
-
-"""
-line_prepend = '$indent'
-
 # No shop planets
 [[patches]]
 [patches.pattern]
@@ -56,8 +37,8 @@ position = "after"
 payload = '''
 local curr_deck = (G.GAME.viewed_back and G.GAME.viewed_back.name) or (G.GAME.selected_back and G.GAME.selected_back.name) or "Red Deck"
 local curr_sleeve = (CardSleeves and G.GAME.selected_sleeve) or "sleeve_casl_none"
-if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") or curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) and v.set == "Joker"  then add = nil end
-if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff") and curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) then add = nil end
+if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff" or curr_deck == "b_sdm_deck_of_nightmares") or curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) and v.set == "Joker"  then add = nil end
+if ((curr_deck == "b_sdm_modders" or curr_deck == "b_sdm_deck_of_stuff" or curr_deck == "b_sdm_deck_of_nightmares") and curr_sleeve == "sleeve_sdm_modders") and (not v.original_key or (v.class_prefix and v.class_prefix..'_'..v.original_key == v.key)) then add = nil end
 '''
 match_indent = true
 
@@ -68,7 +49,7 @@ target = "functions/common_events.lua"
 pattern = "_pool[#_pool + 1] = v.key"
 position = "before"
 payload = '''
-if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff") then
+if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff" or curr_deck == "b_sdm_deck_of_nightmares") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
         for i = 1, 4 do
             _pool[#_pool + 1] = v.key
@@ -78,7 +59,7 @@ if curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff"
 end
 if (curr_sleeve and curr_sleeve == "sleeve_sdm_0_s") then
     if string.sub(v.key, 1, 6) == "j_sdm_" then
-        for i = 1, (curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff" and 5)) or 4 do
+        for i = 1, (curr_deck and (curr_deck == "b_sdm_0_s" or curr_deck == "b_sdm_deck_of_stuff" or curr_deck == "b_sdm_deck_of_nightmares" and 5)) or 4 do
             _pool[#_pool + 1] = v.key
             _pool_size = _pool_size + 1
         end
@@ -248,7 +229,7 @@ position = "before"
 payload = '''
     local curr_deck = (G.GAME.viewed_back and G.GAME.viewed_back.name) or (G.GAME.selected_back and G.GAME.selected_back.name) or "Red Deck"
     local curr_sleeve = (CardSleeves and G.GAME.selected_sleeve) or "sleeve_casl_none"
-    if curr_deck and (curr_deck == "b_sdm_roguelike" or curr_deck == "b_sdm_deck_of_stuff") then
+    if curr_deck and (curr_deck == "b_sdm_roguelike" or curr_deck == "b_sdm_deck_of_stuff" or curr_deck == "b_sdm_deck_of_nightmares") then
         if v.key == "v_reroll_surplus" or v.key == "v_reroll_glut" or v.key == "v_cry_rerollexchange" then
             include = false
         end
@@ -309,60 +290,7 @@ end
 '''
 match_indent = true
 
-# Ditto reset
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "elseif context.setting_blind and not self.getting_sliced then"
-position = "after"
-payload = '''
-if self.ability and self.ability.sdm_is_ditto then
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            self:juice_up(0.3, 0.5)
-            self:set_ability(G.P_CENTERS["j_sdm_ditto_joker"], true)
-            self.ability.sdm_is_ditto = nil
-            return true
-        end
-    }))
-    local valid_jokers = {}
-    if G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
-        for i = 1, #G.jokers.cards do
-            if not G.jokers.cards[i].debuff and G.jokers.cards[i] ~= self and G.jokers.cards[i].config.center.key ~= "j_sdm_ditto_joker" then
-                valid_jokers[#valid_jokers+1] = G.jokers.cards[i]
-            end
-        end
-    end
-    if #valid_jokers > 0 then
-        local old_card = self
-        local chosen_joker = pseudorandom_element(valid_jokers, pseudoseed('ditto'))
-        delay(1)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                self:set_ability(G.P_CENTERS[chosen_joker.config.center.key], true)
-                self:set_cost()
-                for k, v in pairs(chosen_joker.ability) do
-                    if type(v) == 'table' then
-                        self.ability[k] = copy_table(v)
-                    else
-                        self.ability[k] = v
-                    end
-                end
-                self.ability.fusion = nil -- FusionJokers compat to remove fuse button
-                self.ability.sdm_is_ditto = true
-                return true
-            end
-        }))
-        card_eval_status_text(old_card, 'extra', nil, nil, nil, {
-            message = localize('k_ditto_ex'),
-            colour = HEX('f06bf2'),
-        })
-    end
-end
-'''
-match_indent = true
-
-# Ditto tooltip when transformed
+# Ditto/Ditto partner tooltip when transformed
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -370,6 +298,7 @@ pattern = "if _c.set == 'Other' then"
 position = "before"
 payload = '''
 if _c.set == "Joker" and card and card.config.center.key ~= "j_sdm_ditto_joker" and card.ability and card.ability.sdm_is_ditto then info_queue[#info_queue+1] = G.P_CENTERS.j_sdm_ditto_joker end
+if _c.set == "Partner" and card and card.config.center.key ~= "pnr_sdm_ditto_joker" and card.ability and card.ability.sdm_is_partner_ditto then info_queue[#info_queue+1] = G.P_CENTERS.pnr_sdm_ditto_joker end
 '''
 match_indent = true
 

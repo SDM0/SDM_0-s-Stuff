@@ -2,7 +2,7 @@ local sdm_bakery_consumables = {
     object_type = "Atlas",
 	key = "sdm_bakery_consumables",
     path = "bakery/sdm_bakery_consumables.png",
-    px = 71,
+    px = 70,
     py = 95
 }
 
@@ -50,7 +50,8 @@ if SDM_0s_Stuff_Config.sdm_bakery then
         key = "bread_bites",
         name = "Bread Bites",
         atlas = "sdm_bakery_consumables",
-        pos = {x = 5, y = 1},
+        pos = {x = 0, y = 4},
+        soul_pos = {x = 0, y = 5},
         config = {extra = {amount = 1, remaining = 2}},
         cost = 4,
         can_bulk_use = false,
@@ -131,6 +132,58 @@ if SDM_0s_Stuff_Config.sdm_vouchers then
     items[#items+1] = oblivion
 
     SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_oblivion = "Oblivion"
+
+    local desolation = {
+        cry_credits = {
+            idea = {
+                "SDM_0",
+            },
+            art = {
+                "SDM_0",
+            },
+            code = {
+                "SDM_0",
+            },
+        },
+        dependencies = {
+            items = {
+                "set_cry_tier3",
+            },
+        },
+        object_type = "Voucher",
+        key = 'desolation',
+        name = 'Desolation',
+        pos = {x = 1, y = 2},
+        requires = {"v_sdm_famine"},
+        loc_vars = function(self, info_queue, card)
+            info_queue[#info_queue+1] = {key = "undefined_mega_pack", set = "Other"}
+        end,
+        redeem = function(self)
+            for _, v in pairs(G.P_CENTERS) do
+                if v.set and v.set == "Booster" and (v.name and not v.name:find("Mega") or v.key and not v.key:find("mega")) then
+                    G.GAME.banned_keys[v.key] = true
+                end
+            end
+            if G.shop_booster then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        for i = #G.shop_booster.cards, 1, -1 do
+                            local _center = G.shop_booster.cards[i].config.center
+                            if G.GAME.banned_keys[_center.key] and (_center.name and not _center.name:find("Mega") or _center.key and not _center.key:find("mega")) then
+                                G.shop_booster.cards[i]:remove()
+                                SMODS.add_booster_to_shop()
+                            end
+                        end
+                    return true
+                end}))
+            end
+        end,
+        atlas = "sdm_vouchers"
+    }
+
+    items[#items+1] = desolation
+
+    SDM_0s_Stuff_Mod.tier3_vouchers.v_sdm_desolation = "Desolation"
 
     if SDM_0s_Stuff_Config.sdm_bakery then
 

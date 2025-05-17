@@ -286,7 +286,7 @@ SMODS.Joker{
     cost = 5,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.reroll_shop and no_bp_retrigger(context) and pseudorandom(pseudoseed('wdrstr')) < G.GAME.probabilities.normal/card.ability.extra then
@@ -618,10 +618,17 @@ SMODS.Joker{
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
             end
-            if my_pos and G.jokers.cards[my_pos-1] then
+            local jokers = {}
+            if my_pos then
+                if G.jokers.cards[my_pos-1] then jokers[#jokers+1] = G.jokers.cards[my_pos-1] end
+                if G.jokers.cards[my_pos+1] then jokers[#jokers+1] = G.jokers.cards[my_pos+1] end
+            end
+            if jokers[1] then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
-                        G.jokers.cards[my_pos-1]:set_edition("e_negative")
+                        for i = 1, #jokers do
+                            jokers[i]:set_edition("e_negative")
+                        end
                         card:juice_up(0.3, 0.4)
                         card:start_dissolve({G.C.DARK_EDITION}, nil, 1.6)
                         return true
@@ -728,8 +735,8 @@ SMODS.Joker{
         end
     end,
     calculate = function(self, card, context)
-        if context.sdm_adding_card and context.card and no_bp_retrigger(context) then
-            if context.card ~= card and context.card.ability.set == 'Joker' and not context.card.not_crooked then
+        if context.card_added and no_bp_retrigger(context) then
+            if context.card ~= card and context.card.ability.set == 'Joker' and not (context.card.ability and context.card.ability.not_crooked) then
                 local do_dupe = pseudorandom(pseudoseed('crkj'), 0, 1)
                 if do_dupe == 1 then
                     if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit - 1 then
@@ -740,8 +747,9 @@ SMODS.Joker{
                         })
                         G.E_MANAGER:add_event(Event({
                             func = function()
+                                context.card.ability.not_crooked = true
                                 local new_card = copy_card(context.card, nil, nil, nil, nil)
-                                new_card:add_to_deck2()
+                                new_card:add_to_deck()
                                 G.jokers:emplace(new_card)
                                 new_card:start_materialize()
                                 G.GAME.joker_buffer = 0
@@ -1168,10 +1176,6 @@ SMODS.Joker{
     rarity = 1,
     pos = {x = 3, y = 5},
     cost = 5,
-    config = {extra = 1},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
-    end,
     calculate = function(self, card, context)
         if context.first_hand_drawn and no_bp_retrigger(context) then
             local eval = function() return G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 end
@@ -1180,24 +1184,16 @@ SMODS.Joker{
         if context.cardarea == G.jokers and context.before and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    ease_hands_played(card.ability.extra)
-                    if card.ability.extra <= 1 then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {card.ability.extra}}, colour = G.C.BLUE})
-                    else
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {card.ability.extra}}, colour = G.C.BLUE})
-                    end
+                    ease_hands_played(1)
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hand', vars = {1}}, colour = G.C.BLUE})
                     return true
                 end}))
             return
         elseif context.pre_discard and (G.GAME.current_round.discards_used == 0 and G.GAME.current_round.hands_played == 0) then
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    ease_discard(card.ability.extra)
-                    if card.ability.extra <= 1 then
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {card.ability.extra}}, colour = G.C.RED})
-                    else
-                        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discards', vars = {card.ability.extra}}, colour = G.C.RED})
-                    end
+                    ease_discard(1)
+                    card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_discard', vars = {1}}, colour = G.C.RED})
                     return true
                 end}))
             return
@@ -1252,7 +1248,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 5, y = 5},
     cost = 5,
-    config = {extra = 15},
+    config = {extra = 20},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra, localize(card.ability.jack_poker_hand1, 'poker_hands'), localize(card.ability.jack_poker_hand2, 'poker_hands')}}
     end,
@@ -1377,7 +1373,7 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 2},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.using_consumeable and pseudorandom('horoscopy') < G.GAME.probabilities.normal/card.ability.extra then
@@ -1416,7 +1412,7 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
-        return {vars = {G.GAME.probabilities.normal, card.ability.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
     end,
     calculate = function(self, card, context)
         if context.first_hand_drawn then
@@ -1628,7 +1624,7 @@ SMODS.Joker{
                         for k, v in pairs(chosen_joker.ability) do
                             if type(v) == 'table' then
                                 card.ability[k] = copy_table(v)
-                            else
+                            elseif not SMODS.Stickers[k] then
                                 card.ability[k] = v
                             end
                         end
@@ -1719,7 +1715,6 @@ SMODS.Joker{
     key = "archibald",
     name = "Archibald",
     rarity = 4,
-    blueprint_compat = true,
     config = {extra = {can_copy = true}},
     pos = {x = 0, y = 3},
     cost = 20,
@@ -1730,7 +1725,7 @@ SMODS.Joker{
         return {vars = {(card.ability.extra.can_copy and localize("k_sdm_active")) or "", (not card.ability.extra.can_copy and localize("k_sdm_inactive")) or ""}}
     end,
     calculate = function(self, card, context)
-        if context.ending_shop then
+        if context.ending_shop and no_bp_retrigger(context) then
             if card.ability.extra.can_copy and #G.jokers.cards > 0 then
                 local valid_cards = {}
                 for i = 1, #G.jokers.cards do
