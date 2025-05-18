@@ -1,5 +1,6 @@
 SDM_0s_Stuff_Mod = SMODS.current_mod
 SDM_0s_Stuff_Config = SDM_0s_Stuff_Mod.config
+SDM_0s_Stuff_Funcs = {}
 
 SDM_0s_Stuff_Mod.modded_jokers = {}
 SDM_0s_Stuff_Mod.modded_consumables = {}
