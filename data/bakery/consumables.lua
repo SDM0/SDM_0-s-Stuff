@@ -25,7 +25,7 @@ SMODS.Consumable{
         return {vars = {self.config.extra}}
     end,
     can_use = function(self, card, area, copier)
-        return #G.consumeables.cards < G.consumeables.config.card_limit
+        return #G.consumeables.cards < G.consumeables.config.card_limit or (card.area and card.area == G.consumeables)
     end,
     use = function(self, card)
         local used_tarot = card or self
