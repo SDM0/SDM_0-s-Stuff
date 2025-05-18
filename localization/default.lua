@@ -80,8 +80,8 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "{C:green}#1# in #2#{} chance to level up a",
-                    "random {C:attention}poker hand{} on {C:green}reroll{}"
+                    "Level up a random",
+                    "{C:attention}poker hand{} on {C:green}reroll{}"
                 }
             },
             j_sdm_ouija_board = {
@@ -843,7 +843,7 @@ return {
             v_sdm_bakery_shop = {
                 name = "Bakery Shop",
                 text = {
-                    "{C:bakery}Bakery{} goods lasts",
+                    "{C:bakery}Bakery{} goods last",
                     "twice as long",
                 },
             },
@@ -1252,7 +1252,7 @@ return {
                 text = {
                     "Transforms into a",
                     "random {C:attention}partner{}",
-                    "each {C:attention}2{} Antes",
+                    "every {C:attention}2{} Antes",
                 },
                 unlock={
                     "Used {C:attention}Free Pass",
