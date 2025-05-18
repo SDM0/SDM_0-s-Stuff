@@ -25,7 +25,7 @@ SMODS.Consumable{
         return {vars = {self.config.extra}}
     end,
     can_use = function(self, card, area, copier)
-        return #G.consumeables.cards <= G.consumeables.config.card_limit
+        return #G.consumeables.cards < G.consumeables.config.card_limit
     end,
     use = function(self, card)
         local used_tarot = card or self
@@ -57,8 +57,8 @@ SMODS.Bakery{
             return {
                 xchips = card.ability.extra.amount,
                 func = function()
-                    if not context or no_bp_retrigger(context) then
-                        decrease_remaining_food(card)
+                    if not context or SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+                        SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
                     end
                 end
             }
@@ -81,8 +81,8 @@ SMODS.Bakery{
             return {
                 xmult = card.ability.extra.amount,
                 func = function()
-                    if not context or no_bp_retrigger(context) then
-                        decrease_remaining_food(card)
+                    if not context or SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+                        SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
                     end
                 end
             }
@@ -102,7 +102,7 @@ SMODS.Bakery{
     config = {extra = {amount = 6, remaining = 3}},
     calc_dollar_bonus = function(self, card)
         local dollars = card.ability.extra.amount
-        decrease_remaining_food(card)
+        SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         return dollars
     end,
 }
@@ -125,7 +125,7 @@ SMODS.Bakery{
             return {
                 xmult = card.ability.extra.amount,
                 func = function()
-                    if pseudorandom('banabread') < G.GAME.probabilities.normal/card.ability.extra.remaining then
+                    if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra.remaining, 'bananabread') then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 play_sound('tarot1')
@@ -180,8 +180,8 @@ SMODS.Bakery{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            decrease_remaining_food(card)
+        if context.end_of_round and context.main_eval and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -208,8 +208,8 @@ SMODS.Bakery{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            decrease_remaining_food(card)
+        if context.end_of_round and context.main_eval and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -235,8 +235,8 @@ SMODS.Bakery{
         end
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger(context) then
-            decrease_remaining_food(card)
+        if context.end_of_round and context.main_eval and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -252,7 +252,7 @@ SMODS.Bakery{
     soul_pos = {x = 1, y = 3},
     config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
-        if context.first_hand_drawn and no_bp_retrigger(context) then
+        if context.first_hand_drawn and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local no_edition_cards = {}
             for _, v in ipairs(G.hand.cards) do
                 if not v.edition then no_edition_cards[#no_edition_cards+1] = v end
@@ -262,7 +262,7 @@ SMODS.Bakery{
                 _card:set_edition('e_polychrome', true)
                 card:juice_up(0.3, 0.5)
             return true end }))
-            decrease_remaining_food(card)
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -278,7 +278,7 @@ SMODS.Bakery{
     soul_pos = {x = 2, y = 3},
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
-        if context.setting_blind and no_bp_retrigger(context) then
+        if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             for i = 1, card.ability.extra.amount do
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
@@ -294,7 +294,7 @@ SMODS.Bakery{
                     colour = G.C.SECONDARY_SET.Tarot,
                 })
             end
-            decrease_remaining_food(card)
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -310,7 +310,7 @@ SMODS.Bakery{
     soul_pos = {x = 3, y = 3},
     config = {extra = {amount = 1, remaining = 3}},
     calculate = function(self, card, context)
-        if context.setting_blind and no_bp_retrigger(context) then
+        if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             for i = 1, card.ability.extra.amount do
                 G.E_MANAGER:add_event(Event({
                     trigger = 'before',
@@ -326,7 +326,7 @@ SMODS.Bakery{
                     colour = G.C.SECONDARY_SET.Planet,
                 })
             end
-            decrease_remaining_food(card)
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -342,7 +342,7 @@ SMODS.Bakery{
     soul_pos = {x = 4, y = 3},
     config = {extra = {amount = 1, remaining = 2}},
     calculate = function(self, card, context)
-        if context.setting_blind and no_bp_retrigger(context) then
+        if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             for i = 1, card.ability.extra.amount do
                 G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                 G.E_MANAGER:add_event(Event({
@@ -359,7 +359,7 @@ SMODS.Bakery{
                     colour = G.C.SECONDARY_SET.Spectral,
                 })
             end
-            decrease_remaining_food(card)
+            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
         end
     end,
 }
@@ -412,7 +412,7 @@ if next(SMODS.find_mod('Tsunami')) then
             }}
         end,
         calculate = function(self, card, context)
-            if context.setting_blind and no_bp_retrigger(context) then
+            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
@@ -427,7 +427,7 @@ if next(SMODS.find_mod('Tsunami')) then
                         colour = G.C.BLUE,
                     })
                 end
-                decrease_remaining_food(card)
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
     }
@@ -445,7 +445,7 @@ if next(SMODS.find_mod('MoreFluff')) and mf_config and mf_config["Colour Cards"]
         soul_pos = {x = 2, y = 5},
         config = {extra = {amount = 1, remaining = 2}},
         calculate = function(self, card, context)
-            if context.setting_blind and no_bp_retrigger(context) then
+            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -462,7 +462,7 @@ if next(SMODS.find_mod('MoreFluff')) and mf_config and mf_config["Colour Cards"]
                         colour = G.C.PURPLE,
                     })
                 end
-                decrease_remaining_food(card)
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
         no_collection = not (mf_config and mf_config["Colour Cards"]),
@@ -484,7 +484,7 @@ if next(SMODS.find_mod('paperback')) then
         soul_pos = {x = 3, y = 5},
         config = {extra = {amount = 1, remaining = 2}},
         calculate = function(self, card, context)
-            if context.setting_blind and no_bp_retrigger(context) then
+            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -501,7 +501,7 @@ if next(SMODS.find_mod('paperback')) then
                         colour = G.C.PAPERBACK_MINOR_ARCANA,
                     })
                 end
-                decrease_remaining_food(card)
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
         no_collection = not (PB_UTIL and PB_UTIL.config.minor_arcana_enabled),
@@ -523,7 +523,7 @@ if next(SMODS.find_mod('Prism')) then
         soul_pos = {x = 4, y = 5},
         config = {extra = {amount = 1, remaining = 2}},
         calculate = function(self, card, context)
-            if context.setting_blind and no_bp_retrigger(context) then
+            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                     G.E_MANAGER:add_event(Event({
@@ -540,7 +540,7 @@ if next(SMODS.find_mod('Prism')) then
                         colour = G.PRISM.C.myth_1,
                     })
                 end
-                decrease_remaining_food(card)
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
         no_collection = not (G.PRISM and G.PRISM.config.myth_enabled),

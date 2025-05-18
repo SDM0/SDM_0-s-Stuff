@@ -31,7 +31,7 @@ SMODS.Consumable{
     end,
     use = function(self, card)
         local used_tarot = card or self
-        if pseudorandom('sphinx') < G.GAME.probabilities.normal/card.ability.extra then
+        if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'sphinx') then
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 local valid_cards = {}
                 for i = 1, #G.hand.cards do
@@ -207,7 +207,7 @@ SMODS.Consumable{
         end
         local removed_ind = pseudorandom("tmtt_removed", 1, #taken)
         local removed = taken[removed_ind]
-        table.remove(resource, (index_elem(resource, removed) or "hand"))
+        table.remove(resource, (SDM_0s_Stuff_Funcs.index_elem(resource, removed) or "hand"))
         local added = resource[pseudorandom("tmtt_added", 1, #resource)]
         local morph_funcs = {
             hand = function(extra, sign)

@@ -12,7 +12,7 @@ function sdm_debug(elem)
 end
 
 --- Get a value's index in a table
-function index_elem(table, value)
+function SDM_0s_Stuff_Funcs.index_elem(table, value)
     for k, v in ipairs(table) do
         if v == value then
             return k
@@ -22,7 +22,7 @@ function index_elem(table, value)
 end
 
 -- Faster way to decrease food/bakery consumables remaining counter
-function decrease_remaining_food(card)
+function SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
     if card.ability.extra.remaining - 1 <= 0 then
         local is_bakery = card.ability.set == "Bakery"
         G.E_MANAGER:add_event(Event({
@@ -64,8 +64,14 @@ function decrease_remaining_food(card)
     end
 end
 
+function SDM_0s_Stuff_Funcs.proba_check(odds, seed)
+    local _odds = odds or 1
+    local _seed = (seed and pseudoseed(seed)) or pseudoseed('default')
+    return pseudorandom(_seed) < G.GAME.probabilities.normal/_odds
+end
+
 --- Get the most and best played poker hand
-function get_most_played_better_hand()
+function SDM_0s_Stuff_Funcs.get_most_played_better_hand()
     local hand = "High Card"
     local played_more_than = 0
     local order = 999
@@ -82,7 +88,7 @@ function get_most_played_better_hand()
 end
 
 --- Counts how many Carcinization there is
-function get_crab_count()
+function SDM_0s_Stuff_Funcs.get_crab_count()
     local crab_count = 0
     if G.jokers and G.jokers.cards then
         if #G.jokers.cards > 0 then
@@ -97,7 +103,7 @@ function get_crab_count()
 end
 
 --- Get the sum of (almost) all existing numbers (capped at 1e300)
-function sum_incremental(n)
+function SDM_0s_Stuff_Funcs.sum_incremental(n)
     if G.jokers then
         local sum_inc = ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
         + G.GAME.round_resets.blind_ante + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
@@ -111,7 +117,7 @@ function sum_incremental(n)
 end
 
 -- Initialization of the random "Reach the Stars" condition values
-function rts_init()
+function SDM_0s_Stuff_Funcs.rts_init()
     local valid_nums = {}
     for i = 1, math.min(G.hand and G.hand.config.card_limit or 8, G.hand and G.hand.config.highlighted_limit or 5) do
         valid_nums[#valid_nums+1] = i
@@ -124,7 +130,7 @@ function rts_init()
 end
 
 -- Faster way to write non-BP/retrigger check
-function no_bp_retrigger(context)
+function SDM_0s_Stuff_Funcs.no_bp_retrigger(context)
     if not context then return false end
     return not (context.blueprint or context.retrigger_joker or context.retrigger_joker_check)
 end
@@ -161,7 +167,7 @@ end
 
 local cj = Card.calculate_joker
 function Card:calculate_joker(context)
-    if context.setting_blind and not self.getting_sliced and no_bp_retrigger(context) then
+    if context.setting_blind and not self.getting_sliced and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
         if self.ability and self.ability.sdm_is_ditto then
             G.E_MANAGER:add_event(Event({
                 func = function()
@@ -211,7 +217,7 @@ end
 
 local cpnr = Card.calculate_partner
 function Card:calculate_partner(context)
-    if context.partner_end_of_round and no_bp_retrigger(context) then
+    if context.partner_end_of_round and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
         if (G.GAME and G.GAME.blind.boss) and self.ability and self.ability.sdm_is_partner_ditto and self.ability.sdm_partner_ditto_ante then
             self.ability.sdm_partner_ditto_ante = self.ability.sdm_partner_ditto_ante + 1
             card_eval_status_text(self, 'extra', nil, nil, nil, {

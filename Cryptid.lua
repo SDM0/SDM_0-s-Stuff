@@ -62,7 +62,7 @@ if SDM_0s_Stuff_Config.sdm_bakery then
             return false
         end,
         calculate = function(self, card, context)
-            if context.setting_blind and no_bp_retrigger(context) then
+            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
                 for i = 1, card.ability.extra.amount do
                     G.E_MANAGER:add_event(Event({
                         trigger = 'before',
@@ -78,7 +78,7 @@ if SDM_0s_Stuff_Config.sdm_bakery then
                         colour = G.C.SECONDARY_SET.Code,
                     })
                 end
-                decrease_remaining_food(card)
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
     }

@@ -207,8 +207,8 @@ Partner_API.Partner{
                 change_shop_size(-(card.ability.extra.shop_slots + benefits))
                 card.ability.extra.pos_change = -(card.ability.extra.shop_slots + benefits)
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
-                    message = localize{type = 'variable', key = 'a_shop_slot_minus', vars = {card.ability.extra.pos_change}},
-                    colour = G.C.FILTER
+                    message = localize{type = 'variable', key = 'a_shop_slot_minus', vars = {-card.ability.extra.pos_change}},
+                    colour = G.C.RED
                 })
             end
         end
