@@ -80,8 +80,8 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "Level up {C:attention}#2#{} random",
-                    "{C:attention}poker hand{} on {C:green}reroll{}"
+                    "Level up {C:attention}#1#{} random",
+                    "{C:attention}poker hands{} on {C:green}reroll{}"
                 }
             },
             j_sdm_ouija_board = {
@@ -295,9 +295,9 @@ return {
                 text = {
                     "{C:red}+#1#{} Mult if {C:attention}poker hand{}",
                     "is a {C:attention}#2#{} or {C:attention}#3#{}",
-                    "and has a {C:attention}Jack{}, poker",
-                    "hands changes at",
-                    "end of round"
+                    "and has a {C:attention}Jack{}",
+                    "{s:0.8}poker hands change",
+                    "{s:0.8}at end of round"
                 },
             },
             j_sdm_chain_reaction = {
