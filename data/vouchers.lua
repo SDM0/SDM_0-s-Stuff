@@ -74,7 +74,7 @@ SMODS.Voucher{
                 func = function()
                     for i = #G.shop_booster.cards, 1, -1 do
                         local _center = G.shop_booster.cards[i].config.center
-                        if G.GAME.banned_keys[_center.key] and (_center.kind and _center.kind == "Buffoon") then
+                        if G.GAME.banned_keys[_center.key] and (_center.kind and _center.kind == "Standard") then
                             G.shop_booster.cards[i]:remove()
                             SMODS.add_booster_to_shop()
                         end
@@ -98,7 +98,7 @@ SMODS.Voucher{
     end,
     redeem = function(self)
         for _, v in pairs(G.P_CENTERS) do
-            if v.set and v.set == "Booster" and v.kind and v.kind == "Standard" then
+            if v.set and v.set == "Booster" and v.kind and v.kind == "Buffoon" then
                 G.GAME.banned_keys[v.key] = true
             end
         end
