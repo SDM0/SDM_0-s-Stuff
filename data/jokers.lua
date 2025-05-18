@@ -284,17 +284,22 @@ SMODS.Joker{
     rarity = 1,
     pos = {x = 0, y = 1},
     cost = 5,
+    config = {extra = 2},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
     calculate = function(self, card, context)
         if context.reroll_shop and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
-            local level_up_hands = {}
+            local visible_hands = {}
             for k, v in pairs(G.GAME.hands) do
-                if v.visible then level_up_hands[#level_up_hands+1] = k end
+                if v.visible then visible_hands[k] = true end
             end
-            local selected_hand = pseudorandom_element(level_up_hands, pseudoseed('wandering'))
-            return {
-                level_up = true,
-                level_up_hand = selected_hand
-            }
+            for i = 1, card.ability.extra do
+                local _, selected_hand = pseudorandom_element(visible_hands, pseudoseed('wandering'))
+                visible_hands[selected_hand] = nil
+                sdm_debug("levelign up hand")
+                SMODS.smart_level_up_hand(card, selected_hand)
+            end
         end
     end,
     atlas = "sdm_jokers"
