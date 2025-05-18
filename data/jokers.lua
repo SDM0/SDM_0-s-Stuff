@@ -291,13 +291,15 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.reroll_shop and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local visible_hands = {}
-            for k, v in pairs(G.GAME.hands) do
-                if v.visible then visible_hands[k] = true end
+            for _, k in ipairs(G.handlist) do
+                local v = G.GAME.hands[k]
+                if v.visible then
+                    table.insert(visible_hands, k)
+                end
             end
             for i = 1, card.ability.extra do
-                local _, selected_hand = pseudorandom_element(visible_hands, pseudoseed('wandering'))
-                visible_hands[selected_hand] = nil
-                sdm_debug("levelign up hand")
+                local selected_hand, idx = pseudorandom_element(visible_hands, pseudoseed('wandering'))
+                table.remove(visible_hands, idx)
                 SMODS.smart_level_up_hand(card, selected_hand)
             end
         end
@@ -1255,14 +1257,16 @@ SMODS.Joker{
     end,
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible then _poker_hands[k] = true end
+        for _, k in ipairs(G.handlist) do
+            local v = G.GAME.hands[k]
+            if v.visible then
+                table.insert(_poker_hands, k)
+            end
         end
-        _, card.ability.jack_poker_hand1 = pseudorandom_element(_poker_hands, pseudoseed('jack1'))
-        _poker_hands[card.ability.jack_poker_hand1] = nil
-        _, card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jack2'))
-
-
+        local idx
+        card.ability.jack_poker_hand1, idx = pseudorandom_element(_poker_hands, pseudoseed('jack1'))
+        table.remove(_poker_hands, idx)
+        card.ability.jack_poker_hand2 = pseudorandom_element(_poker_hands, pseudoseed('jack2'))
     end,
     calculate = function(self, card, context)
         if context.joker_main and context.scoring_hand then
