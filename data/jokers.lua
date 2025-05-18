@@ -1320,7 +1320,13 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             if string.match(string.lower(context.scoring_name), "%f[%w]kind%f[%W]$") then
-                card.ability.extra.mult = card.ability.extra.mult + (next(SMODS.find_card("j_sdm_magic_hands")) and math.min(G.hand.config.highlighted_limit, #context.scoring_hand + 1) or #context.scoring_hand)
+                local scored_rank_cards = 0
+                for _, v in ipairs(context.scoring_hand) do
+                    if not SMODS.has_no_rank(v) then
+                        scored_rank_cards = scored_rank_cards + 1
+                    end
+                end
+                card.ability.extra.mult = card.ability.extra.mult + (next(SMODS.find_card("j_sdm_magic_hands")) and math.min(G.hand.config.highlighted_limit, scored_rank_cards + 1) or scored_rank_cards)
                 return {
                     message = localize{type='variable',key='a_mult',vars={card.ability.extra.mult}}
                 }
