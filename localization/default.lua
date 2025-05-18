@@ -843,7 +843,7 @@ return {
             v_sdm_bakery_shop = {
                 name = "Bakery Shop",
                 text = {
-                    "{C:bakery}Bakery{} goods lasts",
+                    "{C:bakery}Bakery{} goods last",
                     "twice as long",
                 },
             },
