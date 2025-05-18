@@ -925,7 +925,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra.hands, card.ability.extra.hand_mod}}
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and no_bp_retrigger then
+        if context.end_of_round and context.main_eval and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             card.ability.extra.hands = card.ability.extra.hands - card.ability.extra.hand_mod
             if card.ability.extra.hands > 0 then
                 card_eval_status_text(card, 'extra', nil, nil, nil, {
