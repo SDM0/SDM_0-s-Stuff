@@ -1318,10 +1318,11 @@ SMODS.Joker{
         return {vars = {card.ability.extra.mult}}
     end,
     calculate = function(self, card, context)
-        if context.cardarea == G.jokers and context.before and context.scoring_hand and context.scoring_name and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+        if context.cardarea == G.jokers and context.before and context.full_hand and context.scoring_name and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             if string.match(string.lower(context.scoring_name), "%f[%w]kind%f[%W]$") then
+                local _, _, _, scoring_hand = G.FUNCS.get_poker_hand_info(context.full_hand)
                 local scored_rank_cards = 0
-                for _, v in ipairs(context.scoring_hand) do
+                for _, v in ipairs(scoring_hand) do
                     if not SMODS.has_no_rank(v) then
                         scored_rank_cards = scored_rank_cards + 1
                     end
