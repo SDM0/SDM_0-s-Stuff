@@ -508,9 +508,9 @@ if next(SMODS.find_mod('paperback')) then
                 SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             end
         end,
-        no_collection = not (PB_UTIL and PB_UTIL.config.minor_arcana_enabled),
+        no_collection = not (PB_UTIL and PB_UTIL.config and PB_UTIL.config.minor_arcana_enabled),
         in_pool = function()
-            return PB_UTIL and PB_UTIL.config.minor_arcana_enabled
+            return PB_UTIL and PB_UTIL.config and PB_UTIL.config.minor_arcana_enabled
         end,
     }
 
