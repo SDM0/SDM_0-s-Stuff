@@ -170,6 +170,14 @@ SMODS.Bakery{
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if not card.sdm_copy then
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
+                    card.ability.extra.remaining = card.ability.extra.remaining * 2
+                end
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory then
+                    card.ability.extra.amount = card.ability.extra.amount * 2
+                end
+            end
             G.GAME.round_resets.hands = G.GAME.round_resets.hands + card.ability.extra.amount
             ease_hands_played(card.ability.extra.amount)
         end
@@ -198,6 +206,14 @@ SMODS.Bakery{
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if not card.sdm_copy then
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
+                    card.ability.extra.remaining = card.ability.extra.remaining * 2
+                end
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory then
+                    card.ability.extra.amount = card.ability.extra.amount * 2
+                end
+            end
             G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.amount
             ease_discard(card.ability.extra.amount)
         end
@@ -225,6 +241,14 @@ SMODS.Bakery{
     soul_pos = {x = 0, y = 3},
     config = {extra = {amount = 2, remaining = 2}},
     add_to_deck = function(self, card, from_debuff)
+        if not from_debuff and not card.sdm_copy then
+            if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
+                card.ability.extra.remaining = card.ability.extra.remaining * 2
+            end
+            if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory then
+                card.ability.extra.amount = card.ability.extra.amount * 2
+            end
+        end
         if G.hand then
             G.hand:change_size(card.ability.extra.amount)
         end
@@ -379,6 +403,14 @@ SMODS.Bakery{
     hidden = true,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then
+            if not card.sdm_copy then
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_shop then
+                    card.ability.extra.remaining = card.ability.extra.remaining * 2
+                end
+                if G.GAME and G.GAME.used_vouchers.v_sdm_bakery_factory then
+                    card.ability.extra.amount = card.ability.extra.amount * 2
+                end
+            end
             G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.amount
             G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra.amount
         end
