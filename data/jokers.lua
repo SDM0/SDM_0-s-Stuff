@@ -284,10 +284,6 @@ SMODS.Joker{
     rarity = 1,
     pos = {x = 0, y = 1},
     cost = 5,
-    config = {extra = 2},
-    loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
-    end,
     calculate = function(self, card, context)
         if context.reroll_shop and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local visible_hands = {}
@@ -297,9 +293,8 @@ SMODS.Joker{
                     table.insert(visible_hands, k)
                 end
             end
-            for i = 1, card.ability.extra do
-                local selected_hand, idx = pseudorandom_element(visible_hands, pseudoseed('wandering'))
-                table.remove(visible_hands, idx)
+            if visible_hands[1] then
+                local selected_hand = pseudorandom_element(visible_hands, pseudoseed('wandering'))
                 SMODS.smart_level_up_hand(card, selected_hand)
             end
         end
@@ -1485,7 +1480,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 0, y = 6},
     cost = 7,
-    config = {extra = {mult_mod = 4}},
+    config = {extra = {mult_mod = 5}},
     loc_vars = function(self, info_queue, card)
         local mlt = card.ability.extra.mult_mod * SDM_0s_Stuff_Funcs.get_crab_count()
         return {vars = {card.ability.extra.mult_mod, mlt}}

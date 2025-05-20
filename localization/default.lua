@@ -80,8 +80,8 @@ return {
             j_sdm_wandering_star = {
                 name = "Wandering Star",
                 text = {
-                    "Level up {C:attention}#1#{} random",
-                    "{C:attention}poker hands{} on {C:green}reroll{}"
+                    "Level up a random",
+                    "{C:attention}poker hand{} on {C:green}reroll{}"
                 }
             },
             j_sdm_ouija_board = {
