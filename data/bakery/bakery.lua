@@ -3,20 +3,7 @@ SMODS.ConsumableType {
     collection_rows = { 5, 6 },
     primary_colour = HEX('e69138'),
     secondary_colour = HEX('ff7f00'),
-    loc_txt = {
-        name = 'Bakery',
- 		collection = 'Bakery Goods',
-        undiscovered = {
-            name = 'Not Discovered',
-            text = {
-                "Purchase or use",
-                "this card in an",
-                "unseeded run to",
-                "learn what it does"
-            },
-        },
-    },
-    default = "c_sdm_pita",
+    default = "c_sdm_chocolate_truffles",
 }
 
 SMODS.Bakery = SMODS.Consumable:extend({
@@ -24,6 +11,9 @@ SMODS.Bakery = SMODS.Consumable:extend({
     cost = 4,
     can_use = function(self, card, area, copier)
         return false
+    end,
+    selectable_from_pack = function(self, card, pack)
+        return true
     end,
     loc_vars = function(self, info_queue, card)
         return {vars = {

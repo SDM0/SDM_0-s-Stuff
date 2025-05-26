@@ -5,6 +5,11 @@ SMODS.Atlas{
     py = 95
 }
 
+SMODS.Sound{
+    key = "sdm_bakery_doorbell",
+    path = "doorbell.ogg"
+}
+
 SMODS.Booster{
     key = 'bakery_normal_1',
     name = 'Bakery Pack',
