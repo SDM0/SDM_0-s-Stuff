@@ -135,6 +135,30 @@ function SDM_0s_Stuff_Funcs.no_bp_retrigger(context)
     return not (context.blueprint or context.retrigger_joker or context.retrigger_joker_check)
 end
 
+-- Check if hand contains the poker hand "Chicken Head"
+function SDM_0s_Stuff_Funcs.get_chicken_head(hand)
+    if not hand then return {} end
+    local has_8 = nil
+    local has_4 = nil
+    local has_3 = nil
+    local result = {}
+	for _, card in ipairs(hand) do
+		if not SMODS.has_no_rank(card) then
+			if card.base.id == 8 and not has_8 then
+				has_8 = true
+				result[#result+1] = card
+			elseif card.base.id == 4 and not has_4 then
+				has_4 = true
+				result[#result+1] = card
+			elseif card.base.id == 3 and not has_3 then
+				has_3 = true
+				result[#result+1] = card
+			end
+		end
+	end
+    return (has_8 and has_4 and has_3) and { result } or {}
+end
+
 -- Overrides
 
 local gfcr = G.FUNCS.can_reroll
@@ -258,6 +282,29 @@ function Card:calculate_partner(context)
         end
     end
     return cpnr(self, context)
+end
+
+local co = Card.open
+function Card:open()
+    co(self)
+    if self.config and self.config.center and self.config.center.kind and self.config.center.kind == "Bakery" then
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED),
+            func = function()
+                play_sound('sdm_bakery_doorbell')
+            return true
+        end}))
+    end
+end
+
+local gs = get_straight
+function get_straight(hand, min_length, skip, wrap)
+    if next(SMODS.find_card('j_sdm_chicken_road')) then
+        local chicken_head = SDM_0s_Stuff_Funcs.get_chicken_head(hand)
+        if chicken_head[1] then return chicken_head end
+    end
+    return gs(hand, min_length, skip, wrap)
 end
 
 --- Talisman compat
