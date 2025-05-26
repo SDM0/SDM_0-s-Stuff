@@ -194,10 +194,10 @@ SDM_0s_Stuff_Mod.modded_jokers.j_sdm_mult_n_chips = "Mult'N'Chips"
 SMODS.Joker{
     key = "moon_base",
     name = "Moon Base",
-    rarity = 1,
+    rarity = 2,
     blueprint_compat = true,
     pos = {x = 6, y = 0},
-    cost = 6,
+    cost = 8,
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {key = "space_jokers", set = "Other"}
     end,
@@ -247,7 +247,7 @@ SMODS.Joker{
     name = "Magic Hands",
     rarity = 2,
     pos = {x = 8, y = 0},
-    cost = 6,
+    cost = 7,
     -- Effect coded in lovely.toml --
     atlas = "sdm_jokers"
 }
@@ -261,7 +261,7 @@ SMODS.Joker{
     name = "Tip Jar",
     rarity = 2,
     pos = {x = 9, y = 0},
-    cost = 6,
+    cost = 8,
     calc_dollar_bonus = function(self, card)
         local highest = 0
         for digit in tostring(math.abs(G.GAME.dollars)):gmatch("%d") do
@@ -283,7 +283,7 @@ SMODS.Joker{
     name = "Wandering Star",
     rarity = 1,
     pos = {x = 0, y = 1},
-    cost = 5,
+    cost = 6,
     calculate = function(self, card, context)
         if context.reroll_shop and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local visible_hands = {}
@@ -475,7 +475,7 @@ SMODS.Joker{
     rarity = 2,
     pos = {x = 5, y = 1},
     cost = 6,
-    config = {extra = {h_size = 2}},
+    config = {extra = {h_size = 3}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.h_size}}
     end,
@@ -1211,7 +1211,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 4, y = 5},
     cost = 5,
-    config = {extra = 5},
+    config = {extra = 6},
     loc_vars = function(self, info_queue, card)
         return {vars = {localize('Spades', 'suits_singular'), localize('Diamonds', 'suits_singular'), card.ability.extra}}
     end,
@@ -1344,10 +1344,10 @@ SDM_0s_Stuff_Mod.modded_jokers.j_sdm_chain_reaction = "Chain Reaction"
 SMODS.Joker{
     key = "consolation_prize",
     name = "Consolation Prize",
-    rarity = 2,
+    rarity = 1,
     blueprint_compat = true,
     pos = {x = 7, y = 5},
-    cost = 6,
+    cost = 5,
     calculate = function(self, card, context)
         if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
             G.E_MANAGER:add_event(Event({
@@ -1416,7 +1416,7 @@ SMODS.Joker{
     rarity = 3,
     blueprint_compat = true,
     pos = {x = 9, y = 5},
-    cost = 8,
+    cost = 7,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
         return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
@@ -1479,8 +1479,8 @@ SMODS.Joker{
     rarity = 2,
     blueprint_compat = true,
     pos = {x = 0, y = 6},
-    cost = 7,
-    config = {extra = {mult_mod = 5}},
+    cost = 6,
+    config = {extra = {mult_mod = 6}},
     loc_vars = function(self, info_queue, card)
         local mlt = card.ability.extra.mult_mod * SDM_0s_Stuff_Funcs.get_crab_count()
         return {vars = {card.ability.extra.mult_mod, mlt}}
@@ -1527,7 +1527,7 @@ SMODS.Joker{
     pos = {x = 1, y = 6},
     cost = 6,
     atlas = "sdm_jokers"
-    -- effect coded in lovely.toml
+    -- Effect coded in lovely.toml
 }
 
 SDM_0s_Stuff_Mod.modded_jokers.j_sdm_wormhole = "Wormhole"
@@ -1607,10 +1607,10 @@ SDM_0s_Stuff_Mod.modded_jokers.j_sdm_yo_yo = "Yo-Yo"
 SMODS.Joker{
     key = "ditto_joker",
     name = "Ditto Joker",
-    rarity = 2,
+    rarity = 3,
     eternal_compat = false,
     pos = {x = 4, y = 6},
-    cost = 7,
+    cost = 8,
     calculate = function(self, card, context)
         if context.setting_blind and not card.getting_sliced and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local valid_jokers = {}
@@ -1714,6 +1714,72 @@ if SDM_0s_Stuff_Config.sdm_bakery then
 
     SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pastry_chef = "Pastry Chef"
 
+end
+
+if SDM_0s_Stuff_Config.sdm_hands then
+
+    --- Chicken Butt ---
+
+    SMODS.Joker{
+        key = "chicken_butt",
+        name = "Chicken Butt",
+        rarity = 2,
+        blueprint_compat = true,
+        pos = {x = 6, y = 6},
+        cost = 6,
+        config = {extra = 3},
+        loc_vars = function(self, info_queue, card)
+            info_queue[#info_queue+1] = G.P_CENTERS.j_egg
+            return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra, localize('sdm_Chicken Head', 'poker_hands')}}
+        end,
+        calculate = function(self, card, context)
+            if context.cardarea == G.jokers and context.after and context.scoring_name then
+                if not (context.blueprint_card or card).getting_sliced and context.scoring_name == "sdm_Chicken Head" and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit then
+                    if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'chkbutt') then
+                        G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+                        G.E_MANAGER:add_event(Event({
+                            func = (function()
+                                G.E_MANAGER:add_event(Event({
+                                    func = function()
+                                        SMODS.add_card({key = 'j_egg', key_append = 'chkbutt'})
+                                        G.GAME.joker_buffer = 0
+                                        return true
+                                    end}))
+                            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_egg'), colour = G.C.FILTER})
+                            return true
+                        end)}))
+                    end
+                end
+            end
+        end,
+        in_pool = function()
+            return G.GAME and G.GAME.hands and G.GAME.hands["sdm_Chicken Head"].played and G.GAME.hands["sdm_Chicken Head"].played > 0
+        end,
+        atlas = "sdm_jokers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_jokers.j_sdm_chicken_butt = "Chicken Butt"
+
+    --- Chicken Across The Road ---
+
+    SMODS.Joker{
+        key = "chicken_road",
+        name = "Chicken Across The Road",
+        rarity = 2,
+        blueprint_compat = true,
+        pos = {x = 7, y = 6},
+        cost = 7,
+        loc_vars = function(self, info_queue, card)
+            return {vars = {localize('sdm_Chicken Head', 'poker_hands'), localize('Straight', 'poker_hands')}}
+        end,
+        -- Effect coded in utils.lua "get_flush" function override --
+        in_pool = function()
+            return G.GAME and G.GAME.hands and G.GAME.hands["sdm_Chicken Head"].played and G.GAME.hands["sdm_Chicken Head"].played > 0
+        end,
+        atlas = "sdm_jokers"
+    }
+
+    SDM_0s_Stuff_Mod.modded_jokers.j_sdm_chicken_road = "Chicken Across The Road"
 end
 
 --- Archibald ---
@@ -1876,6 +1942,7 @@ SMODS.Joker{
     cost = 20,
     config = {extra = {Xmult = 1, Xmult_mod = 0.25}},
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = "vanilla_consumable", set = "Other"}
         return {vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}}
     end,
     calculate = function(self, card, context)
