@@ -149,8 +149,8 @@ target = "functions/UI_definitions.lua"
 pattern = '''function G.UIDEF.use_and_sell_buttons(card)'''
 position = "after"
 payload = '''
-    if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable then
-        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED and (SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'Bakery') then
+    if (card.area == G.pack_cards and G.pack_cards) and card.ability.consumeable and card.ability.set == "Bakery" then
+        if G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
             return {
                 n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
                   {n=G.UIT.R, config={ref_table = card, r = 0.08, padding = 0.1, align = "bm", minw = 0.5*card.T.w - 0.15, maxw = 0.9*card.T.w - 0.15, minh = 0.3*card.T.h, hover = true, shadow = true, colour = G.C.UI.BACKGROUND_INACTIVE, one_press = true, button = 'use_card', func = 'can_pick_card'}, nodes={
