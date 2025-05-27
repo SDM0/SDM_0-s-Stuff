@@ -1211,7 +1211,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 4, y = 5},
     cost = 5,
-    config = {extra = 6},
+    config = {extra = 5},
     loc_vars = function(self, info_queue, card)
         return {vars = {localize('Spades', 'suits_singular'), localize('Diamonds', 'suits_singular'), card.ability.extra}}
     end,
