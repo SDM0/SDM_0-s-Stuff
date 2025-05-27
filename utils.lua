@@ -21,6 +21,10 @@ function SDM_0s_Stuff_Funcs.index_elem(table, value)
     return nil
 end
 
+function SDM_0s_Stuff_Funcs.is_bakery_good(card)
+    return card.ability.set == "Bakery" or card.ability.name == "Wedding Cake"
+end
+
 -- Faster way to decrease food/bakery consumables remaining counter
 function SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
     if card.ability.extra.remaining - 1 <= 0 then
