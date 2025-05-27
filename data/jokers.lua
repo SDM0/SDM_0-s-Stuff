@@ -1211,7 +1211,7 @@ SMODS.Joker{
     blueprint_compat = true,
     pos = {x = 4, y = 5},
     cost = 5,
-    config = {extra = 6},
+    config = {extra = 5},
     loc_vars = function(self, info_queue, card)
         return {vars = {localize('Spades', 'suits_singular'), localize('Diamonds', 'suits_singular'), card.ability.extra}}
     end,
@@ -1951,7 +1951,8 @@ SMODS.Joker{
                 local destructable_consus = {}
                 for i = 1, #G.consumeables.cards do
                     if not G.consumeables.cards[i].ability.eternal and not G.consumeables.cards[i].getting_sliced
-                    and (G.consumeables.cards[i].ability.set == "Tarot" or G.consumeables.cards[i].ability.set == "Planet") then
+                    and not SDM_0s_Stuff_Funcs.is_bakery_good(G.consumeables.cards[i]) and (G.consumeables.cards[i].ability.set == "Tarot"
+                    or G.consumeables.cards[i].ability.set == "Planet" or G.consumeables.cards[i].ability.set == "Spectral") then
                         destructable_consus[#destructable_consus+1] = G.consumeables.cards[i]
                     end
                 end
