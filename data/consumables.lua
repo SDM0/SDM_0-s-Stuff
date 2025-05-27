@@ -107,30 +107,6 @@ SMODS.Consumable{
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_mother = "Mother"
 
-if SDM_0s_Stuff_Config.sdm_hands then
-
-    --- Egg-xoplanet ---
-
-    SMODS.Consumable{
-        key = 'eggxoplanet',
-        name = 'Egg-xoplanet',
-        set = 'Planet',
-        pos = {x = 3, y = 1},
-        cost = 3,
-        config = {hand_type = "sdm_Chicken Head", softlock = true},
-        loc_vars = function(self, info_queue, card)
-            return {vars = {G.GAME.hands[self.config.hand_type].level,localize(self.config.hand_type, 'poker_hands'), G.GAME.hands[self.config.hand_type].l_mult, G.GAME.hands[self.config.hand_type].l_chips,
-            colours = {(G.GAME.hands[self.config.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[self.config.hand_type].level)])}}}
-        end,
-        in_pool = function()
-            return G.GAME and G.GAME.hands and G.GAME.hands["sdm_Chicken Head"].played and G.GAME.hands["sdm_Chicken Head"].played > 0
-        end,
-        atlas = "sdm_consumables"
-    }
-
-    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_eggxoplanet = "Egg-xoplanet"
-end
-
 --- Sacrifice ---
 
 SMODS.Consumable{
