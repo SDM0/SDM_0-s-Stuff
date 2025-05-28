@@ -62,19 +62,16 @@ if SDM_0s_Stuff_Config.sdm_bakery then
             return false
         end,
         calculate = function(self, card, context)
-            if context.setting_blind and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            if context.starting_shop then
                 for i = 1, card.ability.extra.amount do
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'before',
-                        delay = 0.0,
-                        func = (function()
-                            SMODS.add_card({set = 'Code', key_append = 'bpg'})
-                            G.GAME.consumeable_buffer = 0
-                            return true
-                        end)
-                    }))
+                    G.E_MANAGER:add_event(Event{
+                        func = function()
+                        local _booster = SMODS.add_booster_to_shop('p_cry_code_normal__'..(math.random(1,2)))
+                        _booster.cost = 0
+                        return true
+                    end})
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
-                        message = localize('k_plus_code'),
+                        message = localize('k_plus_pack'),
                         colour = G.C.SECONDARY_SET.Code,
                     })
                 end
