@@ -418,9 +418,9 @@ return {
                 name = "Trance The Devil",
                 text = {
                     "This Joker {C:attention}destroys{} each",
-                    "{C:tarot}Tarot{} and {C:planet}Planet{} cards",
-                    "for {X:mult,C:white}X#1#{} Mult at",
-                    "the end of round",
+                    "{C:attention}vanilla{} consumable for",
+                    "{X:mult,C:white}X#1#{} Mult at the",
+                    "end of round",
                     "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
                 }
             },
@@ -584,9 +584,9 @@ return {
                 name = "The Sphinx",
                 text = {
                     "{C:green}#1# in #2#{} chance to add",
-                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
-                    "{C:dark_edition}Polychrome{} edition to",
-                    "a random {C:attention}card{} in hand"
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
+                    "or {C:dark_edition}Polychrome{} effect to",
+                    "{C:attention}#3#{} selected card in hand"
                 }
             },
             c_sdm_mother = {
@@ -722,8 +722,8 @@ return {
             c_sdm_fortune_cookie = {
                 name = "Fortune Cookie",
                 text = {
-                    "Create {C:attention}#1#{} {C:tarot}Tarot{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:tarot}Arcana Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -731,8 +731,8 @@ return {
             c_sdm_moon_cakes = {
                 name = "Moon Cakes",
                 text = {
-                    "Create {C:attention}#1#{} {C:planet}Planet{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:planet}Celestial Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -740,8 +740,8 @@ return {
             c_sdm_bread_monster = {
                 name = "Bread Monster",
                 text = {
-                    "Create {C:attention}#1#{} {C:spectral}Spectral{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:spectral}Spectral Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -749,8 +749,8 @@ return {
             c_sdm_bread_bites = {
                 name = "Bread Bites",
                 text = {
-                    "Create {C:attention}#1#{} {C:cry_code}Code{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:cry_code}Code Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -766,8 +766,8 @@ return {
             c_sdm_macarons = {
                 name = "Macarons",
                 text = {
-                    "Create {C:attention}#1#{} {C:colourcard}Colour{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:colourcard}Colour Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -775,8 +775,8 @@ return {
             c_sdm_king_cake = {
                 name = "King Cake",
                 text = {
-                    "Create {C:attention}#1#{} {C:paperback_minor_arcana}Minor Arcana{}",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:paperback_minor_arcana}Minor Arcana Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -784,8 +784,35 @@ return {
             c_sdm_ambrosia_bread = {
                 name = "Ambrosia Bread",
                 text = {
-                    "Create {C:attention}#1#{} {C:myth_light}Myth{} card",
-                    "when {C:attention}Blind{} is selected,",
+                    "Create {C:attention}#1#{} {C:green}free{} {C:myth_light}Legend Pack{}",
+                    "at the start of shop,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_peremech = {
+                name = "Peremech",
+                text = {
+                    "Create {C:attention}#1#{} {C:green}free{} {C:attention}TOGA Booster{}",
+                    "{C:attention}Pack{} at the start of shop,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_funnel_cake = {
+                name = "Funnel Cake",
+                text = {
+                    "Create {C:attention}#1#{} {C:green}free{} {C:silly}Silly Pack{}",
+                    "at the start of shop,",
+                    "lasts {C:attention}#2#{} trigger(s)",
+                    "{C:inactive}(Doesn't require room)"
+                }
+            },
+            c_sdm_chiacchiere = {
+                name = "Chiacchiere",
+                text = {
+                    "Create {C:attention}#1#{} {C:green}free{} {C:stamp}Postal Pack{}",
+                    "at the start of shop,",
                     "lasts {C:attention}#2#{} trigger(s)",
                     "{C:inactive}(Doesn't require room)"
                 }
@@ -905,6 +932,13 @@ return {
                     "be taken immediately"
                 }
             },
+            undiscovered_bakery = {
+                name = 'Unknown Bakery Goods',
+                text = {
+                    'Find this card in an unseeded',
+                    'run to find out what it does'
+                }
+            },
             space_jokers = {
                 name = "Space Jokers",
                 text = {
@@ -962,6 +996,13 @@ return {
                     "Choose {C:attention}2{} of up to",
                     "{C:attention}5{C:attention} X{} cards to",
                     "be used immediately"
+                }
+            },
+            vanilla_consumable = {
+                name = "Vanilla Consumable",
+                text = {
+                    "{C:tarot}Tarot{}, {C:planet}Planet",
+                    "and {C:spectral}Spectral{} cards"
                 }
             },
             je_j_sdm_mult_n_chips = {
@@ -1270,18 +1311,23 @@ return {
             k_shared_ex = "Shared!",
             k_plus_code = "+1 Code",
             k_plus_tag = "+1 Tag",
+            k_plus_pack = "+1 Pack",
             k_crab_ex = "Crab!",
             k_bonus = "Bonus",
             k_ditto_ex = "Ditto!",
+            k_bakery = "Bakery",
+            b_bakery_cards = "Bakery Goods",
             k_bakery_pack = "Bakery Pack",
             k_plus_bakery = "+1 Bakery",
+            k_plus_egg = "+1 Egg",
         },
         poker_hands = {
             ['sdm_Chicken Head'] = "Chicken Head",
         },
         poker_hand_descriptions = {
             ['sdm_Chicken Head'] = {
-                "A hand containing at least an 8, 4 and 3"
+                "3 cards containing an 8, 4 and 3, They may",
+                "be played with 2 other unscored cards"
             },
         },
         v_dictionary = {
