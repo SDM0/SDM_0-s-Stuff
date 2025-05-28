@@ -131,15 +131,22 @@ SMODS.Back{
     key = "xxl",
     pos = {x = 3, y = 1},
     apply = function()
-        local extra_cards = {}
-        for _, v in pairs(G.P_CARDS) do
-            if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
-            and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
-                local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
-                extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-            end
-        end
-        G.GAME.starting_params.extra_cards = extra_cards
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local cards_to_copy = {}
+                for k, v in ipairs(G.deck.cards) do
+                    cards_to_copy[#cards_to_copy+1] = v
+                end
+                for k, v in ipairs(cards_to_copy) do
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = copy_card(v)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.deck:emplace(_card)
+                end
+            return true
+        end}))
     end,
     atlas = "sdm_enhancers"
 }
@@ -320,18 +327,25 @@ SMODS.Back{
                 end
             end
         end
-        local extra_cards = {}
-        for _, v in pairs(G.P_CARDS) do
-            if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
-            and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
-                local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
-                extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-            end
-        end
-        G.GAME.starting_params.extra_cards = extra_cards
         G.GAME.win_ante = 10
         G.GAME.modifiers.no_extra_hand_money = true
         G.GAME.modifiers.sdm_no_reroll = true   -- No reroll effect in utils.lua overrides
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local cards_to_copy = {}
+                for k, v in ipairs(G.deck.cards) do
+                    cards_to_copy[#cards_to_copy+1] = v
+                end
+                for k, v in ipairs(cards_to_copy) do
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = copy_card(v)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.deck:emplace(_card)
+                end
+            return true
+        end}))
     end,
     calculate = function(self, back, context)
         if context.context == "final_scoring_step" then
@@ -375,15 +389,6 @@ SMODS.Back{
                 end
             end
         end
-        local extra_cards = {}
-        for _, v in pairs(G.P_CARDS) do
-            if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
-            and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
-                local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
-                extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-            end
-        end
-        G.GAME.starting_params.extra_cards = extra_cards
         G.GAME.win_ante = 10
         G.GAME.modifiers.no_extra_hand_money = true
         G.GAME.modifiers.sdm_no_reroll = true   -- No reroll effect in utils.lua overrides
@@ -401,6 +406,22 @@ SMODS.Back{
                 return true
             end
         }))
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local cards_to_copy = {}
+                for k, v in ipairs(G.deck.cards) do
+                    cards_to_copy[#cards_to_copy+1] = v
+                end
+                for k, v in ipairs(cards_to_copy) do
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = copy_card(v)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.deck:emplace(_card)
+                end
+            return true
+        end}))
     end,
     calculate = function(self, back, context)
         if context.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss and SDM_0s_Stuff_Config.sdm_consus then
