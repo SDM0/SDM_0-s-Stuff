@@ -13,35 +13,24 @@ SMODS.Consumable{
     set = 'Tarot',
     pos = {x = 0, y = 0},
     cost = 3,
-    config = {extra = 2},
+    config = {extra = {max_highlighted = 1, odds = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra}}
+        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra.odds, self.config.extra.max_highlighted}}
     end,
     can_use = function(self, card, area, copier)
         if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
-            local valid_cards = {}
-            for i = 1, #G.hand.cards do
-                if not G.hand.cards[i].edition then
-                    table.insert(valid_cards, G.hand.cards[i])
-                end
-            end
-            return G.hand and #G.hand.cards > 0 and #valid_cards > 0
+            return G.hand and G.hand.highlighted and #G.hand.highlighted <= card.ability.extra.max_highlighted and #G.hand.highlighted >= 1
         end
         return false
     end,
     use = function(self, card)
         local used_tarot = card or self
-        if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'sphinx') then
+        if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra.odds, 'sphinx') then
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                local valid_cards = {}
-                for i = 1, #G.hand.cards do
-                    if not G.hand.cards[i].edition then
-                        table.insert(valid_cards, G.hand.cards[i])
-                    end
+                for i = 1, #G.hand.highlighted do
+                    local edition = poll_edition('wheel_of_fortune', nil, true, true)
+                    G.hand.highlighted[i]:set_edition(edition, true)
                 end
-                local edition = poll_edition('wheel_of_fortune', nil, true, true)
-                local random_card = valid_cards[pseudorandom('sphinx', 1, #valid_cards)]
-                random_card:set_edition(edition, true)
                 used_tarot:juice_up(0.3, 0.5)
                 return true
             end}))
@@ -117,27 +106,6 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_mother = "Mother"
-
-if SDM_0s_Stuff_Config.sdm_hands then
-
-    --- Egg-xoplanet ---
-
-    SMODS.Consumable{
-        key = 'eggxoplanet',
-        name = 'Egg-xoplanet',
-        set = 'Planet',
-        pos = {x = 3, y = 1},
-        cost = 3,
-        config = {hand_type = "sdm_Chicken Head", softlock = true},
-        loc_vars = function(self, info_queue, card)
-            return {vars = {G.GAME.hands[self.config.hand_type].level,localize(self.config.hand_type, 'poker_hands'), G.GAME.hands[self.config.hand_type].l_mult, G.GAME.hands[self.config.hand_type].l_chips,
-            colours = {(G.GAME.hands[self.config.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[self.config.hand_type].level)])}}}
-        end,
-        atlas = "sdm_consumables"
-    }
-
-    SDM_0s_Stuff_Mod.modded_consumables.c_sdm_eggxoplanet = "Egg-xoplanet"
-end
 
 --- Sacrifice ---
 
