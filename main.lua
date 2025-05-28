@@ -156,10 +156,6 @@ if SDM_0s_Stuff_Config.sdm_jokers then
     end
 end
 
-if SDM_0s_Stuff_Config.sdm_hands then
-    SMODS.load_file("data/pokerhands.lua")()
-end
-
 if SDM_0s_Stuff_Config.sdm_consus then
     SMODS.load_file("data/consumables.lua")()
 end
@@ -246,10 +242,10 @@ SDM_0s_Stuff_Mod.config_tab = function()
 
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
-                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_hands" },
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = SDM_0s_Stuff_Config, ref_value = "sdm_bakery" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Enable Poker Hands*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Enable Bakery Goods Crossmod Content*", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
