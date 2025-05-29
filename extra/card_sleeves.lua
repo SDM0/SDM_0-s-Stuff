@@ -179,36 +179,22 @@ CardSleeves.Sleeve {
     pos = { x = 1, y = 1 },
     unlocked = true,
     apply = function(self)
-        local extra_cards = {}
-        if G.GAME.starting_params.erratic_suits_and_ranks then
-            for _, v in pairs(G.P_CARDS) do
-                if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
-                and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
-                    local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
-                    extra_cards[#extra_cards + 1] = {s = _s, r = _r}
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local cards_to_copy = {}
+                for k, v in ipairs(G.deck.cards) do
+                    cards_to_copy[#cards_to_copy+1] = v
                 end
-            end
-        else
-            for _, v in pairs(G.P_CARDS) do
-                if SMODS.Suits[v.suit] and (not SMODS.Suits[v.suit].in_pool or SMODS.Suits[v.suit].in_pool and SMODS.Suits[v.suit]:in_pool())
-                and SMODS.Ranks[v.value] and (not SMODS.Ranks[v.value].in_pool or SMODS.Ranks[v.value].in_pool and SMODS.Ranks[v.value]:in_pool()) then
-                    local _r, _s = SMODS.Ranks[v.value].card_key, SMODS.Suits[v.suit].card_key
-                    if not (G.GAME.starting_params.no_faces and (_r == 'K' or _r == 'Q' or _r == 'J')) then
-                        extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-                        if self.get_current_deck_key() == "b_sdm_xxl" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_nightmares" then
-                            extra_cards[#extra_cards + 1] = {s = _s, r = _r}
-                        end
-                    end
+                for k, v in ipairs(cards_to_copy) do
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = copy_card(v)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.deck:emplace(_card)
                 end
-            end
-        end
-        if G.GAME.starting_params.extra_cards and #G.GAME.starting_params.extra_cards > 0 then
-            for _, v in ipairs(extra_cards) do
-                G.GAME.starting_params.extra_cards[#G.GAME.starting_params.extra_cards+1] = v
-            end
-        else
-            G.GAME.starting_params.extra_cards = extra_cards
-        end
+            return true
+        end}))
     end,
 }
 
