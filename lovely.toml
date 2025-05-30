@@ -129,7 +129,7 @@ target = "functions/UI_definitions.lua"
 pattern = '''if card.ability.consumeable then'''
 position = "after"
 payload = '''
-if SDM_0s_Stuff_Funcs.is_bakery_good(card) then
+if card.area and card.area == G.pack_cards and SDM_0s_Stuff_Funcs.is_bakery_good(card) then
     return {
       n=G.UIT.ROOT, config = {padding = 0, colour = G.C.CLEAR}, nodes={
         {n=G.UIT.C, config={padding = 0.15, align = 'cl'}, nodes={
