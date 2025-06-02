@@ -528,7 +528,6 @@ return {
                 text = {
                     "{C:attention}Vanilla{} Joker cards",
                     "can't appear in shop",
-                    "{C:inactive}(Except{} {C:blue,T:j_splash}Splash{}{C:inactive})",
                 }
             },
             b_sdm_reverb = {
@@ -584,8 +583,8 @@ return {
                 name = "The Sphinx",
                 text = {
                     "{C:green}#1# in #2#{} chance to add",
-                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{},",
-                    "or {C:dark_edition}Polychrome{} effect to",
+                    "{C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} effect to",
                     "{C:attention}#3#{} selected card in hand"
                 }
             },
