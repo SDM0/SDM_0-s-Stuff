@@ -1355,13 +1355,13 @@ SMODS.Joker{
                 add_tag(Tag(get_next_tag_key("conso_prize")))
                 play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                 play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
-                    message = localize('k_plus_tag'),
-                    colour = G.C.FILTER,
-                })
                 return true
             end)
-        }))
+            }))
+            card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
+                message = localize('k_plus_tag'),
+                colour = G.C.FILTER,
+            })
         end
     end,
     atlas = "sdm_jokers"
