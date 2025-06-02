@@ -260,12 +260,14 @@ SMODS.Bakery{
             for _, v in ipairs(G.hand.cards) do
                 if not v.edition then no_edition_cards[#no_edition_cards+1] = v end
             end
-            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-                local _card = pseudorandom_element(no_edition_cards, pseudoseed('dnt'))
-                _card:set_edition('e_polychrome', true)
-                card:juice_up(0.3, 0.5)
-            return true end }))
-            SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
+            if no_edition_cards[1] then
+                G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                    local _card = pseudorandom_element(no_edition_cards, pseudoseed('dnt'))
+                    _card:set_edition('e_polychrome', true)
+                    card:juice_up(0.3, 0.5)
+                return true end }))
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
+            end
         end
     end,
 }

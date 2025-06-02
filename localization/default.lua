@@ -715,7 +715,7 @@ return {
                     "When round begins, add",
                     "{C:dark_edition}Polychrome{} to a random",
                     "{C:attention}playing card{} in hand,",
-                    "lasts {C:attention}#2#{} round(s)",
+                    "lasts {C:attention}#2#{} trigger(s)",
                 }
             },
             c_sdm_fortune_cookie = {
