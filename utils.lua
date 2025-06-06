@@ -110,9 +110,9 @@ end
 function SDM_0s_Stuff_Funcs.sum_incremental(n)
     if G.jokers then
         local sum_inc = ((G.GAME.current_round.discards_left + G.GAME.current_round.hands_left + #G.jokers.cards + G.jokers.config.card_limit + G.GAME.round
-        + (G.GAME.round_resets and G.GAME.round_resets.blind_ante or 0) + (G.hand and #G.hand.cards or 0) + G.hand.config.card_limit + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
+        + (G.GAME.round_resets and G.GAME.round_resets.blind_ante or 0) + (G.hand and #G.hand.cards or 0) + (math.min(G.hand.config.card_limit, G.hand and #G.hand.cards or 0)) + #G.deck.cards + #G.playing_cards + G.consumeables.config.card_limit +
         #G.consumeables.cards + (type(G.GAME.dollars) ~= "table" and G.GAME.dollars or to_number(G.GAME.dollars)) + G.GAME.win_ante) * n) or 0
-        if to_big(sum_inc) > to_big(1e300) then
+        if sum_inc ~= sum_inc or sum_inc == math.huge or sum_inc > 1e300 then
             sum_inc = 1e300
         end
         return sum_inc
