@@ -66,7 +66,7 @@ if SDM_0s_Stuff_Config.sdm_bakery then
                 for i = 1, card.ability.extra.amount do
                     G.E_MANAGER:add_event(Event{
                         func = function()
-                        local _booster = SMODS.add_booster_to_shop('p_cry_code_normal__'..(math.random(1,2)))
+                        local _booster = SMODS.add_booster_to_shop('p_cry_code_normal_'..(math.random(1,2)))
                         _booster.cost = 0
                         return true
                     end})
