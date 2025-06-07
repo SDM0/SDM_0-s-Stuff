@@ -313,6 +313,26 @@ payload = '''
 '''
 match_indent = true
 
+# Achromatopsia effect
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''local flush_count = 0'''
+position = "after"
+payload = '''
+if next(SMODS.find_card("j_sdm_achromatopsia")) then
+    local all_have_suit = true
+    for i=1, #hand do
+        if SMODS.has_no_suit(hand[i]) then
+            all_have_suit = false
+            break
+        end
+    end
+    if all_have_suit then return {hand} end
+end
+'''
+match_indent = true
+
 # Cryptid "Good Riddance" achievement
 [[patches]]
 [patches.pattern]

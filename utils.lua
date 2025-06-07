@@ -26,7 +26,8 @@ function SDM_0s_Stuff_Funcs.is_bakery_good(card)
 end
 
 -- Faster way to decrease food/bakery consumables remaining counter
-function SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
+function SDM_0s_Stuff_Funcs.decrease_remaining_food(card, message)
+    local message = message or localize('k_eaten_ex')
     if card.ability.extra.remaining - 1 <= 0 then
         local is_bakery = card.ability.set == "Bakery"
         G.E_MANAGER:add_event(Event({
@@ -52,7 +53,7 @@ function SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
             return true
         end}))
         card_eval_status_text(card, 'extra', nil, nil, nil, {
-            message = localize('k_eaten_ex'),
+            message = message,
             colour = G.C.FILTER
         })
     else

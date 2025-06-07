@@ -82,7 +82,7 @@ SMODS.Joker{
     rarity = 2,
     blueprint_compat = true,
     pos = {x = 3, y = 0},
-    cost = 5,
+    cost = 7,
     config = {extra = {repetition = 2}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card and card.ability.extra.repetition or 2}} -- Made this way to avoid Lucky 7 Deck crashing on Lucky Joker hover
@@ -988,18 +988,7 @@ SMODS.Joker{
         return {vars = {card.ability.extra}}
     end,
     add_to_deck = function(self, card, from_debuff)
-        if not from_debuff then card.sell_cost = 0 end
-    end,
-    calculate = function(self, card, context)
-        if context.selling_self then
-            return {
-                dollars = card.ability.extra
-            }
-        end
-    end,
-    in_pool = function()
-        if not G.jokers or (G.jokers and (not G.jokers.cards or not G.jokers.config)) then return false end
-        return #G.jokers.cards < G.jokers.config.card_limit
+        if not from_debuff then card.ability.extra_value = card.ability.extra_value + card.ability.extra end
     end,
     pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
@@ -1715,6 +1704,186 @@ if SDM_0s_Stuff_Config.sdm_bakery then
     SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pastry_chef = "Pastry Chef"
 
 end
+
+--- Achromatopsia ---
+
+SMODS.Joker{
+    key = "achromatopsia",
+    name = "Achromatopsia",
+    rarity = 3,
+    pos = {x = 0, y = 0},
+    cost = 8,
+    -- Effect coded in lovely.toml --
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_achromatopsia = "Achromatopsia"
+
+--- Health Potion ---
+
+SMODS.Joker{
+    key = "health_potion",
+    name = "Health Potion",
+    rarity = 1,
+    blueprint_compat = true,
+    eternal_compat = false,
+    pos = {x = 0, y = 0},
+    cost = 5,
+    config = {extra = {Xmult = 2, remaining = 3}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.Xmult, card.ability.extra.remaining}}
+    end,
+    calculate = function(self, card, context)
+        if context.final_scoring_step then
+            if G.GAME.chips + hand_chips * mult >= math.floor(G.GAME.blind.chips / card.ability.extra.Xmult) and not (G.GAME.chips + hand_chips * mult >= G.GAME.blind.chips) and card.ability.extra.Xmult ~= 1 then
+                card.ability.sdm_potion_triggered = true
+                return {
+                    xmult = card.ability.extra.Xmult,
+                }
+            end
+        end
+        if context.cardarea == G.jokers and context.after and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            if card.ability.sdm_potion_triggered then
+                SDM_0s_Stuff_Funcs.decrease_remaining_food(card, localize('k_sdm_drank_ex'))
+            end
+            card.ability.sdm_potion_triggered = nil
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_achromatopsia = "Achromatopsia"
+
+--- Pouch ---
+
+SMODS.Joker{
+    key = "pouch",
+    name = "Pouch",
+    eternal_compat = false,
+    perishable_compat = false,
+    rarity = 2,
+    pos = {x = 0, y = 0},
+    cost = 6,
+    config = {extra = 2},
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
+        return {vars = {card.ability.extra}}
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        if G.consumeables then
+            G.consumeables.config.card_limit = G.consumeables.config.card_limit + card.ability.extra
+        end
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        if G.consumeables then
+            G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra
+            local cards_to_destroy = {}
+            if G.consumeables.cards[1] and #G.consumeables.cards >= G.consumeables.config.card_limit then
+                local i = #G.consumeables.cards
+                while #cards_to_destroy < card.ability.extra and i > 0 and (#G.consumeables.cards - #cards_to_destroy) > G.consumeables.config.card_limit do
+                    if not (G.consumeables.cards[i].edition and G.consumeables.cards[i].edition.negative) then
+                        cards_to_destroy[#cards_to_destroy+1] = G.consumeables.cards[i]
+                    end
+                    i = i - 1
+                end
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                for _, v in ipairs(cards_to_destroy) do
+                    v.getting_sliced = true
+                    v:start_dissolve({G.C.RED}, nil, 1.6)
+                end
+            return true end }))
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_pouch = "Pouch"
+
+--- Safety Net ---
+
+SMODS.Joker{
+    key = "safety_net",
+    name = "Safety Net",
+    rarity = 2,
+    pos = {x = 0, y = 0},
+    cost = 6,
+    calculate = function(self, card, context)
+        if SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            if context.setting_blind then
+                card.ability.sdm_safety_net = true
+            end
+            if context.first_hand_drawn then
+                card.ability.sdm_safety_net = nil
+                for _, v in ipairs(context.hand_drawn) do
+                    v.ability.sdm_safety_net = true
+                    SMODS.recalc_debuff(v)
+                end
+            end
+            if context.debuff_card and context.debuff_card.ability and context.debuff_card.ability.sdm_safety_net then
+                return {
+                    prevent_debuff = true,
+                }
+            end
+            if context.stay_flipped and (card.ability.sdm_safety_net or (context.other_card and context.other_card.ability.sdm_safety_net)) then
+                return {
+                    prevent_stay_flipped = true
+                }
+            end
+            if context.end_of_round and not (context.individual or context.repetition) then
+                for k, v in ipairs(G.playing_cards) do
+                    if v.ability and v.ability.sdm_safety_net then
+                        v.ability.sdm_safety_net = nil
+                    end
+                end
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_safety_net = "Safety Net"
+
+--- Filler Episode ---
+
+SMODS.Joker{
+    key = "filler_episode",
+    name = "Filler Episode",
+    rarity = 3,
+    blueprint_compat = true,
+    pos = {x = 0, y = 0},
+    cost = 8,
+    calculate = function(self, card, context)
+        if context.cardarea == G.jokers and context.before and context.scoring_hand and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
+            card.ability.sdm_filler_retriggers = 0
+            for _, v in ipairs(context.scoring_hand) do
+                if SMODS.has_no_rank(v) then
+                    card.ability.sdm_filler_retriggers = card.ability.sdm_filler_retriggers + 1
+                end
+            end
+        end
+        if context.cardarea == G.play and context.repetition and not context.individual then
+            if card.ability.sdm_filler_retriggers and card.ability.sdm_filler_retriggers > 0 then
+                return {
+                    repetitions = card.ability.sdm_filler_retriggers,
+                }
+            end
+        end
+    end,
+    in_pool = function()
+        if G.playing_cards then
+            for _, v in pairs(G.playing_cards) do
+                if SMODS.has_no_rank(v) then
+                    return true
+                end
+            end
+        end
+        return false
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_filler_episode = "Filler Episode"
 
 --- Archibald ---
 
