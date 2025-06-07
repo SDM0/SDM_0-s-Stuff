@@ -52,6 +52,7 @@ SMODS.Consumable{
                     used_tarot:juice_up(0.3, 0.5)
             return true end}))
         end
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() if G.hand then G.hand:unhighlight_all() end; return true end }))
     end,
     atlas = "sdm_consumables"
 }
@@ -339,3 +340,117 @@ SMODS.Consumable{
 }
 
 SDM_0s_Stuff_Mod.modded_consumables.c_sdm_doppelganger = "Doppelgänger"
+
+--- Cult ---
+
+SMODS.Consumable{
+    key = 'cult',
+    name = 'Cult',
+    set = 'Spectral',
+    pos = {x = 3, y = 1},
+    cost = 4,
+    config = {extra = {max_highlighted = 1, max_change = 2}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {self.config.extra.max_highlighted, self.config.extra.max_change}}
+    end,
+    can_use = function(self, card, area, copier)
+        if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
+            local correct_highlight = false
+            local cards_to_change = false
+            if G.hand and G.hand.highlighted then
+                correct_highlight = #G.hand.cards > 1 and card.ability.extra.max_highlighted >= #G.hand.highlighted and #G.hand.highlighted >= 1
+                local temp_hand = {}
+                for k, v in ipairs(G.hand.cards) do
+                    if not (v.ability and v.ability.eternal) and not v.highlighted then
+                        temp_hand[#temp_hand+1] = v
+                    end
+                end
+                if temp_hand[1] then cards_to_change = true end
+                return correct_highlight and cards_to_change
+            end
+        end
+        return false
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        local changed_cards = {}
+        local temp_hand = {}
+        for k, v in ipairs(G.hand.cards) do
+            if not (v.ability and v.ability.eternal) and not v.highlighted then
+                temp_hand[#temp_hand+1] = v
+            end
+        end
+        table.sort(temp_hand, function (a, b) return not a.playing_card or not b.playing_card or a.playing_card < b.playing_card end)
+        pseudoshuffle(temp_hand, pseudoseed('cult'))
+
+        for i = 1, math.min(#temp_hand, card.ability.extra.max_change) do changed_cards[#changed_cards+1] = temp_hand[i] end
+
+        local used_tarot = copier or card
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                used_tarot:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #changed_cards do
+            local percent = 1.15 - (i - 0.999) / (#changed_cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    changed_cards[i]:flip()
+                    play_sound('card1', percent)
+                    changed_cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        delay(0.2)
+        for i = 1, #changed_cards do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    copy_card(G.hand.highlighted[1], changed_cards[i])
+                    return true
+                end
+            }))
+        end
+        for i = 1, #changed_cards do
+            local percent = 0.85 + (i - 0.999) / (#changed_cards - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    changed_cards[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    changed_cards[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+        delay(0.5)
+    end,
+    atlas = "sdm_consumables"
+}
+
+SDM_0s_Stuff_Mod.modded_consumables.c_sdm_cult = "Cult"
