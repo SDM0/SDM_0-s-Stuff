@@ -200,7 +200,7 @@ return {
                 name = "Rock'N'Roll",
                 text = {
                     "Retrigger all played",
-                    "{C:attention}enhanced{} cards",
+                    "{C:attention}Enhanced{} cards",
                 }
             },
             j_sdm_contract = {
@@ -230,8 +230,9 @@ return {
             j_sdm_treasure_chest = {
                 name = "Treasure Chest",
                 text = {
-                    "Sell this card",
-                    "to gain {C:money}$#1#",
+                    "This Joker is always",
+                    "{C:green}free{} and has {C:money}$#1#{}",
+                    "of {C:attention}extra value{}"
                 }
             },
             j_sdm_bullet_train = {
@@ -385,19 +386,42 @@ return {
                     "{C:inactive}(Must have room)"
                 }
             },
-            j_sdm_chicken_butt = {
-                name = "Chicken Butt",
+            j_sdm_achromatopsia = {
+                name = "Achromatopsia",
                 text = {
-                    "{C:green}#1# in #2#{} chance for",
-                    "scored {C:attention}#3#{}",
-                    "to create an {C:attention}Egg{}",
-                    "{C:inactive}(Must have room)"
+                    "All {C:attention}Flushes{} can be",
+                    "made with any {C:attention}suit{}"
                 }
             },
-            j_sdm_chicken_road = {
-                name = "Chicken Across The Road",
+            j_sdm_health_potion = {
+                name = "Health Potion",
                 text = {
-                    "{C:attention}#1#{} counts as a {C:attention}#2#{}",
+                    "{X:mult,C:white}X#1#{} Mult if it'd",
+                    "win current {C:attention}Blind{},",
+                    "has {C:attention}#2#{} use(s)",
+                }
+            },
+            j_sdm_pouch = {
+                name = "Pouch",
+                text = {
+                    "{C:attention}+#1#{} consumable slots,",
+                    "{C:red}destroys{} extra non-{C:dark_edition}Negative",
+                    "consumables when {C:attention}removed{}",
+                }
+            },
+            j_sdm_safety_net = {
+                name = "Safety Net",
+                text = {
+                    "First hand-drawn {C:attention}cards{}",
+                    "can't be {C:attention}debuffed{} or {C:attention}flipped{}"
+                }
+            },
+            j_sdm_filler_episode = {
+                name = "Filler Episode",
+                text = {
+                    "Retrigger each card played",
+                    "for each {C:attention}Rankless{} card",
+                    "in scoring hand"
                 }
             },
             j_sdm_archibald = {
@@ -662,6 +686,14 @@ return {
                     "Replaces a random {C:attention}Joker{}",
                     "by the leftmost or",
                     "rightmost {C:attention}Joker{}",
+                }
+            },
+            c_sdm_cult = {
+                name = "Cult",
+                text = {
+                    "Transform {C:attention}#2#{} random",
+                    "cards in hand into",
+                    "{C:attention}#1#{} selected card",
                 }
             },
             c_sdm_wedding_cake = {
@@ -1334,6 +1366,15 @@ return {
             k_bakery_pack = "Bakery Pack",
             k_plus_bakery = "+1 Bakery",
             k_plus_egg = "+1 Egg",
+            k_sdm_new_moon = "New Moon",
+            k_sdm_waxing_crescent = "Waxing Crescent",
+            k_sdm_first_quarter = "First Quarter",
+            k_sdm_waxing_gibbous = "Waxing Gibbous",
+            k_sdm_full_moon = "Full Moon",
+            k_sdm_waning_gibbous = "Waning Gibbous",
+            k_sdm_last_quarter = "Last Quarter",
+            k_sdm_waning_crescent = "Waning Crescent",
+            k_sdm_drank_ex = "Drank!"
         },
         poker_hands = {
             ['sdm_Chicken Head'] = "Chicken Head",
