@@ -424,6 +424,22 @@ return {
                     "in scoring hand"
                 }
             },
+            j_sdm_sofa_king = {
+                name = "Sofa King",
+                text = {
+                    "Each {C:attention}King{} held",
+                    "in hand gives {C:money}$#1#{}",
+                    "at end of round"
+
+                }
+            },
+            j_sdm_booster_shot = {
+                name = "Booster Shot",
+                text = {
+                    "First {C:attention}Booster Pack{}",
+                    "of shop is {C:green}free{}"
+                }
+            },
             j_sdm_archibald = {
                 name = "Archibald",
                 text = {

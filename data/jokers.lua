@@ -989,6 +989,7 @@ SMODS.Joker{
     end,
     add_to_deck = function(self, card, from_debuff)
         if not from_debuff then card.ability.extra_value = card.ability.extra_value + card.ability.extra end
+        card:set_cost()
     end,
     pixel_size = {w = 71, h = 71},
     atlas = "sdm_jokers"
@@ -1884,6 +1885,76 @@ SMODS.Joker{
 }
 
 SDM_0s_Stuff_Mod.modded_jokers.j_sdm_filler_episode = "Filler Episode"
+
+--- Sofa King ---
+
+SMODS.Joker{
+    key = "sofa_king",
+    name = "Sofa King",
+    rarity = 1,
+    blueprint_compat = true,
+    pos = {x = 0, y = 0},
+    cost = 6,
+    config = {extra = 2},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    calculate = function(self, card, context)
+        if context.cardarea == G.hand and context.individual and context.end_of_round then
+            if context.other_card:get_id() == 13 then
+                return {
+                    dollars = card.ability.extra
+                }
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_sofa_king = "Sofa King"
+
+--- Booster Shot ---
+
+SMODS.Joker{
+    key = "booster_shot",
+    name = "Booster Shot",
+    rarity = 1,
+    pos = {x = 0, y = 0},
+    cost = 6,
+    add_to_deck = function(self, card, from_debuff)
+        if G.shop_booster and G.shop_booster.cards and G.shop_booster.cards[1] then
+            local first_booster = G.shop_booster.cards[1]
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    if not first_booster.ability.couponed then
+                        first_booster.ability.couponed = true
+                        first_booster:set_cost()
+                        card:juice_up(0.3, 0.5)
+                    end
+                return true
+            end}))
+        end
+    end,
+    calculate = function(self, card, context)
+        if context.starting_shop and (G.shop and not G.GAME.shop_free) then
+            if G.shop_booster and G.shop_booster.cards and G.shop_booster.cards[1] then
+                local first_booster = G.shop_booster.cards[1]
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        if not first_booster.ability.couponed then
+                            first_booster.ability.couponed = true
+                            first_booster:set_cost()
+                            card:juice_up(0.3, 0.5)
+                        end
+                    return true
+                end}))
+            end
+        end
+    end,
+    atlas = "sdm_jokers"
+}
+
+SDM_0s_Stuff_Mod.modded_jokers.j_sdm_booster_shot = "Booster Shot"
 
 --- Archibald ---
 
