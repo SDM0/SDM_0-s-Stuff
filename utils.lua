@@ -269,8 +269,6 @@ function Card:open()
     co(self)
     if self.config and self.config.center and self.config.center.kind and self.config.center.kind == "Bakery" then
         G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED),
             func = function()
                 play_sound('sdm_bakery_doorbell')
             return true
