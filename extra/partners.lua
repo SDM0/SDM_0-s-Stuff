@@ -15,7 +15,8 @@ Partner_API.Partner{
     individual_quips = true,
     pos = {x = 0, y = 0},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_lucky_joker", repetitions = 1}},
+    config = {extra = {repetitions = 1}},
+    link_config = {j_sdm_lucky_joker = 1},
     loc_vars = function(self, info_queue, card)
         local benefits = (next(SMODS.find_card("j_sdm_lucky_joker")) and 2) or 1
         return { vars = {card.ability.extra.repetitions*benefits} }
@@ -57,7 +58,8 @@ Partner_API.Partner{
     individual_quips = true,
     pos = {x = 1, y = 0},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_shareholder_joker", min = 1, max = 4}},
+    config = {extra = {min = 1, max = 4}},
+    link_config = {j_sdm_shareholder_joker = 1},
     loc_vars = function(self, info_queue, card)
         local benefits = ((next(SMODS.find_card("j_sdm_shareholder_joker")) and 2) or 0)
         local max = card.ability.extra.max + benefits
@@ -90,7 +92,8 @@ Partner_API.Partner{
     no_quips = true,
     pos = {x = 2, y = 0},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_ouija_board", amount = 1, rounds = 0, remaining = 6}},
+    config = {extra = {amount = 1, rounds = 0, remaining = 6}},
+    link_config = {j_sdm_ouija_board = 1},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_TAGS.tag_rare
         local benefits = ((next(SMODS.find_card("j_sdm_ouija_board")) and 3) or 0)
@@ -141,7 +144,8 @@ Partner_API.Partner{
     individual_quips = true,
     pos = {x = 3, y = 0},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_mystery_joker", amount = 1}},
+    config = {extra = {amount = 1}},
+    link_config = {j_sdm_mystery_joker = 1},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_TAGS.tag_uncommon
         local benefits = ((next(SMODS.find_card("j_sdm_mystery_joker")) and 1) or 0)
@@ -187,7 +191,8 @@ Partner_API.Partner{
     individual_quips = true,
     pos = {x = 0, y = 1},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_crooked_joker", shop_slots = 1, pos_change = 0}},
+    config = {extra = {shop_slots = 1, pos_change = 0}},
+    link_config = {j_sdm_crooked_joker = 1},
     loc_vars = function(self, info_queue, card)
         local benefits = ((next(SMODS.find_card("j_sdm_crooked_joker")) and 1) or 0)
         return { vars = {card.ability.extra.shop_slots + benefits} }
@@ -244,7 +249,8 @@ Partner_API.Partner{
     individual_quips = true,
     pos = {x = 1, y = 1},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_jambo", mult_mod = 1}},
+    config = {extra = {mult_mod = 1}},
+    link_config = {j_sdm_jambo = 1},
     loc_vars = function(self, info_queue, card)
         local benefits = ((next(SMODS.find_card("j_sdm_jambo")) and 2) or 1)
         local min = (G.discard and G.discard.cards[1] and G.discard.cards[1].base.nominal) or 0
@@ -302,7 +308,7 @@ Partner_API.Partner{
     no_quips = true,
     pos = {x = 2, y = 1},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_free_pass"}},
+    link_config = {j_sdm_free_pass = 1},
     loc_vars = function(self, info_queue, card)
         local benefits = next(SMODS.find_card("j_sdm_free_pass"))
         return { vars = {(benefits and "and") or "or"} }
@@ -358,7 +364,7 @@ Partner_API.Partner{
     no_quips = true,
     pos = {x = 3, y = 1},
     atlas = "sdm_partners",
-    config = {extra = {related_card = "j_sdm_ditto_joker"}},
+    link_config = {j_sdm_ditto_joker = 1},
     calculate = function(self, card, context)
         if context.partner_setting_blind then
             local unlocked_partners = {}
