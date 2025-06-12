@@ -107,6 +107,12 @@ function SDM_0s_Stuff_Funcs.get_crab_count()
     return crab_count
 end
 
+--- Checks if joker has "Joker" in it's name
+function SDM_0s_Stuff_Funcs.has_joker_in_name(card)
+    if not (card and card.ability and card.ability.name) then return false end
+    return card.ability.name:match("j[^a-zA-Z]*o[^a-zA-Z]*k[^a-zA-Z]*e[^a-zA-Z]*r") ~= nil
+end
+
 --- Get the sum of (almost) all existing numbers (capped at 1e300)
 function SDM_0s_Stuff_Funcs.sum_incremental(n)
     if G.jokers then
@@ -270,8 +276,6 @@ function Card:open()
     co(self)
     if self.config and self.config.center and self.config.center.kind and self.config.center.kind == "Bakery" then
         G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED),
             func = function()
                 play_sound('sdm_bakery_doorbell')
             return true
