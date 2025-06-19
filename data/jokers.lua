@@ -1352,7 +1352,18 @@ SMODS.Joker{
         if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
             G.E_MANAGER:add_event(Event({
                 func = (function()
-                add_tag(Tag(get_next_tag_key("conso_prize")))
+                local _tag_key = get_next_tag_key("conso_prize")
+                local _tag = Tag(_tag_key)
+                if _tag.key == "tag_orbital" then
+                    local visible_hands = {}
+                    for k, v in pairs(G.GAME.hands) do
+                        if v.visible then
+                            visible_hands[#visible_hands + 1] = k
+                        end
+                    end
+                    _tag.ability.orbital_hand = pseudorandom_element(visible_hands, pseudoseed('conso_prize_orbital'))
+                end
+                add_tag(_tag)
                 play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                 play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                 return true
