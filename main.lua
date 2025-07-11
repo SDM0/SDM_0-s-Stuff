@@ -191,6 +191,10 @@ SDM_0s_Stuff_Mod.optional_features = {
     }
 }
 
+SDM_0s_Stuff_Mod.description_loc_vars = function()
+    return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
+end
+
 SDM_0s_Stuff_Mod.config_tab = function()
     return {n = G.UIT.ROOT, config = {align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6}, nodes = {
         {n = G.UIT.R, config = {align = "cl", padding = 0, minh = 0.1}, nodes = {}},
