@@ -25,6 +25,7 @@ __Manual Installation:__
 
 ## Thanks
 - RattlingSnow for the spectral cards art
+- queen of stupid, FlameThrowerFIM and Jamie for all the art made for various content
 - Dimserene for the space jokers list and for featuring my mod in his modpack
 - N' for the JokerDisplay mod and his help with it
 - Larswijn for the CardSleeves mod and help with the implementations and updates
