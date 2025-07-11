@@ -118,14 +118,15 @@ SMODS.Bakery{
     soul_pos = {x = 3, y = 1},
     config = {extra = {amount = 3, remaining = 4}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.amount, ''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.remaining}}
+        local mod_num, mod_den = SMODS.get_probability_vars(card, 1, card.ability.extra.remaining)
+        return {vars = {card.ability.extra.amount, mod_num, mod_den}}
     end,
     calculate = function(self, card, context)
         if context.joker_main then
             return {
                 xmult = card.ability.extra.amount,
                 func = function()
-                    if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra.remaining, 'bananabread') then
+                    if SDM_0s_Stuff_Funcs.proba_check(card, card.ability.extra.remaining, 'bananabread') then
                         G.E_MANAGER:add_event(Event({
                             func = function()
                                 play_sound('tarot1')
@@ -146,6 +147,7 @@ SMODS.Bakery{
                             message = localize('k_extinct_ex'),
                             colour = G.C.FILTER
                         })
+                        SMODS.calculate_context({sdm_bakery_consumed = true})
                     else
                         card_eval_status_text(card, 'extra', nil, nil, nil, {
                             message = localize('k_safe_ex'),
