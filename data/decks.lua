@@ -60,32 +60,30 @@ SMODS.Back{
 
 --- Lucky 7 Deck
 
-if SDM_0s_Stuff_Config.sdm_jokers then
-    SMODS.Back{
-        key = "lucky_7",
-        pos = {x = 3, y = 0},
-        config = {ante_scaling = 1.5},
-        loc_vars = function(self)
-            return {vars = {self.config.ante_scaling}}
-        end,
-        apply = function(self)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    for i = #G.playing_cards, 1, -1 do
-                        if G.playing_cards[i].base.id == 7 then
-                            G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
-                        end
+SMODS.Back{
+    key = "lucky_7",
+    pos = {x = 3, y = 0},
+    config = {ante_scaling = 1.5},
+    loc_vars = function(self)
+        return {vars = {self.config.ante_scaling}}
+    end,
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                for i = #G.playing_cards, 1, -1 do
+                    if G.playing_cards[i].base.id == 7 then
+                        G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                     end
-                    for k, v in pairs(G.GAME.probabilities) do
-                        G.GAME.probabilities[k] = v*2
-                    end
-                    return true
                 end
-            }))
-        end,
-        atlas = "sdm_enhancers"
-    }
-end
+                for k, v in pairs(G.GAME.probabilities) do
+                    G.GAME.probabilities[k] = v*2
+                end
+                return true
+            end
+        }))
+    end,
+    atlas = "sdm_enhancers"
+}
 
 --- DNA Deck
 
@@ -145,6 +143,7 @@ SMODS.Back{
                     table.insert(G.playing_cards, _card)
                     G.deck:emplace(_card)
                 end
+                G.GAME.starting_deck_size = #G.playing_cards
             return true
         end}))
     end,
@@ -344,6 +343,7 @@ SMODS.Back{
                     table.insert(G.playing_cards, _card)
                     G.deck:emplace(_card)
                 end
+                G.GAME.starting_deck_size = #G.playing_cards
             return true
         end}))
     end,
@@ -420,6 +420,7 @@ SMODS.Back{
                     table.insert(G.playing_cards, _card)
                     G.deck:emplace(_card)
                 end
+                G.GAME.starting_deck_size = #G.playing_cards
             return true
         end}))
     end,

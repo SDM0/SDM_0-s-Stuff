@@ -72,41 +72,44 @@ CardSleeves.Sleeve {
 
 --- Lucky 7 Sleeve
 
-if SDM_0s_Stuff_Config.sdm_jokers then
-    CardSleeves.Sleeve {
-        key = "lucky_7",
-        atlas = "sdm_sleeves",
-        pos = { x = 3, y = 0 },
-        config = {ante_scaling = 1.5},
-        unlocked = true,
-        loc_vars = function(self)
-            if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
-                return {key = self.key .. '_alt', vars = {self.config.ante_scaling}}
+
+CardSleeves.Sleeve {
+    key = "lucky_7",
+    atlas = "sdm_sleeves",
+    pos = { x = 3, y = 0 },
+    config = {ante_scaling = 1.5},
+    unlocked = true,
+    loc_vars = function(self)
+        if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
+            if SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_jokers then
+                return {key = self.key .. '_alt_' .. (SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_jokers and '1' or '2'), vars = {self.config.ante_scaling}}
             else
-                return {vars = {self.config.ante_scaling}}
+                return {key = self.key .. '_alt_2', vars = {self.config.ante_scaling}}
             end
-        end,
-        apply = function(self)
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    for i = #G.playing_cards, 1, -1 do
-                        if G.playing_cards[i].base.id == 7 then
-                            G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
-                        end
+        else
+            return {vars = {self.config.ante_scaling}}
+        end
+    end,
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                for i = #G.playing_cards, 1, -1 do
+                    if G.playing_cards[i].base.id == 7 then
+                        G.playing_cards[i]:set_ability(G.P_CENTERS.m_lucky)
                     end
-                    G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
-                    for k, v in pairs(G.GAME.probabilities) do
-                        G.GAME.probabilities[k] = v*2
-                    end
-                    if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
-                        add_joker("j_sdm_lucky_joker", nil, true, true)
-                    end
-                    return true
                 end
-            }))
-        end,
-    }
-end
+                G.GAME.starting_params.ante_scaling = (G.GAME.starting_params.ante_scaling or 1) * self.config.ante_scaling
+                for k, v in pairs(G.GAME.probabilities) do
+                    G.GAME.probabilities[k] = v*2
+                end
+                if self.get_current_deck_key() == "b_sdm_lucky_7" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_deck_of_dreams" then
+                    add_joker((SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_jokers and "j_sdm_lucky_joker" or "j_oops"), nil, true, true)
+                end
+                return true
+            end
+        }))
+    end,
+}
 
 --- DNA Sleeve
 
@@ -193,6 +196,7 @@ CardSleeves.Sleeve {
                     table.insert(G.playing_cards, _card)
                     G.deck:emplace(_card)
                 end
+                G.GAME.starting_deck_size = #G.playing_cards
             return true
         end}))
     end,
