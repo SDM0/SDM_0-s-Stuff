@@ -1869,7 +1869,7 @@ SMODS.Joker{
         end
     end,
     atlas = "sdm_jokers",
-    soul_pos = {x = 4, y = 4}
+    soul_pos = {x = 3, y = 4}
 }
 
 SDM_0s_Stuff_Mod.modded_jokers.j_sdm_skelton = "Skelton"
