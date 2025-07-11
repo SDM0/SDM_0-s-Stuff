@@ -38,17 +38,15 @@ SMODS.Voucher{
         info_queue[#info_queue+1] = G.P_TAGS.tag_negative
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval then
-            if G.GAME.blind.boss then
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        add_tag(Tag('tag_negative'))
-                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                        return true
-                    end)
-                }))
-            end
+        if context.end_of_round and context.main_eval and context.beat_boss then
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    add_tag(Tag('tag_negative'))
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                    return true
+                end)
+            }))
         end
     end,
     atlas = "sdm_vouchers"

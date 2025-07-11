@@ -201,6 +201,7 @@ return {
                 text = {
                     "Retrigger all played",
                     "{C:attention}enhanced{} cards",
+                    "{C:attention}Enhanced{} cards",
                 }
             },
             j_sdm_contract = {
@@ -1071,11 +1072,18 @@ return {
                     "{C:red}X#1#{} base Blind size"
                 }
             },
-            sleeve_sdm_lucky_7_alt = {
+            sleeve_sdm_lucky_7_alt_1 = {
                 name = "Lucky 7 Sleeve",
                 text = {
                     "Start run with a",
                     "{C:purple}Eternal{} {C:attention,T:j_sdm_lucky_joker}Lucky Joker",
+                }
+            },
+            sleeve_sdm_lucky_7_alt_2 = {
+                name = "Lucky 7 Sleeve",
+                text = {
+                    "Start run with a",
+                    "{C:purple}Eternal{} {C:attention,T:j_oops}Oops! All 6s",
                 }
             },
             sleeve_sdm_dna = {

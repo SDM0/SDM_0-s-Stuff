@@ -68,10 +68,10 @@ function SDM_0s_Stuff_Funcs.decrease_remaining_food(card)
     end
 end
 
-function SDM_0s_Stuff_Funcs.proba_check(odds, seed)
+function SDM_0s_Stuff_Funcs.proba_check(card, odds, seed)
     local _odds = odds or 1
     local _seed = (seed and pseudoseed(seed)) or pseudoseed('default')
-    return pseudorandom(_seed) < G.GAME.probabilities.normal/_odds
+    return SMODS.pseudorandom_probability(card, _seed, 1, _odds)
 end
 
 --- Get the most and best played poker hand
@@ -81,7 +81,7 @@ function SDM_0s_Stuff_Funcs.get_most_played_better_hand()
     local order = 999
     if G.GAME.hands then
         for k, v in pairs(G.GAME.hands) do
-            if (v.played > played_more_than) or (v.played == played_more_than and v.played > 0 and v.order < order) and v.visible then
+            if (v.played > played_more_than) or (v.played == played_more_than and v.played > 0 and v.order < order) and SMODS.is_poker_hand_visible(k) then
                 played_more_than = v.played
                 order = v.order
                 hand = k

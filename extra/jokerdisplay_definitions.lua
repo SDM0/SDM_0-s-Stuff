@@ -41,8 +41,8 @@ jd_def["j_sdm_bounciest_ball"] = { -- Bounciest Ball
             is_most_played_hand = true
             local played_more_than = G.GAME.hands[text].played + 1
             local order = G.GAME.hands[text].order
-            for _, poker_hand_stats in pairs(G.GAME.hands) do
-                if (poker_hand_stats.played > played_more_than) or (poker_hand_stats.played == played_more_than and poker_hand_stats.played > 0 and poker_hand_stats.order < order) and poker_hand_stats.visible then
+            for k, poker_hand_stats in pairs(G.GAME.hands) do
+                if (poker_hand_stats.played > played_more_than) or (poker_hand_stats.played == played_more_than and poker_hand_stats.played > 0 and poker_hand_stats.order < order) and SMODS.is_poker_hand_visible(k) then
                     is_most_played_hand = false
                     break
                 end

@@ -287,10 +287,9 @@ SMODS.Joker{
     calculate = function(self, card, context)
         if context.reroll_shop and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local visible_hands = {}
-            for _, k in ipairs(G.handlist) do
-                local v = G.GAME.hands[k]
-                if v.visible then
-                    table.insert(visible_hands, k)
+            for _, v in ipairs(G.handlist) do
+                if SMODS.is_poker_hand_visible(v) then
+                    table.insert(visible_hands, v)
                 end
             end
             if visible_hands[1] then
@@ -502,11 +501,12 @@ SMODS.Joker{
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = G.P_CENTERS.c_death
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
+        local mod_num, mod_den = SMODS.get_probability_vars(card, 1, card.ability.extra)
+        return {vars = {mod_num, mod_den}}
     end,
     calculate = function(self, card, context)
         if context.selling_card and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
-            if context.card.ability.set == 'Joker' and SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'zmbjkr') then
+            if context.card.ability.set == 'Joker' and SDM_0s_Stuff_Funcs.proba_check(card, card.ability.extra, 'zmbjkr') then
                 if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or
                 context.card.ability.set ~= 'Joker' and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
                     G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -541,18 +541,16 @@ SMODS.Joker{
         info_queue[#info_queue+1] = G.P_TAGS.tag_rare
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval then
-            if G.GAME.blind.boss then
-                G.E_MANAGER:add_event(Event({
-                    func = (function()
-                        add_tag(Tag('tag_rare'))
-                        card:juice_up(0.3, 0.4)
-                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                        play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                        return true
-                    end)
-                }))
-            end
+        if context.end_of_round and context.main_eval and context.beat_boss then
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    add_tag(Tag('tag_rare'))
+                    card:juice_up(0.3, 0.4)
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                    return true
+                end)
+            }))
         end
     end,
     atlas = "sdm_jokers"
@@ -755,7 +753,7 @@ SMODS.Joker{
                             end
                         }))
                     end
-                elseif not (context.card.ability.eternal or context.card.getting_sliced) then
+                elseif not (SMODS.is_eternal(context.card) or context.card.getting_sliced) then
                     card_eval_status_text(card, 'extra', nil, nil, nil, {
                         message = localize('k_nope_ex'),
                         colour = G.C.RED,
@@ -1252,10 +1250,9 @@ SMODS.Joker{
     end,
     set_ability = function(self, card, initial, delay_sprites)
         local _poker_hands = {}
-        for _, k in ipairs(G.handlist) do
-            local v = G.GAME.hands[k]
-            if v.visible then
-                table.insert(_poker_hands, k)
+        for _, v in ipairs(G.handlist) do
+            if SMODS.is_poker_hand_visible(v) then
+                table.insert(_poker_hands, v)
             end
         end
         local idx
@@ -1280,8 +1277,8 @@ SMODS.Joker{
         end
         if context.end_of_round and context.main_eval and SDM_0s_Stuff_Funcs.no_bp_retrigger(context) then
             local _poker_hands = {}
-            for k, v in pairs(G.GAME.hands) do
-                if v.visible then _poker_hands[k] = true end
+            for k, _ in pairs(G.GAME.hands) do
+                if SMODS.is_poker_hand_visible(k) then _poker_hands[k] = true end
             end
             local old_hand1, old_hand2 = card.ability.jack_poker_hand1, card.ability.jack_poker_hand2
             _poker_hands[old_hand1] = nil
@@ -1356,8 +1353,8 @@ SMODS.Joker{
                 local _tag = Tag(_tag_key)
                 if _tag.key == "tag_orbital" then
                     local visible_hands = {}
-                    for k, v in pairs(G.GAME.hands) do
-                        if v.visible then
+                    for k, _ in pairs(G.GAME.hands) do
+                        if SMODS.is_poker_hand_visible(k) then
                             visible_hands[#visible_hands + 1] = k
                         end
                     end
@@ -1391,10 +1388,11 @@ SMODS.Joker{
     cost = 8,
     config = {extra = 2},
     loc_vars = function(self, info_queue, card)
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
+        local mod_num, mod_den = SMODS.get_probability_vars(card, 1, card.ability.extra)
+        return {vars = {mod_num, mod_den}}
     end,
     calculate = function(self, card, context)
-        if context.using_consumeable and SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'horoscopy') then
+        if context.using_consumeable and SDM_0s_Stuff_Funcs.proba_check(card, card.ability.extra, 'horoscopy') then
             G.E_MANAGER:add_event(Event({
                 func = (function()
                 if context.consumeable.ability.set == 'Planet' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -1430,11 +1428,12 @@ SMODS.Joker{
     cost = 7,
     config = {extra = 3},
     loc_vars = function(self, info_queue, card)
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra}}
+        local mod_num, mod_den = SMODS.get_probability_vars(card, 1, card.ability.extra)
+        return {vars = {mod_num, mod_den}}
     end,
     calculate = function(self, card, context)
         if context.first_hand_drawn then
-            if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra, 'roulette') then
+            if SDM_0s_Stuff_Funcs.proba_check(card, card.ability.extra, 'roulette') then
                 G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                     local valid_cards = {}
                     for i = 1, #G.hand.cards do
@@ -1502,7 +1501,7 @@ SMODS.Joker{
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then my_pos = i; break end
             end
-            if my_pos and G.jokers.cards[my_pos-1] and G.jokers.cards[my_pos-1].ability.name ~= "Carcinization" and not G.jokers.cards[my_pos-1].ability.eternal then
+            if my_pos and G.jokers.cards[my_pos-1] and G.jokers.cards[my_pos-1].ability.name ~= "Carcinization" and not SMODS.is_eternal(G.jokers.cards[my_pos-1]) then
                 local carcinized_card = G.jokers.cards[my_pos-1]
                 G.E_MANAGER:add_event(Event({func = function()
                     -- "set_ability" doesn't change the card's sell cost

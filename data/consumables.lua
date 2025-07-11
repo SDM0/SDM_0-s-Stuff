@@ -15,7 +15,8 @@ SMODS.Consumable{
     cost = 3,
     config = {extra = {max_highlighted = 1, odds = 2}},
     loc_vars = function(self, info_queue, card)
-        return {vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.config.extra.odds, self.config.extra.max_highlighted}}
+        local mod_num, mod_den = SMODS.get_probability_vars(card, 1, self.config.extra.odds)
+        return {vars = {mod_num, mod_den, self.config.extra.max_highlighted}}
     end,
     can_use = function(self, card, area, copier)
         if G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
@@ -25,7 +26,7 @@ SMODS.Consumable{
     end,
     use = function(self, card)
         local used_tarot = card or self
-        if SDM_0s_Stuff_Funcs.proba_check(card.ability.extra.odds, 'sphinx') then
+        if SDM_0s_Stuff_Funcs.proba_check(card, card.ability.extra.odds, 'sphinx') then
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 for i = 1, #G.hand.highlighted do
                     local edition = poll_edition('wheel_of_fortune', nil, true, true)
@@ -52,6 +53,7 @@ SMODS.Consumable{
                     used_tarot:juice_up(0.3, 0.5)
             return true end}))
         end
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() if G.hand then G.hand:unhighlight_all() end; return true end }))
     end,
     atlas = "sdm_consumables"
 }
@@ -308,10 +310,10 @@ SMODS.Consumable{
         if G.jokers and G.jokers.cards then
             if #G.jokers.cards <= 1 then return false end
             local eternal_count = 0
-            for i = 2, #G.jokers.cards - 1 do
-                if G.jokers.cards[i].ability.eternal then eternal_count = eternal_count + 1 end
+            for _, v in ipairs(G.jokers.cards) do
+                if SMODS.is_eternal(v) then eternal_count = eternal_count + 1 end
             end
-            return eternal_count < #G.jokers.cards - 2
+            return eternal_count < #G.jokers.cards
         else
             return false
         end
@@ -320,7 +322,7 @@ SMODS.Consumable{
         local selected_joker = G.jokers.cards[pseudorandom_element({1, #G.jokers.cards}, pseudoseed('dpgg'))]
         local replacable_jokers = {}
         for _, v in ipairs(G.jokers.cards) do
-            if not (v.ability.eternal or v == selected_joker) then replacable_jokers[#replacable_jokers + 1] = v end
+            if not (SMODS.is_eternal(v) or v == selected_joker) then replacable_jokers[#replacable_jokers + 1] = v end
         end
         local chosen_joker = pseudorandom_element(replacable_jokers, pseudoseed('dpgg'))
         G.E_MANAGER:add_event(Event({trigger = 'before', delay = 0.75, func = function()
